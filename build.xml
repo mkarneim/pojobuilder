@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<project name="pojobuilder" default="dist" basedir=".">
+	
+	<!--
+	###################################################################
+	##################         Properties           ################### -->
+	<property file="build.local.properties" />
+	<property file="version.properties" />
+	<property file="${build.system.properties.file}" />
+	<property name="version" value="devel" />
+
+	<property name="project.title" value="pojobuilder" />
+	<property name="project.Title" value="pojobuilder" />
+	<property name="project.description" value="pojobuilder" />
+	<property name="project.version" value="${version}" />
+	<property name="project.copyright.year" value="2011" />
+	<property name="project.domain" value="karneim.net" />
+	<property name="project.vendor" value="Michael Karneim" />
+	<property name="annotation.processor.classname" value="net.karneim.pojobuilder.parser.GeneratePojoBuilderAnnotationProcessor" />
+	
+
+	<property name="compile.debug" value="true" />
+	<property name="compile.deprecation" value="false" />
+	<property name="compile.optimize" value="true" />
+
+	<!-- Libraries -->
+	<property name="lib.dir" location="${basedir}/libs" />
+	
+	<!-- Folders and files -->
+	<property name="src.dir" location="${basedir}/src" />
+	<property name="src.main.java.dir" location="${src.dir}/main/java" />
+	<property name="src.main.templates.dir" location="${src.dir}/main/templates" />
+	<property name="src.test.java.dir" location="${src.dir}/test/java" />
+
+	<property name="build.dir" location="${basedir}/build" />
+	<property name="build.classes.dir" location="${build.dir}/classes" />
+	<property name="build.meta-inf.dir" location="${build.dir}/META-INF" />
+	
+	<property name="dist.dir" location="${basedir}/dist" />
+	<property name="dist.lib.dir" location="${dist.dir}/lib" />
+
+	<!--
+	###################################################################
+	##################    Filesets and Classpaths   ################### -->
+	<fileset id="libs.fileset" dir="${lib.dir}">
+		<include name="**/*.jar" />
+	</fileset>
+
+	<fileset id="build.classes.fileset" dir="${build.classes.dir}" description="Compiled classes without tests.">
+		<exclude name="**/*Test.class" />
+	</fileset>
+
+	<path id="class.path">
+		<pathelement path="${currentenv.classpath}" />
+		<fileset refid="libs.fileset" />
+	</path>
+
+	<!--
+	###################################################################
+	####################         Targets           #################### -->
+	<target name="init">
+		<tstamp>
+			<format property="build.time" pattern="MMM/dd/yyyy hh:mm aa z"/>
+		</tstamp>
+	</target>
+
+	<target name="clean" depends="init" description="Clean up all generated files.">
+		<delete dir="${dist.dir}" />
+		<delete dir="${build.dir}" />
+	</target>
+
+	<target name="compile" depends="init" description="Compile java sources.">
+		<mkdir dir="${build.classes.dir}" />
+		<javac classpathref="class.path" destdir="${build.classes.dir}" source="1.6" target="1.6" debug="${compile.debug}" deprecation="${compile.deprecation}" optimize="${compile.optimize}">
+			<src path="${src.main.java.dir}" />
+		</javac>
+		<copy todir="${build.classes.dir}">
+			<fileset dir="${src.main.templates.dir}" />
+		</copy>
+	</target>
+
+	<target name="create-jar" depends="compile" description="Create jar with all classes (no libs).">
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${dist.lib.dir}" />
+		<copy todir="${dist.lib.dir}">
+			<fileset refid="libs.fileset" />
+			<flattenmapper />
+		</copy>
+		<pathconvert pathsep=" " dirsep="/" property="manifest.classpath">
+			<map from="${dist.lib.dir}" to="lib" />
+			<path>
+				<fileset dir="${dist.lib.dir}" />
+			</path>
+		</pathconvert>
+		<jar destfile="${dist.dir}/${project.title}-${project.version}.jar">
+			<fileset refid="build.classes.fileset" />
+			<fileset dir="${build.dir}" includes="META-INF/**" />
+			<service type="javax.annotation.processing.Processor" provider="${annotation.processor.classname}"/>
+			<manifest>
+				<attribute name="Build-Date" value="${build.time}" />
+				<attribute name="Build-Version" value="${project.version} (Build ${buildnum})" />
+				<attribute name="Implementation-Title" value="${project.title}" />
+				<attribute name="Implementation-Version" value="${project.version}" />
+				<attribute name="Implementation-Vendor" value="${project.vendor}" />
+				<attribute name="Class-Path" value="${manifest.classpath}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="dist" depends="clean, init, create-jar">
+	</target>
+
+	<target name="main" depends="clean, init, compile">
+	</target>
+</project>
