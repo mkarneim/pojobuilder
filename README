@@ -12,4 +12,66 @@ PojoBuilder is an java 6 compliant annotation processor that generates a builder
 
 Read the COPYING file.
 
-//TODO HowTo
+== How-To ==
+To generate a builder class for a POJO (Plain Old Java Object) just annotate its class with 
+@GeneratePojoBuilder. If you want the generated Builder to use a specific constructor of your POJO
+then annotate it with @ConstructorProperties and specify the corresponding field names of the parameters.
+
+Look into the "src/example/java" directory for examples.    
+
+Then build your project sources with the PojoBuilder annotation processor enabled.
+
+To enable the annotation processor you either can
+* use the apt tool to compile your project (see http://download.oracle.com/javase/6/docs/technotes/guides/apt/index.html).
+* use the <javac> ant task with a special configuration (see below)
+* or add the PojoBuilder annotation processor to your Eclipse project configuration (see below)
+
+=== Using Ant ===
+Here is a code snippet of an ANT build script that runs the PojoBuilder annotation processor within the javac task. 
+
+	<fileset id="libs.fileset" dir="${lib.dir}">
+		<include name="antlr-*.jar" />
+		<include name="stringtemplate-*.jar" />
+		<include name="pojobuilder-*.jar" />
+		<!-- include your project specific libs here -->
+		<include name="*.jar" />
+	</fileset>
+	
+	<path id="class.path">
+		<pathelement path="${currentenv.classpath}" />
+		
+		<fileset refid="libs.fileset" />
+	</path>
+
+	<target name="compile" description="Compile java sources and run annotation processors">
+		<mkdir dir="${build.classes.dir}" />
+		<javac classpathref="class.path" destdir="${build.classes.dir}">
+			<src path="${src.main.java.dir}" />
+			
+			<!-- This tells the compiler where to place the generated source files -->
+			<compilerarg line="-s ${src.gen.java.dir}"/>
+		</javac>
+	</target>
+
+=== Using Eclipse ===
+Do the following to enable the PojoBuilder annotation processor for your project in Eclipse:
+* Place the PojoBuilder libraries (antlr-*.jar, stringtemplate-*.jar pojobuilder-*.jar) 
+  into your project library directory 
+* Open your project's properties dialog
+* Navigate to "Java Build Path" tree node
+* Open the "Libraries" tab
+* Add the library pojobuilder-*.jar to your project classpath
+* Navigate to "Java Compiler / Annotation Processing" tree node
+* Check "Enable project specific settings"
+* Check "Enable annotation processing"
+* Check "Enable processing in editor"
+* Specify the target directory for the generated code in "Generated source directory"
+* Navigate to "Java Compiler / Annotation Processing / Factory Path" tree node
+* Check "Enable project specific settings"
+* Click "Add JARs..."
+* Add antlr-*.jar
+* Add stringtemplate-*.jar
+* Add pojobuilder-*.jar
+
+
+
