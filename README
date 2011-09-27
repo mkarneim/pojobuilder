@@ -1,0 +1,15 @@
+PojoBuilder -  A code generator for POJO builders 
+
+Authors: Michael Karneim
+
+Project Homepage: http://github.com/mkarneim/pojobuilder
+
+== About ==
+
+PojoBuilder is an java 6 compliant annotation processor that generates a builder class for each annotated POJO.
+
+== License ==
+
+Read the COPYING file.
+
+//TODO HowTo

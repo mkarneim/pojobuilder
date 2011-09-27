@@ -1,22 +1,19 @@
 <?xml version="1.0"?>
 <project name="pojobuilder" default="dist" basedir=".">
 	
-	<!--
-	###################################################################
-	##################         Properties           ################### -->
+	<!-- Properties -->
 	<property file="build.local.properties" />
 	<property file="version.properties" />
 	<property file="${build.system.properties.file}" />
 	<property name="version" value="devel" />
 
 	<property name="project.title" value="pojobuilder" />
-	<property name="project.Title" value="pojobuilder" />
+	<property name="project.Title" value="PojoBuilder" />
 	<property name="project.description" value="pojobuilder" />
 	<property name="project.version" value="${version}" />
-	<property name="project.copyright.year" value="2011" />
-	<property name="project.domain" value="karneim.net" />
-	<property name="project.vendor" value="Michael Karneim" />
-	<property name="annotation.processor.classname" value="net.karneim.pojobuilder.parser.GeneratePojoBuilderAnnotationProcessor" />
+	<property name="project.homepage" value="https://github.com/mkarneim/pojobuilder" />
+	<property name="project.author" value="Michael Karneim" />
+	<property name="annotation.processor.classname" value="net.karneim.pojobuilder.GeneratePojoBuilderAnnotationProcessor" />
 	
 
 	<property name="compile.debug" value="true" />
@@ -24,7 +21,7 @@
 	<property name="compile.optimize" value="true" />
 
 	<!-- Libraries -->
-	<property name="lib.dir" location="${basedir}/libs" />
+	<property name="lib.dir" location="${basedir}/lib" />
 	
 	<!-- Folders and files -->
 	<property name="src.dir" location="${basedir}/src" />
@@ -37,7 +34,8 @@
 	<property name="build.meta-inf.dir" location="${build.dir}/META-INF" />
 	
 	<property name="dist.dir" location="${basedir}/dist" />
-	<property name="dist.lib.dir" location="${dist.dir}/lib" />
+	<property name="classes.jar.name" value="${project.title}-${project.version}.jar" />
+	
 
 	<!--
 	###################################################################
@@ -79,29 +77,29 @@
 		</copy>
 	</target>
 
-	<target name="create-jar" depends="compile" description="Create jar with all classes (no libs).">
-		<mkdir dir="${dist.dir}" />
-		<mkdir dir="${dist.lib.dir}" />
-		<copy todir="${dist.lib.dir}">
+	<target name="create-jar" depends="compile" description="Create jar with all classes and copy required libs.">
+		<copy todir="${dist.dir}">
 			<fileset refid="libs.fileset" />
 			<flattenmapper />
 		</copy>
 		<pathconvert pathsep=" " dirsep="/" property="manifest.classpath">
-			<map from="${dist.lib.dir}" to="lib" />
 			<path>
-				<fileset dir="${dist.lib.dir}" />
+				<fileset dir="${dist.dir}">
+					<exclude name="${classes.jar.name}"/>
+				</fileset>
 			</path>
+			<flattenmapper/>
 		</pathconvert>
-		<jar destfile="${dist.dir}/${project.title}-${project.version}.jar">
+		<jar destfile="${dist.dir}/${classes.jar.name}">
 			<fileset refid="build.classes.fileset" />
 			<fileset dir="${build.dir}" includes="META-INF/**" />
 			<service type="javax.annotation.processing.Processor" provider="${annotation.processor.classname}"/>
 			<manifest>
 				<attribute name="Build-Date" value="${build.time}" />
-				<attribute name="Build-Version" value="${project.version} (Build ${buildnum})" />
-				<attribute name="Implementation-Title" value="${project.title}" />
+				<attribute name="Author" value="${project.author}" />
+				<attribute name="Implementation-Title" value="${project.Title}" />
 				<attribute name="Implementation-Version" value="${project.version}" />
-				<attribute name="Implementation-Vendor" value="${project.vendor}" />
+				<attribute name="Implementation-Vendor" value="${project.homepage}" />
 				<attribute name="Class-Path" value="${manifest.classpath}" />
 			</manifest>
 		</jar>
