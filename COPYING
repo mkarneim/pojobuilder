@@ -4,7 +4,7 @@ The source code located in the "src" directory is in the PUBLIC DOMAIN.
 You are not entering into a contract with us or anyone else when you
 use this source code.
 
-3rd party libraries and components (if any) are located in the "libs" 
+3rd party libraries and components (if any) are located in the "lib" 
 directory and may have their own licenses that may give you less rights. 
 Please refer to their license files for more information.
 
