@@ -94,6 +94,7 @@ Here is a code snippet of an ANT build script that runs the PojoBuilder annotati
 
 === Using Eclipse ===
 Do the following to enable the PojoBuilder annotation processor for your project in Eclipse:
+
 * Place the PojoBuilder libraries (antlr-*.jar, stringtemplate-*.jar pojobuilder-*.jar) 
   into your project library directory 
 * Open your project's properties dialog
