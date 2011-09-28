@@ -41,7 +41,7 @@ public class Contact {
 }
 
 The @GeneratePojoBuilder annotation tells the annotation processor to create a new Java source file with 
-the name "ContactBuilder" into the same package. This class will 
+the name "ContactBuilder" into the same package.
 
 Here is an example how you can use the generated "ContactBuilder" from your code:
 
