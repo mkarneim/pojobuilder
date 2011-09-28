@@ -8,7 +8,7 @@ Download Page: http://github.com/mkarneim/pojobuilder/archives/master
 
 == About ==
 
-PojoBuilder is an Java 6 compliant annotation processor that generates a builder class for each annotated POJO.
+PojoBuilder is a Java 6 compliant annotation processor that generates a builder class for each annotated POJO.
 
 Among other things you can use pojo builders to build test data. For more information on test data builders 
 see http://c2.com/cgi/wiki?TestDataBuilder and http://www.natpryce.com/articles/000714.html.
