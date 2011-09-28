@@ -31,11 +31,14 @@
 
 	<property name="build.dir" location="${basedir}/build" />
 	<property name="build.classes.dir" location="${build.dir}/classes" />
+	<property name="build.zip.dir" location="${build.dir}/zip" />
 	<property name="build.meta-inf.dir" location="${build.dir}/META-INF" />
+	<property name="dist.dir" location="${basedir}/dist" />	
 	
-	<property name="dist.dir" location="${basedir}/dist" />
+	
+	<property name="dist.zip.name" value="${project.title}-${project.version}.zip" />
 	<property name="classes.jar.name" value="${project.title}-${project.version}.jar" />
-	
+		
 
 	<!--
 	###################################################################
@@ -76,21 +79,15 @@
 			<fileset dir="${src.main.templates.dir}" />
 		</copy>
 	</target>
-
-	<target name="create-jar" depends="compile" description="Create jar with all classes and copy required libs.">
-		<copy todir="${dist.dir}">
-			<fileset refid="libs.fileset" />
-			<flattenmapper />
-		</copy>
+	
+	<target name="create-jar" depends="init, compile" description="Create jar with all classes and copy required libs.">		
 		<pathconvert pathsep=" " dirsep="/" property="manifest.classpath">
 			<path>
-				<fileset dir="${dist.dir}">
-					<exclude name="${classes.jar.name}"/>
-				</fileset>
+				<fileset refid="libs.fileset" />
 			</path>
 			<flattenmapper/>
 		</pathconvert>
-		<jar destfile="${dist.dir}/${classes.jar.name}">
+		<jar destfile="${build.dir}/${classes.jar.name}">
 			<fileset refid="build.classes.fileset" />
 			<fileset dir="${build.dir}" includes="META-INF/**" />
 			<service type="javax.annotation.processing.Processor" provider="${annotation.processor.classname}"/>
@@ -105,9 +102,19 @@
 		</jar>
 	</target>
 
-	<target name="dist" depends="clean, init, create-jar">
+	<target name="dist" depends="init, clean, create-jar" >
+		<mkdir dir="${build.zip.dir}" />
+		<copy todir="${build.zip.dir}" flatten="true">
+			<fileset dir="${build.dir}" includes="${classes.jar.name}" />			
+			<fileset refid="libs.fileset" />
+			<fileset dir="${basedir}" includes="COPYING, README" />
+		</copy>
+		<mkdir dir="${dist.dir}" />
+		<zip destfile="${dist.dir}/${dist.zip.name}" compress="true" filesonly="true">
+			<fileset dir="${build.zip.dir}"/>			
+		</zip>
 	</target>
 
-	<target name="main" depends="clean, init, compile">
+	<target name="main" depends="clean, init, compile" description="Builds all project artifacts">
 	</target>
 </project>
