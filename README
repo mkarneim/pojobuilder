@@ -6,9 +6,14 @@ Project Homepage: http://github.com/mkarneim/pojobuilder
 
 == About ==
 
-PojoBuilder is an java 6 compliant annotation processor that generates a builder class for each annotated POJO.
+PojoBuilder is an Java 6 compliant annotation processor that generates a builder class for each annotated POJO.
 
-Look at the following example POJO.
+Among other things you can use pojo builders to build test data. For more information on test data builders 
+see http://c2.com/cgi/wiki?TestDataBuilder and http://www.natpryce.com/articles/000714.html.
+
+== Example ==
+ 
+Let's have look at the following example POJO:
 
 @GeneratePojoBuilder
 public class Contact { 
@@ -33,8 +38,10 @@ public class Contact {
 	}
 }
 
-The annotation processor generates a "ContactBuilder" for this annotated POJO.
-It can be used like this:
+The @GeneratePojoBuilder annotation tells the annotation processor to create a new Java source file with 
+the name "ContactBuilder" into the same package. This class will 
+
+Here is an example how you can use the generated "ContactBuilder" from your code:
 
 	Contact james = new ContactBuilder()
 		.withName("James Bond")
