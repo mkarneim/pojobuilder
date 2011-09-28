@@ -6,3 +6,7 @@ src/.DS_Store
 libs/.DS_Store
 
 .DS_Store
+
+build
+
+dist
