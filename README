@@ -4,6 +4,8 @@ Author: Michael Karneim
 
 Project Homepage: http://github.com/mkarneim/pojobuilder
 
+Download Page: http://github.com/mkarneim/pojobuilder/archives/master
+
 == About ==
 
 PojoBuilder is an Java 6 compliant annotation processor that generates a builder class for each annotated POJO.
