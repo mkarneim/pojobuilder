@@ -61,7 +61,15 @@
 			<compilerarg line="-s ${src.gen.java.dir}"/>
 		</javac>
 	</target>
+	
+	<target name="run" depends="init, compile" description="Runs the main class">
+		<java classname="Main">
+			<classpath>
+				<pathelement location="${build.classes.dir}"/>
+			</classpath>
+		</java>
+	</target>
 
-	<target name="main" depends="init, clean, compile" description="build all artifacts">
+	<target name="main" depends="init, clean, compile, run" description="build all artifacts">
 	</target>
 </project>
