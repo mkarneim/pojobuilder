@@ -124,5 +124,5 @@ Do the following to enable the PojoBuilder annotation processor for your project
 * Add stringtemplate-*.jar
 * Add pojobuilder-*.jar
 
-[COPYING]: https://github.com/mkarneim/pojobuilder/blob/master/COPYING
+[COPYING]: COPYING
 
