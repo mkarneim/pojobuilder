@@ -42,12 +42,14 @@ public class Contact {
 
 The @GeneratePojoBuilder annotation tells the annotation processor to create a new Java source file with 
 the name "ContactBuilder" into the same package.
+Have a look at "samples/src/generated/java/pojos/ContactBuilder.java" to see the generated source code.
 
 Here is an example how you can use the generated "ContactBuilder" from your code:
 
 	Contact james = new ContactBuilder()
 		.withName("James Bond")
-		.withEmail("007@secretservice.org").build();
+		.withEmail("007@secretservice.org")
+		.build();
 
 == License ==
 
@@ -55,8 +57,8 @@ Read the COPYING file.
 
 == How To Build ==
 
-For compiling the sources you need JDK 6.
-For building the PojoBuilder library you can use the inluded Ant build script "build.xml". 
+For compiling the sources Java 6 is required.
+For building the PojoBuilder library you can use the included Ant build script "build.xml". 
 
 
 == How To Use ==

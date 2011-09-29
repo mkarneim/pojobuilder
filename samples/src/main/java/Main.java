@@ -4,14 +4,15 @@ import pojos.ContactBuilder;
 public class Main {
 
 	public static void main(String[] args) {
-		// Building a single object
-		Contact james = new ContactBuilder().withFirstname("James")
-				.withLastname("Gosling").build();
+		// Build a single contact
+		Contact james = new ContactBuilder()
+			.withName("James Bond")
+			.withEmail("007@secretservice.org")
+			.build();
 
-		// Mass building 
+		// Build 100 contacts with on of the given names and no email 
 		Contact[] someContacts = new ContactBuilder()
-				.withFirstnameFrom("Alice", "Bob", "Charly")
-				.withLastnameFrom("Myers", "Smith", "Bell", "Hendrix", "Peters")
+				.withNameFrom("Alice", "Bob", "Charly")				
 				.buildArray( 100);
 
 	}
