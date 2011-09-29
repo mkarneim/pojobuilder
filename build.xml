@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="pojobuilder" default="dist" basedir=".">
+<project name="pojobuilder" default="main" basedir=".">
 	
 	<!-- Properties -->
 	<property file="build.local.properties" />
@@ -31,7 +31,7 @@
 
 	<property name="build.dir" location="${basedir}/build" />
 	<property name="build.classes.dir" location="${build.dir}/classes" />
-	<property name="build.zip.dir" location="${build.dir}/zip" />
+	<property name="build.dist.dir" location="${build.dir}/dist" />
 	<property name="build.meta-inf.dir" location="${build.dir}/META-INF" />
 	<property name="dist.dir" location="${basedir}/dist" />	
 	
@@ -103,18 +103,23 @@
 	</target>
 
 	<target name="dist" depends="init, clean, create-jar" >
-		<mkdir dir="${build.zip.dir}" />
-		<copy todir="${build.zip.dir}" flatten="true">
+		<mkdir dir="${build.dist.dir}" />
+		<copy todir="${build.dist.dir}" flatten="true">
 			<fileset dir="${build.dir}" includes="${classes.jar.name}" />			
 			<fileset refid="libs.fileset" />
 			<fileset dir="${basedir}" includes="COPYING, README" />
 		</copy>
 		<mkdir dir="${dist.dir}" />
 		<zip destfile="${dist.dir}/${dist.zip.name}" compress="true" filesonly="true">
-			<fileset dir="${build.zip.dir}"/>			
+			<fileset dir="${build.dist.dir}"/>			
 		</zip>
 	</target>
 
-	<target name="main" depends="clean, init, compile" description="Builds all project artifacts">
+	<target name="build-samples" depends="init, dist" description="Builds the sample project">
+		<ant dir="samples" inheritAll="false"/>
+	</target>
+	
+	
+	<target name="main" depends="init, clean, dist, build-samples" description="Builds all project artifacts">
 	</target>
 </project>

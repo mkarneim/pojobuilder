@@ -5,8 +5,12 @@ src/.DS_Store
 
 libs/.DS_Store
 
+samples/build
+
 .DS_Store
 
 build
 
 dist
+
+bin

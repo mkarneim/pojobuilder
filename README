@@ -54,15 +54,18 @@ Here is an example how you can use the generated "ContactBuilder" from your code
 Read the COPYING file.
 
 == How To Build ==
+
 For compiling the sources you need JDK 6.
 For building the PojoBuilder library you can use the inluded Ant build script "build.xml". 
 
+
 == How To Use ==
+
 To generate a builder class for a POJO (Plain Old Java Object) just annotate its class with 
 @GeneratePojoBuilder. If you want the generated Builder to use a specific constructor of your POJO
 then annotate it with @ConstructorProperties and specify the corresponding field names of the parameters.
 
-Look into the "src/example/java" directory for examples.    
+For examples please have a look into the "samples" directory.    
 
 Then build your project sources with the PojoBuilder annotation processor enabled.
 
@@ -72,35 +75,24 @@ To enable the annotation processor you either can
 * or add the PojoBuilder annotation processor to your Eclipse project configuration (see below)
 
 === Using Ant ===
+
 Here is a code snippet of an ANT build script that runs the PojoBuilder annotation processor within the javac task. 
 
-	<fileset id="libs.fileset" dir="${lib.dir}">
-		<include name="antlr-*.jar" />
-		<include name="stringtemplate-*.jar" />
-		<include name="pojobuilder-*.jar" />
-		<!-- include your project specific libs here -->
-		<include name="*.jar" />
-	</fileset>
-	
-	<path id="class.path">
-		<pathelement path="${currentenv.classpath}" />
-		
-		<fileset refid="libs.fileset" />
-	</path>
-
-	<target name="compile" description="Compile java sources and run annotation processors">
+	<target name="compile" depends="init" description="Compile java sources and run annotation processor">
+		<mkdir dir="${src.gen.java.dir}" />
 		<mkdir dir="${build.classes.dir}" />
 		<javac classpathref="class.path" destdir="${build.classes.dir}">
 			<src path="${src.main.java.dir}" />
-			
 			<!-- This tells the compiler where to place the generated source files -->
 			<compilerarg line="-s ${src.gen.java.dir}"/>
 		</javac>
 	</target>
 
-=== Using Eclipse ===
-Do the following to enable the PojoBuilder annotation processor for your project in Eclipse:
+You can find a complete sample build script at "samples/build.xml".
 
+=== Using Eclipse ===
+
+Do the following to enable the PojoBuilder annotation processor for your project in Eclipse:
 
 * Place the PojoBuilder libraries (antlr-*.jar, stringtemplate-*.jar pojobuilder-*.jar) 
   into your project library directory 

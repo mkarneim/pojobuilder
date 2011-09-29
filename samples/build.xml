@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<project name="pojobuilder.samples" default="main" basedir=".">
+	<property file="build.local.properties" />
+	<property file="${build.system.properties.file}" />
+	
+	<!-- Libraries -->
+	<property name="lib.dir" location="${basedir}/../build/dist" />
+	
+	<!-- Folders and files -->
+	<property name="src.dir" location="${basedir}/src" />	
+	<property name="src.main.java.dir" location="${src.dir}/main/java" />
+	<property name="src.gen.java.dir" location="${src.dir}/generated/java" />
+
+	<property name="build.dir" location="${basedir}/build" />
+	<property name="build.classes.dir" location="${build.dir}/classes" />
+	
+	<!-- Filesets and Classpaths  -->
+	<fileset id="libs.fileset" dir="${lib.dir}">
+		<include name="antlr-*.jar" />
+		<include name="stringtemplate-*.jar" />
+		<include name="pojobuilder-*.jar" />
+		<!-- include any project specific libs here -->
+	</fileset>
+	
+	<path id="class.path">
+		<fileset refid="libs.fileset" />
+	</path>
+
+	<!-- Targets  -->
+	<target name="init">
+		<tstamp>
+			<format property="build.time" pattern="MMM/dd/yyyy hh:mm aa z"/>
+		</tstamp>
+		<available file="${lib.dir}" property="lib.dir.present"/>
+		<fail unless="lib.dir.present">
+			Can't run build script.
+			Library directory ${lib.dir} not found.
+			Please run the projobuilder build script at ${basedir}/../build.xml
+			before running this build script.
+		</fail>
+	</target>
+		
+	<target name="clean" depends="init" description="Clean up all generated files">
+		<delete dir="${build.dir}" />
+		<delete dir="${src.gen.java.dir}" />
+	</target>
+	
+	<target name="compile" depends="init" description="Compile java sources and run annotation processor">
+		<mkdir dir="${src.gen.java.dir}" />
+		<mkdir dir="${build.classes.dir}" />
+		<javac classpathref="class.path" destdir="${build.classes.dir}">
+			<src path="${src.main.java.dir}" />
+			<!-- This tells the compiler where to place the generated source files -->
+			<compilerarg line="-s ${src.gen.java.dir}"/>
+		</javac>
+	</target>
+
+	<target name="main" depends="init, clean, compile" description="build all artifacts">
+	</target>
+</project>
