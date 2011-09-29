@@ -45,7 +45,10 @@ Let's have look at the following example POJO:
 	}
 
 The @GeneratePojoBuilder annotation tells the annotation processor to create a new Java source file with 
-the name "ContactBuilder" into the same package.
+the name "ContactBuilder" into the same package. If you want the generated Builder to use a specific 
+constructor of your POJO then annotate it with @ConstructorProperties and specify the corresponding 
+field names of the parameters.
+
 Have a look at ["samples/src/generated/java/pojos/ContactBuilder.java"] to see the generated source code.
 
 Here is an example of how you can use the generated "ContactBuilder" from your code:
@@ -74,17 +77,19 @@ For building the PojoBuilder library you can use the included Ant build script [
 How To Use
 ----------
 
-To generate a builder class for a POJO just annotate its class with 
-@GeneratePojoBuilder. If you want the generated Builder to use a specific constructor of your POJO
-then annotate it with @ConstructorProperties and specify the corresponding field names of the parameters.
+Make sure that the pojobuilder-*.jar is included in your projects classpath during compile time.
+During runtime it is not required since the @GeneratePojoBuilder retention policy is SOURCE.
 
-Then build your project sources with the PojoBuilder annotation processor enabled.
+To generate a builder class for a POJO just annotate its class with @GeneratePojoBuilder. 
 
-To enable the annotation processor you either can
+Then let your project sources be processed by the PojoBuilder annotation processor.
+
+To run the annotation processor you either can
 
 * use the apt tool to compile your project (see http://download.oracle.com/javase/6/docs/technotes/guides/apt/index.html). 
 * use the <javac> ant task with a special configuration (see below)
 * or add the PojoBuilder annotation processor to your Eclipse project configuration (see below)
+
 
 ### Using Ant
 
@@ -106,7 +111,7 @@ You can find a complete sample build script at ["samples/build.xml"].
 
 ### Using Eclipse
 
-Do the following to enable the PojoBuilder annotation processor for your project in Eclipse:
+Do the following to configure the PojoBuilder annotation processor for your project in Eclipse:
 
 * Place the PojoBuilder libraries (antlr-*.jar, stringtemplate-*.jar pojobuilder-*.jar) into your project library directory 
 * Open your project's properties dialog
@@ -124,6 +129,8 @@ Do the following to enable the PojoBuilder annotation processor for your project
 * Add antlr-*.jar
 * Add stringtemplate-*.jar
 * Add pojobuilder-*.jar
+
+Now the annotation processor will be automatically invoked during the Eclipse build cycle.
 
 ["samples"]: http://github.com/mkarneim/pojobuilder/blob/master/samples
 [COPYING]: http://github.com/mkarneim/pojobuilder/blob/master/COPYING
