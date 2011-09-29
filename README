@@ -51,6 +51,8 @@ Here is an example of how you can use the generated "ContactBuilder" from your c
 		.withEmail("007@secretservice.org")
 		.build();
 
+For more examples please have a look into the "samples" directory.    
+
 == License ==
 
 Read the COPYING file.
@@ -66,8 +68,6 @@ For building the PojoBuilder library you can use the included Ant build script "
 To generate a builder class for a POJO (Plain Old Java Object) just annotate its class with 
 @GeneratePojoBuilder. If you want the generated Builder to use a specific constructor of your POJO
 then annotate it with @ConstructorProperties and specify the corresponding field names of the parameters.
-
-For examples please have a look into the "samples" directory.    
 
 Then build your project sources with the PojoBuilder annotation processor enabled.
 
