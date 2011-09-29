@@ -61,7 +61,7 @@ For more examples please have a look into the "samples" directory.
 License
 -------
 
-Read the COPYING file.
+Read the [COPYING] file.
 
 How To Build
 ------------
@@ -124,5 +124,5 @@ Do the following to enable the PojoBuilder annotation processor for your project
 * Add stringtemplate-*.jar
 * Add pojobuilder-*.jar
 
-
+[COPYING]: https://github.com/mkarneim/pojobuilder/blob/master/COPYING
 
