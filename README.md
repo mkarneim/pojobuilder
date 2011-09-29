@@ -21,28 +21,28 @@ Example
 
 Let's have look at the following example POJO:
 
-@GeneratePojoBuilder
-public class Contact { 
-	private final String name;
-	private String email;
-
-	@ConstructorProperties({ "name"})
-	public Contact(String aName) {
-		this.name = aName;
+	@GeneratePojoBuilder
+	public class Contact { 
+		private final String name;
+		private String email;
+	
+		@ConstructorProperties({ "name"})
+		public Contact(String aName) {
+			this.name = aName;
+		}
+	
+		public String getEmail() {
+			return email;
+		}
+	
+		public void setEmail(String email) {
+			this.email = email;
+		}
+	
+		public String getName() {
+			return name;
+		}
 	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getName() {
-		return name;
-	}
-}
 
 The @GeneratePojoBuilder annotation tells the annotation processor to create a new Java source file with 
 the name "ContactBuilder" into the same package.
@@ -89,17 +89,17 @@ To enable the annotation processor you either can
 
 Here is a code snippet of an ANT build script that runs the PojoBuilder annotation processor within the javac task. 
 
-<pre>
-	<target name="compile" depends="init" description="Compile java sources and run annotation processor">
-		<mkdir dir="${src.gen.java.dir}" />
-		<mkdir dir="${build.classes.dir}" />
-		<javac classpathref="class.path" destdir="${build.classes.dir}">
-			<src path="${src.main.java.dir}" />
-			<!-- This tells the compiler where to place the generated source files -->
-			<compilerarg line="-s ${src.gen.java.dir}"/>
-		</javac>
-	</target>
-</pre>
+
+    <target name="compile" depends="init" description="Compile java sources and run annotation processor">
+    	<mkdir dir="${src.gen.java.dir}" />
+    	<mkdir dir="${build.classes.dir}" />
+    	<javac classpathref="class.path" destdir="${build.classes.dir}">
+    		<src path="${src.main.java.dir}" />
+    		<!-- This tells the compiler where to place the generated source files -->
+    		<compilerarg line="-s ${src.gen.java.dir}"/>
+    	</javac>
+    </target>
+
 
 You can find a complete sample build script at "samples/build.xml".
 
