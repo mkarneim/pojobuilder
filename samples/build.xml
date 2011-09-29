@@ -3,8 +3,6 @@
 	<property file="build.local.properties" />
 	<property file="${build.system.properties.file}" />
 	
-	<!-- Libraries -->
-	<property name="lib.dir" location="${basedir}/../build/dist" />
 	
 	<!-- Folders and files -->
 	<property name="src.dir" location="${basedir}/src" />	
@@ -13,6 +11,10 @@
 
 	<property name="build.dir" location="${basedir}/build" />
 	<property name="build.classes.dir" location="${build.dir}/classes" />
+	
+	<!-- Libraries -->
+	<!-- Add the required libraries into this directory. See fileset definition "libs.fileset" below. -->
+	<property name="lib.dir" location="${basedir}/lib" />
 	
 	<!-- Filesets and Classpaths  -->
 	<fileset id="libs.fileset" dir="${lib.dir}">
@@ -31,21 +33,26 @@
 		<tstamp>
 			<format property="build.time" pattern="MMM/dd/yyyy hh:mm aa z"/>
 		</tstamp>
-		<available file="${lib.dir}" property="lib.dir.present"/>
-		<fail unless="lib.dir.present">
-			Can't run build script.
-			Library directory ${lib.dir} not found.
-			Please run the projobuilder build script at ${basedir}/../build.xml
-			before running this build script.
+	</target>
+	
+	<target name="check-library-directory-is-not-empty">
+		<condition property="libs.fileset.empty">
+			<length length="0">
+				<fileset refid="libs.fileset"/>
+			</length>
+		</condition>
+		<fail if="libs.fileset.empty">
+			Library directory ${lib.dir} is empty.
+			Please add the required libraries antlr-*.jar, stringtemplate-*.jar, and pojobuilder-*.jar.
 		</fail>
 	</target>
-		
+	
 	<target name="clean" depends="init" description="Clean up all generated files">
 		<delete dir="${build.dir}" />
 		<delete dir="${src.gen.java.dir}" />
 	</target>
 	
-	<target name="compile" depends="init" description="Compile java sources and run annotation processor">
+	<target name="compile" depends="init, check-library-directory-is-not-empty" description="Compile java sources and run annotation processor">
 		<mkdir dir="${src.gen.java.dir}" />
 		<mkdir dir="${build.classes.dir}" />
 		<javac classpathref="class.path" destdir="${build.classes.dir}">

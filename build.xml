@@ -116,7 +116,9 @@
 	</target>
 
 	<target name="build-samples" depends="init, dist" description="Builds the sample project">
-		<ant dir="samples" inheritAll="false"/>
+		<ant dir="samples" inheritAll="false">
+			<property name="lib.dir" location="${build.dist.dir}" />
+		</ant>
 	</target>
 	
 	
