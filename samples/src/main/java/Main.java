@@ -10,7 +10,7 @@ public class Main {
 			.withEmail("007@secretservice.org")
 			.build();
 
-		// Build 100 contacts with on of the given names and no email 
+		// Build 100 contacts with one of the given names and no email 
 		Contact[] someContacts = new ContactBuilder()
 				.withNameFrom("Alice", "Bob", "Charly")				
 				.buildArray( 100);
