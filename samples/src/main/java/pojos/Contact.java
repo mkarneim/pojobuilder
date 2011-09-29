@@ -26,4 +26,8 @@ public class Contact {
 	public String getName() {
 		return name;
 	}
+	
+	public String toString() {
+		return "Contact: name="+name+", email="+email;
+	}
 }
