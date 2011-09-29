@@ -44,7 +44,7 @@ The @GeneratePojoBuilder annotation tells the annotation processor to create a n
 the name "ContactBuilder" into the same package.
 Have a look at "samples/src/generated/java/pojos/ContactBuilder.java" to see the generated source code.
 
-Here is an example how you can use the generated "ContactBuilder" from your code:
+Here is an example of how you can use the generated "ContactBuilder" from your code:
 
 	Contact james = new ContactBuilder()
 		.withName("James Bond")
