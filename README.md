@@ -10,11 +10,22 @@ Download Page: http://github.com/mkarneim/pojobuilder/archives/master
 About
 -----
 
-PojoBuilder is a Java 6 compliant annotation processor that generates a builder class for 
-each annotated POJO (Plain Old Java Object).
+PojoBuilder is a Java 6 compliant annotation processor that generates a builder class for
+each annotated POJO (Plain Old Java Object). 
 
-Among other things you can use pojo builders to build test data. For more information on test data builders 
-see http://c2.com/cgi/wiki?TestDataBuilder and http://www.natpryce.com/articles/000714.html.
+The generated builder provides 
+
+* a fluent interface for specifying values for the POJO's attributes 
+* and a "build()" method for creating a new POJO instance with these values.
+
+
+Among other things you can use builders to build test data. 
+
+For more information on 
+
+* test data builders see http://c2.com/cgi/wiki?TestDataBuilder and http://www.natpryce.com/articles/000714.html.
+* the builder pattern see http://en.wikipedia.org/wiki/Builder_pattern. 
+* fluent interface see http://www.martinfowler.com/bliki/FluentInterface.html
 
 Example
 -------
@@ -60,7 +71,7 @@ Here is an example of how you can use the generated "ContactBuilder" from your c
 		.build();
 
 
-For more examples please have a look into the ["samples"] directory.    
+For more examples please have a look into the [samples] directory.    
 
 License
 -------
@@ -71,13 +82,13 @@ How To Build
 ------------
 
 For compiling the sources Java 6 is required.
-For building the PojoBuilder library you can use the included Ant build script ["build.xml"]. 
+For building the PojoBuilder library you can use the included Ant build script [build.xml]. 
 
 
 How To Use
 ----------
 
-Make sure that the pojobuilder-*.jar is included in your projects classpath during compile time.
+Make sure that the pojobuilder-*.jar is included in your project's classpath during compile time.
 During runtime it is not required since the @GeneratePojoBuilder retention policy is SOURCE.
 
 To generate a builder class for a POJO just annotate its class with @GeneratePojoBuilder. 
@@ -87,7 +98,7 @@ Then let your project sources be processed by the PojoBuilder annotation process
 To run the annotation processor you either can
 
 * use the apt tool to compile your project (see http://download.oracle.com/javase/6/docs/technotes/guides/apt/index.html). 
-* use the <javac> ant task with a special configuration (see below)
+* use the javac ant task with a special configuration (see below)
 * or add the PojoBuilder annotation processor to your Eclipse project configuration (see below)
 
 
@@ -132,8 +143,8 @@ Do the following to configure the PojoBuilder annotation processor for your proj
 
 Now the annotation processor will be automatically invoked during the Eclipse build cycle.
 
-["samples"]: http://github.com/mkarneim/pojobuilder/blob/master/samples
+[samples]: http://github.com/mkarneim/pojobuilder/blob/master/samples
 [COPYING]: http://github.com/mkarneim/pojobuilder/blob/master/COPYING
-["build.xml"]: http://github.com/mkarneim/pojobuilder/blob/master/build.xml
+[build.xml]: http://github.com/mkarneim/pojobuilder/blob/master/build.xml
 ["samples/build.xml"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/build.xml
 ["samples/src/generated/java/pojos/ContactBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/src/generated/java/pojos/ContactBuilder.java
