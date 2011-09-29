@@ -10,7 +10,8 @@ Download Page: http://github.com/mkarneim/pojobuilder/archives/master
 About
 -----
 
-PojoBuilder is a Java 6 compliant annotation processor that generates a builder class for each annotated POJO.
+PojoBuilder is a Java 6 compliant annotation processor that generates a builder class for 
+each annotated POJO (Plain Old Java Object).
 
 Among other things you can use pojo builders to build test data. For more information on test data builders 
 see http://c2.com/cgi/wiki?TestDataBuilder and http://www.natpryce.com/articles/000714.html.
@@ -45,7 +46,7 @@ Let's have look at the following example POJO:
 
 The @GeneratePojoBuilder annotation tells the annotation processor to create a new Java source file with 
 the name "ContactBuilder" into the same package.
-Have a look at "samples/src/generated/java/pojos/ContactBuilder.java" to see the generated source code.
+Have a look at ["samples/src/generated/java/pojos/ContactBuilder.java"] to see the generated source code.
 
 Here is an example of how you can use the generated "ContactBuilder" from your code:
 
@@ -56,7 +57,7 @@ Here is an example of how you can use the generated "ContactBuilder" from your c
 		.build();
 
 
-For more examples please have a look into the "samples" directory.    
+For more examples please have a look into the ["samples"] directory.    
 
 License
 -------
@@ -67,13 +68,13 @@ How To Build
 ------------
 
 For compiling the sources Java 6 is required.
-For building the PojoBuilder library you can use the included Ant build script "build.xml". 
+For building the PojoBuilder library you can use the included Ant build script ["build.xml"]. 
 
 
 How To Use
 ----------
 
-To generate a builder class for a POJO (Plain Old Java Object) just annotate its class with 
+To generate a builder class for a POJO just annotate its class with 
 @GeneratePojoBuilder. If you want the generated Builder to use a specific constructor of your POJO
 then annotate it with @ConstructorProperties and specify the corresponding field names of the parameters.
 
@@ -101,7 +102,7 @@ Here is a code snippet of an ANT build script that runs the PojoBuilder annotati
     </target>
 
 
-You can find a complete sample build script at "samples/build.xml".
+You can find a complete sample build script at ["samples/build.xml"].
 
 ### Using Eclipse
 
@@ -124,5 +125,8 @@ Do the following to enable the PojoBuilder annotation processor for your project
 * Add stringtemplate-*.jar
 * Add pojobuilder-*.jar
 
-[COPYING]: https://github.com/mkarneim/pojobuilder/blob/master/COPYING
-
+["samples"]: http://github.com/mkarneim/pojobuilder/blob/master/samples
+[COPYING]: http://github.com/mkarneim/pojobuilder/blob/master/COPYING
+["build.xml"]: http://github.com/mkarneim/pojobuilder/blob/master/build.xml
+["samples/build.xml"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/build.xml
+["samples/src/generated/java/pojos/ContactBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/src/generated/java/pojos/ContactBuilder.java
