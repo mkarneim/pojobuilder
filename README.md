@@ -1,4 +1,3 @@
-
 PojoBuilder -  A code generator for POJO builders
 ================================================= 
 
@@ -81,7 +80,8 @@ then annotate it with @ConstructorProperties and specify the corresponding field
 Then build your project sources with the PojoBuilder annotation processor enabled.
 
 To enable the annotation processor you either can
-* use the apt tool to compile your project (see http://download.oracle.com/javase/6/docs/technotes/guides/apt/index.html).
+
+* use the apt tool to compile your project (see http://download.oracle.com/javase/6/docs/technotes/guides/apt/index.html). 
 * use the <javac> ant task with a special configuration (see below)
 * or add the PojoBuilder annotation processor to your Eclipse project configuration (see below)
 
