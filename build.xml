@@ -107,7 +107,7 @@
 		<copy todir="${build.dist.dir}" flatten="true">
 			<fileset dir="${build.dir}" includes="${classes.jar.name}" />			
 			<fileset refid="libs.fileset" />
-			<fileset dir="${basedir}" includes="COPYING, README" />
+			<fileset dir="${basedir}" includes="COPYING, README*" />
 		</copy>
 		<mkdir dir="${dist.dir}" />
 		<zip destfile="${dist.dir}/${dist.zip.name}" compress="true" filesonly="true">
