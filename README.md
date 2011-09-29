@@ -15,7 +15,7 @@ each annotated POJO (Plain Old Java Object).
 
 The generated builder provides 
 
-* a fluent interface for specifying values for the POJO's attributes 
+* a fluent interface for specifying values for the POJO's properties 
 * and a "build()" method for creating a new POJO instance with these values.
 
 
@@ -56,9 +56,9 @@ Let's have look at the following example POJO:
 	}
 
 The @GeneratePojoBuilder annotation tells the annotation processor to create a new Java source file with 
-the name "ContactBuilder" into the same package. If you want the generated Builder to use a specific 
-constructor of your POJO then annotate it with @ConstructorProperties and specify the corresponding 
-field names of the parameters.
+the name "ContactBuilder" in the same package. If you want the generated builder to use a specific 
+constructor of your POJO then annotate it with @ConstructorProperties and specify the mapping from the 
+parameters to the corresponding properties.
 
 Have a look at ["samples/src/generated/java/pojos/ContactBuilder.java"] to see the generated source code.
 
