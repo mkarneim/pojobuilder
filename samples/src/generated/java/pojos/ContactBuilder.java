@@ -29,7 +29,7 @@ public class ContactBuilder implements Cloneable {
 	}
 	
 	/**
-	 * Sets the default value for the {@link Contact#email$java$lang$String} property.
+	 * Sets the default value for the {@link Contact#email} property.
 	 * @param value the default value
 	 * @return this builder
 	 */
@@ -39,19 +39,19 @@ public class ContactBuilder implements Cloneable {
 	}
 
 	/**
-	 * Sets the default values for the {@link Contact#email$java$lang$String} property.
+	 * Sets the default values for the {@link Contact#email} property.
 	 * @param values the default values
 	 * @return this builder
 	 */
 	public ContactBuilder withEmailFrom( String... values) {
-	if ( values == null) {
-		throw new IllegalArgumentException("array of default values must not be null!");
-	}
+		if ( values == null) {
+			throw new IllegalArgumentException("array of default values must not be null!");
+		}
 		this.email$java$lang$String = values;
 		return this;
 	}
 	/**
-	 * Sets the default value for the {@link Contact#name$java$lang$String} property.
+	 * Sets the default value for the {@link Contact#name} property.
 	 * @param value the default value
 	 * @return this builder
 	 */
@@ -61,17 +61,18 @@ public class ContactBuilder implements Cloneable {
 	}
 
 	/**
-	 * Sets the default values for the {@link Contact#name$java$lang$String} property.
+	 * Sets the default values for the {@link Contact#name} property.
 	 * @param values the default values
 	 * @return this builder
 	 */
 	public ContactBuilder withNameFrom( String... values) {
-	if ( values == null) {
-		throw new IllegalArgumentException("array of default values must not be null!");
-	}
-	if ( values.length == 0) {
-		throw new IllegalArgumentException("array of default values for constructor parameters must contain at least one element");
-	} 	this.name$java$lang$String = values;
+		if ( values == null) {
+			throw new IllegalArgumentException("array of default values must not be null!");
+		}
+		if ( values.length == 0) {
+			throw new IllegalArgumentException("array of default values for a constructor parameter must contain at least one element");
+		}
+		this.name$java$lang$String = values;
 		return this;
 	}
 
@@ -91,10 +92,10 @@ public class ContactBuilder implements Cloneable {
 		}        
 	}
     
-    /**
-     * Returns a clone of this builder.
-     * @return the clone
-     */
+	/**
+	 * Returns a clone of this builder.
+	 * @return the clone
+	 */
 	public ContactBuilder override() {
 		return (ContactBuilder)clone();
 	}
