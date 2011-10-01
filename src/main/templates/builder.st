@@ -12,7 +12,7 @@ private <property.type.basename>[] <property.fieldname> = new <property.type.bas
 
 propertyWith(property) ::= <<
 /**
- * Sets the default value for the {@link <model.productType.basename>#<property.fieldname>} property.
+ * Sets the default value for the {@link <model.productType.basename>#<property.name>} property.
  * @param value the default value
  * @return this builder
  */
@@ -22,18 +22,19 @@ public <model.type.basename> with<property.nameUC>( <property.type.basename> val
 }
 
 /**
- * Sets the default values for the {@link <model.productType.basename>#<property.fieldname>} property.
+ * Sets the default values for the {@link <model.productType.basename>#<property.name>} property.
  * @param values the default values
  * @return this builder
  */
 public <model.type.basename> with<property.nameUC>From( <property.type.basename>... values) {
-if ( values == null) {
-	throw new IllegalArgumentException("array of default values must not be null!");
-}
+	if ( values == null) {
+		throw new IllegalArgumentException("array of default values must not be null!");
+	}
 <if(property.constructorParameter)>
-if ( values.length == 0) {
-	throw new IllegalArgumentException("array of default values for constructor parameters must contain at least one element");
-} 
+	if ( values.length == 0) {
+		throw new IllegalArgumentException("array of default values for a constructor parameter must contain at least one element");
+	}
+
 <endif>
 	this.<property.fieldname> = values;
 	return this;
@@ -113,10 +114,10 @@ public class <model.type.basename> implements Cloneable {
 		}        
 	}
     
-    /**
-     * Returns a clone of this builder.
-     * @return the clone
-     */
+	/**
+	 * Returns a clone of this builder.
+	 * @return the clone
+	 */
 	public <model.type.basename> override() {
 		return (<model.type.basename>)clone();
 	}
