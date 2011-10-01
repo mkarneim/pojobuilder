@@ -18,10 +18,10 @@ public class AddressDTOBuilder implements Cloneable {
 	 */
 	private int buildCount = 0;
 
-	private String[] address2$java$lang$String = new String[] {};
-	private String[] zip$java$lang$String = new String[] {};
-	private String[] address1$java$lang$String = new String[] {};
-	private String[] country$java$lang$String = new String[] {};
+	private String[] street$java$lang$String = new String[] {};
+	private String[] postCode$java$lang$String = new String[] {};
+	private String[] city$java$lang$String = new String[] {};
+	private String[] name$java$lang$String = new String[] {};
 
 	
 	/**
@@ -31,91 +31,91 @@ public class AddressDTOBuilder implements Cloneable {
 	}
 	
 	/**
-	 * Sets the default value for the {@link AddressDTO#address2$java$lang$String} property.
+	 * Sets the default value for the {@link AddressDTO#street} property.
 	 * @param value the default value
 	 * @return this builder
 	 */
-	public AddressDTOBuilder withAddress2( String value) {
-		this.address2$java$lang$String = new String[] { value };
+	public AddressDTOBuilder withStreet( String value) {
+		this.street$java$lang$String = new String[] { value };
 		return this;
 	}
 
 	/**
-	 * Sets the default values for the {@link AddressDTO#address2$java$lang$String} property.
+	 * Sets the default values for the {@link AddressDTO#street} property.
 	 * @param values the default values
 	 * @return this builder
 	 */
-	public AddressDTOBuilder withAddress2From( String... values) {
-	if ( values == null) {
-		throw new IllegalArgumentException("array of default values must not be null!");
-	}
-		this.address2$java$lang$String = values;
+	public AddressDTOBuilder withStreetFrom( String... values) {
+		if ( values == null) {
+			throw new IllegalArgumentException("array of default values must not be null!");
+		}
+		this.street$java$lang$String = values;
 		return this;
 	}
 	/**
-	 * Sets the default value for the {@link AddressDTO#zip$java$lang$String} property.
+	 * Sets the default value for the {@link AddressDTO#postCode} property.
 	 * @param value the default value
 	 * @return this builder
 	 */
-	public AddressDTOBuilder withZip( String value) {
-		this.zip$java$lang$String = new String[] { value };
+	public AddressDTOBuilder withPostCode( String value) {
+		this.postCode$java$lang$String = new String[] { value };
 		return this;
 	}
 
 	/**
-	 * Sets the default values for the {@link AddressDTO#zip$java$lang$String} property.
+	 * Sets the default values for the {@link AddressDTO#postCode} property.
 	 * @param values the default values
 	 * @return this builder
 	 */
-	public AddressDTOBuilder withZipFrom( String... values) {
-	if ( values == null) {
-		throw new IllegalArgumentException("array of default values must not be null!");
-	}
-		this.zip$java$lang$String = values;
+	public AddressDTOBuilder withPostCodeFrom( String... values) {
+		if ( values == null) {
+			throw new IllegalArgumentException("array of default values must not be null!");
+		}
+		this.postCode$java$lang$String = values;
 		return this;
 	}
 	/**
-	 * Sets the default value for the {@link AddressDTO#address1$java$lang$String} property.
+	 * Sets the default value for the {@link AddressDTO#city} property.
 	 * @param value the default value
 	 * @return this builder
 	 */
-	public AddressDTOBuilder withAddress1( String value) {
-		this.address1$java$lang$String = new String[] { value };
+	public AddressDTOBuilder withCity( String value) {
+		this.city$java$lang$String = new String[] { value };
 		return this;
 	}
 
 	/**
-	 * Sets the default values for the {@link AddressDTO#address1$java$lang$String} property.
+	 * Sets the default values for the {@link AddressDTO#city} property.
 	 * @param values the default values
 	 * @return this builder
 	 */
-	public AddressDTOBuilder withAddress1From( String... values) {
-	if ( values == null) {
-		throw new IllegalArgumentException("array of default values must not be null!");
-	}
-		this.address1$java$lang$String = values;
+	public AddressDTOBuilder withCityFrom( String... values) {
+		if ( values == null) {
+			throw new IllegalArgumentException("array of default values must not be null!");
+		}
+		this.city$java$lang$String = values;
 		return this;
 	}
 	/**
-	 * Sets the default value for the {@link AddressDTO#country$java$lang$String} property.
+	 * Sets the default value for the {@link AddressDTO#name} property.
 	 * @param value the default value
 	 * @return this builder
 	 */
-	public AddressDTOBuilder withCountry( String value) {
-		this.country$java$lang$String = new String[] { value };
+	public AddressDTOBuilder withName( String value) {
+		this.name$java$lang$String = new String[] { value };
 		return this;
 	}
 
 	/**
-	 * Sets the default values for the {@link AddressDTO#country$java$lang$String} property.
+	 * Sets the default values for the {@link AddressDTO#name} property.
 	 * @param values the default values
 	 * @return this builder
 	 */
-	public AddressDTOBuilder withCountryFrom( String... values) {
-	if ( values == null) {
-		throw new IllegalArgumentException("array of default values must not be null!");
-	}
-		this.country$java$lang$String = values;
+	public AddressDTOBuilder withNameFrom( String... values) {
+		if ( values == null) {
+			throw new IllegalArgumentException("array of default values must not be null!");
+		}
+		this.name$java$lang$String = values;
 		return this;
 	}
 
@@ -135,10 +135,10 @@ public class AddressDTOBuilder implements Cloneable {
 		}        
 	}
     
-    /**
-     * Returns a clone of this builder.
-     * @return the clone
-     */
+	/**
+	 * Returns a clone of this builder.
+	 * @return the clone
+	 */
 	public AddressDTOBuilder override() {
 		return (AddressDTOBuilder)clone();
 	}
@@ -149,17 +149,17 @@ public class AddressDTOBuilder implements Cloneable {
 	 */
 	public AddressDTO build() {
 		AddressDTO result = new AddressDTO( );
-		if ( address2$java$lang$String.length > 0) {
-			result.address2 = address2$java$lang$String[buildCount%address2$java$lang$String.length];	
+		if ( street$java$lang$String.length > 0) {
+			result.street = street$java$lang$String[buildCount%street$java$lang$String.length];	
 		}
-		if ( zip$java$lang$String.length > 0) {
-			result.zip = zip$java$lang$String[buildCount%zip$java$lang$String.length];	
+		if ( postCode$java$lang$String.length > 0) {
+			result.postCode = postCode$java$lang$String[buildCount%postCode$java$lang$String.length];	
 		}
-		if ( address1$java$lang$String.length > 0) {
-			result.address1 = address1$java$lang$String[buildCount%address1$java$lang$String.length];	
+		if ( city$java$lang$String.length > 0) {
+			result.city = city$java$lang$String[buildCount%city$java$lang$String.length];	
 		}
-		if ( country$java$lang$String.length > 0) {
-			result.country = country$java$lang$String[buildCount%country$java$lang$String.length];	
+		if ( name$java$lang$String.length > 0) {
+			result.name = name$java$lang$String[buildCount%name$java$lang$String.length];	
 		}
 
 		
