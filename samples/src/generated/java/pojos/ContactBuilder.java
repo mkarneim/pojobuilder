@@ -96,7 +96,7 @@ public class ContactBuilder implements Cloneable {
 	 * Returns a clone of this builder.
 	 * @return the clone
 	 */
-	public ContactBuilder override() {
+	public ContactBuilder but() {
 		return (ContactBuilder)clone();
 	}
 	

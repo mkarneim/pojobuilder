@@ -118,7 +118,7 @@ public class <model.type.basename> implements Cloneable {
 	 * Returns a clone of this builder.
 	 * @return the clone
 	 */
-	public <model.type.basename> override() {
+	public <model.type.basename> but() {
 		return (<model.type.basename>)clone();
 	}
 	

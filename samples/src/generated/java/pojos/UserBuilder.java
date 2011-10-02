@@ -196,7 +196,7 @@ public class UserBuilder implements Cloneable {
 	 * Returns a clone of this builder.
 	 * @return the clone
 	 */
-	public UserBuilder override() {
+	public UserBuilder but() {
 		return (UserBuilder)clone();
 	}
 	

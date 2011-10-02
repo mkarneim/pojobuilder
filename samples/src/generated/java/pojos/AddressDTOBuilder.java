@@ -139,7 +139,7 @@ public class AddressDTOBuilder implements Cloneable {
 	 * Returns a clone of this builder.
 	 * @return the clone
 	 */
-	public AddressDTOBuilder override() {
+	public AddressDTOBuilder but() {
 		return (AddressDTOBuilder)clone();
 	}
 	
