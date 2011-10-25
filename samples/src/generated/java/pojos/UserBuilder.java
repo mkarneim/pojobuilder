@@ -1,9 +1,8 @@
 package pojos;
 
 import pojos.User;
-import java.util.ArrayList;
-import java.util.List;
 
+import java.lang.Object;
 import java.lang.String;
 import java.io.File;
 import java.util.Date;
@@ -15,17 +14,25 @@ import java.util.Date;
  * @created  by the PojoBuilder generator
  */
 public class UserBuilder implements Cloneable {
-	/*
-	 * Counter of {@link #build} invocations. 
-	 */
-	private int buildCount = 0;
 
-	private Date[] created$java$util$Date = new Date[] {null}; // constructor parameter
-	private File[] homeDirectory$java$io$File = new File[] {};
-	private String[] homeDirectory$java$lang$String = new String[] {};
-	private long[] id$long = new long[] {0}; // constructor parameter
-	private String[] passwordHash$java$lang$String = new String[] {};
-	private String[] name$java$lang$String = new String[] {null}; // constructor parameter
+
+	protected Date value$created$java$util$Date;
+	protected final boolean hasValue$created$java$util$Date = true; // mandatory constructor parameter
+
+	protected File value$homeDirectory$java$io$File;
+	protected boolean hasValue$homeDirectory$java$io$File = false;
+
+	protected String value$homeDirectory$java$lang$String;
+	protected boolean hasValue$homeDirectory$java$lang$String = false;
+
+	protected long value$id$long;
+	protected final boolean hasValue$id$long = true; // mandatory constructor parameter
+
+	protected String value$passwordHash$java$lang$String;
+	protected boolean hasValue$passwordHash$java$lang$String = false;
+
+	protected String value$name$java$lang$String;
+	protected final boolean hasValue$name$java$lang$String = true; // mandatory constructor parameter
 
 	
 	/**
@@ -40,23 +47,7 @@ public class UserBuilder implements Cloneable {
 	 * @return this builder
 	 */
 	public UserBuilder withCreated( Date value) {
-		this.created$java$util$Date = new Date[] { value };
-		return this;
-	}
-
-	/**
-	 * Sets the default values for the {@link User#created} property.
-	 * @param values the default values
-	 * @return this builder
-	 */
-	public UserBuilder withCreatedFrom( Date... values) {
-		if ( values == null) {
-			throw new IllegalArgumentException("array of default values must not be null!");
-		}
-		if ( values.length == 0) {
-			throw new IllegalArgumentException("array of default values for a constructor parameter must contain at least one element");
-		}
-		this.created$java$util$Date = values;
+		this.value$created$java$util$Date = value;
 		return this;
 	}
 	/**
@@ -65,20 +56,8 @@ public class UserBuilder implements Cloneable {
 	 * @return this builder
 	 */
 	public UserBuilder withHomeDirectory( File value) {
-		this.homeDirectory$java$io$File = new File[] { value };
-		return this;
-	}
-
-	/**
-	 * Sets the default values for the {@link User#homeDirectory} property.
-	 * @param values the default values
-	 * @return this builder
-	 */
-	public UserBuilder withHomeDirectoryFrom( File... values) {
-		if ( values == null) {
-			throw new IllegalArgumentException("array of default values must not be null!");
-		}
-		this.homeDirectory$java$io$File = values;
+		this.value$homeDirectory$java$io$File = value;
+		this.hasValue$homeDirectory$java$io$File = true;
 		return this;
 	}
 	/**
@@ -87,20 +66,8 @@ public class UserBuilder implements Cloneable {
 	 * @return this builder
 	 */
 	public UserBuilder withHomeDirectory( String value) {
-		this.homeDirectory$java$lang$String = new String[] { value };
-		return this;
-	}
-
-	/**
-	 * Sets the default values for the {@link User#homeDirectory} property.
-	 * @param values the default values
-	 * @return this builder
-	 */
-	public UserBuilder withHomeDirectoryFrom( String... values) {
-		if ( values == null) {
-			throw new IllegalArgumentException("array of default values must not be null!");
-		}
-		this.homeDirectory$java$lang$String = values;
+		this.value$homeDirectory$java$lang$String = value;
+		this.hasValue$homeDirectory$java$lang$String = true;
 		return this;
 	}
 	/**
@@ -109,23 +76,7 @@ public class UserBuilder implements Cloneable {
 	 * @return this builder
 	 */
 	public UserBuilder withId( long value) {
-		this.id$long = new long[] { value };
-		return this;
-	}
-
-	/**
-	 * Sets the default values for the {@link User#id} property.
-	 * @param values the default values
-	 * @return this builder
-	 */
-	public UserBuilder withIdFrom( long... values) {
-		if ( values == null) {
-			throw new IllegalArgumentException("array of default values must not be null!");
-		}
-		if ( values.length == 0) {
-			throw new IllegalArgumentException("array of default values for a constructor parameter must contain at least one element");
-		}
-		this.id$long = values;
+		this.value$id$long = value;
 		return this;
 	}
 	/**
@@ -134,20 +85,8 @@ public class UserBuilder implements Cloneable {
 	 * @return this builder
 	 */
 	public UserBuilder withPasswordHash( String value) {
-		this.passwordHash$java$lang$String = new String[] { value };
-		return this;
-	}
-
-	/**
-	 * Sets the default values for the {@link User#passwordHash} property.
-	 * @param values the default values
-	 * @return this builder
-	 */
-	public UserBuilder withPasswordHashFrom( String... values) {
-		if ( values == null) {
-			throw new IllegalArgumentException("array of default values must not be null!");
-		}
-		this.passwordHash$java$lang$String = values;
+		this.value$passwordHash$java$lang$String = value;
+		this.hasValue$passwordHash$java$lang$String = true;
 		return this;
 	}
 	/**
@@ -156,23 +95,7 @@ public class UserBuilder implements Cloneable {
 	 * @return this builder
 	 */
 	public UserBuilder withName( String value) {
-		this.name$java$lang$String = new String[] { value };
-		return this;
-	}
-
-	/**
-	 * Sets the default values for the {@link User#name} property.
-	 * @param values the default values
-	 * @return this builder
-	 */
-	public UserBuilder withNameFrom( String... values) {
-		if ( values == null) {
-			throw new IllegalArgumentException("array of default values must not be null!");
-		}
-		if ( values.length == 0) {
-			throw new IllegalArgumentException("array of default values for a constructor parameter must contain at least one element");
-		}
-		this.name$java$lang$String = values;
+		this.value$name$java$lang$String = value;
 		return this;
 	}
 
@@ -185,7 +108,6 @@ public class UserBuilder implements Cloneable {
 	public Object clone() {
 		try {
 			UserBuilder result = (UserBuilder)super.clone();
-			result.buildCount = 0;
 			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());
@@ -205,46 +127,19 @@ public class UserBuilder implements Cloneable {
 	 * @return the created User
 	 */
 	public User build() {
-		User result = new User( id$long[buildCount%id$long.length], name$java$lang$String[buildCount%name$java$lang$String.length], created$java$util$Date[buildCount%created$java$util$Date.length]);
-		if ( homeDirectory$java$io$File.length > 0) {    
-			result.setHomeDirectory( homeDirectory$java$io$File[buildCount%homeDirectory$java$io$File.length]);		
+		User result = new User( this.value$id$long ,this.value$name$java$lang$String ,this.value$created$java$util$Date );
+		if ( this.hasValue$homeDirectory$java$io$File) {    
+			result.setHomeDirectory( this.value$homeDirectory$java$io$File);		
 		}
-		if ( homeDirectory$java$lang$String.length > 0) {    
-			result.setHomeDirectory( homeDirectory$java$lang$String[buildCount%homeDirectory$java$lang$String.length]);		
+		if ( this.hasValue$homeDirectory$java$lang$String) {    
+			result.setHomeDirectory( this.value$homeDirectory$java$lang$String);		
 		}
-		if ( passwordHash$java$lang$String.length > 0) {    
-			result.setPasswordHash( passwordHash$java$lang$String[buildCount%passwordHash$java$lang$String.length]);		
+		if ( this.hasValue$passwordHash$java$lang$String) {    
+			result.setPasswordHash( this.value$passwordHash$java$lang$String);		
 		}
 
-		
-		buildCount++;    
 		return result;
 	}
 	
-	/**
-	 * Creates an array of new {@link User} objects with the given number of elements.
-	 * @param size the number of elements
-	 * @return the array containing the new objects
-	 */
-	public User[] buildArray(int size) {
-		User[] result = new User[size];
-		for( int i=0; i<size; ++i) {
-			result[i] = build();
-		}
-		return result;
-	}
-	
-	/**
-	 * Creates a list of new {@link User} objects with the given number of elements.
-	 * @param size the number of elements
-	 * @return the list containing the new objects
-	 */
-	public List<User> buildList(int size) { 
-		List<User> result = new ArrayList<User>(size);
-		for( int i=0; i<size; ++i) {
-			result.add( build());
-		}
-		return result;
-	}
 
 }

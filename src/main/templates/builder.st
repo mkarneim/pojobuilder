@@ -6,7 +6,9 @@ import <importName>;
 >>
 
 propertyVar(property) ::= <<
-private <property.type.basename>[] <property.fieldname> = new <property.type.basename>[] {<if(property.constructorParameter)><property.type.defaultValue><endif>};<if(property.constructorParameter)> // constructor parameter<endif>
+
+protected <property.type.basename> value$<property.fieldname>;
+<if(!property.constructorParameter)>protected boolean hasValue$<property.fieldname> = false;<else>protected final boolean hasValue$<property.fieldname> = true; // mandatory constructor parameter<endif>
 
 >>
 
@@ -17,55 +19,32 @@ propertyWith(property) ::= <<
  * @return this builder
  */
 public <model.type.basename> with<property.nameUC>( <property.type.basename> value) {
-	this.<property.fieldname> = new <property.type.basename>[] { value };
-	return this;
-}
-
-/**
- * Sets the default values for the {@link <model.productType.basename>#<property.name>} property.
- * @param values the default values
- * @return this builder
- */
-public <model.type.basename> with<property.nameUC>From( <property.type.basename>... values) {
-	if ( values == null) {
-		throw new IllegalArgumentException("array of default values must not be null!");
-	}
-<if(property.constructorParameter)>
-	if ( values.length == 0) {
-		throw new IllegalArgumentException("array of default values for a constructor parameter must contain at least one element");
-	}
-
-<endif>
-	this.<property.fieldname> = values;
+	this.value$<property.fieldname> = value;
+<if(!property.constructorParameter)>	this.hasValue$<property.fieldname> = true;<endif>
 	return this;
 }
 
 >>
 
 propertySetterCall(property) ::= <<
-if ( <property.fieldname>.length > 0) {    
-	result.<property.setter>( <property.fieldname>[buildCount%<property.fieldname>.length]);		
+if ( this.hasValue$<property.fieldname>) {    
+	result.<property.setter>( this.value$<property.fieldname>);		
 }
 
 >>
 
 propertyAssignment(property) ::= <<
-if ( <property.fieldname>.length > 0) {
-	result.<property.name> = <property.fieldname>[buildCount%<property.fieldname>.length];	
+if ( this.hasValue$<property.fieldname>) { 
+	result.<property.name> = this.value$<property.fieldname>;	
 }
 
 >>
 
 productContructorCall(model) ::= <<
-<model.productType.basename> result = new <model.productType.basename>( <model.propertiesForConstructor:constructorArgument(); separator=", ">);
+<model.productType.basename> result = new <model.productType.basename>( <model.propertiesForConstructor:constructorArgument(); separator=",">);
 >>
 
-constructorArgument(property) ::= <<<property.fieldname>[buildCount%<property.fieldname>.length]>>
-
-productContructorParameter(property) ::= <<
-<property.type.basename> <property.fieldname>
-
->>
+constructorArgument(property) ::= <<this.value$<property.fieldname> >>
 
 builderClass(model) ::= <<
 <if(model.type.package)>package <model.type.package>;
@@ -73,8 +52,6 @@ builderClass(model) ::= <<
 
 <endif>
 import <model.productType.name>;
-import java.util.ArrayList;
-import java.util.List;
 
 <model.imports:importStatement()>
 
@@ -84,10 +61,6 @@ import java.util.List;
  * @created <model.created> by the PojoBuilder generator
  */
 public class <model.type.basename> <if(!model.superType.object)>extends <model.superType.basename> <endif>implements Cloneable {
-	/*
-	 * Counter of {@link #build} invocations. 
-	 */
-	private int buildCount = 0;
 
 	<model.properties:propertyVar()>
 	
@@ -107,7 +80,6 @@ public class <model.type.basename> <if(!model.superType.object)>extends <model.s
 	public Object clone() {
 		try {
 			<model.type.basename> result = (<model.type.basename>)super.clone();
-			result.buildCount = 0;
 			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());
@@ -130,36 +102,9 @@ public class <model.type.basename> <if(!model.superType.object)>extends <model.s
 		<model:productContructorCall()>
 		<model.propertiesForSetters:propertySetterCall()>
 		<model.propertiesForAssignment:propertyAssignment()>
-		
-		buildCount++;    
 		return result;
 	}
 	
-	/**
-	 * Creates an array of new {@link <model.productType.basename>} objects with the given number of elements.
-	 * @param size the number of elements
-	 * @return the array containing the new objects
-	 */
-	public <model.productType.basename>[] buildArray(int size) {
-		<model.productType.basename>[] result = new <model.productType.basename>[size];
-		for( int i=0; i\<size; ++i) {
-			result[i] = build();
-		}
-		return result;
-	}
-	
-	/**
-	 * Creates a list of new {@link <model.productType.basename>} objects with the given number of elements.
-	 * @param size the number of elements
-	 * @return the list containing the new objects
-	 */
-	public List\<<model.productType.basename>\> buildList(int size) { 
-		List\<<model.productType.basename>\> result = new ArrayList\<<model.productType.basename>\>(size);
-		for( int i=0; i\<size; ++i) {
-			result.add( build());
-		}
-		return result;
-	}
 
 }
 >>
