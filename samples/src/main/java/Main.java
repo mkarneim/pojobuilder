@@ -1,7 +1,7 @@
 import java.util.Arrays;
 
 import pojos.Contact;
-import pojos.ContactBuilder;
+import pojos.builder.ContactBuilder;
 
 public class Main {
 

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -12,8 +13,11 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
+import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Name;
 import javax.lang.model.element.TypeElement;
 import javax.tools.JavaFileObject;
@@ -28,86 +32,152 @@ import net.karneim.pojobuilder.util.StringUtil;
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
 // @SupportedOptions({ GeneratePojoBuilderAnnotationProcessor.GEN })
 public class GeneratePojoBuilderAnnotationProcessor extends AbstractProcessor {
-	// public static final String GEN = "gen";
-	private ProcessingEnvironment env;
-	private BuilderSourceGenerator generator = new BuilderSourceGenerator();
+    // public static final String GEN = "gen";
+    private ProcessingEnvironment env;
+    private BuilderSourceGenerator generator = new BuilderSourceGenerator();
 
-	@Override
-	public void init(ProcessingEnvironment env) {
-		super.init(env);
-		this.env = env;
-		// String targetDir = env.getOptions().get(GEN);
-		// System.out.println(GEN + "=" + targetDir);
-	}
+    @Override
+    public void init(ProcessingEnvironment env) {
+        super.init(env);
+        this.env = env;
+        // String targetDir = env.getOptions().get(GEN);
+        // System.out.println(GEN + "=" + targetDir);
+    }
 
-	@Override
-	public boolean process(Set<? extends TypeElement> annotations,
-			RoundEnvironment roundEnv) {
-		// System.out.println("supported options: "+
-		// Arrays.toString(getSupportedOptions().toArray()));
-		if (!roundEnv.processingOver()) {
-			for (TypeElement currAnno : annotations) {
-				// System.out.println("Found " + currAnno.getQualifiedName());
-				if (currAnno.getQualifiedName().contentEquals(
-						GeneratePojoBuilder.class.getName())) {
-					Set<? extends Element> annotatedElements = roundEnv
-							.getElementsAnnotatedWith(currAnno);
-					// System.out.println("[GenerateBuilder] annotatedElements="+
-					// Arrays.toString(annotatedElements.toArray()));
-					for (Element elem : annotatedElements) {
-						if (elem.getKind() == ElementKind.CLASS) {
-							TypeElement typeElem = (TypeElement) elem;
-							process(typeElem);
-						}
-					}
-				}
-			}
-		}
-		return false;
-	}
+    @Override
+    public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+        // System.out.println("supported options: "+
+        // Arrays.toString(getSupportedOptions().toArray()));
+        if (!roundEnv.processingOver()) {
+            for (TypeElement currAnno : annotations) {
+                // System.out.println("Found " + currAnno.getQualifiedName());
+                if (currAnno.getQualifiedName().contentEquals(GeneratePojoBuilder.class.getName())) {
+                    Set<? extends Element> annotatedElements = roundEnv.getElementsAnnotatedWith(currAnno);
+                    // System.out.println("[GenerateBuilder] annotatedElements="+
+                    // Arrays.toString(annotatedElements.toArray()));
+                    for (Element elem : annotatedElements) {
+                        if (elem.getKind() == ElementKind.CLASS) {
+                            TypeElement typeElem = (TypeElement)elem;
+                            process(typeElem);
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
-	public void process(TypeElement productClass) {
-		Name name = productClass.getQualifiedName();
-		String basename = StringUtil.getBasename(name.toString());
-		String packname = StringUtil.getPackage(name.toString());
+    public void process(TypeElement productClass) {
+        TypeM builderSuperclassName = getBuilderSuperclass(productClass);
+        String builderPackageName = getBuilderPackage(productClass);
+        
+        String productBasename = StringUtil.getBasename(productClass.getQualifiedName().toString());
 
-		String builderClassname = packname + "." + basename + "Builder";
-		System.out.println("builderClassname=" + builderClassname);
+        String builderClassname = getBuilderClassname( builderPackageName, productBasename);
+        System.out.println("builderClassname=" + builderClassname);
 
-		try {
+        try {
 
-			BuilderM model = new BuilderMBuilder()
-					.withType(new TypeM(builderClassname))
-					.withProductType(new TypeM(name.toString()))
-					.withProperties(findProperties(productClass)).build();
-			System.out.println("model=" + model);
+            BuilderM model = new BuilderMBuilder().withType(new TypeM(builderClassname))
+            .withSuperType(builderSuperclassName)
+            .withProductType(new TypeM(productClass.getQualifiedName().toString()))
+            .withProperties(findProperties(productClass, builderPackageName))
+            .build();
+            System.out.println("model=" + model);
 
-			JavaFileObject jobj = env.getFiler().createSourceFile(
-					builderClassname);
-			Writer writer = jobj.openWriter();
+            JavaFileObject jobj = env.getFiler().createSourceFile(builderClassname);
+            Writer writer = jobj.openWriter();
 
-			generator.generate(model, writer);
+            generator.generate(model, writer);
 
-			writer.close();
-			// processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE,
-			// "Generated class "+builderClassname,
-			// elem);
+            writer.close();
+            // processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE,
+            // "Generated class "+builderClassname,
+            // elem);
 
-			// processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR,
-			// "Blablabla",
-			// elem);
-			System.out.println("uri=" + jobj.toUri());
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new UndeclaredThrowableException(e);
-		}
-	}
+            // processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR,
+            // "Blablabla",
+            // elem);
+            System.out.println("uri=" + jobj.toUri());
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new UndeclaredThrowableException(e);
+        }
+    }
 
-	private Collection<PropertyM> findProperties(TypeElement productClass) {
-		System.out.println("###findProperties");
-		PropertyFinder propertyFinder = new PropertyFinder(env);
-		productClass.accept(propertyFinder, null);
+    private String getBuilderClassname(String packageName, String productBasename) {
+        String result = productBasename+"Builder";
+        if ( packageName != null) {
+            result = packageName+"."+result;
+        }
+        return result;
+    }
 
-		return propertyFinder.getProperties();
-	}
+    private String getBuilderPackage(TypeElement productClass) {
+        GeneratePojoBuilder annotation = productClass.getAnnotation(GeneratePojoBuilder.class);
+        String packageAttributeValue = annotation.intoPackage();
+        if ("#default".equals(packageAttributeValue)) {
+            Element packageElement = findPackage( productClass);
+            String result = packageElement.getSimpleName().toString();
+            return result;
+        } else if ( "".equals(packageAttributeValue)) {
+            return null;
+        } else {            
+            return packageAttributeValue;
+        }
+    }
+
+    private Element findPackage(TypeElement typeElement) {
+        Element tmp = typeElement;
+        // If tmp is a package, {@code null} is returned.
+        while( tmp.getEnclosingElement() != null) {
+            tmp = tmp.getEnclosingElement();
+        }
+        return tmp;
+    }
+
+    private TypeM getBuilderSuperclass(TypeElement productClass) {
+        //GeneratePojoBuilder anno = productClass.getAnnotation(GeneratePojoBuilder.class);
+        //return anno.withSuperclass().getName();
+        final String annotationName = GeneratePojoBuilder.class.getName();
+        final String attributeName = "withSuperclass";
+
+        String value = getAttributeValue(productClass, annotationName, attributeName);
+        if (value == null) {
+            return TypeM.OBJECT;
+        } else {
+            return TypeM.get(getClassname(value));
+        }
+    }
+
+    private String getClassname(String value) {
+        int idx = value.lastIndexOf(".class");
+        if (idx == -1) {
+            return value;
+        } else {
+            return value.substring(0, idx);
+        }
+    }
+
+    private String getAttributeValue(TypeElement annotatedTypeElement, final String annotationName, final String attributeName) {
+        for (AnnotationMirror am : annotatedTypeElement.getAnnotationMirrors()) {
+            if (annotationName.equals(am.getAnnotationType().toString())) {
+                for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : am.getElementValues().entrySet()) {
+                    if (attributeName.equals(entry.getKey().getSimpleName().toString())) {
+                        AnnotationValue value = entry.getValue();
+                        return value.toString();
+                    }
+                }
+                return null;
+            }
+        }
+        throw new IllegalArgumentException(String.format("Can't find annotation '%s' on class '%s'", annotationName, annotatedTypeElement.toString()));
+    }
+
+    private Collection<PropertyM> findProperties(TypeElement productClass, String builderPackage) {
+        PropertyFinder propertyFinder = new PropertyFinder(env, builderPackage, productClass);
+        productClass.accept(propertyFinder, null);
+
+        return propertyFinder.getProperties();
+    }
 }

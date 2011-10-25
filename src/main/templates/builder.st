@@ -1,6 +1,6 @@
 group builder;
 
-propertyImport(importName) ::= <<
+importStatement(importName) ::= <<
 import <importName>;
 
 >>
@@ -76,14 +76,14 @@ import <model.productType.name>;
 import java.util.ArrayList;
 import java.util.List;
 
-<model.propertyImports:propertyImport()>
+<model.imports:importStatement()>
 
 /**
  * The {@link <model.type.basename>} is a Builder for {@link <model.productType.basename>} objects.
  *
  * @created <model.created> by the PojoBuilder generator
  */
-public class <model.type.basename> implements Cloneable {
+public class <model.type.basename> <if(!model.superType.object)>extends <model.superType.basename> <endif>implements Cloneable {
 	/*
 	 * Counter of {@link #build} invocations. 
 	 */

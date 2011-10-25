@@ -16,17 +16,12 @@ public class TypeM {
 			CHAR_TYPE, BYTE_TYPE, SHORT_TYPE, INT_TYPE, LONG_TYPE, FLOAT_TYPE,
 			DOUBLE_TYPE };
 
-	public static TypeM OBJECT = new TypeM("java.lang.Object", null);
+	public static TypeM OBJECT = new TypeM("java.lang.Object");
 
 	private final String name;
 	private final boolean primitive;
 
 	public TypeM(String classname) {
-		this.name = classname;
-		this.primitive = false;
-	}
-
-	public TypeM(String classname, TypeM superclass) {
 		super();
 		this.name = classname;
 		this.primitive = false;
@@ -61,6 +56,10 @@ public class TypeM {
 
 	public boolean isPrimitive() {
 		return primitive;
+	}
+	
+	public boolean isObject() {
+	    return this.equals(OBJECT);
 	}
 
 	public String getDefaultValue() {
