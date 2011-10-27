@@ -32,7 +32,7 @@ Example
 
 Let's have look at the following example POJO:
 
-	@GeneratePojoBuilder
+	@GeneratePojoBuilder(intoPackage = "pojos.builder")
 	public class Contact { 
 		private final String name;
 		private String email;
@@ -56,11 +56,11 @@ Let's have look at the following example POJO:
 	}
 
 The @GeneratePojoBuilder annotation tells the annotation processor to create a new Java source file with 
-the name "ContactBuilder" in the same package. If you want the generated builder to use a specific 
+the name "ContactBuilder" in the package "pojos.builder". If you want the generated builder to use a specific 
 constructor of your POJO then annotate it with @ConstructorProperties and specify the mapping from the 
 parameters to the corresponding properties.
 
-Have a look at ["samples/src/generated/java/pojos/ContactBuilder.java"] to see the generated source code.
+Have a look at ["samples/src/generated/java/pojos/builder/ContactBuilder.java"] to see the generated source code.
 
 Here is an example of how you can use the generated "ContactBuilder" from your code:
 
@@ -147,4 +147,4 @@ Now the annotation processor will be automatically invoked during the Eclipse bu
 [COPYING]: http://github.com/mkarneim/pojobuilder/blob/master/COPYING
 [build.xml]: http://github.com/mkarneim/pojobuilder/blob/master/build.xml
 ["samples/build.xml"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/build.xml
-["samples/src/generated/java/pojos/ContactBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/src/generated/java/pojos/ContactBuilder.java
+["samples/src/generated/java/pojos/builder/ContactBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/src/generated/java/pojos/builder/ContactBuilder.java
