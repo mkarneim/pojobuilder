@@ -43,8 +43,11 @@
 	<!--
 	###################################################################
 	##################    Filesets and Classpaths   ################### -->
-	<fileset id="libs.fileset" dir="${lib.dir}">
-		<include name="**/*.jar" />
+	<fileset id="stringtemplate.libs.fileset" dir="${lib.dir}">
+		<include name="stringtemplate/*.jar" />
+	</fileset>
+	<fileset id="junit.libs.fileset" dir="${lib.dir}">
+		<include name="junit/*.jar" />
 	</fileset>
 
 	<fileset id="build.classes.fileset" dir="${build.classes.dir}" description="Compiled classes without tests.">
@@ -53,7 +56,8 @@
 
 	<path id="class.path">
 		<pathelement path="${currentenv.classpath}" />
-		<fileset refid="libs.fileset" />
+		<fileset refid="stringtemplate.libs.fileset" />
+		<fileset refid="junit.libs.fileset" />
 	</path>
 
 	<!--
@@ -83,7 +87,7 @@
 	<target name="create-jar" depends="init, compile" description="Create jar with all classes and copy required libs.">		
 		<pathconvert pathsep=" " dirsep="/" property="manifest.classpath">
 			<path>
-				<fileset refid="libs.fileset" />
+				<fileset refid="stringtemplate.libs.fileset" />
 			</path>
 			<flattenmapper/>
 		</pathconvert>
@@ -106,7 +110,7 @@
 		<mkdir dir="${build.dist.dir}" />
 		<copy todir="${build.dist.dir}" flatten="true">
 			<fileset dir="${build.dir}" includes="${classes.jar.name}" />			
-			<fileset refid="libs.fileset" />
+			<fileset refid="stringtemplate.libs.fileset" />
 			<fileset dir="${basedir}" includes="COPYING, README*" />
 		</copy>
 		<mkdir dir="${dist.dir}" />
