@@ -18,7 +18,7 @@ import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
-import javax.lang.model.element.Name;
+import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.tools.JavaFileObject;
 
@@ -117,9 +117,13 @@ public class GeneratePojoBuilderAnnotationProcessor extends AbstractProcessor {
         GeneratePojoBuilder annotation = productClass.getAnnotation(GeneratePojoBuilder.class);
         String packageAttributeValue = annotation.intoPackage();
         if ("#default".equals(packageAttributeValue)) {
-            Element packageElement = findPackage( productClass);
-            String result = packageElement.getSimpleName().toString();
-            return result;
+            PackageElement packageElement = findPackage( productClass);
+            System.out.println(">>>>"+packageElement.getClass().getName());
+            if ( packageElement.isUnnamed()) {
+                return null;
+            } else {
+                return packageElement.getQualifiedName().toString();
+            }
         } else if ( "".equals(packageAttributeValue)) {
             return null;
         } else {            
@@ -127,13 +131,15 @@ public class GeneratePojoBuilderAnnotationProcessor extends AbstractProcessor {
         }
     }
 
-    private Element findPackage(TypeElement typeElement) {
+    private PackageElement findPackage(TypeElement typeElement) {
         Element tmp = typeElement;
         // If tmp is a package, {@code null} is returned.
         while( tmp.getEnclosingElement() != null) {
             tmp = tmp.getEnclosingElement();
         }
-        return tmp;
+        if ( tmp instanceof PackageElement) {
+            return (PackageElement)tmp;
+        } else throw new IllegalStateException("Can't find enclosing package of element: "+typeElement);     
     }
 
     private TypeM getBuilderSuperclass(TypeElement productClass) {

@@ -1,7 +1,7 @@
 package pojos.builder;
 
-import pojos.Contact;
 
+import pojos.Contact;
 import java.lang.Object;
 import java.lang.String;
 

@@ -51,7 +51,6 @@ builderClass(model) ::= <<
 
 
 <endif>
-import <model.productType.name>;
 
 <model.imports:importStatement()>
 

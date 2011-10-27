@@ -1,11 +1,11 @@
 package pojos;
 
-import pojos.User;
 
 import java.lang.Object;
 import java.lang.String;
 import java.io.File;
 import java.util.Date;
+import pojos.User;
 
 
 /**

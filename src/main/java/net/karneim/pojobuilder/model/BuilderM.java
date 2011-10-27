@@ -61,11 +61,19 @@ public class BuilderM {
         Set<String> result = new HashSet<String>();
         for (PropertyM prop : properties) {
             if (!prop.getType().isPrimitive()) {
-                result.add(prop.getType().getImportName());
+                addImport(result, prop.getType());                
             }
         }
-        result.add( superType.getImportName());
+        addImport(result, superType);  
+        addImport(result, productType);
         return result;
+    }
+
+    private void addImport(Set<String> result, TypeM aType) {
+        String importName = aType.getImportName();
+        if (importName != null) {
+            result.add(importName);
+        }
     }
 
     public Collection<PropertyM> getPropertiesForConstructor() {
