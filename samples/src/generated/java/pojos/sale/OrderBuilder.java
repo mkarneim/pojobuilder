@@ -15,10 +15,12 @@ import pojos.builder.BaseBuilder;
  */
 public class OrderBuilder extends BaseBuilder implements Cloneable {
 
-	protected String value$customer$java$lang$String;
-	protected boolean hasValue$customer$java$lang$String = false;
-	protected Item[] value$items$pojos$sale$Item$;
-	protected boolean hasValue$items$pojos$sale$Item$ = false;
+	protected String value$customer$java$lang$String; 
+	protected boolean isSet$customer$java$lang$String = false; 
+
+	protected Item[] value$items$pojos$sale$Item$; 
+	protected boolean isSet$items$pojos$sale$Item$ = false; 
+
 
 
 	/**
@@ -34,7 +36,7 @@ public class OrderBuilder extends BaseBuilder implements Cloneable {
 	 */
 	public OrderBuilder withCustomer( String value) {
 		this.value$customer$java$lang$String = value;
-		this.hasValue$customer$java$lang$String = true;
+		this.isSet$customer$java$lang$String = true;
 		return this;
 	}
 	/**
@@ -44,7 +46,7 @@ public class OrderBuilder extends BaseBuilder implements Cloneable {
 	 */
 	public OrderBuilder withItems( Item[] value) {
 		this.value$items$pojos$sale$Item$ = value;
-		this.hasValue$items$pojos$sale$Item$ = true;
+		this.isSet$items$pojos$sale$Item$ = true;
 		return this;
 	}
 
@@ -77,10 +79,10 @@ public class OrderBuilder extends BaseBuilder implements Cloneable {
 	 */
 	public Order build() {
 		Order result = new Order( );
-		if ( this.hasValue$customer$java$lang$String) {    
+		if ( this.isSet$customer$java$lang$String) {    
 			result.setCustomer( this.value$customer$java$lang$String);		
 		}
-		if ( this.hasValue$items$pojos$sale$Item$) {    
+		if ( this.isSet$items$pojos$sale$Item$) {    
 			result.setItems( this.value$items$pojos$sale$Item$);		
 		}
 

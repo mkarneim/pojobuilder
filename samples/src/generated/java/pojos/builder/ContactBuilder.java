@@ -14,10 +14,12 @@ import java.lang.String;
  */
 public class ContactBuilder implements Cloneable {
 
-	protected String value$email$java$lang$String;
-	protected boolean hasValue$email$java$lang$String = false;
-	protected String value$name$java$lang$String;
-	protected final boolean hasValue$name$java$lang$String = true; // mandatory constructor parameter
+	protected String value$email$java$lang$String; 
+	protected boolean isSet$email$java$lang$String = false; 
+
+	protected String value$name$java$lang$String; // mandatory constructor parameter
+	protected boolean isSet$name$java$lang$String = false; 
+
 
 
 	/**
@@ -33,7 +35,7 @@ public class ContactBuilder implements Cloneable {
 	 */
 	public ContactBuilder withEmail( String value) {
 		this.value$email$java$lang$String = value;
-		this.hasValue$email$java$lang$String = true;
+		this.isSet$email$java$lang$String = true;
 		return this;
 	}
 	/**
@@ -43,6 +45,7 @@ public class ContactBuilder implements Cloneable {
 	 */
 	public ContactBuilder withName( String value) {
 		this.value$name$java$lang$String = value;
+		this.isSet$name$java$lang$String = true;
 		return this;
 	}
 
@@ -75,7 +78,7 @@ public class ContactBuilder implements Cloneable {
 	 */
 	public Contact build() {
 		Contact result = new Contact( this.value$name$java$lang$String );
-		if ( this.hasValue$email$java$lang$String) {    
+		if ( this.isSet$email$java$lang$String) {    
 			result.setEmail( this.value$email$java$lang$String);		
 		}
 

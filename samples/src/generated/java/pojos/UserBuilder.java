@@ -16,18 +16,24 @@ import pojos.User;
  */
 public class UserBuilder implements Cloneable {
 
-	protected Date value$created$java$util$Date;
-	protected final boolean hasValue$created$java$util$Date = true; // mandatory constructor parameter
-	protected File value$homeDirectory$java$io$File;
-	protected boolean hasValue$homeDirectory$java$io$File = false;
-	protected String value$homeDirectory$java$lang$String;
-	protected boolean hasValue$homeDirectory$java$lang$String = false;
-	protected long value$id$long;
-	protected final boolean hasValue$id$long = true; // mandatory constructor parameter
-	protected String value$passwordHash$java$lang$String;
-	protected boolean hasValue$passwordHash$java$lang$String = false;
-	protected String value$name$java$lang$String;
-	protected final boolean hasValue$name$java$lang$String = true; // mandatory constructor parameter
+	protected Date value$created$java$util$Date; // mandatory constructor parameter
+	protected boolean isSet$created$java$util$Date = false; 
+
+	protected File value$homeDirectory$java$io$File; 
+	protected boolean isSet$homeDirectory$java$io$File = false; 
+
+	protected String value$homeDirectory$java$lang$String; 
+	protected boolean isSet$homeDirectory$java$lang$String = false; 
+
+	protected long value$id$long; // mandatory constructor parameter
+	protected boolean isSet$id$long = false; 
+
+	protected String value$passwordHash$java$lang$String; 
+	protected boolean isSet$passwordHash$java$lang$String = false; 
+
+	protected String value$name$java$lang$String; // mandatory constructor parameter
+	protected boolean isSet$name$java$lang$String = false; 
+
 
 
 	/**
@@ -43,6 +49,7 @@ public class UserBuilder implements Cloneable {
 	 */
 	public UserBuilder withCreated( Date value) {
 		this.value$created$java$util$Date = value;
+		this.isSet$created$java$util$Date = true;
 		return this;
 	}
 	/**
@@ -52,7 +59,7 @@ public class UserBuilder implements Cloneable {
 	 */
 	public UserBuilder withHomeDirectory( File value) {
 		this.value$homeDirectory$java$io$File = value;
-		this.hasValue$homeDirectory$java$io$File = true;
+		this.isSet$homeDirectory$java$io$File = true;
 		return this;
 	}
 	/**
@@ -62,7 +69,7 @@ public class UserBuilder implements Cloneable {
 	 */
 	public UserBuilder withHomeDirectory( String value) {
 		this.value$homeDirectory$java$lang$String = value;
-		this.hasValue$homeDirectory$java$lang$String = true;
+		this.isSet$homeDirectory$java$lang$String = true;
 		return this;
 	}
 	/**
@@ -72,6 +79,7 @@ public class UserBuilder implements Cloneable {
 	 */
 	public UserBuilder withId( long value) {
 		this.value$id$long = value;
+		this.isSet$id$long = true;
 		return this;
 	}
 	/**
@@ -81,7 +89,7 @@ public class UserBuilder implements Cloneable {
 	 */
 	public UserBuilder withPasswordHash( String value) {
 		this.value$passwordHash$java$lang$String = value;
-		this.hasValue$passwordHash$java$lang$String = true;
+		this.isSet$passwordHash$java$lang$String = true;
 		return this;
 	}
 	/**
@@ -91,6 +99,7 @@ public class UserBuilder implements Cloneable {
 	 */
 	public UserBuilder withName( String value) {
 		this.value$name$java$lang$String = value;
+		this.isSet$name$java$lang$String = true;
 		return this;
 	}
 
@@ -123,13 +132,13 @@ public class UserBuilder implements Cloneable {
 	 */
 	public User build() {
 		User result = new User( this.value$id$long ,this.value$name$java$lang$String ,this.value$created$java$util$Date );
-		if ( this.hasValue$homeDirectory$java$io$File) {    
+		if ( this.isSet$homeDirectory$java$io$File) {    
 			result.setHomeDirectory( this.value$homeDirectory$java$io$File);		
 		}
-		if ( this.hasValue$homeDirectory$java$lang$String) {    
+		if ( this.isSet$homeDirectory$java$lang$String) {    
 			result.setHomeDirectory( this.value$homeDirectory$java$lang$String);		
 		}
-		if ( this.hasValue$passwordHash$java$lang$String) {    
+		if ( this.isSet$passwordHash$java$lang$String) {    
 			result.setPasswordHash( this.value$passwordHash$java$lang$String);		
 		}
 

@@ -7,8 +7,9 @@ import <importName>;
 
 propertyVar(property) ::= <<
 
-protected <property.type.basename> value$<property.fieldname>;
-<if(!property.constructorParameter)>protected boolean hasValue$<property.fieldname> = false;<else>protected final boolean hasValue$<property.fieldname> = true; // mandatory constructor parameter<endif>
+protected <property.type.basename> value$<property.fieldname>; <if(property.constructorParameter)>// mandatory constructor parameter<endif>
+protected boolean isSet$<property.fieldname> = false; 
+
 
 >>
 
@@ -20,21 +21,21 @@ propertyWith(property) ::= <<
  */
 public <model.type.basename> with<property.nameUC>( <property.type.basename> value) {
 	this.value$<property.fieldname> = value;
-<if(!property.constructorParameter)>	this.hasValue$<property.fieldname> = true;<endif>
+	this.isSet$<property.fieldname> = true;
 	return this;
 }
 
 >>
 
 propertySetterCall(property) ::= <<
-if ( this.hasValue$<property.fieldname>) {    
+if ( this.isSet$<property.fieldname>) {    
 	result.<property.setter>( this.value$<property.fieldname>);		
 }
 
 >>
 
 propertyAssignment(property) ::= <<
-if ( this.hasValue$<property.fieldname>) { 
+if ( this.isSet$<property.fieldname>) { 
 	result.<property.name> = this.value$<property.fieldname>;	
 }
 

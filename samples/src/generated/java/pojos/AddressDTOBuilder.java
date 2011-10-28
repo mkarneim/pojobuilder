@@ -14,14 +14,18 @@ import java.lang.String;
  */
 public class AddressDTOBuilder implements Cloneable {
 
-	protected String value$street$java$lang$String;
-	protected final boolean hasValue$street$java$lang$String = true; // mandatory constructor parameter
-	protected String value$postCode$java$lang$String;
-	protected final boolean hasValue$postCode$java$lang$String = true; // mandatory constructor parameter
-	protected String value$city$java$lang$String;
-	protected final boolean hasValue$city$java$lang$String = true; // mandatory constructor parameter
-	protected String value$name$java$lang$String;
-	protected final boolean hasValue$name$java$lang$String = true; // mandatory constructor parameter
+	protected String value$street$java$lang$String; // mandatory constructor parameter
+	protected boolean isSet$street$java$lang$String = false; 
+
+	protected String value$postCode$java$lang$String; // mandatory constructor parameter
+	protected boolean isSet$postCode$java$lang$String = false; 
+
+	protected String value$city$java$lang$String; // mandatory constructor parameter
+	protected boolean isSet$city$java$lang$String = false; 
+
+	protected String value$name$java$lang$String; // mandatory constructor parameter
+	protected boolean isSet$name$java$lang$String = false; 
+
 
 
 	/**
@@ -37,6 +41,7 @@ public class AddressDTOBuilder implements Cloneable {
 	 */
 	public AddressDTOBuilder withStreet( String value) {
 		this.value$street$java$lang$String = value;
+		this.isSet$street$java$lang$String = true;
 		return this;
 	}
 	/**
@@ -46,6 +51,7 @@ public class AddressDTOBuilder implements Cloneable {
 	 */
 	public AddressDTOBuilder withPostCode( String value) {
 		this.value$postCode$java$lang$String = value;
+		this.isSet$postCode$java$lang$String = true;
 		return this;
 	}
 	/**
@@ -55,6 +61,7 @@ public class AddressDTOBuilder implements Cloneable {
 	 */
 	public AddressDTOBuilder withCity( String value) {
 		this.value$city$java$lang$String = value;
+		this.isSet$city$java$lang$String = true;
 		return this;
 	}
 	/**
@@ -64,6 +71,7 @@ public class AddressDTOBuilder implements Cloneable {
 	 */
 	public AddressDTOBuilder withName( String value) {
 		this.value$name$java$lang$String = value;
+		this.isSet$name$java$lang$String = true;
 		return this;
 	}
 
