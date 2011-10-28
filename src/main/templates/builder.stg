@@ -1,4 +1,4 @@
-group builder;
+delimiters "<", ">"
 
 importStatement(importName) ::= <<
 import <importName>;

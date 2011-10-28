@@ -1,28 +1,25 @@
 package net.karneim.pojobuilder;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Writer;
 
 import net.karneim.pojobuilder.model.BuilderM;
 
-import org.antlr.stringtemplate.StringTemplate;
-import org.antlr.stringtemplate.StringTemplateGroup;
+import org.stringtemplate.v4.ST;
+import org.stringtemplate.v4.STGroup;
+import org.stringtemplate.v4.STGroupFile;
 
 public class BuilderSourceGenerator {
-	private StringTemplateGroup group;
+	private STGroup group;
 
 	public BuilderSourceGenerator() {
-		group = new StringTemplateGroup( //
-				new InputStreamReader(BuilderSourceGenerator.class
-						.getClassLoader().getResourceAsStream("builder.st")) //
-		);
+		group = new STGroupFile("builder.stg");
 	}
 
 	public String generate(BuilderM model) {
-		StringTemplate template = group.getInstanceOf("builderClass");
-		template.setAttribute("model", model);
-		return template.toString();
+		ST template = group.getInstanceOf("builderClass");
+		template.add("model", model);
+		return template.render();
 	}
 
 	public void generate(BuilderM model, Writer writer) throws IOException {

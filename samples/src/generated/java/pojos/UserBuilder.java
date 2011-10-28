@@ -1,6 +1,7 @@
 package pojos;
 
 
+
 import java.lang.Object;
 import java.lang.String;
 import java.io.File;
@@ -15,32 +16,26 @@ import pojos.User;
  */
 public class UserBuilder implements Cloneable {
 
-
 	protected Date value$created$java$util$Date;
 	protected final boolean hasValue$created$java$util$Date = true; // mandatory constructor parameter
-
 	protected File value$homeDirectory$java$io$File;
 	protected boolean hasValue$homeDirectory$java$io$File = false;
-
 	protected String value$homeDirectory$java$lang$String;
 	protected boolean hasValue$homeDirectory$java$lang$String = false;
-
 	protected long value$id$long;
 	protected final boolean hasValue$id$long = true; // mandatory constructor parameter
-
 	protected String value$passwordHash$java$lang$String;
 	protected boolean hasValue$passwordHash$java$lang$String = false;
-
 	protected String value$name$java$lang$String;
 	protected final boolean hasValue$name$java$lang$String = true; // mandatory constructor parameter
 
-	
+
 	/**
 	 * Creates a new {@link UserBuilder}.
 	 */
 	public UserBuilder() {
 	}
-	
+
 	/**
 	 * Sets the default value for the {@link User#created} property.
 	 * @param value the default value
@@ -99,7 +94,7 @@ public class UserBuilder implements Cloneable {
 		return this;
 	}
 
-	
+
 	/**
 	 * Returns a clone of this builder.
 	 * @return the clone
@@ -113,7 +108,7 @@ public class UserBuilder implements Cloneable {
 			throw new InternalError(e.getMessage());
 		}        
 	}
-    
+
 	/**
 	 * Returns a clone of this builder.
 	 * @return the clone
@@ -121,7 +116,7 @@ public class UserBuilder implements Cloneable {
 	public UserBuilder but() {
 		return (UserBuilder)clone();
 	}
-	
+
 	/**
 	 * Creates a new {@link User} based on this builders settings.
 	 * @return the created User
@@ -140,6 +135,5 @@ public class UserBuilder implements Cloneable {
 
 		return result;
 	}
-	
 
 }

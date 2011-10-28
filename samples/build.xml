@@ -19,7 +19,7 @@
 	<!-- Filesets and Classpaths  -->
 	<fileset id="libs.fileset" dir="${lib.dir}">
 		<include name="antlr-*.jar" />
-		<include name="stringtemplate-*.jar" />
+		<include name="ST-*.jar" />
 		<include name="pojobuilder-*.jar" />
 		<!-- include any project specific libs here -->
 	</fileset>
@@ -43,7 +43,7 @@
 		</condition>
 		<fail if="libs.fileset.empty">
 			Library directory ${lib.dir} is empty.
-			Please add the required libraries antlr-*.jar, stringtemplate-*.jar, and pojobuilder-*.jar.
+			Please add the required libraries antlr-*.jar, ST-*.jar, and pojobuilder-*.jar.
 		</fail>
 	</target>
 	

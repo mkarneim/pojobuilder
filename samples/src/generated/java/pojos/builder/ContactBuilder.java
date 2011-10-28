@@ -1,6 +1,7 @@
 package pojos.builder;
 
 
+
 import pojos.Contact;
 import java.lang.Object;
 import java.lang.String;
@@ -13,20 +14,18 @@ import java.lang.String;
  */
 public class ContactBuilder implements Cloneable {
 
-
 	protected String value$email$java$lang$String;
 	protected boolean hasValue$email$java$lang$String = false;
-
 	protected String value$name$java$lang$String;
 	protected final boolean hasValue$name$java$lang$String = true; // mandatory constructor parameter
 
-	
+
 	/**
 	 * Creates a new {@link ContactBuilder}.
 	 */
 	public ContactBuilder() {
 	}
-	
+
 	/**
 	 * Sets the default value for the {@link Contact#email} property.
 	 * @param value the default value
@@ -47,7 +46,7 @@ public class ContactBuilder implements Cloneable {
 		return this;
 	}
 
-	
+
 	/**
 	 * Returns a clone of this builder.
 	 * @return the clone
@@ -61,7 +60,7 @@ public class ContactBuilder implements Cloneable {
 			throw new InternalError(e.getMessage());
 		}        
 	}
-    
+
 	/**
 	 * Returns a clone of this builder.
 	 * @return the clone
@@ -69,7 +68,7 @@ public class ContactBuilder implements Cloneable {
 	public ContactBuilder but() {
 		return (ContactBuilder)clone();
 	}
-	
+
 	/**
 	 * Creates a new {@link Contact} based on this builders settings.
 	 * @return the created Contact
@@ -82,6 +81,5 @@ public class ContactBuilder implements Cloneable {
 
 		return result;
 	}
-	
 
 }

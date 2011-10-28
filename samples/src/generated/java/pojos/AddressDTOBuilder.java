@@ -1,6 +1,7 @@
 package pojos;
 
 
+
 import java.lang.Object;
 import pojos.AddressDTO;
 import java.lang.String;
@@ -13,26 +14,22 @@ import java.lang.String;
  */
 public class AddressDTOBuilder implements Cloneable {
 
-
 	protected String value$street$java$lang$String;
 	protected boolean hasValue$street$java$lang$String = false;
-
 	protected String value$postCode$java$lang$String;
 	protected boolean hasValue$postCode$java$lang$String = false;
-
 	protected String value$city$java$lang$String;
 	protected boolean hasValue$city$java$lang$String = false;
-
 	protected String value$name$java$lang$String;
 	protected boolean hasValue$name$java$lang$String = false;
 
-	
+
 	/**
 	 * Creates a new {@link AddressDTOBuilder}.
 	 */
 	public AddressDTOBuilder() {
 	}
-	
+
 	/**
 	 * Sets the default value for the {@link AddressDTO#street} property.
 	 * @param value the default value
@@ -74,7 +71,7 @@ public class AddressDTOBuilder implements Cloneable {
 		return this;
 	}
 
-	
+
 	/**
 	 * Returns a clone of this builder.
 	 * @return the clone
@@ -88,7 +85,7 @@ public class AddressDTOBuilder implements Cloneable {
 			throw new InternalError(e.getMessage());
 		}        
 	}
-    
+
 	/**
 	 * Returns a clone of this builder.
 	 * @return the clone
@@ -96,7 +93,7 @@ public class AddressDTOBuilder implements Cloneable {
 	public AddressDTOBuilder but() {
 		return (AddressDTOBuilder)clone();
 	}
-	
+
 	/**
 	 * Creates a new {@link AddressDTO} based on this builders settings.
 	 * @return the created AddressDTO
@@ -118,6 +115,5 @@ public class AddressDTOBuilder implements Cloneable {
 
 		return result;
 	}
-	
 
 }

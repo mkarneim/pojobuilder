@@ -1,7 +1,7 @@
 Please add the required libraries 
 
   antlr-*.jar
-  stringtemplate-*.jar 
+  ST-*.jar 
   pojobuilder-*.jar
   
 here.
