@@ -124,7 +124,7 @@ You can find a complete sample build script at ["samples/build.xml"].
 
 Do the following to configure the PojoBuilder annotation processor for your project in Eclipse:
 
-* Place the PojoBuilder libraries (antlr-*.jar, stringtemplate-*.jar pojobuilder-*.jar) into your project library directory 
+* Place the PojoBuilder libraries (antlr-*.jar, ST-*.jar pojobuilder-*.jar) into your project library directory 
 * Open your project's properties dialog
 * Navigate to "Java Build Path" tree node
 * Open the "Libraries" tab
@@ -138,7 +138,7 @@ Do the following to configure the PojoBuilder annotation processor for your proj
 * Check "Enable project specific settings"
 * Click "Add JARs..."
 * Add antlr-*.jar
-* Add stringtemplate-*.jar
+* Add ST-*.jar
 * Add pojobuilder-*.jar
 
 Now the annotation processor will be automatically invoked during the Eclipse build cycle.
