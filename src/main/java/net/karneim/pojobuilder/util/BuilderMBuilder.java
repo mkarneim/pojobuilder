@@ -29,16 +29,16 @@ public class BuilderMBuilder implements Cloneable {
 		this.$type = values;
 		return this;
 	}
-	
-	public BuilderMBuilder withSuperType(TypeM value) {
-            this.$superType = new TypeM[] { value };
-            return this;
-        }
 
-        public BuilderMBuilder withSuperTypeFrom(TypeM... values) {
-            this.$superType = values;
-            return this;
-        }
+	public BuilderMBuilder withSuperType(TypeM value) {
+		this.$superType = new TypeM[] { value };
+		return this;
+	}
+
+	public BuilderMBuilder withSuperTypeFrom(TypeM... values) {
+		this.$superType = values;
+		return this;
+	}
 
 	public BuilderMBuilder withProductType(TypeM value) {
 		this.$productType = new TypeM[] { value };
@@ -86,8 +86,8 @@ public class BuilderMBuilder implements Cloneable {
 
 	public BuilderM build() {
 		BuilderM result = new BuilderM($type[buildCounter % $type.length],
-		        $superType[buildCounter % $superType.length],
-		        $productType[buildCounter % $productType.length]);
+				$superType[buildCounter % $superType.length],
+				$productType[buildCounter % $productType.length]);
 		if ($created.length > 0) {
 			result.setCreated($created[buildCounter % $created.length]);
 		}
