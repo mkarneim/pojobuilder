@@ -15,13 +15,13 @@ import java.lang.String;
 public class AddressDTOBuilder implements Cloneable {
 
 	protected String value$street$java$lang$String;
-	protected boolean hasValue$street$java$lang$String = false;
+	protected final boolean hasValue$street$java$lang$String = true; // mandatory constructor parameter
 	protected String value$postCode$java$lang$String;
-	protected boolean hasValue$postCode$java$lang$String = false;
+	protected final boolean hasValue$postCode$java$lang$String = true; // mandatory constructor parameter
 	protected String value$city$java$lang$String;
-	protected boolean hasValue$city$java$lang$String = false;
+	protected final boolean hasValue$city$java$lang$String = true; // mandatory constructor parameter
 	protected String value$name$java$lang$String;
-	protected boolean hasValue$name$java$lang$String = false;
+	protected final boolean hasValue$name$java$lang$String = true; // mandatory constructor parameter
 
 
 	/**
@@ -37,7 +37,6 @@ public class AddressDTOBuilder implements Cloneable {
 	 */
 	public AddressDTOBuilder withStreet( String value) {
 		this.value$street$java$lang$String = value;
-		this.hasValue$street$java$lang$String = true;
 		return this;
 	}
 	/**
@@ -47,7 +46,6 @@ public class AddressDTOBuilder implements Cloneable {
 	 */
 	public AddressDTOBuilder withPostCode( String value) {
 		this.value$postCode$java$lang$String = value;
-		this.hasValue$postCode$java$lang$String = true;
 		return this;
 	}
 	/**
@@ -57,7 +55,6 @@ public class AddressDTOBuilder implements Cloneable {
 	 */
 	public AddressDTOBuilder withCity( String value) {
 		this.value$city$java$lang$String = value;
-		this.hasValue$city$java$lang$String = true;
 		return this;
 	}
 	/**
@@ -67,7 +64,6 @@ public class AddressDTOBuilder implements Cloneable {
 	 */
 	public AddressDTOBuilder withName( String value) {
 		this.value$name$java$lang$String = value;
-		this.hasValue$name$java$lang$String = true;
 		return this;
 	}
 
@@ -99,20 +95,7 @@ public class AddressDTOBuilder implements Cloneable {
 	 * @return the created AddressDTO
 	 */
 	public AddressDTO build() {
-		AddressDTO result = new AddressDTO( );
-		if ( this.hasValue$street$java$lang$String) { 
-			result.street = this.value$street$java$lang$String;	
-		}
-		if ( this.hasValue$postCode$java$lang$String) { 
-			result.postCode = this.value$postCode$java$lang$String;	
-		}
-		if ( this.hasValue$city$java$lang$String) { 
-			result.city = this.value$city$java$lang$String;	
-		}
-		if ( this.hasValue$name$java$lang$String) { 
-			result.name = this.value$name$java$lang$String;	
-		}
-
+		AddressDTO result = new AddressDTO( this.value$name$java$lang$String ,this.value$street$java$lang$String ,this.value$city$java$lang$String ,this.value$postCode$java$lang$String );
 		return result;
 	}
 
