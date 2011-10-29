@@ -53,7 +53,7 @@ builderClass(model) ::= <<
 
 <endif>
 
-<model.imports:importStatement()>
+<model.importTypes:importStatement()>
 
 /**
  * The {@link <model.type.basename>} is a Builder for {@link <model.productType.basename>} objects.

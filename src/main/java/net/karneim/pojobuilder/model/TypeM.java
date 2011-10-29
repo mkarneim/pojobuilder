@@ -1,5 +1,7 @@
 package net.karneim.pojobuilder.model;
 
+import java.util.Set;
+
 import net.karneim.pojobuilder.util.StringUtil;
 
 public class TypeM {
@@ -37,22 +39,6 @@ public class TypeM {
 		return name;
 	}
 
-	public String getImportName() {
-		if (StringUtil.getPackage(name) == null) {
-			return null;
-		}
-		int idx = name.indexOf('[');
-		if (idx > -1) {
-			return name.substring(0, idx);
-		} else {
-			return name;
-		}
-	}
-
-	public boolean isImportable() {
-		return getImportName() != null;
-	}
-
 	public String getBasename() {
 		return StringUtil.getBasename(name);
 	}
@@ -67,6 +53,25 @@ public class TypeM {
 
 	public boolean isObject() {
 		return this.equals(OBJECT);
+	}
+	
+	public void addToImportTypes(Set<String> result) {
+		String importName = getImportName();
+		if (importName != null) {
+			result.add(importName);
+		}
+	}
+	
+	private String getImportName() {
+		if (StringUtil.getPackage(name) == null) {
+			return null;
+		}
+		int idx = name.indexOf('[');
+		if (idx > -1) {
+			return name.substring(0, idx);
+		} else {
+			return name;
+		}
 	}
 
 	public String getDefaultValue() {
@@ -132,5 +137,8 @@ public class TypeM {
 	public String toString() {
 		return "TypeM [name=" + name + ", primitive=" + primitive + "]";
 	}
+
+	
+
 
 }

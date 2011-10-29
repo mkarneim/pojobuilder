@@ -9,6 +9,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface GeneratePojoBuilder {
 	Class withBaseclass() default Object.class;
-
 	String intoPackage() default "#default";
 }

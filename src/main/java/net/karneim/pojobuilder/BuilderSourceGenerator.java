@@ -13,7 +13,7 @@ public class BuilderSourceGenerator {
 	private STGroup group;
 
 	public BuilderSourceGenerator() {
-		group = new STGroupFile("builder.stg");
+		group = new STGroupFile("Builder.stg");
 	}
 
 	public String generate(BuilderM model) {

@@ -75,44 +75,44 @@ public class GeneratePojoBuilderAnnotationProcessor extends AbstractProcessor {
 	}
 
 	public void process(TypeElement productClass) {
-		TypeM builderBaseclassName = getBuilderBaseclass(productClass);
-		String builderPackageName = getBuilderPackage(productClass);
-
 		String productBasename = StringUtil.getBasename(productClass
 				.getQualifiedName().toString());
 
+		TypeM builderBaseclass = getBuilderBaseclass(productClass);
+		String builderPackageName = getBuilderPackage(productClass);
 		String builderClassname = getBuilderClassname(builderPackageName,
 				productBasename);
+
 		System.out.println("builderClassname=" + builderClassname);
 
 		try {
+				BuilderM model = new BuilderMBuilder()
+						.withType(new TypeM(builderClassname))
+						.withSuperType(builderBaseclass)
+						.withProductType(
+								new TypeM(productClass.getQualifiedName()
+										.toString()))
+						.withProperties(
+								findProperties(productClass, builderPackageName))
+						.build();
+				System.out.println("model=" + model);
 
-			BuilderM model = new BuilderMBuilder()
-					.withType(new TypeM(builderClassname))
-					.withSuperType(builderBaseclassName)
-					.withProductType(
-							new TypeM(productClass.getQualifiedName()
-									.toString()))
-					.withProperties(
-							findProperties(productClass, builderPackageName))
-					.build();
-			System.out.println("model=" + model);
+				JavaFileObject jobj = env.getFiler().createSourceFile(
+						builderClassname);
+				Writer writer = jobj.openWriter();
 
-			JavaFileObject jobj = env.getFiler().createSourceFile(
-					builderClassname);
-			Writer writer = jobj.openWriter();
+				generator.generate(model, writer);
 
-			generator.generate(model, writer);
+				writer.close();
+				// processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE,
+				// "Generated class "+builderClassname,
+				// elem);
 
-			writer.close();
-			// processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE,
-			// "Generated class "+builderClassname,
-			// elem);
-
-			// processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR,
-			// "Blablabla",
-			// elem);
-			System.out.println("uri=" + jobj.toUri());
+				// processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR,
+				// "Blablabla",
+				// elem);
+				System.out.println("uri=" + jobj.toUri());
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new UndeclaredThrowableException(e);

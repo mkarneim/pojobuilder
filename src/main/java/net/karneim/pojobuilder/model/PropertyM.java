@@ -1,5 +1,7 @@
 package net.karneim.pojobuilder.model;
 
+import java.util.Set;
+
 public class PropertyM {
 
 	private final String name;
@@ -88,5 +90,6 @@ public class PropertyM {
 				+ getter + ", accessible=" + accessible + ", parameterPos="
 				+ parameterPos + "]";
 	}
+
 
 }

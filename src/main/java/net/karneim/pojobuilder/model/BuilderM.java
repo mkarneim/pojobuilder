@@ -1,79 +1,40 @@
 package net.karneim.pojobuilder.model;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-public class BuilderM {
-	private final TypeM type;
-	private final TypeM superType;
+public class BuilderM extends ClassM {
 	private final TypeM productType;
-	private Date created;
-
 	private List<PropertyM> properties = new ArrayList<PropertyM>();
 
-	public BuilderM(TypeM type, TypeM superType, TypeM productType) {
-		this.type = type;
-		this.superType = superType;
-		this.productType = productType;
-	}
-
-	public void setCreated(Date created) {
-		this.created = created;
-	}
-
-	public Date getCreated() {
-		return created;
-	}
-
-	public String getCreatedString() {
-		return DateFormat.getDateInstance().format(created);
+	public BuilderM(TypeM aType, TypeM aSuperType, TypeM aProductType) {
+		super(aType, aSuperType);
+		this.productType = aProductType;
 	}
 
 	public Collection<PropertyM> getProperties() {
 		return properties;
 	}
 
-	public void setProperties(Collection<PropertyM> properties) {
-		this.properties = new ArrayList<PropertyM>(properties);
-	}
-
-	public TypeM getType() {
-		return type;
-	}
-
-	public TypeM getSuperType() {
-		return superType;
-	}
-
 	public TypeM getProductType() {
 		return productType;
 	}
 
-	public Collection<String> getImports() {
-		Set<String> result = new HashSet<String>();
-		for (PropertyM prop : properties) {
-			if (!prop.getType().isPrimitive()) {
-				addImport(result, prop.getType());
-			}
-		}
-		addImport(result, superType);
-		addImport(result, productType);
-		return result;
+	public void setProperties(Collection<PropertyM> properties) {
+		this.properties = new ArrayList<PropertyM>(properties);
 	}
 
-	private void addImport(Set<String> result, TypeM aType) {
-		String importName = aType.getImportName();
-		if (importName != null) {
-			result.add(importName);
+	public void addToImportTypes(Set<String> result) {
+		super.addToImportTypes(result);
+		for (PropertyM prop : properties) {
+			prop.getType().addToImportTypes(result);
 		}
+		productType.addToImportTypes(result);
 	}
 
 	public Collection<PropertyM> getPropertiesForConstructor() {
@@ -126,9 +87,9 @@ public class BuilderM {
 
 	@Override
 	public String toString() {
-		return "BuilderM [type=" + type + ", superType=" + superType
-				+ ", productType=" + productType + ", created=" + created
-				+ ", properties=" + properties + "]";
+		return "BuilderM [productType=" + productType + ", properties="
+				+ properties + ", getType()=" + getType() + ", getSuperType()="
+				+ getSuperType() + "]";
 	}
 
 }
