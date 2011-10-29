@@ -2,9 +2,9 @@ package samples.with.arrays;
 
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
-import samples.with.baseclass.BaseBuilder;
+import samples.with.builderbaseclass.BaseBuilder;
 
-@GeneratePojoBuilder(withBaseclass=BaseBuilder.class)
+@GeneratePojoBuilder
 public class Order {
     private String customer;
     private Item[] items;

@@ -1,11 +1,10 @@
-package samples.with.arrays;
+package samples.with.innerclasses;
 
 
 
 import java.lang.Object;
+import samples.with.innerclasses.Order;
 import java.lang.String;
-import samples.with.arrays.Item;
-import samples.with.arrays.Order;
 
 
 /**
@@ -17,9 +16,6 @@ public class OrderBuilder implements Cloneable {
 
 	protected String value$customer$java$lang$String; 
 	protected boolean isSet$customer$java$lang$String = false; 
-
-	protected Item[] value$items$samples$with$arrays$Item$; 
-	protected boolean isSet$items$samples$with$arrays$Item$ = false; 
 
 
 
@@ -37,16 +33,6 @@ public class OrderBuilder implements Cloneable {
 	public OrderBuilder withCustomer( String value) {
 		this.value$customer$java$lang$String = value;
 		this.isSet$customer$java$lang$String = true;
-		return this;
-	}
-	/**
-	 * Sets the default value for the {@link Order#items} property.
-	 * @param value the default value
-	 * @return this builder
-	 */
-	public OrderBuilder withItems( Item[] value) {
-		this.value$items$samples$with$arrays$Item$ = value;
-		this.isSet$items$samples$with$arrays$Item$ = true;
 		return this;
 	}
 
@@ -81,9 +67,6 @@ public class OrderBuilder implements Cloneable {
 		Order result = new Order( );
 		if ( this.isSet$customer$java$lang$String) {    
 			result.setCustomer( this.value$customer$java$lang$String);		
-		}
-		if ( this.isSet$items$samples$with$arrays$Item$) {    
-			result.setItems( this.value$items$samples$with$arrays$Item$);		
 		}
 
 		return result;
