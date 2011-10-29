@@ -1,11 +1,11 @@
-package pojos.inheritance;
+package samples.with.superclass;
 
 
 
 import java.lang.Object;
 import java.lang.Long;
 import java.lang.String;
-import pojos.inheritance.Developer;
+import samples.with.superclass.Developer;
 
 
 /**

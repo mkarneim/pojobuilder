@@ -1,9 +1,9 @@
-package pojos;
+package samples.with.constructorproperties;
 
 
 
 import java.lang.Object;
-import pojos.AddressDTO;
+import samples.with.constructorproperties.AddressDTO;
 import java.lang.String;
 
 

@@ -1,4 +1,4 @@
-package pojos;
+package samples.with.constructorproperties;
 
 import java.beans.ConstructorProperties;
 

@@ -1,10 +1,10 @@
-package pojos.sale;
+package samples.with.arrays;
 
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
-import pojos.builder.BaseBuilder;
+import samples.with.baseclass.BaseBuilder;
 
-@GeneratePojoBuilder(withSuperclass=BaseBuilder.class)
+@GeneratePojoBuilder(withBaseclass=BaseBuilder.class)
 public class Order {
     private String customer;
     private Item[] items;

@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.TYPE)
 public @interface GeneratePojoBuilder {
-	Class withSuperclass() default Object.class;
+	Class withBaseclass() default Object.class;
 
 	String intoPackage() default "#default";
 }

@@ -1,10 +1,10 @@
-package pojos;
+package samples;
 
 import java.beans.ConstructorProperties;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
-@GeneratePojoBuilder(intoPackage = "pojos.builder")
+@GeneratePojoBuilder(intoPackage = "samples.builder")
 public class Contact {
     private final String name;
     private String email;

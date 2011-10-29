@@ -1,8 +1,8 @@
-package pojos.builder;
+package samples.builder;
 
 
 
-import pojos.Contact;
+import samples.Contact;
 import java.lang.Object;
 import java.lang.String;
 

@@ -75,7 +75,7 @@ public class GeneratePojoBuilderAnnotationProcessor extends AbstractProcessor {
 	}
 
 	public void process(TypeElement productClass) {
-		TypeM builderSuperclassName = getBuilderSuperclass(productClass);
+		TypeM builderBaseclassName = getBuilderBaseclass(productClass);
 		String builderPackageName = getBuilderPackage(productClass);
 
 		String productBasename = StringUtil.getBasename(productClass
@@ -89,7 +89,7 @@ public class GeneratePojoBuilderAnnotationProcessor extends AbstractProcessor {
 
 			BuilderM model = new BuilderMBuilder()
 					.withType(new TypeM(builderClassname))
-					.withSuperType(builderSuperclassName)
+					.withSuperType(builderBaseclassName)
 					.withProductType(
 							new TypeM(productClass.getQualifiedName()
 									.toString()))
@@ -160,12 +160,12 @@ public class GeneratePojoBuilderAnnotationProcessor extends AbstractProcessor {
 					"Can't find enclosing package of element: " + typeElement);
 	}
 
-	private TypeM getBuilderSuperclass(TypeElement productClass) {
+	private TypeM getBuilderBaseclass(TypeElement productClass) {
 		// GeneratePojoBuilder anno =
 		// productClass.getAnnotation(GeneratePojoBuilder.class);
-		// return anno.withSuperclass().getName();
+		// return anno.withBaseclass().getName();
 		final String annotationName = GeneratePojoBuilder.class.getName();
-		final String attributeName = "withSuperclass";
+		final String attributeName = "withBaseclass";
 
 		String value = getAttributeValue(productClass, annotationName,
 				attributeName);

@@ -1,4 +1,4 @@
-package pojos.inheritance;
+package samples.with.superclass;
 
 import java.beans.ConstructorProperties;
 

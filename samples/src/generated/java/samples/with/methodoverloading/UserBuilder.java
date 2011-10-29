@@ -1,12 +1,12 @@
-package pojos;
+package samples.with.methodoverloading;
 
 
 
 import java.lang.Object;
 import java.lang.String;
 import java.io.File;
+import samples.with.methodoverloading.User;
 import java.util.Date;
-import pojos.User;
 
 
 /**

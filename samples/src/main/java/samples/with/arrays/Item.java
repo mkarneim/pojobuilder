@@ -1,4 +1,4 @@
-package pojos.sale;
+package samples.with.arrays;
 
 
 import java.math.BigDecimal;

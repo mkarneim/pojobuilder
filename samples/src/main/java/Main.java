@@ -1,6 +1,6 @@
 
-import pojos.Contact;
-import pojos.builder.ContactBuilder;
+import samples.Contact;
+import samples.builder.ContactBuilder;
 
 public class Main {
 

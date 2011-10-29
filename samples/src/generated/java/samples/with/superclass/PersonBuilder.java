@@ -1,9 +1,9 @@
-package pojos.inheritance;
+package samples.with.superclass;
 
 
 
+import samples.with.superclass.Person;
 import java.lang.Object;
-import pojos.inheritance.Person;
 import java.lang.Long;
 import java.lang.String;
 

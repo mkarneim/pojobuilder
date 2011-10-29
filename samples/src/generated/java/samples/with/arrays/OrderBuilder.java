@@ -1,11 +1,11 @@
-package pojos.sale;
+package samples.with.arrays;
 
 
 
-import pojos.sale.Order;
-import pojos.sale.Item;
+import samples.with.baseclass.BaseBuilder;
 import java.lang.String;
-import pojos.builder.BaseBuilder;
+import samples.with.arrays.Item;
+import samples.with.arrays.Order;
 
 
 /**
@@ -18,8 +18,8 @@ public class OrderBuilder extends BaseBuilder implements Cloneable {
 	protected String value$customer$java$lang$String; 
 	protected boolean isSet$customer$java$lang$String = false; 
 
-	protected Item[] value$items$pojos$sale$Item$; 
-	protected boolean isSet$items$pojos$sale$Item$ = false; 
+	protected Item[] value$items$samples$with$arrays$Item$; 
+	protected boolean isSet$items$samples$with$arrays$Item$ = false; 
 
 
 
@@ -45,8 +45,8 @@ public class OrderBuilder extends BaseBuilder implements Cloneable {
 	 * @return this builder
 	 */
 	public OrderBuilder withItems( Item[] value) {
-		this.value$items$pojos$sale$Item$ = value;
-		this.isSet$items$pojos$sale$Item$ = true;
+		this.value$items$samples$with$arrays$Item$ = value;
+		this.isSet$items$samples$with$arrays$Item$ = true;
 		return this;
 	}
 
@@ -82,8 +82,8 @@ public class OrderBuilder extends BaseBuilder implements Cloneable {
 		if ( this.isSet$customer$java$lang$String) {    
 			result.setCustomer( this.value$customer$java$lang$String);		
 		}
-		if ( this.isSet$items$pojos$sale$Item$) {    
-			result.setItems( this.value$items$pojos$sale$Item$);		
+		if ( this.isSet$items$samples$with$arrays$Item$) {    
+			result.setItems( this.value$items$samples$with$arrays$Item$);		
 		}
 
 		return result;
