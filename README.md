@@ -147,4 +147,4 @@ Now the annotation processor will be automatically invoked during the Eclipse bu
 [COPYING]: http://github.com/mkarneim/pojobuilder/blob/master/COPYING
 [build.xml]: http://github.com/mkarneim/pojobuilder/blob/master/build.xml
 ["samples/build.xml"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/build.xml
-["samples/src/generated/java/pojos/builder/ContactBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/src/generated/java/pojos/builder/ContactBuilder.java
+["samples/src/generated/java/samples/builder/ContactBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/src/generated/java/samples/builder/ContactBuilder.java
