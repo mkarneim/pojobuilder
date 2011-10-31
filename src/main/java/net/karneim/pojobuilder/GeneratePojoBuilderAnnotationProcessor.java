@@ -60,7 +60,7 @@ public class GeneratePojoBuilderAnnotationProcessor extends AbstractProcessor {
         // System.out.println(GEN + "=" + targetDir);
     }
 
-    private static void enableLogging() {
+    public static void enableLogging() {
         try {
             LogManager.getLogManager().readConfiguration( GeneratePojoBuilderAnnotationProcessor.class.getResourceAsStream("/logging.properties"));
         } catch (SecurityException e) {
