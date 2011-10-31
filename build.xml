@@ -26,6 +26,7 @@
 	<!-- Folders and files -->
 	<property name="src.dir" location="${basedir}/src" />
 	<property name="src.main.java.dir" location="${src.dir}/main/java" />
+	<property name="src.main.resources.dir" location="${src.dir}/main/resources" />
 	<property name="src.main.templates.dir" location="${src.dir}/main/templates" />
 	<property name="src.test.java.dir" location="${src.dir}/test/java" />
 
@@ -93,6 +94,7 @@
 		</pathconvert>
 		<jar destfile="${build.dir}/${classes.jar.name}">
 			<fileset refid="build.classes.fileset" />
+			<fileset dir="${src.main.resources.dir}" />
 			<fileset dir="${build.dir}" includes="META-INF/**" />
 			<service type="javax.annotation.processing.Processor" provider="${annotation.processor.classname}"/>
 			<manifest>

@@ -57,7 +57,7 @@
 		<mkdir dir="${build.classes.dir}" />
 		<javac classpathref="class.path" destdir="${build.classes.dir}">
 			<src path="${src.main.java.dir}" />
-			<!-- This tells the compiler where to place the generated source files -->
+			<!-- This tells the compiler where to place the generated source files -->			
 			<compilerarg line="-s ${src.gen.java.dir}"/>
 		</javac>
 	</target>
