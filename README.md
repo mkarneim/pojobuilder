@@ -55,7 +55,7 @@ Let's have look at the following example POJO:
 		}
 	}
 
-The @GeneratePojoBuilder annotation tells the annotation processor to create a new Java source file with 
+The [@GeneratePojoBuilder] annotation tells the annotation processor to create a new Java source file with 
 the name "ContactBuilder" in the package "samples.builder". If you want the generated builder to use a specific 
 constructor of your POJO then annotate it with @ConstructorProperties and specify the mapping from the 
 parameters to the corresponding properties.
@@ -143,6 +143,7 @@ Do the following to configure the PojoBuilder annotation processor for your proj
 
 Now the annotation processor will be automatically invoked during the Eclipse build cycle.
 
+[@GeneratePojoBuilder]: http://github.com/mkarneim/pojobuilder/blob/master/src/main/java/net/karneim/pojobuilder/GeneratePojoBuilder.java
 [samples]: http://github.com/mkarneim/pojobuilder/blob/master/samples
 [COPYING]: http://github.com/mkarneim/pojobuilder/blob/master/COPYING
 [build.xml]: http://github.com/mkarneim/pojobuilder/blob/master/build.xml
