@@ -30,7 +30,7 @@ For more information on
 Example
 -------
 
-Let's have look at the following example POJO:
+Let's have a look at the following example POJO:
 
 	@GeneratePojoBuilder(intoPackage = "samples.builder")
 	public class Contact { 
