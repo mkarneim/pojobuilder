@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <project name="pojobuilder" default="main" basedir=".">
-	
+
 	<!-- Properties -->
 	<property file="build.local.properties" />
 	<property file="version.properties" />
@@ -14,7 +14,7 @@
 	<property name="project.homepage" value="https://github.com/mkarneim/pojobuilder" />
 	<property name="project.author" value="Michael Karneim" />
 	<property name="annotation.processor.classname" value="net.karneim.pojobuilder.GeneratePojoBuilderAnnotationProcessor" />
-	
+
 
 	<property name="compile.debug" value="true" />
 	<property name="compile.deprecation" value="false" />
@@ -22,7 +22,7 @@
 
 	<!-- Libraries -->
 	<property name="lib.dir" location="${basedir}/lib" />
-	
+
 	<!-- Folders and files -->
 	<property name="src.dir" location="${basedir}/src" />
 	<property name="src.main.java.dir" location="${src.dir}/main/java" />
@@ -34,12 +34,13 @@
 	<property name="build.classes.dir" location="${build.dir}/classes" />
 	<property name="build.dist.dir" location="${build.dir}/dist" />
 	<property name="build.meta-inf.dir" location="${build.dir}/META-INF" />
-	<property name="dist.dir" location="${basedir}/dist" />	
-	
-	
+	<property name="dist.dir" location="${basedir}/dist" />
+
+
 	<property name="dist.zip.name" value="${project.title}-${project.version}.zip" />
-	<property name="classes.jar.name" value="${project.title}-${project.version}.jar" />
-		
+	<property name="full.jar.name" value="${project.title}-${project.version}.jar" />
+	<property name="annotation.jar.name" value="${project.title}-annotation-${project.version}.jar" />
+
 
 	<!--
 	###################################################################
@@ -51,9 +52,12 @@
 		<include name="junit/*.jar" />
 	</fileset>
 
-	<fileset id="build.classes.fileset" dir="${build.classes.dir}" description="Compiled classes without tests.">
+	<fileset id="full.classes.fileset" dir="${build.classes.dir}" description="Compiled classes without tests.">
 		<exclude name="**/*Test.class" />
 	</fileset>
+	<fileset id="annotation.classes.fileset" dir="${build.classes.dir}" description="Compiled classes without tests.">
+		<include name="**/GeneratePojoBuilder.class" />
+	</fileset>		
 
 	<path id="class.path">
 		<pathelement path="${currentenv.classpath}" />
@@ -66,7 +70,7 @@
 	####################         Targets           #################### -->
 	<target name="init">
 		<tstamp>
-			<format property="build.time" pattern="MMM/dd/yyyy hh:mm aa z"/>
+			<format property="build.time" pattern="MMM/dd/yyyy hh:mm aa z" />
 		</tstamp>
 	</target>
 
@@ -84,19 +88,19 @@
 			<fileset dir="${src.main.templates.dir}" />
 		</copy>
 	</target>
-	
-	<target name="create-jar" depends="init, compile" description="Create jar with all classes and copy required libs.">		
+
+	<target name="create-full-jar" depends="init, compile" description="Create jar with all classes and copy required libs.">
 		<pathconvert pathsep=" " dirsep="/" property="manifest.classpath">
 			<path>
 				<fileset refid="stringtemplate.libs.fileset" />
 			</path>
-			<flattenmapper/>
+			<flattenmapper />
 		</pathconvert>
-		<jar destfile="${build.dir}/${classes.jar.name}">
-			<fileset refid="build.classes.fileset" />
+		<jar destfile="${build.dir}/${full.jar.name}">
+			<fileset refid="full.classes.fileset" />
 			<fileset dir="${src.main.resources.dir}" />
 			<fileset dir="${build.dir}" includes="META-INF/**" />
-			<service type="javax.annotation.processing.Processor" provider="${annotation.processor.classname}"/>
+			<service type="javax.annotation.processing.Processor" provider="${annotation.processor.classname}" />
 			<manifest>
 				<attribute name="Build-Date" value="${build.time}" />
 				<attribute name="Author" value="${project.author}" />
@@ -108,16 +112,32 @@
 		</jar>
 	</target>
 
-	<target name="dist" depends="init, clean, create-jar" >
+	<target name="create-annotation-jar" depends="init, compile" description="Create jar with all classes and copy required libs.">		
+		<jar destfile="${build.dir}/${annotation.jar.name}">
+			<fileset refid="annotation.classes.fileset"/>
+			<fileset dir="${src.main.resources.dir}" />
+			<fileset dir="${build.dir}" includes="META-INF/**" />			
+			<manifest>
+				<attribute name="Build-Date" value="${build.time}" />
+				<attribute name="Author" value="${project.author}" />
+				<attribute name="Implementation-Title" value="${project.Title}" />
+				<attribute name="Implementation-Version" value="${project.version}" />
+				<attribute name="Implementation-Vendor" value="${project.homepage}" />				
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="dist" depends="init, clean, create-full-jar, create-annotation-jar">
 		<mkdir dir="${build.dist.dir}" />
 		<copy todir="${build.dist.dir}" flatten="true">
-			<fileset dir="${build.dir}" includes="${classes.jar.name}" />			
+			<fileset dir="${build.dir}" includes="${full.jar.name}" />
+			<fileset dir="${build.dir}" includes="${annotation.jar.name}" />
 			<fileset refid="stringtemplate.libs.fileset" />
 			<fileset dir="${basedir}" includes="COPYING, README*" />
 		</copy>
 		<mkdir dir="${dist.dir}" />
 		<zip destfile="${dist.dir}/${dist.zip.name}" compress="true" filesonly="true">
-			<fileset dir="${build.dist.dir}"/>			
+			<fileset dir="${build.dist.dir}" />
 		</zip>
 	</target>
 
@@ -126,8 +146,8 @@
 			<property name="lib.dir" location="${build.dist.dir}" />
 		</ant>
 	</target>
-	
-	
+
+
 	<target name="main" depends="init, clean, dist, build-samples" description="Builds all project artifacts">
 	</target>
 </project>
