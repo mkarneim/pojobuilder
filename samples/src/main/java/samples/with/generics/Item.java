@@ -19,4 +19,16 @@ public class Item {
 		this.units = units;
 	}
 
+	public String getTitle() {
+		return title;
+	}
+
+	public BigDecimal getPricePerUnit() {
+		return pricePerUnit;
+	}
+
+	public int getUnits() {
+		return units;
+	}
+	
 }

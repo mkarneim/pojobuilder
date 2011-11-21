@@ -7,7 +7,7 @@ import <importName>;
 
 propertyVar(property) ::= <<
 
-protected <property.type.basename> value$<property.fieldname>; <if(property.constructorParameter)>// mandatory constructor parameter<endif>
+protected <property.type.genericTypeSimpleName> value$<property.fieldname>; <if(property.constructorParameter)>// mandatory constructor parameter<endif>
 protected boolean isSet$<property.fieldname> = false; 
 
 
@@ -15,11 +15,11 @@ protected boolean isSet$<property.fieldname> = false;
 
 propertyWith(property) ::= <<
 /**
- * Sets the default value for the {@link <model.productType.basename>#<property.name>} property.
+ * Sets the default value for the {@link <model.productType.simpleName>#<property.name>} property.
  * @param value the default value
  * @return this builder
  */
-public <model.type.basename> with<property.nameUC>( <property.type.basename> value) {
+public <model.type.genericTypeSimpleName> with<property.nameUC>( <property.type.genericTypeSimpleName> value) {
 	this.value$<property.fieldname> = value;
 	this.isSet$<property.fieldname> = true;
 	return this;
@@ -42,7 +42,7 @@ if ( this.isSet$<property.fieldname>) {
 >>
 
 productContructorCall(model) ::= <<
-<model.productType.basename> result = new <model.productType.basename>( <model.propertiesForConstructor:constructorArgument(); separator=",">);
+<model.productType.genericTypeSimpleName> result = new <model.productType.genericTypeSimpleName>( <model.propertiesForConstructor:constructorArgument(); separator=",">);
 >>
 
 constructorArgument(property) ::= <<this.value$<property.fieldname> >>
@@ -56,18 +56,18 @@ builderClass(model) ::= <<
 <model.importTypes:importStatement()>
 
 /**
- * The {@link <model.type.basename>} is a Builder for {@link <model.productType.basename>} objects.
+ * The {@link <model.type.simpleName>} is a Builder for {@link <model.productType.simpleName>} objects.
  *
  * @created <model.created> by the PojoBuilder generator
  */
-public class <model.type.basename> <if(!model.superType.object)>extends <model.superType.basename> <endif>implements Cloneable {
+public class <model.type.genericTypeSimpleNameWithBounds> <if(!model.superType.object)>extends <model.superType.genericTypeSimpleName> <endif>implements Cloneable {
 
 	<model.properties:propertyVar()>
 	
 	/**
-	 * Creates a new {@link <model.type.basename>}.
+	 * Creates a new {@link <model.type.simpleName>}.
 	 */
-	public <model.type.basename>() {
+	public <model.type.simpleName>() {
 	}
 	
 	<model.properties:propertyWith()>
@@ -76,10 +76,10 @@ public class <model.type.basename> <if(!model.superType.object)>extends <model.s
 	 * Returns a clone of this builder.
 	 * @return the clone
 	 */
-	@Override
+	@Override	
 	public Object clone() {
 		try {
-			<model.type.basename> result = (<model.type.basename>)super.clone();
+			Object result = super.clone();
 			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());
@@ -90,15 +90,16 @@ public class <model.type.basename> <if(!model.superType.object)>extends <model.s
 	 * Returns a clone of this builder.
 	 * @return the clone
 	 */
-	public <model.type.basename> but() {
-		return (<model.type.basename>)clone();
+	<if(model.type.generic)>@SuppressWarnings("unchecked")<endif>
+	public <model.type.genericTypeSimpleName> but() {
+		return (<model.type.genericTypeSimpleName>)clone();
 	}
 	
 	/**
-	 * Creates a new {@link <model.productType.basename>} based on this builders settings.
-	 * @return the created <model.productType.basename>
+	 * Creates a new {@link <model.productType.simpleName>} based on this builders settings.
+	 * @return the created <model.productType.simpleName>
 	 */
-	public <model.productType.basename> build() {
+	public <model.productType.genericTypeSimpleName> build() {
 		<model:productContructorCall()>
 		<model.propertiesForSetters:propertySetterCall()>
 		<model.propertiesForAssignment:propertyAssignment()>

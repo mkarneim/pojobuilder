@@ -3,9 +3,7 @@ package samples.with.innerclasses;
 
 
 import samples.with.innerclasses.Order.Item;
-import java.lang.Object;
 import java.math.BigDecimal;
-import java.lang.String;
 
 
 /**
@@ -68,10 +66,10 @@ public class ItemBuilder implements Cloneable {
 	 * Returns a clone of this builder.
 	 * @return the clone
 	 */
-	@Override
+	@Override	
 	public Object clone() {
 		try {
-			ItemBuilder result = (ItemBuilder)super.clone();
+			Object result = super.clone();
 			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());

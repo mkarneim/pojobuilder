@@ -2,8 +2,6 @@ package samples.with.arrays;
 
 
 
-import java.lang.Object;
-import java.lang.String;
 import samples.with.arrays.Item;
 import samples.with.arrays.Order;
 
@@ -55,10 +53,10 @@ public class OrderBuilder implements Cloneable {
 	 * Returns a clone of this builder.
 	 * @return the clone
 	 */
-	@Override
+	@Override	
 	public Object clone() {
 		try {
-			OrderBuilder result = (OrderBuilder)super.clone();
+			Object result = super.clone();
 			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());

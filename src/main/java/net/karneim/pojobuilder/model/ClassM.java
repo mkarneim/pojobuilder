@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 public class ClassM {
@@ -39,7 +40,22 @@ public class ClassM {
 	public final Collection<String> getImportTypes() {
 		Set<String> result = new HashSet<String>();
 		addToImportTypes(result);
+		removeDefaultImports(result);
 		return result;
+	}
+
+	private void removeDefaultImports(Set<String> typeNames) {
+		Iterator<String> it = typeNames.iterator();
+		while (it.hasNext()) {
+			String typeName = it.next();
+			if (isDefaultImport(typeName)) {
+				it.remove();
+			}
+		}
+	}
+
+	private boolean isDefaultImport(String typeName) {
+		return typeName.startsWith("java.lang.");
 	}
 
 	public void addToImportTypes(Set<String> result) {

@@ -3,9 +3,6 @@ package samples.with.superclass;
 
 
 import samples.with.superclass.Person;
-import java.lang.Object;
-import java.lang.Long;
-import java.lang.String;
 
 
 /**
@@ -68,10 +65,10 @@ public class PersonBuilder implements Cloneable {
 	 * Returns a clone of this builder.
 	 * @return the clone
 	 */
-	@Override
+	@Override	
 	public Object clone() {
 		try {
-			PersonBuilder result = (PersonBuilder)super.clone();
+			Object result = super.clone();
 			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());

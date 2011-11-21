@@ -2,8 +2,6 @@ package samples.with.methodoverloading;
 
 
 
-import java.lang.Object;
-import java.lang.String;
 import java.io.File;
 import samples.with.methodoverloading.User;
 import java.util.Date;
@@ -108,10 +106,10 @@ public class UserBuilder implements Cloneable {
 	 * Returns a clone of this builder.
 	 * @return the clone
 	 */
-	@Override
+	@Override	
 	public Object clone() {
 		try {
-			UserBuilder result = (UserBuilder)super.clone();
+			Object result = super.clone();
 			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());

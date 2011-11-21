@@ -2,9 +2,7 @@ package samples.with.innerclasses;
 
 
 
-import java.lang.Object;
 import samples.with.innerclasses.Order;
-import java.lang.String;
 
 
 /**
@@ -41,10 +39,10 @@ public class OrderBuilder implements Cloneable {
 	 * Returns a clone of this builder.
 	 * @return the clone
 	 */
-	@Override
+	@Override	
 	public Object clone() {
 		try {
-			OrderBuilder result = (OrderBuilder)super.clone();
+			Object result = super.clone();
 			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());

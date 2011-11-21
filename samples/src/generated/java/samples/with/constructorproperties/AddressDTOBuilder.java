@@ -2,9 +2,7 @@ package samples.with.constructorproperties;
 
 
 
-import java.lang.Object;
 import samples.with.constructorproperties.AddressDTO;
-import java.lang.String;
 
 
 /**
@@ -80,10 +78,10 @@ public class AddressDTOBuilder implements Cloneable {
 	 * Returns a clone of this builder.
 	 * @return the clone
 	 */
-	@Override
+	@Override	
 	public Object clone() {
 		try {
-			AddressDTOBuilder result = (AddressDTOBuilder)super.clone();
+			Object result = super.clone();
 			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());

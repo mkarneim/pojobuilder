@@ -2,9 +2,6 @@ package samples.with.superclass;
 
 
 
-import java.lang.Object;
-import java.lang.Long;
-import java.lang.String;
 import samples.with.superclass.Developer;
 
 
@@ -68,10 +65,10 @@ public class DeveloperBuilder implements Cloneable {
 	 * Returns a clone of this builder.
 	 * @return the clone
 	 */
-	@Override
+	@Override	
 	public Object clone() {
 		try {
-			DeveloperBuilder result = (DeveloperBuilder)super.clone();
+			Object result = super.clone();
 			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());

@@ -1,8 +1,10 @@
 package net.karneim.pojobuilder.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
-import net.karneim.pojobuilder.util.StringUtil;
+import net.karneim.pojobuilder.util.TypeUtil;
 
 public class TypeM {
 	public static final TypeM BOOLEAN_TYPE = new TypeM("boolean", true);
@@ -13,38 +15,86 @@ public class TypeM {
 	public static final TypeM LONG_TYPE = new TypeM("long", true);
 	public static final TypeM FLOAT_TYPE = new TypeM("float", true);
 	public static final TypeM DOUBLE_TYPE = new TypeM("double", true);
+	public static final TypeM VOID_TYPE = new TypeM("void", true);
 
 	private static final TypeM[] primitives = new TypeM[] { BOOLEAN_TYPE,
 			CHAR_TYPE, BYTE_TYPE, SHORT_TYPE, INT_TYPE, LONG_TYPE, FLOAT_TYPE,
-			DOUBLE_TYPE };
+			DOUBLE_TYPE, VOID_TYPE };
 
 	public static TypeM OBJECT = new TypeM("java.lang.Object");
 
-	private final String name;
+	private final String qualifiedName;
 	private final boolean primitive;
+	private final List<TypeParameterM> typeParameters = new ArrayList<TypeParameterM>();
 
-	public TypeM(String classname) {
+	public TypeM(String aQualifiedName) {
 		super();
-		this.name = classname;
+		this.qualifiedName = aQualifiedName;
 		this.primitive = false;
 	}
 
-	private TypeM(String classname, boolean isPrimitve) {
+	private TypeM(String aClassname, boolean isPrimitve) {
 		super();
-		this.name = classname;
+		this.qualifiedName = aClassname;
 		this.primitive = isPrimitve;
 	}
 
-	public String getName() {
-		return name;
+	public List<TypeParameterM> getTypeParameters() {
+		return typeParameters;
 	}
 
-	public String getBasename() {
-		return StringUtil.getBasename(name);
+	public String getQualifiedName() {
+		return qualifiedName;
+	}
+
+	public String getSimpleName() {
+		return TypeUtil.getSimpleName(qualifiedName);
+	}
+
+	public String getGenericTypeSimpleName() {
+		String result = getSimpleName();
+		if (isGeneric()) {
+			StringBuilder b = new StringBuilder();
+
+			for (TypeParameterM param : getTypeParameters()) {
+				if (b.length() > 0) {
+					b.append(", ");
+				}
+				b.append(param.getName());
+			}
+
+			result += "<" + b.toString() + ">";
+		}
+		return result;
+	}
+
+	public String getGenericTypeSimpleNameWithBounds() {
+		String result = getSimpleName();
+		if (isGeneric()) {
+			StringBuilder b = new StringBuilder();
+
+			for (TypeParameterM param : getTypeParameters()) {
+				if (b.length() > 0) {
+					b.append(", ");
+				}
+				b.append(param.getName());
+				if (param.isBounded()) {
+					b.append(" extends ");
+					b.append(param.getBoundsAsString());
+				}
+			}
+
+			result += "<" + b.toString() + ">";
+		}
+		return result;
+	}
+
+	public boolean isGeneric() {
+		return getTypeParameters().isEmpty() == false;
 	}
 
 	public String getPackage() {
-		return StringUtil.getPackage(name);
+		return TypeUtil.getPackage(qualifiedName);
 	}
 
 	public boolean isPrimitive() {
@@ -54,23 +104,28 @@ public class TypeM {
 	public boolean isObject() {
 		return this.equals(OBJECT);
 	}
-	
+
 	public void addToImportTypes(Set<String> result) {
 		String importName = getImportName();
 		if (importName != null) {
 			result.add(importName);
 		}
+		if (isGeneric()) {
+			for (TypeParameterM typeParam : getTypeParameters()) {
+				typeParam.addToImportTypes(result);
+			}
+		}
 	}
-	
+
 	private String getImportName() {
-		if (StringUtil.getPackage(name) == null) {
+		if (TypeUtil.getPackage(qualifiedName) == null) {
 			return null;
 		}
-		int idx = name.indexOf('[');
+		int idx = qualifiedName.indexOf('[');
 		if (idx > -1) {
-			return name.substring(0, idx);
+			return qualifiedName.substring(0, idx);
 		} else {
-			return name;
+			return qualifiedName;
 		}
 	}
 
@@ -100,7 +155,8 @@ public class TypeM {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result
+				+ ((qualifiedName == null) ? 0 : qualifiedName.hashCode());
 		return result;
 	}
 
@@ -113,21 +169,21 @@ public class TypeM {
 		if (getClass() != obj.getClass())
 			return false;
 		TypeM other = (TypeM) obj;
-		if (name == null) {
-			if (other.name != null)
+		if (qualifiedName == null) {
+			if (other.qualifiedName != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!qualifiedName.equals(other.qualifiedName))
 			return false;
 		return true;
 	}
 
 	public static TypeM get(String typename) {
 		for (TypeM p : primitives) {
-			if (p.name.equals(typename)) {
+			if (p.qualifiedName.equals(typename)) {
 				return p;
 			}
 		}
-		if (OBJECT.name.equals(typename)) {
+		if (OBJECT.qualifiedName.equals(typename)) {
 			return OBJECT;
 		}
 		return new TypeM(typename);
@@ -135,10 +191,8 @@ public class TypeM {
 
 	@Override
 	public String toString() {
-		return "TypeM [name=" + name + ", primitive=" + primitive + "]";
+		return "TypeM [name=" + qualifiedName + ", primitive=" + primitive
+				+ "]";
 	}
-
-	
-
 
 }

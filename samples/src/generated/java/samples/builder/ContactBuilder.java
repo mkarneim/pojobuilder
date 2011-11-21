@@ -3,8 +3,6 @@ package samples.builder;
 
 
 import samples.Contact;
-import java.lang.Object;
-import java.lang.String;
 
 
 /**
@@ -54,10 +52,10 @@ public class ContactBuilder implements Cloneable {
 	 * Returns a clone of this builder.
 	 * @return the clone
 	 */
-	@Override
+	@Override	
 	public Object clone() {
 		try {
-			ContactBuilder result = (ContactBuilder)super.clone();
+			Object result = super.clone();
 			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());
