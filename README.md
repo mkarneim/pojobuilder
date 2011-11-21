@@ -59,7 +59,7 @@ Let's have a look at the following example POJO:
 	}
 
 The [@GeneratePojoBuilder] annotation tells the annotation processor to create a new Java source file with 
-the name "ContactBuilder" in the package "samples.builder". If you want the generated builder to use a specific 
+the name "ContactBuilder" into the package "samples.builder". If you want the generated builder to use a specific 
 constructor of your POJO then annotate it with @ConstructorProperties and specify the mapping from the 
 parameters to the corresponding properties.
 
