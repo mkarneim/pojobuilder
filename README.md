@@ -5,9 +5,6 @@ Author: Michael Karneim
 
 Project Homepage: http://github.com/mkarneim/pojobuilder
 
-Download Page: for downloading a binary distribution please visit 
-http://github.com/mkarneim/pojobuilder/archives/master
-
 About
 -----
 
@@ -27,6 +24,11 @@ For more information on
 * test data builders see http://c2.com/cgi/wiki?TestDataBuilder and http://www.natpryce.com/articles/000714.html.
 * the builder pattern see http://en.wikipedia.org/wiki/Builder_pattern. 
 * fluent interface see http://www.martinfowler.com/bliki/FluentInterface.html
+
+Download
+--------
+
+For downloading a binary distribution please visit the [download page].
 
 Example
 -------
@@ -144,6 +146,7 @@ Do the following to configure the PojoBuilder annotation processor for your proj
 
 Now the annotation processor will be automatically invoked during the Eclipse build cycle.
 
+[download page]: http://github.com/mkarneim/pojobuilder/archives/master
 [@GeneratePojoBuilder]: http://github.com/mkarneim/pojobuilder/blob/master/src/main/java/net/karneim/pojobuilder/GeneratePojoBuilder.java
 [samples]: http://github.com/mkarneim/pojobuilder/blob/master/samples
 [COPYING]: http://github.com/mkarneim/pojobuilder/blob/master/COPYING
