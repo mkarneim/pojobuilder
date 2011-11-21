@@ -5,7 +5,8 @@ Author: Michael Karneim
 
 Project Homepage: http://github.com/mkarneim/pojobuilder
 
-Download Page: http://github.com/mkarneim/pojobuilder/archives/master
+Download Page: for downloading a binary distribution please visit 
+http://github.com/mkarneim/pojobuilder/archives/master
 
 About
 -----
