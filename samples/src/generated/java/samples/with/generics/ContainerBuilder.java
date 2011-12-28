@@ -66,6 +66,7 @@ public class ContainerBuilder<T extends Item & Serializable> implements Cloneabl
 	 */
 	public Container<T> build() {
 		Container<T> result = new Container<T>( );
+
 		if ( this.isSet$element$T) {    
 			result.setElement( this.value$element$T);		
 		}

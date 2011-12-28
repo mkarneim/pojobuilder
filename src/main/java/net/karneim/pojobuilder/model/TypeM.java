@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import net.karneim.pojobuilder.util.TypeUtil;
+import net.karneim.pojobuilder.util.ExtendedTypeUtil;
 
 public class TypeM {
 	public static final TypeM BOOLEAN_TYPE = new TypeM("boolean", true);
@@ -48,7 +48,7 @@ public class TypeM {
 	}
 
 	public String getSimpleName() {
-		return TypeUtil.getSimpleName(qualifiedName);
+		return ExtendedTypeUtil.getSimpleName(qualifiedName);
 	}
 
 	public String getGenericTypeSimpleName() {
@@ -94,7 +94,7 @@ public class TypeM {
 	}
 
 	public String getPackage() {
-		return TypeUtil.getPackage(qualifiedName);
+		return ExtendedTypeUtil.getPackage(qualifiedName);
 	}
 
 	public boolean isPrimitive() {
@@ -118,7 +118,7 @@ public class TypeM {
 	}
 
 	private String getImportName() {
-		if (TypeUtil.getPackage(qualifiedName) == null) {
+		if (ExtendedTypeUtil.getPackage(qualifiedName) == null) {
 			return null;
 		}
 		int idx = qualifiedName.indexOf('[');

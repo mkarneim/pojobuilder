@@ -77,6 +77,7 @@ public class ContactBuilder extends BaseBuilder implements Cloneable {
 	 */
 	public Contact build() {
 		Contact result = new Contact( this.value$name$java$lang$String );
+
 		if ( this.isSet$email$java$lang$String) {    
 			result.setEmail( this.value$email$java$lang$String);		
 		}

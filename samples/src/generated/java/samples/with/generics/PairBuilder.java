@@ -77,6 +77,7 @@ public class PairBuilder<A extends Comparable<A>, B extends Number> implements C
 	 */
 	public Pair<A, B> build() {
 		Pair<A, B> result = new Pair<A, B>( );
+
 		if ( this.isSet$valueA$A) {    
 			result.setValueA( this.value$valueA$A);		
 		}

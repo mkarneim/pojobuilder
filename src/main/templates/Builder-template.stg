@@ -42,7 +42,11 @@ if ( this.isSet$<property.fieldname>) {
 >>
 
 productContructorCall(model) ::= <<
+<if(model.usingFactory)>
+<model.productType.genericTypeSimpleName> result = <model.factory.ownerType.simpleName>.<model.factory.methodName>( <model.propertiesForConstructor:constructorArgument(); separator=",">);
+<else>
 <model.productType.genericTypeSimpleName> result = new <model.productType.genericTypeSimpleName>( <model.propertiesForConstructor:constructorArgument(); separator=",">);
+<endif>
 >>
 
 constructorArgument(property) ::= <<this.value$<property.fieldname> >>

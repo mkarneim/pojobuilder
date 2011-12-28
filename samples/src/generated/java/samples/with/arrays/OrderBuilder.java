@@ -77,6 +77,7 @@ public class OrderBuilder implements Cloneable {
 	 */
 	public Order build() {
 		Order result = new Order( );
+
 		if ( this.isSet$customer$java$lang$String) {    
 			result.setCustomer( this.value$customer$java$lang$String);		
 		}

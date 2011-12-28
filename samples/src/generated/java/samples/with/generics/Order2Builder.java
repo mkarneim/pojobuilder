@@ -80,6 +80,7 @@ public class Order2Builder<T extends Item & Serializable> implements Cloneable {
 	 */
 	public Order2<T> build() {
 		Order2<T> result = new Order2<T>( );
+
 		if ( this.isSet$customer$java$lang$String) {    
 			result.setCustomer( this.value$customer$java$lang$String);		
 		}
