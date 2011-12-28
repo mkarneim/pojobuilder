@@ -13,7 +13,7 @@
 	<property name="project.version" value="${version}" />
 	<property name="project.homepage" value="https://github.com/mkarneim/pojobuilder" />
 	<property name="project.author" value="Michael Karneim" />
-	<property name="annotation.processor.classname" value="net.karneim.pojobuilder.GeneratePojoBuilderAnnotationProcessor" />
+	<property name="annotation.processor.classname" value="net.karneim.pojobuilder.AnnotationProcessor" />
 
 
 	<property name="compile.debug" value="true" />

@@ -89,6 +89,7 @@ public class PersonBuilder implements Cloneable {
 	 */
 	public Person build() {
 		Person result = new Person( this.value$id$java$lang$Long ,this.value$artificial$boolean );
+
 		if ( this.isSet$name$java$lang$String) {    
 			result.setName( this.value$name$java$lang$String);		
 		}

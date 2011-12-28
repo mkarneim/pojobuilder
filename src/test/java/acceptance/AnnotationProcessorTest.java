@@ -1,6 +1,6 @@
 package acceptance;
 
-import net.karneim.pojobuilder.GeneratePojoBuilderAnnotationProcessor;
+import net.karneim.pojobuilder.AnnotationProcessor;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -18,9 +18,9 @@ public class AnnotationProcessorTest {
 	public void setupFixture() {
 		// Enable the GeneratePojoBuilderAnnotationProcessor
 		prj.getProcessorClasses().add(
-				GeneratePojoBuilderAnnotationProcessor.class);
+				AnnotationProcessor.class);
 		// Enable Logging
-		GeneratePojoBuilderAnnotationProcessor.enableLogging();
+		AnnotationProcessor.enableLogging();
 	}
 
 	@After

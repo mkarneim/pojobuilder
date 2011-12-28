@@ -89,6 +89,7 @@ public class DeveloperBuilder implements Cloneable {
 	 */
 	public Developer build() {
 		Developer result = new Developer( this.value$id$java$lang$Long );
+
 		if ( this.isSet$languages$java$lang$String$) {    
 			result.setLanguages( this.value$languages$java$lang$String$);		
 		}

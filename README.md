@@ -32,17 +32,23 @@ For downloading a binary distribution please visit the [download page].
 
 Example
 -------
+For some examples please have a look into the [samples] directory.
+
+### Annotating the POJO ###
 
 Let's have a look at the following example POJO:
 
 	@GeneratePojoBuilder(intoPackage = "samples.builder")
-	public class Contact { 
-		private final String name;
+	public class Contact {
+		private final String surname;
+		private final String firstname;
 		private String email;
-	
-		@ConstructorProperties({ "name"})
-		public Contact(String aName) {
-			this.name = aName;
+	    
+		@ConstructorProperties({"surname","firstname"})
+		public Contact(String aSurname, String aFirstname) {
+			super();
+			this.surname = aSurname;
+			this.firstname = aFirstname;
 		}
 	
 		public String getEmail() {
@@ -53,15 +59,19 @@ Let's have a look at the following example POJO:
 			this.email = email;
 		}
 	
-		public String getName() {
-			return name;
+		public String getSurname() {
+			return surname;
+		}
+	
+		public String getFirstname() {
+			return firstname;
 		}
 	}
 
 The [@GeneratePojoBuilder] annotation tells the annotation processor to create a new Java source file with 
-the name "ContactBuilder" into the package "samples.builder". If you want the generated builder to use a specific 
-constructor of your POJO then annotate it with @ConstructorProperties and specify the mapping from the 
-parameters to the corresponding properties.
+the name "ContactBuilder" into the package "samples.builder". If the POJO has no default constructor or if 
+you want the generated builder to use a specific constructor then annotate it with @ConstructorProperties 
+and specify the mapping from the parameters to the corresponding properties.
 
 Have a look at ["samples/src/generated/java/samples/builder/ContactBuilder.java"] to see the generated source code.
 
@@ -69,23 +79,47 @@ Here is an example of how you can use the generated "ContactBuilder" from your c
 
 
 	Contact james = new ContactBuilder()
-		.withName("James Bond")
+		.withSurname("Bond")
+		.withFirstname("James")
 		.withEmail("007@secretservice.org")
-		.build();
+		.build()
 
+### Annotating a Factory Method ###
 
-For more examples please have a look into the [samples] directory.    
+Alternatively, if you can't modify the POJO's source code or if you don't 
+like annotating a POJO, you can annotate a factory method. 
+
+	public class PojoFactory {
+	
+		@GeneratePojoBuilder
+		@PropertyNames({ "firstname", "surname" })
+		public static Contact createContact(String aFirstname, String aSurname) {
+			Contact result = new Contact(aSurname, aFirstname);
+			return result;
+		}
+	}
+
+Please note that the factory method must be *public* and *static*.
+For a factory method with parameters you have to specify a mapping from the parameters to the corresponding POJO properties
+by using the @PropertyNames annotation.
+	    
 
 License
 -------
 
 Read the [COPYING] file.
 
+Dependencies
+------------
+
+* [Java] 6 
+* [ANTLR Parser Generator] 3.3 
+* [StringTemplate Template Engine] 4.0.4 
+
 How To Build
 ------------
 
-For compiling the sources Java 6 is required.
-For building the PojoBuilder library you can use the included Ant build script [build.xml]. 
+If you want to compile the project sources yourself you can use the included Ant build script [build.xml]. 
 
 
 How To Use
@@ -153,3 +187,6 @@ Now the annotation processor will be automatically invoked during the Eclipse bu
 [build.xml]: http://github.com/mkarneim/pojobuilder/blob/master/build.xml
 ["samples/build.xml"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/build.xml
 ["samples/src/generated/java/samples/builder/ContactBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/src/generated/java/samples/builder/ContactBuilder.java
+[Java]: http://www.oracle.com/technetwork/java/
+[ANTLR Parser Generator]: http://www.antlr.org/
+[StringTemplate Template Engine]: http://www.stringtemplate.org/

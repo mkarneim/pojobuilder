@@ -102,6 +102,7 @@ public class AddressDTOBuilder implements Cloneable {
 	 */
 	public AddressDTO build() {
 		AddressDTO result = new AddressDTO( );
+
 		if ( this.isSet$street$java$lang$String) { 
 			result.street = this.value$street$java$lang$String;	
 		}

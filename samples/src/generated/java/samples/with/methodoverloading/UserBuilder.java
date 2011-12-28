@@ -130,6 +130,7 @@ public class UserBuilder implements Cloneable {
 	 */
 	public User build() {
 		User result = new User( this.value$id$long ,this.value$name$java$lang$String ,this.value$created$java$util$Date );
+
 		if ( this.isSet$homeDirectory$java$io$File) {    
 			result.setHomeDirectory( this.value$homeDirectory$java$io$File);		
 		}

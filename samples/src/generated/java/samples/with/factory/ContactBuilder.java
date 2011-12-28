@@ -1,8 +1,9 @@
-package samples.builder;
+package samples.with.factory;
 
 
 
-import samples.Contact;
+import samples.with.factory.Contact;
+import samples.with.factory.PojoFactory;
 
 
 /**
@@ -88,7 +89,7 @@ public class ContactBuilder implements Cloneable {
 	 * @return the created Contact
 	 */
 	public Contact build() {
-		Contact result = new Contact( this.value$surname$java$lang$String ,this.value$firstname$java$lang$String );
+		Contact result = PojoFactory.createContact( this.value$firstname$java$lang$String ,this.value$surname$java$lang$String );
 
 		if ( this.isSet$email$java$lang$String) {    
 			result.setEmail( this.value$email$java$lang$String);		
