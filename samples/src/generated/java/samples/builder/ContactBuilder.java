@@ -88,7 +88,11 @@ public class ContactBuilder implements Cloneable {
 	 * @return the created Contact
 	 */
 	public Contact build() {
+<<<<<<< HEAD
 		Contact result = new Contact( this.value$surname$java$lang$String ,this.value$firstname$java$lang$String );
+=======
+		Contact result = new Contact( this.value$name$java$lang$String );
+>>>>>>> 1fc315b61a33b0dabfe0035a1baa79c1ad3f0c68
 
 		if ( this.isSet$email$java$lang$String) {    
 			result.setEmail( this.value$email$java$lang$String);		

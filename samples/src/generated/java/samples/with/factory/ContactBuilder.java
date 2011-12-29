@@ -13,8 +13,13 @@ import samples.with.factory.PojoFactory;
  */
 public class ContactBuilder implements Cloneable {
 
+<<<<<<< HEAD
 	protected String value$surname$java$lang$String; // mandatory constructor parameter
 	protected boolean isSet$surname$java$lang$String = false; 
+=======
+	protected String value$lastname$java$lang$String; // mandatory constructor parameter
+	protected boolean isSet$lastname$java$lang$String = false; 
+>>>>>>> 1fc315b61a33b0dabfe0035a1baa79c1ad3f0c68
 
 	protected String value$firstname$java$lang$String; // mandatory constructor parameter
 	protected boolean isSet$firstname$java$lang$String = false; 
@@ -31,6 +36,7 @@ public class ContactBuilder implements Cloneable {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Sets the default value for the {@link Contact#surname} property.
 	 * @param value the default value
 	 * @return this builder
@@ -38,6 +44,15 @@ public class ContactBuilder implements Cloneable {
 	public ContactBuilder withSurname( String value) {
 		this.value$surname$java$lang$String = value;
 		this.isSet$surname$java$lang$String = true;
+=======
+	 * Sets the default value for the {@link Contact#lastname} property.
+	 * @param value the default value
+	 * @return this builder
+	 */
+	public ContactBuilder withLastname( String value) {
+		this.value$lastname$java$lang$String = value;
+		this.isSet$lastname$java$lang$String = true;
+>>>>>>> 1fc315b61a33b0dabfe0035a1baa79c1ad3f0c68
 		return this;
 	}
 	/**
@@ -89,7 +104,11 @@ public class ContactBuilder implements Cloneable {
 	 * @return the created Contact
 	 */
 	public Contact build() {
+<<<<<<< HEAD
 		Contact result = PojoFactory.createContact( this.value$firstname$java$lang$String ,this.value$surname$java$lang$String );
+=======
+		Contact result = PojoFactory.createContact( this.value$lastname$java$lang$String ,this.value$firstname$java$lang$String );
+>>>>>>> 1fc315b61a33b0dabfe0035a1baa79c1ad3f0c68
 
 		if ( this.isSet$email$java$lang$String) {    
 			result.setEmail( this.value$email$java$lang$String);		
