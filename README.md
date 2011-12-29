@@ -8,8 +8,7 @@ Project Homepage: http://github.com/mkarneim/pojobuilder
 About
 -----
 
-PojoBuilder is a Java 6 compliant annotation processor that generates a builder class for
-each annotated POJO (Plain Old Java Object). 
+PojoBuilder is a Java 6 compliant annotation processor that generates a builder class for POJOs (Plain Old Java Object). 
 
 The generated builder provides 
 
@@ -128,7 +127,7 @@ How To Use
 Make sure that the pojobuilder-*.jar is included in your project's classpath during compile time.
 During runtime it is not required since the @GeneratePojoBuilder retention policy is SOURCE.
 
-To generate a builder class for a POJO just annotate its class with @GeneratePojoBuilder. 
+To generate a builder class for a POJO just annotate its class or a factory method with @GeneratePojoBuilder.
 
 Then let your project sources be processed by the PojoBuilder annotation processor.
 
