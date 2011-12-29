@@ -8,8 +8,7 @@ Project Homepage: http://github.com/mkarneim/pojobuilder
 About
 -----
 
-PojoBuilder is a Java 6 compliant annotation processor that generates a builder class for
-each annotated POJO (Plain Old Java Object). 
+PojoBuilder is a Java 6 compliant annotation processor that generates a builder class for POJOs (Plain Old Java Object). 
 
 The generated builder provides 
 
@@ -30,8 +29,8 @@ Download
 
 For downloading a binary distribution please visit the [download page].
 
-Example
--------
+Examples
+--------
 For some examples please have a look into the [samples] directory.
 
 ### Annotating the POJO ###
@@ -102,7 +101,8 @@ like annotating a POJO, you can annotate a factory method.
 Please note that the factory method must be *public* and *static*.
 For a factory method with parameters you have to specify a mapping from the parameters to the corresponding POJO properties
 by using the @PropertyNames annotation.
-	    
+
+Have a look at ["samples/src/generated/java/samples/with/factory/ContactBuilder.java"] to see the generated source code.
 
 License
 -------
@@ -128,7 +128,7 @@ How To Use
 Make sure that the pojobuilder-*.jar is included in your project's classpath during compile time.
 During runtime it is not required since the @GeneratePojoBuilder retention policy is SOURCE.
 
-To generate a builder class for a POJO just annotate its class with @GeneratePojoBuilder. 
+To generate a builder class for a POJO just annotate its class or a factory method with @GeneratePojoBuilder.
 
 Then let your project sources be processed by the PojoBuilder annotation processor.
 
@@ -187,6 +187,7 @@ Now the annotation processor will be automatically invoked during the Eclipse bu
 [build.xml]: http://github.com/mkarneim/pojobuilder/blob/master/build.xml
 ["samples/build.xml"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/build.xml
 ["samples/src/generated/java/samples/builder/ContactBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/src/generated/java/samples/builder/ContactBuilder.java
+["samples/src/generated/java/samples/with/factory/ContactBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/src/generated/java/samples/with/factory/ContactBuilder.java
 [Java]: http://www.oracle.com/technetwork/java/
 [ANTLR Parser Generator]: http://www.antlr.org/
 [StringTemplate Template Engine]: http://www.stringtemplate.org/
