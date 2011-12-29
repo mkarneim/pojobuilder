@@ -100,7 +100,7 @@ public class <model.type.genericTypeSimpleNameWithBounds> <if(!model.superType.o
 	}
 	
 	/**
-	 * Creates a new {@link <model.productType.simpleName>} based on this builders settings.
+	 * Creates a new {@link <model.productType.simpleName>} based on this builder's settings.
 	 * @return the created <model.productType.simpleName>
 	 */
 	public <model.productType.genericTypeSimpleName> build() {
