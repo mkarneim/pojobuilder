@@ -30,8 +30,8 @@ Download
 
 For downloading a binary distribution please visit the [download page].
 
-Example
--------
+Examples
+--------
 For some examples please have a look into the [samples] directory.
 
 ### Annotating the POJO ###
