@@ -29,6 +29,18 @@ Download
 
 For downloading a binary distribution please visit the [download page].
 
+License
+-------
+
+Read the [COPYING] file.
+
+Dependencies
+------------
+
+* [Java] 6 
+* [ANTLR Parser Generator] 3.3 
+* [StringTemplate Template Engine] 4.0.4 
+
 Examples
 --------
 For some examples please have a look into the [samples] directory.
@@ -104,24 +116,6 @@ by using the @PropertyNames annotation.
 
 Have a look at ["samples/src/generated/java/samples/with/factory/ContactBuilder.java"] to see the generated source code.
 
-License
--------
-
-Read the [COPYING] file.
-
-Dependencies
-------------
-
-* [Java] 6 
-* [ANTLR Parser Generator] 3.3 
-* [StringTemplate Template Engine] 4.0.4 
-
-How To Build
-------------
-
-If you want to compile the project sources yourself you can use the included Ant build script [build.xml]. 
-
-
 How To Use
 ----------
 
@@ -190,6 +184,12 @@ Do the following to configure the PojoBuilder annotation processor for your proj
 * Add pojobuilder-*.jar
 
 Now the annotation processor will be automatically invoked during the Eclipse build cycle.
+
+How To Build
+------------
+
+If you want to compile the project sources yourself you can use the included Ant build script [build.xml]. 
+
 
 [download page]: http://github.com/mkarneim/pojobuilder/archives/master
 [@GeneratePojoBuilder]: http://github.com/mkarneim/pojobuilder/blob/master/src/main/java/net/karneim/pojobuilder/GeneratePojoBuilder.java
