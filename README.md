@@ -125,7 +125,7 @@ If you want to compile the project sources yourself you can use the included Ant
 How To Use
 ----------
 
-Make sure that the pojobuilder-*.jar is included in your project's classpath during compile time.
+Make sure that the pojobuilder-annotation-*.jar is included in your project's classpath during compile time.
 During runtime it is not required since the @GeneratePojoBuilder retention policy is SOURCE.
 
 To generate a builder class for a POJO just annotate its class or a factory method with @GeneratePojoBuilder.
