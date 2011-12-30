@@ -32,6 +32,7 @@ For downloading a binary distribution please visit the [download page].
 License
 -------
 
+The source code located in the "src" directory is in the PUBLIC DOMAIN. 
 Read the [COPYING] file.
 
 Dependencies
