@@ -143,7 +143,18 @@ To run the annotation processor you either can
 
 Here is a code snippet of an ANT build script that runs the PojoBuilder annotation processor within the javac task. 
 
-
+    <!-- Filesets and Classpaths  -->
+    <fileset id="libs.fileset" dir="${lib.dir}">
+        <include name="antlr-*.jar" />
+        <include name="ST-*.jar" />
+        <include name="pojobuilder-*.jar" />
+        <!-- include any project specific libs here -->
+    </fileset>
+    	
+    <path id="class.path">
+        <fileset refid="libs.fileset" />
+    </path>
+    
     <target name="compile" depends="init" description="Compile java sources and run annotation processor">
     	<mkdir dir="${src.gen.java.dir}" />
     	<mkdir dir="${build.classes.dir}" />
