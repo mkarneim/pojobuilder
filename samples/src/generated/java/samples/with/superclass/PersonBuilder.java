@@ -84,7 +84,7 @@ public class PersonBuilder implements Cloneable {
 	}
 
 	/**
-	 * Creates a new {@link Person} based on this builders settings.
+	 * Creates a new {@link Person} based on this builder's settings.
 	 * @return the created Person
 	 */
 	public Person build() {

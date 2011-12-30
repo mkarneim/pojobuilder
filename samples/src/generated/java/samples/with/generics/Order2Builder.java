@@ -75,7 +75,7 @@ public class Order2Builder<T extends Item & Serializable> implements Cloneable {
 	}
 
 	/**
-	 * Creates a new {@link Order2} based on this builders settings.
+	 * Creates a new {@link Order2} based on this builder's settings.
 	 * @return the created Order2
 	 */
 	public Order2<T> build() {

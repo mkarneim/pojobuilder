@@ -72,7 +72,7 @@ public class PairBuilder<A extends Comparable<A>, B extends Number> implements C
 	}
 
 	/**
-	 * Creates a new {@link Pair} based on this builders settings.
+	 * Creates a new {@link Pair} based on this builder's settings.
 	 * @return the created Pair
 	 */
 	public Pair<A, B> build() {

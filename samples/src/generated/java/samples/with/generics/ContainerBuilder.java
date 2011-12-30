@@ -61,7 +61,7 @@ public class ContainerBuilder<T extends Item & Serializable> implements Cloneabl
 	}
 
 	/**
-	 * Creates a new {@link Container} based on this builders settings.
+	 * Creates a new {@link Container} based on this builder's settings.
 	 * @return the created Container
 	 */
 	public Container<T> build() {

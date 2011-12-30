@@ -85,7 +85,7 @@ public class ContactBuilder implements Cloneable {
 	}
 
 	/**
-	 * Creates a new {@link Contact} based on this builders settings.
+	 * Creates a new {@link Contact} based on this builder's settings.
 	 * @return the created Contact
 	 */
 	public Contact build() {

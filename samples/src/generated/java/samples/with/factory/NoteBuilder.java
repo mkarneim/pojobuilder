@@ -59,7 +59,7 @@ public class NoteBuilder implements Cloneable {
 	}
 
 	/**
-	 * Creates a new {@link Note} based on this builders settings.
+	 * Creates a new {@link Note} based on this builder's settings.
 	 * @return the created Note
 	 */
 	public Note build() {

@@ -85,7 +85,7 @@ public class ItemBuilder implements Cloneable {
 	}
 
 	/**
-	 * Creates a new {@link Item} based on this builders settings.
+	 * Creates a new {@link Item} based on this builder's settings.
 	 * @return the created Item
 	 */
 	public Item build() {

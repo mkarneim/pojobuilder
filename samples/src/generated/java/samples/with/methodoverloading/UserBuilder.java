@@ -125,7 +125,7 @@ public class UserBuilder implements Cloneable {
 	}
 
 	/**
-	 * Creates a new {@link User} based on this builders settings.
+	 * Creates a new {@link User} based on this builder's settings.
 	 * @return the created User
 	 */
 	public User build() {

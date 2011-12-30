@@ -55,8 +55,9 @@
 	<fileset id="full.classes.fileset" dir="${build.classes.dir}" description="Compiled classes without tests.">
 		<exclude name="**/*Test.class" />
 	</fileset>
-	<fileset id="annotation.classes.fileset" dir="${build.classes.dir}" description="Compiled classes without tests.">
+	<fileset id="annotation.classes.fileset" dir="${build.classes.dir}" description="Annotation classes">
 		<include name="**/GeneratePojoBuilder.class" />
+		<include name="**/PropertyNames.class" />
 	</fileset>		
 
 	<path id="class.path">
@@ -89,7 +90,7 @@
 		</copy>
 	</target>
 
-	<target name="create-full-jar" depends="init, compile" description="Create jar with all classes and copy required libs.">
+	<target name="create-classes-jar" depends="init, compile" description="Create jar with all classes without tests">
 		<pathconvert pathsep=" " dirsep="/" property="manifest.classpath">
 			<path>
 				<fileset refid="stringtemplate.libs.fileset" />
@@ -112,7 +113,7 @@
 		</jar>
 	</target>
 
-	<target name="create-annotation-jar" depends="init, compile" description="Create jar with all classes and copy required libs.">		
+	<target name="create-annotations-jar" depends="init, compile" description="Create jar with all annotations">		
 		<jar destfile="${build.dir}/${annotation.jar.name}">
 			<fileset refid="annotation.classes.fileset"/>
 			<fileset dir="${src.main.resources.dir}" />
@@ -127,7 +128,7 @@
 		</jar>
 	</target>
 
-	<target name="dist" depends="init, clean, create-full-jar, create-annotation-jar">
+	<target name="dist" depends="init, clean, create-classes-jar, create-annotations-jar">
 		<mkdir dir="${build.dist.dir}" />
 		<copy todir="${build.dist.dir}" flatten="true">
 			<fileset dir="${build.dir}" includes="${full.jar.name}" />

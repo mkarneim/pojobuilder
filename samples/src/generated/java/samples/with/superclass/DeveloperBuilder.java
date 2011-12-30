@@ -84,7 +84,7 @@ public class DeveloperBuilder implements Cloneable {
 	}
 
 	/**
-	 * Creates a new {@link Developer} based on this builders settings.
+	 * Creates a new {@link Developer} based on this builder's settings.
 	 * @return the created Developer
 	 */
 	public Developer build() {

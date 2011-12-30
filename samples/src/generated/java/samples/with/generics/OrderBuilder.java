@@ -72,7 +72,7 @@ public class OrderBuilder implements Cloneable {
 	}
 
 	/**
-	 * Creates a new {@link Order} based on this builders settings.
+	 * Creates a new {@link Order} based on this builder's settings.
 	 * @return the created Order
 	 */
 	public Order build() {

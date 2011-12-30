@@ -97,7 +97,7 @@ public class AddressDTOBuilder implements Cloneable {
 	}
 
 	/**
-	 * Creates a new {@link AddressDTO} based on this builders settings.
+	 * Creates a new {@link AddressDTO} based on this builder's settings.
 	 * @return the created AddressDTO
 	 */
 	public AddressDTO build() {
