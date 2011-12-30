@@ -111,9 +111,8 @@ like annotating a POJO, you can annotate a factory method.
 		}
 	}
 
-Please note that the factory method must be *public* and *static*.
-For a factory method with parameters you have to specify a mapping from the parameters to the corresponding POJO properties
-by using the @PropertyNames annotation.
+Please note that the factory method must be *public* and *static*. If it has parameters then you need to specify a mapping
+from the parameters to the corresponding POJO properties by using the @PropertyNames annotation.
 
 Have a look at ["samples/src/generated/java/samples/with/factory/ContactBuilder.java"] to see the generated source code.
 
