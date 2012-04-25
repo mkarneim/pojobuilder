@@ -187,8 +187,7 @@ Now the annotation processor will be automatically invoked during the Eclipse bu
 
 How To Build
 ------------
-
-If you want to compile the project sources yourself you can use the included Ant build script [build.xml]. 
+If you want to compile the project sources yourself you can use Maven (see [pom.xml]) or Ant  (see [build.xml]). 
 
 
 [download page]: http://github.com/mkarneim/pojobuilder/archives/master
@@ -196,6 +195,7 @@ If you want to compile the project sources yourself you can use the included Ant
 [samples]: http://github.com/mkarneim/pojobuilder/blob/master/samples
 [COPYING]: http://github.com/mkarneim/pojobuilder/blob/master/COPYING
 [build.xml]: http://github.com/mkarneim/pojobuilder/blob/master/build.xml
+[pom.xml]: http://github.com/mkarneim/pojobuilder/blob/master/pom.xml
 ["samples/build.xml"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/build.xml
 ["samples/src/generated/java/samples/builder/ContactBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/src/generated/java/samples/builder/ContactBuilder.java
 ["samples/src/generated/java/samples/with/factory/ContactBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/src/generated/java/samples/with/factory/ContactBuilder.java
