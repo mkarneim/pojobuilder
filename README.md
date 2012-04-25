@@ -8,7 +8,7 @@ Project Homepage: http://github.com/mkarneim/pojobuilder
 About
 -----
 
-PojoBuilder is a Java 6 compliant annotation processor that generates a builder class for POJOs (Plain Old Java Object). 
+PojoBuilder is a Java 6 compliant annotation processor that generates a fluent builder class for POJOs (Plain Old Java Object). 
 
 The generated builder provides 
 
