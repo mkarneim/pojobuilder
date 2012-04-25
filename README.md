@@ -81,9 +81,9 @@ Let's have a look at the following example POJO:
 	}
 
 The [@GeneratePojoBuilder] annotation tells the annotation processor to create a new Java source file with 
-the name "ContactBuilder" into the package "samples.builder". If the POJO has no default constructor or if 
-you want the generated builder to use a specific constructor then annotate it with @ConstructorProperties 
-and specify the mapping from the parameters to the corresponding properties.
+the name "ContactBuilder" into the package "samples.builder" (the "intoPackage" attribute is optional). 
+If the POJO has no default constructor or if you want the generated builder to use a specific constructor 
+then annotate it with @ConstructorProperties and specify the mapping from the parameters to the corresponding properties.
 
 Have a look at ["samples/src/generated/java/samples/builder/ContactBuilder.java"] to see the generated source code.
 
