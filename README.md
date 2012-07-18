@@ -128,7 +128,7 @@ Then let your project sources be processed by the PojoBuilder annotation process
 
 To run the annotation processor you either can
 
-* use the apt tool to compile your project (see http://download.oracle.com/javase/6/docs/technotes/guides/apt/index.html). 
+* use the javac tool to compile your project using the option "-processor net.karneim.pojobuilder.AnnotationProcessor". 
 * use the javac ant task with a special configuration (see below)
 * or add the PojoBuilder annotation processor to your Eclipse project configuration (see below)
 
