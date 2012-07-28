@@ -1,4 +1,4 @@
-package samples.with.builderpackages.builder;
+package samples.with.builderpackage.builder;
 
 
 

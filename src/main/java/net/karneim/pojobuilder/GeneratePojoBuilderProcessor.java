@@ -53,7 +53,7 @@ public class GeneratePojoBuilderProcessor {
         String productSimpleName = extTypeUtil.getSimpleName(productTypeElem.getQualifiedName().toString());
 
         String builderPackageName = getBuilderPackage(productTypeElem, annotation);
-        String builderClassname = getBuilderClassname(builderPackageName, productSimpleName);
+        String builderClassname = getBuilderClassname(builderPackageName, productSimpleName, annotation);
 
         String baseclassAttribute = getAttributeValue(productTypeElem, AnnotationProcessor.GENERATE_POJO_BUILDER_CLASS.getName(), WITH_BASECLASS_ATTRIBUTE_NAME);
         TypeM builderBaseclass = getBuilderBaseclass(baseclassAttribute);
@@ -90,7 +90,7 @@ public class GeneratePojoBuilderProcessor {
         //
         String productSimpleName = extTypeUtil.getSimpleName(productTypeElem.getQualifiedName().toString());
         String builderPackageName = getBuilderPackage(productTypeElem, annotation);
-        String builderClassname = getBuilderClassname(builderPackageName, productSimpleName);
+        String builderClassname = getBuilderClassname(builderPackageName, productSimpleName, annotation);
 
         String baseclassAttribute = getAttributeValue(execElem, AnnotationProcessor.GENERATE_POJO_BUILDER_CLASS.getName(), WITH_BASECLASS_ATTRIBUTE_NAME);
         TypeM builderBaseclass = getBuilderBaseclass(baseclassAttribute);
@@ -148,8 +148,9 @@ public class GeneratePojoBuilderProcessor {
         }
     }
 
-    private String getBuilderClassname(String packageName, String productSimpleName) {
-        String result = productSimpleName + BUILDER_CLASS_DEFAULT_POSTFIX;
+    private String getBuilderClassname(String packageName, String productSimpleName, GeneratePojoBuilder annotation) {
+    	String namePattern = annotation.withName();
+    	String result = namePattern.replaceAll("\\*", productSimpleName);
         if (packageName != null) {
             result = packageName + "." + result;
         }
@@ -157,18 +158,20 @@ public class GeneratePojoBuilderProcessor {
     }
 
     private String getBuilderPackage(TypeElement productClass, GeneratePojoBuilder annotation) {
-        String packageAttributeValue = annotation.intoPackage();
-        if (PACKAGE_ATTRIBUTE_DEFAULT_VALUE.equals(packageAttributeValue)) {
-            PackageElement packageElement = findPackage(productClass);
+    	String packagePattern = annotation.intoPackage();
+    	if ( packagePattern.contains("*")) {
+    		PackageElement packageElement = findPackage(productClass);
             if (packageElement.isUnnamed()) {
                 return null;
             } else {
-                return packageElement.getQualifiedName().toString();
+                String pojoPackage = packageElement.getQualifiedName().toString();
+                String result = packagePattern.replaceAll("\\*", pojoPackage);
+                return result;
             }
-        } else if ("".equals(packageAttributeValue)) {
+    	} else if ("".equals(packagePattern)) {
             return null;
         } else {
-            return packageAttributeValue;
+            return packagePattern;
         }
     }
 
