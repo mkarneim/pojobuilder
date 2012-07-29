@@ -3,7 +3,6 @@ package net.karneim.pojobuilder.filter;
 
 
 import javax.lang.model.element.ExecutableElement;
-import internal.ExecutableElementFilter;
 import javax.lang.model.element.ElementKind;
 
 
