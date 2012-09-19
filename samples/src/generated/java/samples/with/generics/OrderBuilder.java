@@ -3,6 +3,7 @@ package samples.with.generics;
 
 
 import java.util.List;
+import samples.with.generics.Item;
 import samples.with.generics.Order;
 
 

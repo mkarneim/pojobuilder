@@ -96,8 +96,6 @@ public class GeneratePojoBuilderProcessor {
         TypeM builderBaseclass = getBuilderBaseclass(baseclassAttribute);
         TypeM builderType = new TypeM(builderClassname);
 
-        
-        
         PropertyMap propertyMap = new PropertyMap();
         findProperties(productTypeElem, builderType.getPackage(), propertyMap, false);
         TypeM productType = extTypeUtil.getTypeM(productTypeElem);
