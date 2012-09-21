@@ -1,5 +1,75 @@
 delimiters "<", ">"
 
+builderClass(model) ::= <<
+<if(model.type.package)>package <model.type.package>;
+
+
+<endif>
+
+<model.importTypes:importStatement()>
+
+/**
+ * The {@link <model.type.simpleName>} is a Builder for {@link <model.productType.simpleName>} objects.
+ *
+ * <p>
+ *     Please DO NOT MODIFIY this class
+ *     since it will be overwritten 
+ *     by the PojoBuilder generator.
+ * </p>
+ * @created by the PojoBuilder generator
+ */
+public <if(model.abstractClass)>abstract <endif>class <model.type.genericTypeSimpleNameWithBounds> <if(!model.superType.object)>extends <model.superType.genericTypeSimpleName> <endif>implements Cloneable {
+	protected final <model.selfType.genericTypeSimpleName> self;
+	<model.properties:propertyVar()>
+	
+	/**
+	 * Creates a new {@link <model.type.simpleName>}.
+	 */
+	public <model.type.simpleName>() {
+		self = (<model.selfType.genericTypeSimpleName>)this;
+	}
+	
+	<model.properties:propertyWith()>
+	
+	/**
+	 * Returns a clone of this builder.
+	 * @return the clone
+	 */
+	@Override	
+	public Object clone() {
+		try {
+			Object result = super.clone();
+			return result;
+		} catch (CloneNotSupportedException e) {
+			throw new InternalError(e.getMessage());
+		}        
+	}
+    
+	/**
+	 * Returns a clone of this builder.
+	 * @return the clone
+	 */
+	<if(model.type.generic)>@SuppressWarnings("unchecked")<endif>
+	public <model.selfType.genericTypeSimpleName> but() {
+		return (<model.selfType.genericTypeSimpleName>)clone();
+	}
+	
+	/**
+	 * Creates a new {@link <model.productType.simpleName>} based on this builder's settings.
+	 * @return the created <model.productType.simpleName>
+	 */
+	public <model.productType.genericTypeSimpleName> build() {
+		<model:productContructorCall()>
+		<model.propertiesForSetters:propertySetterCall()>
+		<model.propertiesForAssignment:propertyAssignment()>
+		return result;
+	}
+	
+
+}
+>>
+
+
 importStatement(importName) ::= <<
 import <importName>;
 
@@ -19,10 +89,10 @@ propertyWith(property) ::= <<
  * @param value the default value
  * @return this builder
  */
-public <model.type.genericTypeSimpleName> with<property.nameUC>( <property.type.genericTypeSimpleName> value) {
+public <model.selfType.genericTypeSimpleName> with<property.nameUC>( <property.type.genericTypeSimpleName> value) {
 	this.value$<property.fieldname> = value;
 	this.isSet$<property.fieldname> = true;
-	return this;
+	return self;
 }
 
 >>
@@ -50,66 +120,3 @@ productContructorCall(model) ::= <<
 >>
 
 constructorArgument(property) ::= <<this.value$<property.fieldname> >>
-
-builderClass(model) ::= <<
-<if(model.type.package)>package <model.type.package>;
-
-
-<endif>
-
-<model.importTypes:importStatement()>
-
-/**
- * The {@link <model.type.simpleName>} is a Builder for {@link <model.productType.simpleName>} objects.
- *
- * @created <model.created> by the PojoBuilder generator
- */
-public class <model.type.genericTypeSimpleNameWithBounds> <if(!model.superType.object)>extends <model.superType.genericTypeSimpleName> <endif>implements Cloneable {
-
-	<model.properties:propertyVar()>
-	
-	/**
-	 * Creates a new {@link <model.type.simpleName>}.
-	 */
-	public <model.type.simpleName>() {
-	}
-	
-	<model.properties:propertyWith()>
-	
-	/**
-	 * Returns a clone of this builder.
-	 * @return the clone
-	 */
-	@Override	
-	public Object clone() {
-		try {
-			Object result = super.clone();
-			return result;
-		} catch (CloneNotSupportedException e) {
-			throw new InternalError(e.getMessage());
-		}        
-	}
-    
-	/**
-	 * Returns a clone of this builder.
-	 * @return the clone
-	 */
-	<if(model.type.generic)>@SuppressWarnings("unchecked")<endif>
-	public <model.type.genericTypeSimpleName> but() {
-		return (<model.type.genericTypeSimpleName>)clone();
-	}
-	
-	/**
-	 * Creates a new {@link <model.productType.simpleName>} based on this builder's settings.
-	 * @return the created <model.productType.simpleName>
-	 */
-	public <model.productType.genericTypeSimpleName> build() {
-		<model:productContructorCall()>
-		<model.propertiesForSetters:propertySetterCall()>
-		<model.propertiesForAssignment:propertyAssignment()>
-		return result;
-	}
-	
-
-}
->>

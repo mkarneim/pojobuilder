@@ -8,10 +8,15 @@ import samples.with.name.Contact;
 /**
  * The {@link FluentContactBuilder} is a Builder for {@link Contact} objects.
  *
- * @created  by the PojoBuilder generator
+ * 
+ *     Please DO NOT MODIFIY this class
+ *     since it will be overwritten 
+ *     by the PojoBuilder generator.
+ * 
+ * @created by the PojoBuilder generator
  */
 public class FluentContactBuilder implements Cloneable {
-
+	protected final FluentContactBuilder self;
 	protected String value$surname$java$lang$String; // mandatory constructor parameter
 	protected boolean isSet$surname$java$lang$String = false; 
 
@@ -27,6 +32,7 @@ public class FluentContactBuilder implements Cloneable {
 	 * Creates a new {@link FluentContactBuilder}.
 	 */
 	public FluentContactBuilder() {
+		self = (FluentContactBuilder)this;
 	}
 
 	/**
@@ -37,7 +43,7 @@ public class FluentContactBuilder implements Cloneable {
 	public FluentContactBuilder withSurname( String value) {
 		this.value$surname$java$lang$String = value;
 		this.isSet$surname$java$lang$String = true;
-		return this;
+		return self;
 	}
 	/**
 	 * Sets the default value for the {@link Contact#firstname} property.
@@ -47,7 +53,7 @@ public class FluentContactBuilder implements Cloneable {
 	public FluentContactBuilder withFirstname( String value) {
 		this.value$firstname$java$lang$String = value;
 		this.isSet$firstname$java$lang$String = true;
-		return this;
+		return self;
 	}
 	/**
 	 * Sets the default value for the {@link Contact#email} property.
@@ -57,7 +63,7 @@ public class FluentContactBuilder implements Cloneable {
 	public FluentContactBuilder withEmail( String value) {
 		this.value$email$java$lang$String = value;
 		this.isSet$email$java$lang$String = true;
-		return this;
+		return self;
 	}
 
 

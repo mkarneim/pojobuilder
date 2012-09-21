@@ -8,10 +8,15 @@ import samples.with.innerclasses.Order;
 /**
  * The {@link OrderBuilder} is a Builder for {@link Order} objects.
  *
- * @created  by the PojoBuilder generator
+ * 
+ *     Please DO NOT MODIFIY this class
+ *     since it will be overwritten 
+ *     by the PojoBuilder generator.
+ * 
+ * @created by the PojoBuilder generator
  */
 public class OrderBuilder implements Cloneable {
-
+	protected final OrderBuilder self;
 	protected String value$customer$java$lang$String; 
 	protected boolean isSet$customer$java$lang$String = false; 
 
@@ -21,6 +26,7 @@ public class OrderBuilder implements Cloneable {
 	 * Creates a new {@link OrderBuilder}.
 	 */
 	public OrderBuilder() {
+		self = (OrderBuilder)this;
 	}
 
 	/**
@@ -31,7 +37,7 @@ public class OrderBuilder implements Cloneable {
 	public OrderBuilder withCustomer( String value) {
 		this.value$customer$java$lang$String = value;
 		this.isSet$customer$java$lang$String = true;
-		return this;
+		return self;
 	}
 
 

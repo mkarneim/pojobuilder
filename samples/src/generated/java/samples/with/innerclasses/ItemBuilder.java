@@ -9,10 +9,15 @@ import java.math.BigDecimal;
 /**
  * The {@link ItemBuilder} is a Builder for {@link Item} objects.
  *
- * @created  by the PojoBuilder generator
+ * 
+ *     Please DO NOT MODIFIY this class
+ *     since it will be overwritten 
+ *     by the PojoBuilder generator.
+ * 
+ * @created by the PojoBuilder generator
  */
 public class ItemBuilder implements Cloneable {
-
+	protected final ItemBuilder self;
 	protected String value$title$java$lang$String; // mandatory constructor parameter
 	protected boolean isSet$title$java$lang$String = false; 
 
@@ -28,6 +33,7 @@ public class ItemBuilder implements Cloneable {
 	 * Creates a new {@link ItemBuilder}.
 	 */
 	public ItemBuilder() {
+		self = (ItemBuilder)this;
 	}
 
 	/**
@@ -38,7 +44,7 @@ public class ItemBuilder implements Cloneable {
 	public ItemBuilder withTitle( String value) {
 		this.value$title$java$lang$String = value;
 		this.isSet$title$java$lang$String = true;
-		return this;
+		return self;
 	}
 	/**
 	 * Sets the default value for the {@link Item#pricePerUnit} property.
@@ -48,7 +54,7 @@ public class ItemBuilder implements Cloneable {
 	public ItemBuilder withPricePerUnit( BigDecimal value) {
 		this.value$pricePerUnit$java$math$BigDecimal = value;
 		this.isSet$pricePerUnit$java$math$BigDecimal = true;
-		return this;
+		return self;
 	}
 	/**
 	 * Sets the default value for the {@link Item#units} property.
@@ -58,7 +64,7 @@ public class ItemBuilder implements Cloneable {
 	public ItemBuilder withUnits( int value) {
 		this.value$units$int = value;
 		this.isSet$units$int = true;
-		return this;
+		return self;
 	}
 
 

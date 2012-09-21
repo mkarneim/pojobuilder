@@ -10,10 +10,15 @@ import java.util.Date;
 /**
  * The {@link UserBuilder} is a Builder for {@link User} objects.
  *
- * @created  by the PojoBuilder generator
+ * 
+ *     Please DO NOT MODIFIY this class
+ *     since it will be overwritten 
+ *     by the PojoBuilder generator.
+ * 
+ * @created by the PojoBuilder generator
  */
 public class UserBuilder implements Cloneable {
-
+	protected final UserBuilder self;
 	protected Date value$created$java$util$Date; // mandatory constructor parameter
 	protected boolean isSet$created$java$util$Date = false; 
 
@@ -38,6 +43,7 @@ public class UserBuilder implements Cloneable {
 	 * Creates a new {@link UserBuilder}.
 	 */
 	public UserBuilder() {
+		self = (UserBuilder)this;
 	}
 
 	/**
@@ -48,7 +54,7 @@ public class UserBuilder implements Cloneable {
 	public UserBuilder withCreated( Date value) {
 		this.value$created$java$util$Date = value;
 		this.isSet$created$java$util$Date = true;
-		return this;
+		return self;
 	}
 	/**
 	 * Sets the default value for the {@link User#homeDirectory} property.
@@ -58,7 +64,7 @@ public class UserBuilder implements Cloneable {
 	public UserBuilder withHomeDirectory( File value) {
 		this.value$homeDirectory$java$io$File = value;
 		this.isSet$homeDirectory$java$io$File = true;
-		return this;
+		return self;
 	}
 	/**
 	 * Sets the default value for the {@link User#homeDirectory} property.
@@ -68,7 +74,7 @@ public class UserBuilder implements Cloneable {
 	public UserBuilder withHomeDirectory( String value) {
 		this.value$homeDirectory$java$lang$String = value;
 		this.isSet$homeDirectory$java$lang$String = true;
-		return this;
+		return self;
 	}
 	/**
 	 * Sets the default value for the {@link User#id} property.
@@ -78,7 +84,7 @@ public class UserBuilder implements Cloneable {
 	public UserBuilder withId( long value) {
 		this.value$id$long = value;
 		this.isSet$id$long = true;
-		return this;
+		return self;
 	}
 	/**
 	 * Sets the default value for the {@link User#passwordHash} property.
@@ -88,7 +94,7 @@ public class UserBuilder implements Cloneable {
 	public UserBuilder withPasswordHash( String value) {
 		this.value$passwordHash$java$lang$String = value;
 		this.isSet$passwordHash$java$lang$String = true;
-		return this;
+		return self;
 	}
 	/**
 	 * Sets the default value for the {@link User#name} property.
@@ -98,7 +104,7 @@ public class UserBuilder implements Cloneable {
 	public UserBuilder withName( String value) {
 		this.value$name$java$lang$String = value;
 		this.isSet$name$java$lang$String = true;
-		return this;
+		return self;
 	}
 
 

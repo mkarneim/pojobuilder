@@ -1,13 +1,13 @@
-package samples.with.builderbaseclass;
+package samples.with.generationgap;
 
 
 
-import samples.with.builderbaseclass.BaseBuilder;
-import samples.with.builderbaseclass.Contact;
+import java.util.List;
+import samples.with.generationgap.Contact;
 
 
 /**
- * The {@link ContactBuilder} is a Builder for {@link Contact} objects.
+ * The {@link AbstractContactBuilder} is a Builder for {@link Contact} objects.
  *
  * 
  *     Please DO NOT MODIFIY this class
@@ -16,10 +16,10 @@ import samples.with.builderbaseclass.Contact;
  * 
  * @created by the PojoBuilder generator
  */
-public class ContactBuilder extends BaseBuilder implements Cloneable {
+public abstract class AbstractContactBuilder implements Cloneable {
 	protected final ContactBuilder self;
-	protected String value$email$java$lang$String; 
-	protected boolean isSet$email$java$lang$String = false; 
+	protected List<String> value$emailAddresses$java$util$List; 
+	protected boolean isSet$emailAddresses$java$util$List = false; 
 
 	protected String value$name$java$lang$String; // mandatory constructor parameter
 	protected boolean isSet$name$java$lang$String = false; 
@@ -27,20 +27,20 @@ public class ContactBuilder extends BaseBuilder implements Cloneable {
 
 
 	/**
-	 * Creates a new {@link ContactBuilder}.
+	 * Creates a new {@link AbstractContactBuilder}.
 	 */
-	public ContactBuilder() {
+	public AbstractContactBuilder() {
 		self = (ContactBuilder)this;
 	}
 
 	/**
-	 * Sets the default value for the {@link Contact#email} property.
+	 * Sets the default value for the {@link Contact#emailAddresses} property.
 	 * @param value the default value
 	 * @return this builder
 	 */
-	public ContactBuilder withEmail( String value) {
-		this.value$email$java$lang$String = value;
-		this.isSet$email$java$lang$String = true;
+	public ContactBuilder withEmailAddresses( List<String> value) {
+		this.value$emailAddresses$java$util$List = value;
+		this.isSet$emailAddresses$java$util$List = true;
 		return self;
 	}
 	/**
@@ -84,8 +84,8 @@ public class ContactBuilder extends BaseBuilder implements Cloneable {
 	public Contact build() {
 		Contact result = new Contact( this.value$name$java$lang$String );
 
-		if ( this.isSet$email$java$lang$String) {    
-			result.setEmail( this.value$email$java$lang$String);		
+		if ( this.isSet$emailAddresses$java$util$List) {    
+			result.setEmailAddresses( this.value$emailAddresses$java$util$List);		
 		}
 
 		return result;

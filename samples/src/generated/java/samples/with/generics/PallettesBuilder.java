@@ -11,10 +11,15 @@ import java.util.Set;
 /**
  * The {@link PallettesBuilder} is a Builder for {@link Pallettes} objects.
  *
- * @created  by the PojoBuilder generator
+ * 
+ *     Please DO NOT MODIFIY this class
+ *     since it will be overwritten 
+ *     by the PojoBuilder generator.
+ * 
+ * @created by the PojoBuilder generator
  */
 public class PallettesBuilder implements Cloneable {
-
+	protected final PallettesBuilder self;
 	protected List<Set<Color>> value$elements$java$util$List; 
 	protected boolean isSet$elements$java$util$List = false; 
 
@@ -24,6 +29,7 @@ public class PallettesBuilder implements Cloneable {
 	 * Creates a new {@link PallettesBuilder}.
 	 */
 	public PallettesBuilder() {
+		self = (PallettesBuilder)this;
 	}
 
 	/**
@@ -34,7 +40,7 @@ public class PallettesBuilder implements Cloneable {
 	public PallettesBuilder withElements( List<Set<Color>> value) {
 		this.value$elements$java$util$List = value;
 		this.isSet$elements$java$util$List = true;
-		return this;
+		return self;
 	}
 
 

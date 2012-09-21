@@ -12,10 +12,16 @@ public class BuilderM extends ClassM {
     private final TypeM productType;
     private FactoryM factory;
     private List<PropertyM> properties = new ArrayList<PropertyM>();
-
-    public BuilderM(TypeM aType, TypeM aSuperType, TypeM aProductType) {
-        super(aType, aSuperType);
+    private TypeM selfType;
+    
+    public BuilderM(TypeM aType, TypeM aSuperType, boolean abstractClass, TypeM aProductType, TypeM selfType) {
+        super(aType, aSuperType, abstractClass);
         this.productType = aProductType;
+        if ( selfType == null) {
+        	this.selfType = aType;
+        } else {
+        	this.selfType = selfType;
+        }
     }
 
     public FactoryM getFactory() {
@@ -38,7 +44,11 @@ public class BuilderM extends ClassM {
         return productType;
     }
 
-    public void setProperties(Collection<PropertyM> properties) {
+    public TypeM getSelfType() {
+		return selfType;
+	}
+
+	public void setProperties(Collection<PropertyM> properties) {
         this.properties = new ArrayList<PropertyM>(properties);
     }
 

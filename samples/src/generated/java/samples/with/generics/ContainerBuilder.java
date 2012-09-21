@@ -10,10 +10,15 @@ import java.io.Serializable;
 /**
  * The {@link ContainerBuilder} is a Builder for {@link Container} objects.
  *
- * @created  by the PojoBuilder generator
+ * 
+ *     Please DO NOT MODIFIY this class
+ *     since it will be overwritten 
+ *     by the PojoBuilder generator.
+ * 
+ * @created by the PojoBuilder generator
  */
 public class ContainerBuilder<T extends Item & Serializable> implements Cloneable {
-
+	protected final ContainerBuilder<T> self;
 	protected T value$element$T; 
 	protected boolean isSet$element$T = false; 
 
@@ -23,6 +28,7 @@ public class ContainerBuilder<T extends Item & Serializable> implements Cloneabl
 	 * Creates a new {@link ContainerBuilder}.
 	 */
 	public ContainerBuilder() {
+		self = (ContainerBuilder<T>)this;
 	}
 
 	/**
@@ -33,7 +39,7 @@ public class ContainerBuilder<T extends Item & Serializable> implements Cloneabl
 	public ContainerBuilder<T> withElement( T value) {
 		this.value$element$T = value;
 		this.isSet$element$T = true;
-		return this;
+		return self;
 	}
 
 

@@ -9,10 +9,15 @@ import samples.with.factory.PojoFactory;
 /**
  * The {@link NoteBuilder} is a Builder for {@link Note} objects.
  *
- * @created  by the PojoBuilder generator
+ * 
+ *     Please DO NOT MODIFIY this class
+ *     since it will be overwritten 
+ *     by the PojoBuilder generator.
+ * 
+ * @created by the PojoBuilder generator
  */
 public class NoteBuilder implements Cloneable {
-
+	protected final NoteBuilder self;
 	protected String value$text$java$lang$String; 
 	protected boolean isSet$text$java$lang$String = false; 
 
@@ -22,6 +27,7 @@ public class NoteBuilder implements Cloneable {
 	 * Creates a new {@link NoteBuilder}.
 	 */
 	public NoteBuilder() {
+		self = (NoteBuilder)this;
 	}
 
 	/**
@@ -32,7 +38,7 @@ public class NoteBuilder implements Cloneable {
 	public NoteBuilder withText( String value) {
 		this.value$text$java$lang$String = value;
 		this.isSet$text$java$lang$String = true;
-		return this;
+		return self;
 	}
 
 

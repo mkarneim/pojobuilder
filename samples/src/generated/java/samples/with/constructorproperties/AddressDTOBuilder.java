@@ -8,10 +8,15 @@ import samples.with.constructorproperties.AddressDTO;
 /**
  * The {@link AddressDTOBuilder} is a Builder for {@link AddressDTO} objects.
  *
- * @created  by the PojoBuilder generator
+ * 
+ *     Please DO NOT MODIFIY this class
+ *     since it will be overwritten 
+ *     by the PojoBuilder generator.
+ * 
+ * @created by the PojoBuilder generator
  */
 public class AddressDTOBuilder implements Cloneable {
-
+	protected final AddressDTOBuilder self;
 	protected String value$street$java$lang$String; // mandatory constructor parameter
 	protected boolean isSet$street$java$lang$String = false; 
 
@@ -30,6 +35,7 @@ public class AddressDTOBuilder implements Cloneable {
 	 * Creates a new {@link AddressDTOBuilder}.
 	 */
 	public AddressDTOBuilder() {
+		self = (AddressDTOBuilder)this;
 	}
 
 	/**
@@ -40,7 +46,7 @@ public class AddressDTOBuilder implements Cloneable {
 	public AddressDTOBuilder withStreet( String value) {
 		this.value$street$java$lang$String = value;
 		this.isSet$street$java$lang$String = true;
-		return this;
+		return self;
 	}
 	/**
 	 * Sets the default value for the {@link AddressDTO#postCode} property.
@@ -50,7 +56,7 @@ public class AddressDTOBuilder implements Cloneable {
 	public AddressDTOBuilder withPostCode( String value) {
 		this.value$postCode$java$lang$String = value;
 		this.isSet$postCode$java$lang$String = true;
-		return this;
+		return self;
 	}
 	/**
 	 * Sets the default value for the {@link AddressDTO#city} property.
@@ -60,7 +66,7 @@ public class AddressDTOBuilder implements Cloneable {
 	public AddressDTOBuilder withCity( String value) {
 		this.value$city$java$lang$String = value;
 		this.isSet$city$java$lang$String = true;
-		return this;
+		return self;
 	}
 	/**
 	 * Sets the default value for the {@link AddressDTO#name} property.
@@ -70,7 +76,7 @@ public class AddressDTOBuilder implements Cloneable {
 	public AddressDTOBuilder withName( String value) {
 		this.value$name$java$lang$String = value;
 		this.isSet$name$java$lang$String = true;
-		return this;
+		return self;
 	}
 
 

@@ -8,10 +8,15 @@ import samples.with.superclass.Developer;
 /**
  * The {@link DeveloperBuilder} is a Builder for {@link Developer} objects.
  *
- * @created  by the PojoBuilder generator
+ * 
+ *     Please DO NOT MODIFIY this class
+ *     since it will be overwritten 
+ *     by the PojoBuilder generator.
+ * 
+ * @created by the PojoBuilder generator
  */
 public class DeveloperBuilder implements Cloneable {
-
+	protected final DeveloperBuilder self;
 	protected Long value$id$java$lang$Long; // mandatory constructor parameter
 	protected boolean isSet$id$java$lang$Long = false; 
 
@@ -27,6 +32,7 @@ public class DeveloperBuilder implements Cloneable {
 	 * Creates a new {@link DeveloperBuilder}.
 	 */
 	public DeveloperBuilder() {
+		self = (DeveloperBuilder)this;
 	}
 
 	/**
@@ -37,7 +43,7 @@ public class DeveloperBuilder implements Cloneable {
 	public DeveloperBuilder withId( Long value) {
 		this.value$id$java$lang$Long = value;
 		this.isSet$id$java$lang$Long = true;
-		return this;
+		return self;
 	}
 	/**
 	 * Sets the default value for the {@link Developer#languages} property.
@@ -47,7 +53,7 @@ public class DeveloperBuilder implements Cloneable {
 	public DeveloperBuilder withLanguages( String[] value) {
 		this.value$languages$java$lang$String$ = value;
 		this.isSet$languages$java$lang$String$ = true;
-		return this;
+		return self;
 	}
 	/**
 	 * Sets the default value for the {@link Developer#name} property.
@@ -57,7 +63,7 @@ public class DeveloperBuilder implements Cloneable {
 	public DeveloperBuilder withName( String value) {
 		this.value$name$java$lang$String = value;
 		this.isSet$name$java$lang$String = true;
-		return this;
+		return self;
 	}
 
 

@@ -10,11 +10,13 @@ import java.util.Set;
 public class ClassM {
 	private final TypeM type;
 	private final TypeM superType;
+	private final boolean abstractClass;
 	private Date created;
 
-	public ClassM(TypeM aType, TypeM aSuperType) {
+	public ClassM(TypeM aType, TypeM aSuperType, boolean abstractClass) {
 		this.type = aType;
 		this.superType = aSuperType;
+		this.abstractClass = abstractClass;
 	}
 
 	public void setCreated(Date created) {
@@ -35,6 +37,10 @@ public class ClassM {
 
 	public TypeM getSuperType() {
 		return superType;
+	}
+
+	public boolean isAbstractClass() {
+		return abstractClass;
 	}
 
 	public final Collection<String> getImportTypes() {

@@ -20,8 +20,11 @@ import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeMirror;
+import javax.naming.NameParser;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
+
+import org.stringtemplate.v4.STGroupFile;
 
 import net.karneim.pojobuilder.model.BuilderM;
 import net.karneim.pojobuilder.model.FactoryM;
@@ -35,27 +38,40 @@ public class GeneratePojoBuilderProcessor {
     private static final String BUILDER_CLASS_DEFAULT_POSTFIX = "Builder";
     private static final String PACKAGE_ATTRIBUTE_DEFAULT_VALUE = "#default";
     private static final String WITH_BASECLASS_ATTRIBUTE_NAME = "withBaseclass";
+    private static final String WITH_GENERATION_GAP_ATTRIBUTE_NAME = "withGenerationGap";
+    
 
     private static final Logger LOG = Logger.getLogger(GeneratePojoBuilderProcessor.class.getName());
 
     private ProcessingEnvironment env;
     private ExtendedTypeUtil extTypeUtil;
-    private BuilderSourceGenerator generator = new BuilderSourceGenerator();
+    private BuilderSourceGenerator generator1;
+    private BuilderSourceGenerator generator2;
 
-    public GeneratePojoBuilderProcessor(ProcessingEnvironment env, BuilderSourceGenerator generator) {
+    public GeneratePojoBuilderProcessor(ProcessingEnvironment env) {
         super();
         this.env = env;
         extTypeUtil = new ExtendedTypeUtil(env.getTypeUtils());
-        this.generator = generator;
+        this.generator1 = new BuilderSourceGenerator(new STGroupFile("Builder-template.stg"));
+        this.generator2 = new BuilderSourceGenerator(new STGroupFile("ManualBuilder-template.stg"));
     }
 
     public void process(TypeElement productTypeElem, GeneratePojoBuilder annotation) {
-        String productSimpleName = extTypeUtil.getSimpleName(productTypeElem.getQualifiedName().toString());
+    	String withGenerationGapAttr = getAttributeValue(productTypeElem, AnnotationProcessor.GENERATE_POJO_BUILDER_CLASS.getName(), WITH_GENERATION_GAP_ATTRIBUTE_NAME);
+        boolean withGenGap = ( withGenerationGapAttr != null && Boolean.parseBoolean(withGenerationGapAttr));
+        
+    	String productSimpleName = extTypeUtil.getSimpleName(productTypeElem.getQualifiedName().toString());
 
         String builderPackageName = getBuilderPackage(productTypeElem, annotation);
-        String builderClassname = getBuilderClassname(builderPackageName, productSimpleName, annotation);
+        String prefix = null;
+        if ( withGenGap) {
+        	prefix = "Abstract";
+        }
+        String builderClassname = getBuilderClassname(builderPackageName, prefix, productSimpleName, annotation);
 
         String baseclassAttribute = getAttributeValue(productTypeElem, AnnotationProcessor.GENERATE_POJO_BUILDER_CLASS.getName(), WITH_BASECLASS_ATTRIBUTE_NAME);
+
+        
         TypeM builderBaseclass = getBuilderBaseclass(baseclassAttribute);
         TypeM builderType = new TypeM(builderClassname);
 
@@ -68,12 +84,39 @@ public class GeneratePojoBuilderProcessor {
                 builderType.getTypeParameters().add(param);
             }
         }
-        BuilderM model = new BuilderMBuilder().withType(builderType).withSuperType(builderBaseclass).withProductType(productType).withProperties(propertyMap.build()).build();
+        BuilderMBuilder builder = new BuilderMBuilder();
+        builder.withType(builderType).withSuperType(builderBaseclass);
+        builder.withProductType(productType).withProperties(propertyMap.build());
+        if ( withGenGap) {
+        	String builderClassname2 = getBuilderClassname(builderPackageName, null, productSimpleName, annotation);
+        	TypeM builderType2 = new TypeM(builderClassname2);
+        	builder.withSelfType(builderType2);
+        	builder.withAbstract(true);
+        }
+        BuilderM model = builder.build();
         LOG.fine(String.format("Generated model:\n%s", model));
-        createSourceCode(model);
+        createSourceCode(generator1, model);
+        
+        
+        
+        if ( withGenGap) {
+        	String builderClassname2 = getBuilderClassname(builderPackageName, null, productSimpleName, annotation);
+        	
+        	TypeElement typeElement2 = env.getElementUtils().getTypeElement(builderClassname2 );
+        	LOG.fine(String.format("typeElement2:\n%s", typeElement2));
+            if ( typeElement2 == null) {
+            	TypeM builderType2 = new TypeM(builderClassname2);
+        		BuilderM model2 = new BuilderMBuilder().withType(builderType2).withSuperType(builderType).withProductType(productType).build();
+            	LOG.fine(String.format("Generated model:\n%s", model2));
+            	createSourceCode(generator2, model2);
+            }
+        }
     }
 
     public void process(ExecutableElement execElem, GeneratePojoBuilder annotation) {
+    	String withGenerationGapAttr = getAttributeValue(execElem, AnnotationProcessor.GENERATE_POJO_BUILDER_CLASS.getName(), WITH_GENERATION_GAP_ATTRIBUTE_NAME);
+        boolean withGenGap = ( withGenerationGapAttr != null && Boolean.parseBoolean(withGenerationGapAttr));
+       
         Set<Modifier> requiredModifiers = new HashSet<Modifier>();
         requiredModifiers.add(Modifier.PUBLIC);
         requiredModifiers.add(Modifier.STATIC);
@@ -90,7 +133,12 @@ public class GeneratePojoBuilderProcessor {
         //
         String productSimpleName = extTypeUtil.getSimpleName(productTypeElem.getQualifiedName().toString());
         String builderPackageName = getBuilderPackage(productTypeElem, annotation);
-        String builderClassname = getBuilderClassname(builderPackageName, productSimpleName, annotation);
+        String prefix = null;
+        if ( withGenGap) {
+        	prefix = "Abstract";
+        }
+        
+        String builderClassname = getBuilderClassname(builderPackageName, prefix, productSimpleName, annotation);
 
         String baseclassAttribute = getAttributeValue(execElem, AnnotationProcessor.GENERATE_POJO_BUILDER_CLASS.getName(), WITH_BASECLASS_ATTRIBUTE_NAME);
         TypeM builderBaseclass = getBuilderBaseclass(baseclassAttribute);
@@ -105,9 +153,34 @@ public class GeneratePojoBuilderProcessor {
             }
         }
         FactoryM factoryM = createFactoryM(execElem, propertyMap);
-        BuilderM model = new BuilderMBuilder().withFactory(factoryM).withType(builderType).withSuperType(builderBaseclass).withProductType(productType).withProperties(propertyMap.build()).build();
+        
+        BuilderMBuilder builder = new BuilderMBuilder();
+        builder.withFactory(factoryM);
+        builder.withType(builderType).withSuperType(builderBaseclass);
+        builder.withProductType(productType).withProperties(propertyMap.build());
+        if ( withGenGap) {
+        	String builderClassname2 = getBuilderClassname(builderPackageName, null, productSimpleName, annotation);
+        	TypeM builderType2 = new TypeM(builderClassname2);
+        	builder.withSelfType(builderType2);
+        	builder.withAbstract(true);
+        }
+        BuilderM model = builder.build();
+        
         LOG.fine(String.format("Generated model:\n%s", model));
-        createSourceCode(model);
+        createSourceCode(generator1, model);
+        
+        if ( withGenGap) {
+        	String builderClassname2 = getBuilderClassname(builderPackageName, null, productSimpleName, annotation);
+        	
+        	TypeElement typeElement2 = env.getElementUtils().getTypeElement(builderClassname2 );
+        	LOG.fine(String.format("typeElement2:\n%s", typeElement2));
+            if ( typeElement2 == null) {
+            	TypeM builderType2 = new TypeM(builderClassname2);
+        		BuilderM model2 = new BuilderMBuilder().withType(builderType2).withSuperType(builderType).withProductType(productType).build();
+            	LOG.fine(String.format("Generated model:\n%s", model2));
+            	createSourceCode(generator2, model2);
+            }
+        }
     }
 
     private FactoryM createFactoryM(ExecutableElement execElem, PropertyMap propertyMap) {
@@ -131,7 +204,7 @@ public class GeneratePojoBuilderProcessor {
         return result;
     }
 
-    private void createSourceCode(BuilderM model) {
+    private void createSourceCode(BuilderSourceGenerator generator, BuilderM model) {
         try {
             String builderClassname = model.getType().getQualifiedName();
             JavaFileObject jobj = env.getFiler().createSourceFile(builderClassname);
@@ -148,9 +221,16 @@ public class GeneratePojoBuilderProcessor {
         }
     }
 
-    private String getBuilderClassname(String packageName, String productSimpleName, GeneratePojoBuilder annotation) {
+    private String getBuilderClassname(String packageName, String prefix, String productSimpleName, GeneratePojoBuilder annotation) {
     	String namePattern = annotation.withName();
+    	return getBuilderClassname(packageName, prefix, productSimpleName, namePattern);
+    }
+    
+    private String getBuilderClassname(String packageName, String prefix, String productSimpleName, String namePattern) {
     	String result = namePattern.replaceAll("\\*", productSimpleName);
+    	if ( prefix != null) {
+    		result = prefix+result;
+    	}
         if (packageName != null) {
             result = packageName + "." + result;
         }

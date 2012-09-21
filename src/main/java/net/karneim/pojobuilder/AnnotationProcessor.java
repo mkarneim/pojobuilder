@@ -32,7 +32,7 @@ public class AnnotationProcessor extends AbstractProcessor {
     @Override
     public void init(ProcessingEnvironment env) {
         super.init(env);
-        this.generatePojoBuilderProcessor = new GeneratePojoBuilderProcessor(env, new BuilderSourceGenerator());
+        this.generatePojoBuilderProcessor = new GeneratePojoBuilderProcessor(env);
         this.env = env;
         // enableLogging();
         // String targetDir = env.getOptions().get(GEN);

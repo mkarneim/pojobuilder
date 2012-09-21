@@ -10,10 +10,15 @@ import samples.with.generics.Project;
 /**
  * The {@link ProjectBuilder} is a Builder for {@link Project} objects.
  *
- * @created  by the PojoBuilder generator
+ * 
+ *     Please DO NOT MODIFIY this class
+ *     since it will be overwritten 
+ *     by the PojoBuilder generator.
+ * 
+ * @created by the PojoBuilder generator
  */
 public class ProjectBuilder implements Cloneable {
-
+	protected final ProjectBuilder self;
 	protected Set<File> value$files$java$util$Set; 
 	protected boolean isSet$files$java$util$Set = false; 
 
@@ -26,6 +31,7 @@ public class ProjectBuilder implements Cloneable {
 	 * Creates a new {@link ProjectBuilder}.
 	 */
 	public ProjectBuilder() {
+		self = (ProjectBuilder)this;
 	}
 
 	/**
@@ -36,7 +42,7 @@ public class ProjectBuilder implements Cloneable {
 	public ProjectBuilder withFiles( Set<File> value) {
 		this.value$files$java$util$Set = value;
 		this.isSet$files$java$util$Set = true;
-		return this;
+		return self;
 	}
 	/**
 	 * Sets the default value for the {@link Project#name} property.
@@ -46,7 +52,7 @@ public class ProjectBuilder implements Cloneable {
 	public ProjectBuilder withName( String value) {
 		this.value$name$java$lang$String = value;
 		this.isSet$name$java$lang$String = true;
-		return this;
+		return self;
 	}
 
 

@@ -8,10 +8,15 @@ import samples.with.superclass.Person;
 /**
  * The {@link PersonBuilder} is a Builder for {@link Person} objects.
  *
- * @created  by the PojoBuilder generator
+ * 
+ *     Please DO NOT MODIFIY this class
+ *     since it will be overwritten 
+ *     by the PojoBuilder generator.
+ * 
+ * @created by the PojoBuilder generator
  */
 public class PersonBuilder implements Cloneable {
-
+	protected final PersonBuilder self;
 	protected boolean value$artificial$boolean; // mandatory constructor parameter
 	protected boolean isSet$artificial$boolean = false; 
 
@@ -27,6 +32,7 @@ public class PersonBuilder implements Cloneable {
 	 * Creates a new {@link PersonBuilder}.
 	 */
 	public PersonBuilder() {
+		self = (PersonBuilder)this;
 	}
 
 	/**
@@ -37,7 +43,7 @@ public class PersonBuilder implements Cloneable {
 	public PersonBuilder withArtificial( boolean value) {
 		this.value$artificial$boolean = value;
 		this.isSet$artificial$boolean = true;
-		return this;
+		return self;
 	}
 	/**
 	 * Sets the default value for the {@link Person#id} property.
@@ -47,7 +53,7 @@ public class PersonBuilder implements Cloneable {
 	public PersonBuilder withId( Long value) {
 		this.value$id$java$lang$Long = value;
 		this.isSet$id$java$lang$Long = true;
-		return this;
+		return self;
 	}
 	/**
 	 * Sets the default value for the {@link Person#name} property.
@@ -57,7 +63,7 @@ public class PersonBuilder implements Cloneable {
 	public PersonBuilder withName( String value) {
 		this.value$name$java$lang$String = value;
 		this.isSet$name$java$lang$String = true;
-		return this;
+		return self;
 	}
 
 

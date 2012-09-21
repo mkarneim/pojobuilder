@@ -14,8 +14,8 @@ public class BuilderSourceGenerator {
     private static final Logger LOG = Logger.getLogger(BuilderSourceGenerator.class.getName());
     private STGroup group;
 
-    public BuilderSourceGenerator() {
-        group = new STGroupFile("Builder-template.stg");
+    public BuilderSourceGenerator(STGroup group) {
+        this.group = group;
     }
 
     public String generate(BuilderM model) {

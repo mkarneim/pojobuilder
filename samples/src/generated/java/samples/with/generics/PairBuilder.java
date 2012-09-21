@@ -8,10 +8,15 @@ import samples.with.generics.Pair;
 /**
  * The {@link PairBuilder} is a Builder for {@link Pair} objects.
  *
- * @created  by the PojoBuilder generator
+ * 
+ *     Please DO NOT MODIFIY this class
+ *     since it will be overwritten 
+ *     by the PojoBuilder generator.
+ * 
+ * @created by the PojoBuilder generator
  */
 public class PairBuilder<A extends Comparable<A>, B extends Number> implements Cloneable {
-
+	protected final PairBuilder<A, B> self;
 	protected A value$valueA$A; 
 	protected boolean isSet$valueA$A = false; 
 
@@ -24,6 +29,7 @@ public class PairBuilder<A extends Comparable<A>, B extends Number> implements C
 	 * Creates a new {@link PairBuilder}.
 	 */
 	public PairBuilder() {
+		self = (PairBuilder<A, B>)this;
 	}
 
 	/**
@@ -34,7 +40,7 @@ public class PairBuilder<A extends Comparable<A>, B extends Number> implements C
 	public PairBuilder<A, B> withValueA( A value) {
 		this.value$valueA$A = value;
 		this.isSet$valueA$A = true;
-		return this;
+		return self;
 	}
 	/**
 	 * Sets the default value for the {@link Pair#valueB} property.
@@ -44,7 +50,7 @@ public class PairBuilder<A extends Comparable<A>, B extends Number> implements C
 	public PairBuilder<A, B> withValueB( B value) {
 		this.value$valueB$B = value;
 		this.isSet$valueB$B = true;
-		return this;
+		return self;
 	}
 
 

@@ -11,10 +11,15 @@ import java.io.Serializable;
 /**
  * The {@link Order2Builder} is a Builder for {@link Order2} objects.
  *
- * @created  by the PojoBuilder generator
+ * 
+ *     Please DO NOT MODIFIY this class
+ *     since it will be overwritten 
+ *     by the PojoBuilder generator.
+ * 
+ * @created by the PojoBuilder generator
  */
 public class Order2Builder<T extends Item & Serializable> implements Cloneable {
-
+	protected final Order2Builder<T> self;
 	protected String value$customer$java$lang$String; 
 	protected boolean isSet$customer$java$lang$String = false; 
 
@@ -27,6 +32,7 @@ public class Order2Builder<T extends Item & Serializable> implements Cloneable {
 	 * Creates a new {@link Order2Builder}.
 	 */
 	public Order2Builder() {
+		self = (Order2Builder<T>)this;
 	}
 
 	/**
@@ -37,7 +43,7 @@ public class Order2Builder<T extends Item & Serializable> implements Cloneable {
 	public Order2Builder<T> withCustomer( String value) {
 		this.value$customer$java$lang$String = value;
 		this.isSet$customer$java$lang$String = true;
-		return this;
+		return self;
 	}
 	/**
 	 * Sets the default value for the {@link Order2#items} property.
@@ -47,7 +53,7 @@ public class Order2Builder<T extends Item & Serializable> implements Cloneable {
 	public Order2Builder<T> withItems( List<T> value) {
 		this.value$items$java$util$List = value;
 		this.isSet$items$java$util$List = true;
-		return this;
+		return self;
 	}
 
 

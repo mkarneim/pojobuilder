@@ -87,5 +87,24 @@ public class AnnotationProcessorTest {
 		Assert.assertNotNull("newClass", newClass);
 	}
 	
+	@Test
+	public void shouldProduceAbstractBuilderAndSubclass() throws Exception {
+		// Given there is an annotated pojo source file
+		prj.addSourceFile("src/test/data/testdata/generationgap/Contact.java");
+
+		// When the compilation is invoked
+		boolean success = prj.compile();
+
+		// Then a new builder class is generated with a matching name
+		Assert.assertTrue("success", success);
+		Class<?> newClass = prj
+				.findClass("testdata.generationgap.ContactBuilder");
+		Assert.assertNotNull("newClass", newClass);
+		Class<?> newAbstractClass = prj
+				.findClass("testdata.generationgap.AbstractContactBuilder");
+		Assert.assertNotNull("newAbstractClass", newAbstractClass);
+
+	}
+	
 
 }

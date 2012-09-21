@@ -9,10 +9,15 @@ import samples.with.factory.PojoFactory;
 /**
  * The {@link ContactBuilder} is a Builder for {@link Contact} objects.
  *
- * @created  by the PojoBuilder generator
+ * 
+ *     Please DO NOT MODIFIY this class
+ *     since it will be overwritten 
+ *     by the PojoBuilder generator.
+ * 
+ * @created by the PojoBuilder generator
  */
 public class ContactBuilder implements Cloneable {
-
+	protected final ContactBuilder self;
 	protected String value$surname$java$lang$String; // mandatory constructor parameter
 	protected boolean isSet$surname$java$lang$String = false; 
 
@@ -28,6 +33,7 @@ public class ContactBuilder implements Cloneable {
 	 * Creates a new {@link ContactBuilder}.
 	 */
 	public ContactBuilder() {
+		self = (ContactBuilder)this;
 	}
 
 	/**
@@ -38,7 +44,7 @@ public class ContactBuilder implements Cloneable {
 	public ContactBuilder withSurname( String value) {
 		this.value$surname$java$lang$String = value;
 		this.isSet$surname$java$lang$String = true;
-		return this;
+		return self;
 	}
 	/**
 	 * Sets the default value for the {@link Contact#firstname} property.
@@ -48,7 +54,7 @@ public class ContactBuilder implements Cloneable {
 	public ContactBuilder withFirstname( String value) {
 		this.value$firstname$java$lang$String = value;
 		this.isSet$firstname$java$lang$String = true;
-		return this;
+		return self;
 	}
 	/**
 	 * Sets the default value for the {@link Contact#email} property.
@@ -58,7 +64,7 @@ public class ContactBuilder implements Cloneable {
 	public ContactBuilder withEmail( String value) {
 		this.value$email$java$lang$String = value;
 		this.isSet$email$java$lang$String = true;
-		return this;
+		return self;
 	}
 
 

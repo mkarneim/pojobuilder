@@ -10,10 +10,15 @@ import java.util.Collection;
 /**
  * The {@link NumberGridBuilder} is a Builder for {@link NumberGrid} objects.
  *
- * @created  by the PojoBuilder generator
+ * 
+ *     Please DO NOT MODIFIY this class
+ *     since it will be overwritten 
+ *     by the PojoBuilder generator.
+ * 
+ * @created by the PojoBuilder generator
  */
 public class NumberGridBuilder<E extends Number> implements Cloneable {
-
+	protected final NumberGridBuilder<E> self;
 	protected List<Collection<E>> value$elements$java$util$List; 
 	protected boolean isSet$elements$java$util$List = false; 
 
@@ -23,6 +28,7 @@ public class NumberGridBuilder<E extends Number> implements Cloneable {
 	 * Creates a new {@link NumberGridBuilder}.
 	 */
 	public NumberGridBuilder() {
+		self = (NumberGridBuilder<E>)this;
 	}
 
 	/**
@@ -33,7 +39,7 @@ public class NumberGridBuilder<E extends Number> implements Cloneable {
 	public NumberGridBuilder<E> withElements( List<Collection<E>> value) {
 		this.value$elements$java$util$List = value;
 		this.isSet$elements$java$util$List = true;
-		return this;
+		return self;
 	}
 
 

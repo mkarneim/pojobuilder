@@ -116,6 +116,24 @@ from the parameters to the corresponding POJO properties by using the @PropertyN
 
 Have a look at ["samples/src/generated/java/samples/with/factory/ContactBuilder.java"] to see the generated source code.
 
+### Directives ###
+The following attributes of the @GeneratePojoBuilder annotation can be used to influence the code generation process.
+
+* `withBaseclass=<Class>`
+    Specifies the base class of the generated builder. The default is `Object.class`.
+* `withName=<String>`
+    Specifies the name of the generated builder. Any asterisk will be
+	replaced with the pojos simple name. Default is `"*Builder"`.
+* `intoPackage=<String>`
+    Specifies the package of the generated builder. Any asterisk will be
+	replaced with the pojos package. Default is `"*"`.
+* `withGenerationGap=<boolean>`
+    Specifies whether the [generation gap pattern] is used. If enabled this
+	will generate two classes (instead of one), of which one contains the
+	generated code. The other class is for handwritten code. To prevent it
+	from being overwritten please move it out of the generated-sources
+	folder. Default is `false`.
+	
 How To Use
 ----------
 
@@ -199,6 +217,7 @@ If you want to compile the project sources yourself you can use Maven (see [pom.
 ["samples/build.xml"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/build.xml
 ["samples/src/generated/java/samples/builder/ContactBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/src/generated/java/samples/builder/ContactBuilder.java
 ["samples/src/generated/java/samples/with/factory/ContactBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/src/generated/java/samples/with/factory/ContactBuilder.java
+[generation gap pattern]: http://martinfowler.com/dslCatalog/generationGap.html
 [Java]: http://www.oracle.com/technetwork/java/
 [ANTLR Parser Generator]: http://www.antlr.org/
 [StringTemplate Template Engine]: http://www.stringtemplate.org/

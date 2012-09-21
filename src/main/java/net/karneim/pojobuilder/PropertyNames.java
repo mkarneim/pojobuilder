@@ -6,7 +6,15 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-@Target(METHOD) @Retention(SOURCE)
+/**
+ * The {@link PropertyNames} annotation is used on a factory method in order to
+ * map the parameters to the property names of the pojo.
+ */
+@Target(METHOD)
+@Retention(SOURCE)
 public @interface PropertyNames {
-    String[] value();
+	/**
+	 * An array of property names that maps the method parameters to the pojo's property names by index.
+	 */
+	String[] value();
 }

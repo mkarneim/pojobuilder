@@ -16,7 +16,10 @@ public class BuilderMBuilder implements Cloneable {
 
     private TypeM[] $type = new TypeM[1];
     private TypeM[] $superType = new TypeM[1];
+    private boolean[] $abstract = new boolean[1];
     private TypeM[] $productType = new TypeM[1];
+    private TypeM[] $selfType = new TypeM[1];
+    
     private Date[] $created = new Date[0];
     private FactoryM $factory;
     private boolean isSet$factory = false;
@@ -33,9 +36,14 @@ public class BuilderMBuilder implements Cloneable {
         this.$type = new TypeM[] { value };
         return this;
     }
-
+    
     public BuilderMBuilder withTypeFrom(TypeM... values) {
         this.$type = values;
+        return this;
+    }
+    
+    public BuilderMBuilder withSelfType(TypeM value) {
+        this.$selfType = new TypeM[] { value };
         return this;
     }
 
@@ -46,6 +54,11 @@ public class BuilderMBuilder implements Cloneable {
 
     public BuilderMBuilder withSuperTypeFrom(TypeM... values) {
         this.$superType = values;
+        return this;
+    }
+    
+    public BuilderMBuilder withAbstract(boolean value) {
+        this.$abstract = new boolean[] { value };
         return this;
     }
 
@@ -94,7 +107,8 @@ public class BuilderMBuilder implements Cloneable {
     }
 
     public BuilderM build() {
-        BuilderM result = new BuilderM($type[buildCounter % $type.length], $superType[buildCounter % $superType.length], $productType[buildCounter % $productType.length]);
+        BuilderM result = new BuilderM($type[buildCounter % $type.length], $superType[buildCounter % $superType.length], $abstract[buildCounter % $abstract.length],
+        		$productType[buildCounter % $productType.length], $selfType[buildCounter % $selfType.length]);
         if ($created.length > 0) {
             result.setCreated($created[buildCounter % $created.length]);
         }
