@@ -29,7 +29,7 @@ public class AnnotationProcessorTest {
 	}
 
 	@Test
-	public void compilationOfJavaSourceProducesClassFile() throws Exception {
+	public void shouldCompileEmptyPojo() throws Exception {
 		// Given there is a pojo source file
 		prj.addSourceFile("src/test/data/testdata/EmptyPojo.java");
 
@@ -43,7 +43,7 @@ public class AnnotationProcessorTest {
 	}
 
 	@Test
-	public void processorCreatesClassForAnnotatedPojo() throws Exception {
+	public void shouldProduceSimpleAnnotatedPojoBuilder() throws Exception {
 		// Given there is an annotated pojo source file
 		prj.addSourceFile("src/test/data/testdata/SimpleAnnotatedPojo.java");
 
@@ -56,5 +56,36 @@ public class AnnotationProcessorTest {
 				.findClass("testdata.SimpleAnnotatedPojoBuilder");
 		Assert.assertNotNull("newClass", newClass);
 	}
+	
+	@Test
+	public void shouldProduceContactBuilder() throws Exception {
+		// Given there is an annotated pojo source file
+		prj.addSourceFile("src/test/data/testdata/Contact.java");
+
+		// When the compilation is invoked
+		boolean success = prj.compile();
+
+		// Then a new builder class is generated with a matching name
+		Assert.assertTrue("success", success);
+		Class<?> newClass = prj
+				.findClass("testdata.ContactBuilder");
+		Assert.assertNotNull("newClass", newClass);
+	}
+	
+	@Test
+	public void shouldProduceContactBuilderIntoTargetPackage() throws Exception {
+		// Given there is an annotated pojo source file
+		prj.addSourceFile("src/test/data/testdata/intoPackage/Contact.java");
+
+		// When the compilation is invoked
+		boolean success = prj.compile();
+
+		// Then a new builder class is generated with a matching name
+		Assert.assertTrue("success", success);
+		Class<?> newClass = prj
+				.findClass("testdata.intoPackage.target.ContactBuilder");
+		Assert.assertNotNull("newClass", newClass);
+	}
+	
 
 }
