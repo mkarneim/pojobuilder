@@ -16,7 +16,7 @@ import samples.with.generics.Pair;
  * @created by the PojoBuilder generator
  */
 public class PairBuilder<A extends Comparable<A>, B extends Number> implements Cloneable {
-	protected final PairBuilder<A, B> self;
+	protected PairBuilder<A, B> self;
 	protected A value$valueA$A; 
 	protected boolean isSet$valueA$A = false; 
 
@@ -61,7 +61,8 @@ public class PairBuilder<A extends Comparable<A>, B extends Number> implements C
 	@Override	
 	public Object clone() {
 		try {
-			Object result = super.clone();
+			PairBuilder<A, B> result = (PairBuilder<A, B>)super.clone();
+			result.self = result;
 			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());

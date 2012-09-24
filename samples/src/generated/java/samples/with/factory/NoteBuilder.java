@@ -17,7 +17,7 @@ import samples.with.factory.PojoFactory;
  * @created by the PojoBuilder generator
  */
 public class NoteBuilder implements Cloneable {
-	protected final NoteBuilder self;
+	protected NoteBuilder self;
 	protected String value$text$java$lang$String; 
 	protected boolean isSet$text$java$lang$String = false; 
 
@@ -49,7 +49,8 @@ public class NoteBuilder implements Cloneable {
 	@Override	
 	public Object clone() {
 		try {
-			Object result = super.clone();
+			NoteBuilder result = (NoteBuilder)super.clone();
+			result.self = result;
 			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());

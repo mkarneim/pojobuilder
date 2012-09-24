@@ -18,7 +18,7 @@ import java.util.Date;
  * @created by the PojoBuilder generator
  */
 public class UserBuilder implements Cloneable {
-	protected final UserBuilder self;
+	protected UserBuilder self;
 	protected Date value$created$java$util$Date; // mandatory constructor parameter
 	protected boolean isSet$created$java$util$Date = false; 
 
@@ -115,7 +115,8 @@ public class UserBuilder implements Cloneable {
 	@Override	
 	public Object clone() {
 		try {
-			Object result = super.clone();
+			UserBuilder result = (UserBuilder)super.clone();
+			result.self = result;
 			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());

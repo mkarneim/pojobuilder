@@ -18,7 +18,7 @@ import samples.with.generics.Order;
  * @created by the PojoBuilder generator
  */
 public class OrderBuilder implements Cloneable {
-	protected final OrderBuilder self;
+	protected OrderBuilder self;
 	protected String value$customer$java$lang$String; 
 	protected boolean isSet$customer$java$lang$String = false; 
 
@@ -63,7 +63,8 @@ public class OrderBuilder implements Cloneable {
 	@Override	
 	public Object clone() {
 		try {
-			Object result = super.clone();
+			OrderBuilder result = (OrderBuilder)super.clone();
+			result.self = result;
 			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());

@@ -17,7 +17,7 @@ import java.math.BigDecimal;
  * @created by the PojoBuilder generator
  */
 public class ItemBuilder implements Cloneable {
-	protected final ItemBuilder self;
+	protected ItemBuilder self;
 	protected String value$title$java$lang$String; // mandatory constructor parameter
 	protected boolean isSet$title$java$lang$String = false; 
 
@@ -75,7 +75,8 @@ public class ItemBuilder implements Cloneable {
 	@Override	
 	public Object clone() {
 		try {
-			Object result = super.clone();
+			ItemBuilder result = (ItemBuilder)super.clone();
+			result.self = result;
 			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());

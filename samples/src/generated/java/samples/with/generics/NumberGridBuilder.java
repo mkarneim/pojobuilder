@@ -18,7 +18,7 @@ import java.util.Collection;
  * @created by the PojoBuilder generator
  */
 public class NumberGridBuilder<E extends Number> implements Cloneable {
-	protected final NumberGridBuilder<E> self;
+	protected NumberGridBuilder<E> self;
 	protected List<Collection<E>> value$elements$java$util$List; 
 	protected boolean isSet$elements$java$util$List = false; 
 
@@ -50,7 +50,8 @@ public class NumberGridBuilder<E extends Number> implements Cloneable {
 	@Override	
 	public Object clone() {
 		try {
-			Object result = super.clone();
+			NumberGridBuilder<E> result = (NumberGridBuilder<E>)super.clone();
+			result.self = result;
 			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());

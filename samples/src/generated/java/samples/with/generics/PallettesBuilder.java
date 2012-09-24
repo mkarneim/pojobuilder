@@ -19,7 +19,7 @@ import java.util.Set;
  * @created by the PojoBuilder generator
  */
 public class PallettesBuilder implements Cloneable {
-	protected final PallettesBuilder self;
+	protected PallettesBuilder self;
 	protected List<Set<Color>> value$elements$java$util$List; 
 	protected boolean isSet$elements$java$util$List = false; 
 
@@ -51,7 +51,8 @@ public class PallettesBuilder implements Cloneable {
 	@Override	
 	public Object clone() {
 		try {
-			Object result = super.clone();
+			PallettesBuilder result = (PallettesBuilder)super.clone();
+			result.self = result;
 			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());

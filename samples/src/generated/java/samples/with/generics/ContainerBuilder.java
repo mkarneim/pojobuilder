@@ -18,7 +18,7 @@ import java.io.Serializable;
  * @created by the PojoBuilder generator
  */
 public class ContainerBuilder<T extends Item & Serializable> implements Cloneable {
-	protected final ContainerBuilder<T> self;
+	protected ContainerBuilder<T> self;
 	protected T value$element$T; 
 	protected boolean isSet$element$T = false; 
 
@@ -50,7 +50,8 @@ public class ContainerBuilder<T extends Item & Serializable> implements Cloneabl
 	@Override	
 	public Object clone() {
 		try {
-			Object result = super.clone();
+			ContainerBuilder<T> result = (ContainerBuilder<T>)super.clone();
+			result.self = result;
 			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());

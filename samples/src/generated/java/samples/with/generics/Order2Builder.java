@@ -19,7 +19,7 @@ import java.io.Serializable;
  * @created by the PojoBuilder generator
  */
 public class Order2Builder<T extends Item & Serializable> implements Cloneable {
-	protected final Order2Builder<T> self;
+	protected Order2Builder<T> self;
 	protected String value$customer$java$lang$String; 
 	protected boolean isSet$customer$java$lang$String = false; 
 
@@ -64,7 +64,8 @@ public class Order2Builder<T extends Item & Serializable> implements Cloneable {
 	@Override	
 	public Object clone() {
 		try {
-			Object result = super.clone();
+			Order2Builder<T> result = (Order2Builder<T>)super.clone();
+			result.self = result;
 			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());

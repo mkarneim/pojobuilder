@@ -18,7 +18,7 @@ import samples.with.generics.Project;
  * @created by the PojoBuilder generator
  */
 public class ProjectBuilder implements Cloneable {
-	protected final ProjectBuilder self;
+	protected ProjectBuilder self;
 	protected Set<File> value$files$java$util$Set; 
 	protected boolean isSet$files$java$util$Set = false; 
 
@@ -63,7 +63,8 @@ public class ProjectBuilder implements Cloneable {
 	@Override	
 	public Object clone() {
 		try {
-			Object result = super.clone();
+			ProjectBuilder result = (ProjectBuilder)super.clone();
+			result.self = result;
 			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());

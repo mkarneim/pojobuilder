@@ -19,7 +19,7 @@ builderClass(model) ::= <<
  * @created by the PojoBuilder generator
  */
 public <if(model.abstractClass)>abstract <endif>class <model.type.genericTypeSimpleNameWithBounds> <if(!model.superType.object)>extends <model.superType.genericTypeSimpleName> <endif>implements Cloneable {
-	protected final <model.selfType.genericTypeSimpleName> self;
+	protected <model.selfType.genericTypeSimpleName> self;
 	<model.properties:propertyVar()>
 	
 	/**
@@ -38,7 +38,8 @@ public <if(model.abstractClass)>abstract <endif>class <model.type.genericTypeSim
 	@Override	
 	public Object clone() {
 		try {
-			Object result = super.clone();
+			<model.selfType.genericTypeSimpleName> result = (<model.selfType.genericTypeSimpleName>)super.clone();
+			result.self = result;
 			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());

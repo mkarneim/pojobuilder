@@ -16,7 +16,7 @@ import samples.with.superclass.Developer;
  * @created by the PojoBuilder generator
  */
 public class DeveloperBuilder implements Cloneable {
-	protected final DeveloperBuilder self;
+	protected DeveloperBuilder self;
 	protected Long value$id$java$lang$Long; // mandatory constructor parameter
 	protected boolean isSet$id$java$lang$Long = false; 
 
@@ -74,7 +74,8 @@ public class DeveloperBuilder implements Cloneable {
 	@Override	
 	public Object clone() {
 		try {
-			Object result = super.clone();
+			DeveloperBuilder result = (DeveloperBuilder)super.clone();
+			result.self = result;
 			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());

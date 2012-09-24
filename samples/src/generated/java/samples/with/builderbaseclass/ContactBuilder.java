@@ -17,7 +17,7 @@ import samples.with.builderbaseclass.Contact;
  * @created by the PojoBuilder generator
  */
 public class ContactBuilder extends BaseBuilder implements Cloneable {
-	protected final ContactBuilder self;
+	protected ContactBuilder self;
 	protected String value$email$java$lang$String; 
 	protected boolean isSet$email$java$lang$String = false; 
 
@@ -62,7 +62,8 @@ public class ContactBuilder extends BaseBuilder implements Cloneable {
 	@Override	
 	public Object clone() {
 		try {
-			Object result = super.clone();
+			ContactBuilder result = (ContactBuilder)super.clone();
+			result.self = result;
 			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());

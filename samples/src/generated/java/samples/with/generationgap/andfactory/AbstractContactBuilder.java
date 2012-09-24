@@ -18,7 +18,7 @@ import samples.with.generationgap.andfactory.Contact;
  * @created by the PojoBuilder generator
  */
 public abstract class AbstractContactBuilder implements Cloneable {
-	protected final ContactBuilder self;
+	protected ContactBuilder self;
 	protected List<String> value$emailAddresses$java$util$List; 
 	protected boolean isSet$emailAddresses$java$util$List = false; 
 
@@ -63,7 +63,8 @@ public abstract class AbstractContactBuilder implements Cloneable {
 	@Override	
 	public Object clone() {
 		try {
-			Object result = super.clone();
+			ContactBuilder result = (ContactBuilder)super.clone();
+			result.self = result;
 			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());

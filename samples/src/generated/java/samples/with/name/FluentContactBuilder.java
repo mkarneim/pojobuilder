@@ -16,7 +16,7 @@ import samples.with.name.Contact;
  * @created by the PojoBuilder generator
  */
 public class FluentContactBuilder implements Cloneable {
-	protected final FluentContactBuilder self;
+	protected FluentContactBuilder self;
 	protected String value$surname$java$lang$String; // mandatory constructor parameter
 	protected boolean isSet$surname$java$lang$String = false; 
 
@@ -74,7 +74,8 @@ public class FluentContactBuilder implements Cloneable {
 	@Override	
 	public Object clone() {
 		try {
-			Object result = super.clone();
+			FluentContactBuilder result = (FluentContactBuilder)super.clone();
+			result.self = result;
 			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());

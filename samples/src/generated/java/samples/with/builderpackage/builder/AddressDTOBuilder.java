@@ -16,7 +16,7 @@ import samples.with.builderpackage.AddressDTO;
  * @created by the PojoBuilder generator
  */
 public class AddressDTOBuilder implements Cloneable {
-	protected final AddressDTOBuilder self;
+	protected AddressDTOBuilder self;
 	protected String value$street$java$lang$String; 
 	protected boolean isSet$street$java$lang$String = false; 
 
@@ -87,7 +87,8 @@ public class AddressDTOBuilder implements Cloneable {
 	@Override	
 	public Object clone() {
 		try {
-			Object result = super.clone();
+			AddressDTOBuilder result = (AddressDTOBuilder)super.clone();
+			result.self = result;
 			return result;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e.getMessage());
