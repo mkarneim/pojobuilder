@@ -120,13 +120,15 @@ Have a look at ["samples/src/generated/java/samples/with/factory/ContactBuilder.
 The following attributes of the @GeneratePojoBuilder annotation can be used to influence the code generation process.
 
 * `withBaseclass=<Class>`
-    Specifies the base class of the generated builder. The default is `Object.class`.
+    Specifies the base class of the generated builder. The default class is `Object.class`.
 * `withName=<String>`
-    Specifies the name of the generated builder. Any asterisk will be
-	replaced with the pojos simple name. Default is `"*Builder"`.
+    Specifies the pattern of the builder's name. Any asterisk will be
+	replaced with the pojos simple name. For example, the result of the pattern "Fluent*Builder" will become 
+        "FluentContactBuilder" if the pojo's name is "Contact". The default pattern is `"*Builder"`.
 * `intoPackage=<String>`
     Specifies the package of the generated builder. Any asterisk will be
-	replaced with the pojos package. Default is `"*"`.
+	replaced with the pojos package. For example, the result of the pattern "*.util" will become
+        "com.example.util" if the pojo's package is "com.example". The default pattern is `"*"`.
 * `withGenerationGap=<boolean>`
     Specifies whether the [generation gap pattern] is used. If enabled this
 	will generate two classes (instead of one), of which one contains the
