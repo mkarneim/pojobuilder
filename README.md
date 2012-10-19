@@ -15,6 +15,13 @@ The generated builder provides
 * a fluent interface for specifying values for the POJO's properties 
 * and a "build()" method for creating a new POJO instance with these values.
 
+Here is an example of how you could use a generated POJO Builder from your code:
+
+	Contact james = new ContactBuilder()
+		.withSurname("Bond")
+		.withFirstname("James")
+		.withEmail("007@secretservice.org")
+		.build()
 
 Among other things you can use builders to build test data. 
 
@@ -46,7 +53,17 @@ Examples
 --------
 For some examples please have a look into the [samples] directory.
 
+How To Use
+----------
+
+The POJO Builder Annotation Processor will generate the builder class for you.
+You have two options to generate the builder:
+* by annotating the POJO class
+* by annotating a factory method
+
 ### Annotating the POJO ###
+
+To generate a builder class for a POJO you can annotate its class with @GeneratePojoBuilder.
 
 Let's have a look at the following example POJO:
 
@@ -86,15 +103,6 @@ If the POJO has no default constructor or if you want the generated builder to u
 then annotate it with @ConstructorProperties and specify the mapping from the parameters to the corresponding properties.
 
 Have a look at ["samples/src/generated/java/samples/builder/ContactBuilder.java"] to see the generated source code.
-
-Here is an example of how you can use the generated "ContactBuilder" from your code:
-
-
-	Contact james = new ContactBuilder()
-		.withSurname("Bond")
-		.withFirstname("James")
-		.withEmail("007@secretservice.org")
-		.build()
 
 ### Annotating a Factory Method ###
 
@@ -138,22 +146,16 @@ The following attributes of the @GeneratePojoBuilder annotation can be used to i
         and ["samples/src/generated/java/samples/with/generationgap"].
         Default is `false`.
 	
-How To Use
-----------
+### Execution ###
 
-Make sure that the pojobuilder-annotation-*.jar is included in your project's classpath during compile time.
-During runtime it is not required since the @GeneratePojoBuilder retention policy is SOURCE.
-
-To generate a builder class for a POJO just annotate its class or a factory method with @GeneratePojoBuilder.
-
-Then let your project sources be processed by the PojoBuilder annotation processor.
-
-To run the annotation processor you either can
+To execute the annotation processor you either can
 
 * use the javac tool to compile your project using the option "-processor net.karneim.pojobuilder.AnnotationProcessor". 
 * use the javac ant task with a special configuration (see below)
 * or add the PojoBuilder annotation processor to your Eclipse project configuration (see below)
 
+In any case make sure that the pojobuilder-annotation-*.jar is included in your project's classpath during compile time.
+During runtime it is not required since the @GeneratePojoBuilder retention policy is SOURCE.
 
 ### Using Ant
 
