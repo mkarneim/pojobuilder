@@ -154,7 +154,8 @@ To execute the annotation processor you either can
 * use the javac ant task with a special configuration (see below)
 * or add the PojoBuilder annotation processor to your Eclipse project configuration (see below)
 
-In any case make sure that the pojobuilder-annotation-*.jar is included in your project's classpath during compile time.
+In any case make sure that the pojobuilder-annotation-*.jar and it's dependend libraries are included in your project's classpath
+during compile time.
 During runtime it is not required since the @GeneratePojoBuilder retention policy is SOURCE.
 
 ### Using Ant
