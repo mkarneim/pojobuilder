@@ -130,11 +130,13 @@ The following attributes of the @GeneratePojoBuilder annotation can be used to i
 	replaced with the pojos package. For example, the result of the pattern "*.util" will become
         "com.example.util" if the pojo's package is "com.example". The default pattern is `"*"`.
 * `withGenerationGap=<boolean>`
-    Specifies whether the [generation gap pattern] is used. If enabled this
+    Specifies whether the [generation gap pattern] is used. If enabled, this
 	will generate two classes (instead of one), of which one contains the
-	generated code. The other class is for handwritten code. To prevent it
-	from being overwritten please move it out of the generated-sources
-	folder. Default is `false`.
+	ordinary builder code, whereas the other class extends the first one and is an empty template for handwritten code. 
+        Please move it out of the generated-sources folder to prevent it from being overwritten. 
+ 	For examples please see ["samples/src/main/java/samples/with/generationgap"] 
+        and ["samples/src/generated/java/samples/with/generationgap"].
+        Default is `false`.
 	
 How To Use
 ----------
@@ -220,6 +222,8 @@ If you want to compile the project sources yourself you can use Maven (see [pom.
 ["samples/src/generated/java/samples/builder/ContactBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/src/generated/java/samples/builder/ContactBuilder.java
 ["samples/src/generated/java/samples/with/factory/ContactBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/src/generated/java/samples/with/factory/ContactBuilder.java
 [generation gap pattern]: http://martinfowler.com/dslCatalog/generationGap.html
+["samples/src/main/java/samples/with/generationgap"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/src/main/java/samples/with/generationgap/
+["samples/src/generated/java/samples/with/generationgap"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/src/generated/java/samples/with/generationgap/
 [Java]: http://www.oracle.com/technetwork/java/
 [ANTLR Parser Generator]: http://www.antlr.org/
 [StringTemplate Template Engine]: http://www.stringtemplate.org/
