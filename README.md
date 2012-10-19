@@ -214,7 +214,7 @@ Now the annotation processor will be automatically invoked during the Eclipse bu
 
 How To Build
 ------------
-If you want to compile the project sources yourself you can use Maven (see [pom.xml]) or Ant  (see [build.xml]). 
+If you want to compile this project's sources yourself you can use Maven (see [pom.xml]) or Ant  (see [build.xml]). 
 
 
 [download page]: http://github.com/mkarneim/pojobuilder/archives/master
