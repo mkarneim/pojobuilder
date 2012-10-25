@@ -155,7 +155,7 @@ public class PropertyFinder extends ElementScanner6<Void, Void> {
         if (e.getModifiers().contains(Modifier.PUBLIC)) {
             return true;
         }
-        if (e.getModifiers().contains(Modifier.PROTECTED)) {
+        if (!e.getModifiers().contains(Modifier.PRIVATE)) {
             return extTypeUtil.isAccessibleFromPackage(e, builderPackage);
         }
         return false;
