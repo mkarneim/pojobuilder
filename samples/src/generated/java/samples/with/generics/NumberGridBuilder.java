@@ -10,11 +10,11 @@ import java.util.Collection;
 /**
  * The {@link NumberGridBuilder} is a Builder for {@link NumberGrid} objects.
  *
- * 
+ * <p>
  *     Please DO NOT MODIFIY this class
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
- * 
+ * </p>
  * @created by the PojoBuilder generator
  */
 public class NumberGridBuilder<E extends Number> implements Cloneable {

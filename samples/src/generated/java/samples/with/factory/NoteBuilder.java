@@ -9,11 +9,11 @@ import samples.with.factory.PojoFactory;
 /**
  * The {@link NoteBuilder} is a Builder for {@link Note} objects.
  *
- * 
+ * <p>
  *     Please DO NOT MODIFIY this class
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
- * 
+ * </p>
  * @created by the PojoBuilder generator
  */
 public class NoteBuilder implements Cloneable {

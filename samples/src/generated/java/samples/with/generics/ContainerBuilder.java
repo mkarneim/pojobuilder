@@ -10,11 +10,11 @@ import java.io.Serializable;
 /**
  * The {@link ContainerBuilder} is a Builder for {@link Container} objects.
  *
- * 
+ * <p>
  *     Please DO NOT MODIFIY this class
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
- * 
+ * </p>
  * @created by the PojoBuilder generator
  */
 public class ContainerBuilder<T extends Item & Serializable> implements Cloneable {

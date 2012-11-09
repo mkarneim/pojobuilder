@@ -11,11 +11,11 @@ import java.io.Serializable;
 /**
  * The {@link Order2Builder} is a Builder for {@link Order2} objects.
  *
- * 
+ * <p>
  *     Please DO NOT MODIFIY this class
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
- * 
+ * </p>
  * @created by the PojoBuilder generator
  */
 public class Order2Builder<T extends Item & Serializable> implements Cloneable {

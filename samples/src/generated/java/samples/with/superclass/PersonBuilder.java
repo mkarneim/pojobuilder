@@ -8,11 +8,11 @@ import samples.with.superclass.Person;
 /**
  * The {@link PersonBuilder} is a Builder for {@link Person} objects.
  *
- * 
+ * <p>
  *     Please DO NOT MODIFIY this class
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
- * 
+ * </p>
  * @created by the PojoBuilder generator
  */
 public class PersonBuilder implements Cloneable {

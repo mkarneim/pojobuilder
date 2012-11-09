@@ -8,11 +8,11 @@ import samples.with.generics.Pair;
 /**
  * The {@link PairBuilder} is a Builder for {@link Pair} objects.
  *
- * 
+ * <p>
  *     Please DO NOT MODIFIY this class
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
- * 
+ * </p>
  * @created by the PojoBuilder generator
  */
 public class PairBuilder<A extends Comparable<A>, B extends Number> implements Cloneable {

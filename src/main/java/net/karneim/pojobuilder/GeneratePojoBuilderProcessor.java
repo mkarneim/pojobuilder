@@ -299,10 +299,10 @@ public class GeneratePojoBuilderProcessor {
         throw new IllegalArgumentException(String.format("Can't find annotation '%s' on class '%s'", annotationName, annotatedElement.toString()));
     }
 
-    private void findProperties(TypeElement productTypeElem, String builderPackage, PropertyMap propertyMap, boolean visitConstructor) {
-        TypeElement current = productTypeElem;
+    private void findProperties(TypeElement staticTypeElem, String builderPackage, PropertyMap propertyMap, boolean visitConstructor) {
+        TypeElement current = staticTypeElem;
         while (current != null) {
-            PropertyFinder propertyFinder = new PropertyFinder(propertyMap, env, builderPackage, current);
+            PropertyFinder propertyFinder = new PropertyFinder(propertyMap, env, builderPackage, current, staticTypeElem);
             propertyFinder.setVisitConstructors(visitConstructor);
 
             current.accept(propertyFinder, null);

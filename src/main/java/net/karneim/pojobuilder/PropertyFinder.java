@@ -11,9 +11,13 @@ import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
+import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.ExecutableType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
+import javax.lang.model.type.TypeVariable;
 import javax.lang.model.util.ElementScanner6;
+import javax.tools.Diagnostic.Kind;
 
 import net.karneim.pojobuilder.model.TypeM;
 import net.karneim.pojobuilder.util.ExtendedTypeUtil;
@@ -27,14 +31,17 @@ public class PropertyFinder extends ElementScanner6<Void, Void> {
     private ExtendedTypeUtil extTypeUtil;
     private String builderPackage;
     private TypeElement ownerTypeElement;
+    private TypeElement staticTypeElem;
     private boolean visitConstructors = true;
 
-    public PropertyFinder(PropertyMap propertyMap, ProcessingEnvironment env, String builderPackage, TypeElement ownerTypeElement) {
-        this.propertyMap = propertyMap;
+    public PropertyFinder(PropertyMap propertyMap, ProcessingEnvironment env, String builderPackage, TypeElement ownerTypeElement, TypeElement staticTypeElem) {
+    	this.propertyMap = propertyMap;
         this.env = env;
         extTypeUtil = new ExtendedTypeUtil(env.getTypeUtils());
         this.builderPackage = builderPackage;
         this.ownerTypeElement = ownerTypeElement;
+        this.staticTypeElem = staticTypeElem;
+        env.getMessager().printMessage(Kind.OTHER, String.format("Scanning properies of %s", ownerTypeElement.getSimpleName()));
     }
 
     public boolean isVisitConstructors() {
@@ -137,13 +144,21 @@ public class PropertyFinder extends ElementScanner6<Void, Void> {
 
     private void foundVariableAsField(VariableElement e, Void v) {
         LOG.entering(PropertyFinder.class.getName(), String.format("foundVariableAsField: e=%s", e));
-
+        
         if (e.getModifiers().contains(Modifier.STATIC) || e.getModifiers().contains(Modifier.FINAL)) {
             return;
         }
 
         if (isAccessible(e)) {
-            TypeM type = extTypeUtil.getTypeM(e);
+        	TypeM type;
+            if ( e.asType().getKind()==TypeKind.TYPEVAR) {
+            	DeclaredType declType = (DeclaredType) staticTypeElem.asType();
+            	TypeMirror typeMirror = env.getTypeUtils().asMemberOf(declType, e);
+            	
+            	type = extTypeUtil.getTypeM(typeMirror);
+            } else {
+            	type = extTypeUtil.getTypeM(e);	
+            }
             String propName = e.getSimpleName().toString();
             PropertyMBuilder p = propertyMap.getEntry(propName, type.getQualifiedName());
 
@@ -163,7 +178,16 @@ public class PropertyFinder extends ElementScanner6<Void, Void> {
 
     private void addPropertySetter(String propName, ExecutableElement e) {
         String methodName = e.getSimpleName().toString();
-        TypeM paramType = extTypeUtil.getTypeM(e.getParameters().get(0));
+        VariableElement param = e.getParameters().get(0);
+        TypeM paramType;
+        if ( param.asType().getKind()==TypeKind.TYPEVAR) {
+        	DeclaredType declType = (DeclaredType) staticTypeElem.asType();
+        	ExecutableType extype = (ExecutableType) env.getTypeUtils().asMemberOf(declType, e);
+        	TypeMirror pType = extype.getParameterTypes().get(0);
+        	paramType = extTypeUtil.getTypeM(pType);
+        } else {
+        	paramType = extTypeUtil.getTypeM(param);	
+        }
         PropertyMBuilder p = propertyMap.getEntry(propName, paramType.getQualifiedName());
         p.withSetter(methodName).withType(paramType);
     }

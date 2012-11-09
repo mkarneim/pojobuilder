@@ -10,11 +10,11 @@ import java.util.Date;
 /**
  * The {@link UserBuilder} is a Builder for {@link User} objects.
  *
- * 
+ * <p>
  *     Please DO NOT MODIFIY this class
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
- * 
+ * </p>
  * @created by the PojoBuilder generator
  */
 public class UserBuilder implements Cloneable {

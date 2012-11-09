@@ -9,11 +9,11 @@ import samples.with.arrays.Order;
 /**
  * The {@link OrderBuilder} is a Builder for {@link Order} objects.
  *
- * 
+ * <p>
  *     Please DO NOT MODIFIY this class
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
- * 
+ * </p>
  * @created by the PojoBuilder generator
  */
 public class OrderBuilder implements Cloneable {

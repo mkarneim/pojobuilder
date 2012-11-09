@@ -9,11 +9,11 @@ import java.math.BigDecimal;
 /**
  * The {@link ItemBuilder} is a Builder for {@link Item} objects.
  *
- * 
+ * <p>
  *     Please DO NOT MODIFIY this class
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
- * 
+ * </p>
  * @created by the PojoBuilder generator
  */
 public class ItemBuilder implements Cloneable {

@@ -9,11 +9,11 @@ import samples.with.builderbaseclass.Contact;
 /**
  * The {@link ContactBuilder} is a Builder for {@link Contact} objects.
  *
- * 
+ * <p>
  *     Please DO NOT MODIFIY this class
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
- * 
+ * </p>
  * @created by the PojoBuilder generator
  */
 public class ContactBuilder extends BaseBuilder implements Cloneable {

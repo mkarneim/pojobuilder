@@ -11,11 +11,11 @@ import java.util.Set;
 /**
  * The {@link PallettesBuilder} is a Builder for {@link Pallettes} objects.
  *
- * 
+ * <p>
  *     Please DO NOT MODIFIY this class
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
- * 
+ * </p>
  * @created by the PojoBuilder generator
  */
 public class PallettesBuilder implements Cloneable {

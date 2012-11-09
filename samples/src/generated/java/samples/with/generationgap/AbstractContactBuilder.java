@@ -9,11 +9,11 @@ import samples.with.generationgap.Contact;
 /**
  * The {@link AbstractContactBuilder} is a Builder for {@link Contact} objects.
  *
- * 
+ * <p>
  *     Please DO NOT MODIFIY this class
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
- * 
+ * </p>
  * @created by the PojoBuilder generator
  */
 public abstract class AbstractContactBuilder implements Cloneable {
