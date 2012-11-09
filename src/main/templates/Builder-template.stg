@@ -11,11 +11,11 @@ builderClass(model) ::= <<
 /**
  * The {@link <model.type.simpleName>} is a Builder for {@link <model.productType.simpleName>} objects.
  *
- * <p>
+ * \<p\>
  *     Please DO NOT MODIFIY this class
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
- * </p>
+ * \</p\>
  * @created by the PojoBuilder generator
  */
 public <if(model.abstractClass)>abstract <endif>class <model.type.genericTypeSimpleNameWithBounds> <if(!model.superType.object)>extends <model.superType.genericTypeSimpleName> <endif>implements Cloneable {

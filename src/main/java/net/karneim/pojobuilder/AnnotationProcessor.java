@@ -1,6 +1,7 @@
 package net.karneim.pojobuilder;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -16,7 +17,6 @@ import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 
-@SupportedAnnotationTypes(value = { "net.karneim.pojobuilder.GeneratePojoBuilder", "net.karneim.pojobuilder.GenerateListBuilder" })
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
 // @SupportedOptions({ GeneratePojoBuilderAnnotationProcessor.GEN })
 public class AnnotationProcessor extends AbstractProcessor {
@@ -38,8 +38,19 @@ public class AnnotationProcessor extends AbstractProcessor {
         // String targetDir = env.getOptions().get(GEN);
         // System.out.println(GEN + "=" + targetDir);
     }
+    
+    
 
-    public static void enableLogging() {
+    @Override
+	public Set<String> getSupportedAnnotationTypes() {
+		HashSet<String> result = new HashSet<String>();
+		result.add( GENERATE_POJO_BUILDER_CLASS.getName());
+		return result;
+	}
+
+
+
+	public static void enableLogging() {
         try {
             LogManager.getLogManager().readConfiguration(AnnotationProcessor.class.getResourceAsStream("/logging.properties"));
         } catch (SecurityException e) {
