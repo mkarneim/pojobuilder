@@ -71,19 +71,12 @@ public class ExtendedTypeUtil {
         if (type.getTypeArguments().isEmpty() == false) {
             for (TypeMirror typeArg : type.getTypeArguments()) {
                 if (typeArg.getKind() == TypeKind.DECLARED) {
-//                    DeclaredType typeArgType = (DeclaredType)typeArg;
-//                    TypeElement typeArgElem = (TypeElement)typeArgType.asElement();
-//                    TypeM typeArgElemTypeM = getTypeM(typeArgElem);
-//                    TypeParameterM tpm = new TypeParameterM(typeArgElemTypeM); 
-//                    result.getTypeParameters().add(tpm);
-                    // PATCHED 19.9.2012, mk
                     Element element = types.asElement(typeArg);
                     if (element instanceof TypeElement) {
                         TypeElement el = (TypeElement)element;
                         TypeM typeArgElemTypeM = getTypeM(typeArg);
                         TypeParameterM tpm = new TypeParameterM(typeArgElemTypeM); 
                         result.getTypeParameters().add(tpm);
-                        return result;
                     } else {
                         throw new IllegalStateException("element=" + element);
                     }
@@ -91,8 +84,7 @@ public class ExtendedTypeUtil {
                     TypeVariable typeVar = (TypeVariable)typeArg;
                     TypeParameterElement typeParamElem = (TypeParameterElement)typeVar.asElement();
                     TypeM typeParamElemTypeM = getTypeM(typeParamElem.asType());
-                    //TypeParameterM tpm = new TypeParameterM(typeParamElem.getSimpleName().toString());
-                    TypeParameterM tpm = new TypeParameterM(typeParamElemTypeM);// PATCHED 19.9.2012, mk
+                    TypeParameterM tpm = new TypeParameterM(typeParamElemTypeM);
                     result.getTypeParameters().add(tpm);
                 }
             }
