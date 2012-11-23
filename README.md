@@ -23,7 +23,7 @@ Here is an example of how you could use a generated POJO Builder from your code:
 		.withEmail("007@secretservice.org")
 		.build()
 
-Among other things you can use builders to build test data. 
+Builders are quite useful, for example, to build test data, where you only want to set the relevant data properties.
 
 For more information on 
 
