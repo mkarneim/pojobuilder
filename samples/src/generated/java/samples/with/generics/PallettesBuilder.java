@@ -1,23 +1,22 @@
 package samples.with.generics;
 
-
-
 import java.awt.Color;
 import java.util.List;
 import samples.with.generics.Pallettes;
 import java.util.Set;
-
+import javax.annotation.Generated;
 
 /**
  * The {@link PallettesBuilder} is a Builder for {@link Pallettes} objects.
  *
  * <p>
- *     Please DO NOT MODIFIY this class
+ *     This class has been generated.
+ *     Please DO NOT MODIFIY this file
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
  * </p>
- * @created by the PojoBuilder generator
  */
+@Generated("PojoBuilder")
 public class PallettesBuilder implements Cloneable {
 	protected PallettesBuilder self;
 	protected List<Set<Color>> value$elements$java$util$List; 

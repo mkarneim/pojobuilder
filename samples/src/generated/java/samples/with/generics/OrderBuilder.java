@@ -1,22 +1,21 @@
 package samples.with.generics;
 
-
-
 import java.util.List;
 import samples.with.generics.Item;
 import samples.with.generics.Order;
-
+import javax.annotation.Generated;
 
 /**
  * The {@link OrderBuilder} is a Builder for {@link Order} objects.
  *
  * <p>
- *     Please DO NOT MODIFIY this class
+ *     This class has been generated.
+ *     Please DO NOT MODIFIY this file
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
  * </p>
- * @created by the PojoBuilder generator
  */
+@Generated("PojoBuilder")
 public class OrderBuilder implements Cloneable {
 	protected OrderBuilder self;
 	protected String value$customer$java$lang$String; 

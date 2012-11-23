@@ -1,22 +1,21 @@
 package samples.with.generationgap.andfactory;
 
-
-
 import samples.with.generationgap.andfactory.ContactFactory;
 import java.util.List;
+import javax.annotation.Generated;
 import samples.with.generationgap.andfactory.Contact;
-
 
 /**
  * The {@link AbstractContactBuilder} is a Builder for {@link Contact} objects.
  *
  * <p>
- *     Please DO NOT MODIFIY this class
+ *     This class has been generated.
+ *     Please DO NOT MODIFIY this file
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
  * </p>
- * @created by the PojoBuilder generator
  */
+@Generated("PojoBuilder")
 public abstract class AbstractContactBuilder implements Cloneable {
 	protected ContactBuilder self;
 	protected List<String> value$emailAddresses$java$util$List; 

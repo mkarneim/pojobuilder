@@ -7,6 +7,6 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 @GeneratePojoBuilder
 public class Settings {
-	public Map<String,Object> entries = new HashMap<String,Object>();
-	
+	public Map<String, Object> entries = new HashMap<String, Object>();
+
 }

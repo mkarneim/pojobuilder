@@ -1,23 +1,22 @@
 package samples.with.generics;
 
-
-
 import samples.with.generics.Order2;
 import java.util.List;
 import samples.with.generics.Item;
 import java.io.Serializable;
-
+import javax.annotation.Generated;
 
 /**
  * The {@link Order2Builder} is a Builder for {@link Order2} objects.
  *
  * <p>
- *     Please DO NOT MODIFIY this class
+ *     This class has been generated.
+ *     Please DO NOT MODIFIY this file
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
  * </p>
- * @created by the PojoBuilder generator
  */
+@Generated("PojoBuilder")
 public class Order2Builder<T extends Item & Serializable> implements Cloneable {
 	protected Order2Builder<T> self;
 	protected String value$customer$java$lang$String; 

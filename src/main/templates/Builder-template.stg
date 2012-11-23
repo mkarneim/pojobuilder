@@ -2,22 +2,20 @@ delimiters "<", ">"
 
 builderClass(model) ::= <<
 <if(model.type.package)>package <model.type.package>;
-
-
 <endif>
 
 <model.importTypes:importStatement()>
-
 /**
  * The {@link <model.type.simpleName>} is a Builder for {@link <model.productType.simpleName>} objects.
  *
  * \<p\>
- *     Please DO NOT MODIFIY this class
+ *     This class has been generated.
+ *     Please DO NOT MODIFIY this file
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
  * \</p\>
- * @created by the PojoBuilder generator
  */
+@Generated("PojoBuilder")
 public <if(model.abstractClass)>abstract <endif>class <model.type.genericTypeSimpleNameWithBounds> <if(!model.superType.object)>extends <model.superType.genericTypeSimpleName> <endif>implements Cloneable {
 	protected <model.selfType.genericTypeSimpleName> self;
 	<model.properties:propertyVar()>

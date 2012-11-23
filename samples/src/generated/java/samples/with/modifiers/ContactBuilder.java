@@ -1,20 +1,19 @@
 package samples.with.modifiers;
 
-
-
 import samples.with.modifiers.Contact;
-
+import javax.annotation.Generated;
 
 /**
  * The {@link ContactBuilder} is a Builder for {@link Contact} objects.
  *
  * <p>
- *     Please DO NOT MODIFIY this class
+ *     This class has been generated.
+ *     Please DO NOT MODIFIY this file
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
  * </p>
- * @created by the PojoBuilder generator
  */
+@Generated("PojoBuilder")
 public class ContactBuilder implements Cloneable {
 	protected ContactBuilder self;
 	protected String value$surname$java$lang$String; // mandatory constructor parameter

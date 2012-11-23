@@ -1,20 +1,19 @@
 package samples.with.generics;
 
-
-
 import samples.with.generics.ConcreteEntity;
-
+import javax.annotation.Generated;
 
 /**
  * The {@link ConcreteEntityBuilder} is a Builder for {@link ConcreteEntity} objects.
  *
  * <p>
- *     Please DO NOT MODIFIY this class
+ *     This class has been generated.
+ *     Please DO NOT MODIFIY this file
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
  * </p>
- * @created by the PojoBuilder generator
  */
+@Generated("PojoBuilder")
 public class ConcreteEntityBuilder implements Cloneable {
 	protected ConcreteEntityBuilder self;
 	protected Long value$key$java$lang$Long; 

@@ -1,22 +1,21 @@
 package samples.with.generics;
 
-
-
 import java.io.File;
 import java.util.Set;
 import samples.with.generics.Project;
-
+import javax.annotation.Generated;
 
 /**
  * The {@link ProjectBuilder} is a Builder for {@link Project} objects.
  *
  * <p>
- *     Please DO NOT MODIFIY this class
+ *     This class has been generated.
+ *     Please DO NOT MODIFIY this file
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
  * </p>
- * @created by the PojoBuilder generator
  */
+@Generated("PojoBuilder")
 public class ProjectBuilder implements Cloneable {
 	protected ProjectBuilder self;
 	protected Set<File> value$files$java$util$Set; 

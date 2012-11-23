@@ -13,6 +13,7 @@ public class BuilderM extends ClassM {
     private FactoryM factory;
     private List<PropertyM> properties = new ArrayList<PropertyM>();
     private TypeM selfType;
+    private List<TypeM> additionalImports = new ArrayList<TypeM>();
     
     public BuilderM(TypeM aType, TypeM aSuperType, boolean abstractClass, TypeM aProductType, TypeM selfType) {
         super(aType, aSuperType, abstractClass);
@@ -24,7 +25,11 @@ public class BuilderM extends ClassM {
         }
     }
 
-    public FactoryM getFactory() {
+    public List<TypeM> getAdditionalImports() {
+		return additionalImports;
+	}
+
+	public FactoryM getFactory() {
         return factory;
     }
 
@@ -61,9 +66,16 @@ public class BuilderM extends ClassM {
         if ( factory != null) {
             factory.addToImportTypes( result);
         }
+        addAdditionalImportTypes(result);
     }
 
-    public Collection<PropertyM> getPropertiesForConstructor() {
+    private void addAdditionalImportTypes(Set<String> result) {
+		for( TypeM type: additionalImports) {
+			result.add( type.getQualifiedName());
+		}
+	}
+
+	public Collection<PropertyM> getPropertiesForConstructor() {
         List<PropertyM> result = new ArrayList<PropertyM>(properties);
         // Remove properties that have no parameter position
         Iterator<PropertyM> it = result.iterator();

@@ -1,22 +1,21 @@
 package samples.with.methodoverloading;
 
-
-
 import java.io.File;
 import samples.with.methodoverloading.User;
 import java.util.Date;
-
+import javax.annotation.Generated;
 
 /**
  * The {@link UserBuilder} is a Builder for {@link User} objects.
  *
  * <p>
- *     Please DO NOT MODIFIY this class
+ *     This class has been generated.
+ *     Please DO NOT MODIFIY this file
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
  * </p>
- * @created by the PojoBuilder generator
  */
+@Generated("PojoBuilder")
 public class UserBuilder implements Cloneable {
 	protected UserBuilder self;
 	protected Date value$created$java$util$Date; // mandatory constructor parameter

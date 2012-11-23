@@ -1,21 +1,20 @@
 package samples.with.generics;
 
-
-
 import java.util.Map;
 import samples.with.generics.Settings;
-
+import javax.annotation.Generated;
 
 /**
  * The {@link SettingsBuilder} is a Builder for {@link Settings} objects.
  *
  * <p>
- *     Please DO NOT MODIFIY this class
+ *     This class has been generated.
+ *     Please DO NOT MODIFIY this file
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
  * </p>
- * @created by the PojoBuilder generator
  */
+@Generated("PojoBuilder")
 public class SettingsBuilder implements Cloneable {
 	protected SettingsBuilder self;
 	protected Map<String, Object> value$entries$java$util$Map; 

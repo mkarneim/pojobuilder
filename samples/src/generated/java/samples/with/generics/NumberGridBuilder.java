@@ -1,22 +1,21 @@
 package samples.with.generics;
 
-
-
 import java.util.List;
+import javax.annotation.Generated;
 import samples.with.generics.NumberGrid;
 import java.util.Collection;
-
 
 /**
  * The {@link NumberGridBuilder} is a Builder for {@link NumberGrid} objects.
  *
  * <p>
- *     Please DO NOT MODIFIY this class
+ *     This class has been generated.
+ *     Please DO NOT MODIFIY this file
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
  * </p>
- * @created by the PojoBuilder generator
  */
+@Generated("PojoBuilder")
 public class NumberGridBuilder<E extends Number> implements Cloneable {
 	protected NumberGridBuilder<E> self;
 	protected List<Collection<E>> value$elements$java$util$List; 

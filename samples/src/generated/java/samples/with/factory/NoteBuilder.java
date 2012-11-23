@@ -1,21 +1,20 @@
 package samples.with.factory;
 
-
-
 import samples.with.factory.Note;
 import samples.with.factory.PojoFactory;
-
+import javax.annotation.Generated;
 
 /**
  * The {@link NoteBuilder} is a Builder for {@link Note} objects.
  *
  * <p>
- *     Please DO NOT MODIFIY this class
+ *     This class has been generated.
+ *     Please DO NOT MODIFIY this file
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
  * </p>
- * @created by the PojoBuilder generator
  */
+@Generated("PojoBuilder")
 public class NoteBuilder implements Cloneable {
 	protected NoteBuilder self;
 	protected String value$text$java$lang$String; 

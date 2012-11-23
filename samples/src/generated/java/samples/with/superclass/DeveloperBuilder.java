@@ -1,20 +1,19 @@
 package samples.with.superclass;
 
-
-
 import samples.with.superclass.Developer;
-
+import javax.annotation.Generated;
 
 /**
  * The {@link DeveloperBuilder} is a Builder for {@link Developer} objects.
  *
  * <p>
- *     Please DO NOT MODIFIY this class
+ *     This class has been generated.
+ *     Please DO NOT MODIFIY this file
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
  * </p>
- * @created by the PojoBuilder generator
  */
+@Generated("PojoBuilder")
 public class DeveloperBuilder implements Cloneable {
 	protected DeveloperBuilder self;
 	protected Long value$id$java$lang$Long; // mandatory constructor parameter

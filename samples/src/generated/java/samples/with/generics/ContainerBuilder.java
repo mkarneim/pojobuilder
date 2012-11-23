@@ -1,22 +1,21 @@
 package samples.with.generics;
 
-
-
 import samples.with.generics.Item;
 import samples.with.generics.Container;
 import java.io.Serializable;
-
+import javax.annotation.Generated;
 
 /**
  * The {@link ContainerBuilder} is a Builder for {@link Container} objects.
  *
  * <p>
- *     Please DO NOT MODIFIY this class
+ *     This class has been generated.
+ *     Please DO NOT MODIFIY this file
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
  * </p>
- * @created by the PojoBuilder generator
  */
+@Generated("PojoBuilder")
 public class ContainerBuilder<T extends Item & Serializable> implements Cloneable {
 	protected ContainerBuilder<T> self;
 	protected T value$element$T; 

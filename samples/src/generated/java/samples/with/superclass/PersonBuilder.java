@@ -1,20 +1,19 @@
 package samples.with.superclass;
 
-
-
 import samples.with.superclass.Person;
-
+import javax.annotation.Generated;
 
 /**
  * The {@link PersonBuilder} is a Builder for {@link Person} objects.
  *
  * <p>
- *     Please DO NOT MODIFIY this class
+ *     This class has been generated.
+ *     Please DO NOT MODIFIY this file
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
  * </p>
- * @created by the PojoBuilder generator
  */
+@Generated("PojoBuilder")
 public class PersonBuilder implements Cloneable {
 	protected PersonBuilder self;
 	protected boolean value$artificial$boolean; // mandatory constructor parameter

@@ -1,21 +1,20 @@
 package samples.with.innerclasses;
 
-
-
 import samples.with.innerclasses.Order.Item;
 import java.math.BigDecimal;
-
+import javax.annotation.Generated;
 
 /**
  * The {@link ItemBuilder} is a Builder for {@link Item} objects.
  *
  * <p>
- *     Please DO NOT MODIFIY this class
+ *     This class has been generated.
+ *     Please DO NOT MODIFIY this file
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
  * </p>
- * @created by the PojoBuilder generator
  */
+@Generated("PojoBuilder")
 public class ItemBuilder implements Cloneable {
 	protected ItemBuilder self;
 	protected String value$title$java$lang$String; // mandatory constructor parameter

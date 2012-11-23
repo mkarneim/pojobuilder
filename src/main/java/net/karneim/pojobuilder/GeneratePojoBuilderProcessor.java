@@ -34,12 +34,10 @@ import net.karneim.pojobuilder.util.BuilderMBuilder;
 import net.karneim.pojobuilder.util.ExtendedTypeUtil;
 
 public class GeneratePojoBuilderProcessor {
-
-    private static final String BUILDER_CLASS_DEFAULT_POSTFIX = "Builder";
-    private static final String PACKAGE_ATTRIBUTE_DEFAULT_VALUE = "#default";
-    private static final String WITH_BASECLASS_ATTRIBUTE_NAME = "withBaseclass";
-    private static final String WITH_GENERATION_GAP_ATTRIBUTE_NAME = "withGenerationGap";
     
+	private static final String WITH_BASECLASS_ATTRIBUTE_NAME = "withBaseclass";
+    private static final String WITH_GENERATION_GAP_ATTRIBUTE_NAME = "withGenerationGap";
+    private static final String JAVAX_ANNOTATION_GENERATED = "javax.annotation.Generated";
 
     private static final Logger LOG = Logger.getLogger(GeneratePojoBuilderProcessor.class.getName());
 
@@ -94,6 +92,7 @@ public class GeneratePojoBuilderProcessor {
         	builder.withAbstract(true);
         }
         BuilderM model = builder.build();
+        model.getAdditionalImports().add( TypeM.get(JAVAX_ANNOTATION_GENERATED));
         LOG.fine(String.format("Generated model:\n%s", model));
         createSourceCode(generator1, model);
         
@@ -107,6 +106,7 @@ public class GeneratePojoBuilderProcessor {
             if ( typeElement2 == null) {
             	TypeM builderType2 = new TypeM(builderClassname2);
         		BuilderM model2 = new BuilderMBuilder().withType(builderType2).withSuperType(builderType).withProductType(productType).build();
+        		model2.getAdditionalImports().add( TypeM.get(JAVAX_ANNOTATION_GENERATED));
             	LOG.fine(String.format("Generated model:\n%s", model2));
             	createSourceCode(generator2, model2);
             }
@@ -153,7 +153,7 @@ public class GeneratePojoBuilderProcessor {
             }
         }
         FactoryM factoryM = createFactoryM(execElem, propertyMap);
-        
+                
         BuilderMBuilder builder = new BuilderMBuilder();
         builder.withFactory(factoryM);
         builder.withType(builderType).withSuperType(builderBaseclass);
@@ -165,6 +165,7 @@ public class GeneratePojoBuilderProcessor {
         	builder.withAbstract(true);
         }
         BuilderM model = builder.build();
+        model.getAdditionalImports().add( TypeM.get(JAVAX_ANNOTATION_GENERATED));
         
         LOG.fine(String.format("Generated model:\n%s", model));
         createSourceCode(generator1, model);
@@ -177,6 +178,7 @@ public class GeneratePojoBuilderProcessor {
             if ( typeElement2 == null) {
             	TypeM builderType2 = new TypeM(builderClassname2);
         		BuilderM model2 = new BuilderMBuilder().withType(builderType2).withSuperType(builderType).withProductType(productType).build();
+        		model2.getAdditionalImports().add( TypeM.get(JAVAX_ANNOTATION_GENERATED));
             	LOG.fine(String.format("Generated model:\n%s", model2));
             	createSourceCode(generator2, model2);
             }

@@ -1,20 +1,19 @@
 package samples.with.builderpackage.builder;
 
-
-
 import samples.with.builderpackage.AddressDTO;
-
+import javax.annotation.Generated;
 
 /**
  * The {@link AddressDTOBuilder} is a Builder for {@link AddressDTO} objects.
  *
  * <p>
- *     Please DO NOT MODIFIY this class
+ *     This class has been generated.
+ *     Please DO NOT MODIFIY this file
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
  * </p>
- * @created by the PojoBuilder generator
  */
+@Generated("PojoBuilder")
 public class AddressDTOBuilder implements Cloneable {
 	protected AddressDTOBuilder self;
 	protected String value$street$java$lang$String; 

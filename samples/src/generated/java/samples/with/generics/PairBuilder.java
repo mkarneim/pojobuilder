@@ -1,20 +1,19 @@
 package samples.with.generics;
 
-
-
+import javax.annotation.Generated;
 import samples.with.generics.Pair;
-
 
 /**
  * The {@link PairBuilder} is a Builder for {@link Pair} objects.
  *
  * <p>
- *     Please DO NOT MODIFIY this class
+ *     This class has been generated.
+ *     Please DO NOT MODIFIY this file
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
  * </p>
- * @created by the PojoBuilder generator
  */
+@Generated("PojoBuilder")
 public class PairBuilder<A extends Comparable<A>, B extends Number> implements Cloneable {
 	protected PairBuilder<A, B> self;
 	protected A value$valueA$A; 
