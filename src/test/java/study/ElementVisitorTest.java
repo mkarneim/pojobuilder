@@ -39,7 +39,7 @@ public class ElementVisitorTest {
 	ElementVisitorMock underTest = new ElementVisitorMock();
 
 	@Test
-	public void testScanShouldVisitAllDeclaredFields() {
+	public void testScanOnParentClassShouldVisitAllDeclaredFields() {
 		// Given:
 		TypeElement parentClass = env.getElementUtils().getTypeElement(ParentClass.class.getCanonicalName());
 
@@ -54,7 +54,7 @@ public class ElementVisitorTest {
 	}
 
 	@Test
-	public void testScanShouldVisitConstructor() {
+	public void testScanOnParentClassShouldVisitAllExectableMembers() {
 		// Given:
 		TypeElement parentClass = env.getElementUtils().getTypeElement(ParentClass.class.getCanonicalName());
 
@@ -62,25 +62,14 @@ public class ElementVisitorTest {
 		underTest.scan(parentClass);
 
 		// Then:
+		// expecting 2 executables: 1 constructor and 1 method
 		Assert.assertEquals("executableCount", 2, underTest.getExecutableCount());
 		Assert.assertThat(ElementFilter.constructorsIn(underTest.getVisited()), containsName("<init>"));
-	}
-	
-	@Test
-	public void testScanShouldVisitMethod() {
-		// Given:
-		TypeElement parentClass = env.getElementUtils().getTypeElement(ParentClass.class.getCanonicalName());
-
-		// When:
-		underTest.scan(parentClass);
-
-		// Then:
-		Assert.assertEquals("executableCount", 2, underTest.getExecutableCount());
 		Assert.assertThat(ElementFilter.methodsIn(underTest.getVisited()), containsName("foo"));
 	}
 
 	@Test
-	public void testScanMustNotVisitFieldsInParentClass() {
+	public void testScanOnSubClassMustNotVisitFieldsInParentClass() {
 		// Given:
 		TypeElement subClass = env.getElementUtils().getTypeElement(SubClass.class.getCanonicalName());
 
@@ -92,7 +81,7 @@ public class ElementVisitorTest {
 	}
 	
 	@Test
-	public void testScanMustNotVisitMethodsInParentClass() {
+	public void testScanOnSubClassMustNotVisitExecutableMembersInParentClass() {
 		// Given:
 		TypeElement subClass = env.getElementUtils().getTypeElement(SubClass.class.getCanonicalName());
 

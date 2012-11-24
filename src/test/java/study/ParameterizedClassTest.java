@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.Element;
-import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.TypeParameterElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeKind;
@@ -19,65 +19,43 @@ import org.junit.runner.RunWith;
 
 import testenv.ProcessingEnvironmentRunner;
 
-
 @RunWith(ProcessingEnvironmentRunner.class)
 public class ParameterizedClassTest {
 	public static class ParentClass<T> {
 		public T value;
 	}
 
-	public static class SubClass extends ParentClass<String> {
+	public static class SampleClass extends ParentClass<String> {
 
 	}
 
 	ProcessingEnvironment env = ProcessingEnvironmentRunner.getProcessingEnvironment();
 
 	@Test
-	public void testCanGetTypeElement() {
+	public void testGetTypeParametersShouldReturnTypeVariable() {
 		// Given:
+		Class<?> aClass = ParentClass.class;
+		TypeElement el = env.getElementUtils().getTypeElement(aClass.getCanonicalName());
 
 		// When:
-		TypeElement el = env.getElementUtils().getTypeElement(ParentClass.class.getCanonicalName());
+		List<? extends TypeParameterElement> typeParameters = el.getTypeParameters();
 
 		// Then:
-		Assert.assertTrue(el.getKind() == ElementKind.CLASS);
+		Assert.assertEquals("size", 1, typeParameters.size());
+		TypeParameterElement tp0 = typeParameters.get(0);
+		Assert.assertEquals("kind", TypeKind.TYPEVAR, tp0.asType().getKind());
+		Assert.assertEquals("simpleName", "T", tp0.getSimpleName().toString());
 	}
 
 	@Test
-	public void testCanGetFields() {
+	public void testAsTypeOnFieldShouldReturnTypeVariable() {
 		// Given:
-		TypeElement el = env.getElementUtils().getTypeElement(ParentClass.class.getCanonicalName());
-		List<? extends Element> members = env.getElementUtils().getAllMembers(el);
-		
-		// When:
-		List<VariableElement> fields = ElementFilter.fieldsIn(members);
-
-		// Then:
-		Assert.assertEquals("size", 1, fields.size());
-	}
-
-	@Test
-	public void testCanGetNameOfField() {
-		// Given:
-		TypeElement el = env.getElementUtils().getTypeElement(ParentClass.class.getCanonicalName());
-		List<? extends Element> members = env.getElementUtils().getAllMembers(el);
-		List<VariableElement> fields = ElementFilter.fieldsIn(members);
-		
-		// When:
-		VariableElement field = fields.get(0);
-
-		// Then:
-		Assert.assertEquals("name", "value", field.getSimpleName().toString());
-	}
-
-	@Test
-	public void testCanGetTypeOfField() {
-		// Given:
-		TypeElement el = env.getElementUtils().getTypeElement(ParentClass.class.getCanonicalName());
+		Class<?> parentClass = ParentClass.class;
+		TypeElement el = env.getElementUtils().getTypeElement(parentClass.getCanonicalName());
 		List<? extends Element> members = env.getElementUtils().getAllMembers(el);
 		List<VariableElement> fields = ElementFilter.fieldsIn(members);
 		VariableElement field = fields.get(0);
-		
+
 		// When:
 		TypeMirror fieldType = field.asType();
 
@@ -88,20 +66,22 @@ public class ParameterizedClassTest {
 	}
 
 	@Test
-	public void testAsMemberOfReturnsConcreteTypeOfFieldInSubclass() {
+	public void testAsMemberOfOnFieldShouldReturnConcreteTypeOfField() {
 		// Given:
-		TypeElement el = env.getElementUtils().getTypeElement(SubClass.class.getCanonicalName());
+		Class<?> aClass = SampleClass.class;
+		TypeElement el = env.getElementUtils().getTypeElement(aClass.getCanonicalName());
 		List<? extends Element> members = env.getElementUtils().getAllMembers(el);
 		List<VariableElement> fields = ElementFilter.fieldsIn(members);
 		Assert.assertEquals("size", 1, fields.size());
 		VariableElement field = fields.get(0);
 
 		// When:
-		TypeMirror actualType = env.getTypeUtils().asMemberOf((DeclaredType)el.asType(), field);
+		TypeMirror actualType = env.getTypeUtils().asMemberOf((DeclaredType) el.asType(), field);
 
 		// Then:
 		Assert.assertEquals("kind", TypeKind.DECLARED, actualType.getKind());
-		DeclaredType actualDeclaredType = (DeclaredType)actualType;
-		Assert.assertEquals("name", String.class.getSimpleName(), actualDeclaredType.asElement().getSimpleName().toString());
+		DeclaredType actualDeclaredType = (DeclaredType) actualType;
+		Assert.assertEquals("name", String.class.getSimpleName(), actualDeclaredType.asElement().getSimpleName()
+				.toString());
 	}
 }

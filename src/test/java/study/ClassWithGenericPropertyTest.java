@@ -17,6 +17,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import study.SimpleClassTest.SampleClass;
 import testenv.ProcessingEnvironmentRunner;
 
 
@@ -29,52 +30,15 @@ public class ClassWithGenericPropertyTest {
 	ProcessingEnvironment env = ProcessingEnvironmentRunner.getProcessingEnvironment();
 
 	@Test
-	public void testCanGetTypeElement() {
+	public void testAsTypeOnFieldShouldReturnDeclaredType() {
 		// Given:
-
-		// When:
-		TypeElement el = env.getElementUtils().getTypeElement(SampleClass.class.getCanonicalName());
-
-		// Then:
-		Assert.assertTrue(el.getKind() == ElementKind.CLASS);
-	}
-
-	@Test
-	public void testCanGetFields() {
-		// Given:
-		TypeElement el = env.getElementUtils().getTypeElement(SampleClass.class.getCanonicalName());
-
-		// When:
-		List<? extends Element> members = env.getElementUtils().getAllMembers(el);
-		List<VariableElement> fields = ElementFilter.fieldsIn(members);
-
-		// Then:
-		Assert.assertTrue(fields.size() == 1);
-	}
-
-	@Test
-	public void testCanGetNameOfField() {
-		// Given:
-		TypeElement el = env.getElementUtils().getTypeElement(SampleClass.class.getCanonicalName());
-
-		// When:
+		Class<?> aClass = SampleClass.class;
+		TypeElement el = env.getElementUtils().getTypeElement(aClass.getCanonicalName());
 		List<? extends Element> members = env.getElementUtils().getAllMembers(el);
 		List<VariableElement> fields = ElementFilter.fieldsIn(members);
 		VariableElement field = fields.get(0);
-
-		// Then:
-		Assert.assertTrue(field.getSimpleName().toString().equals("names"));
-	}
-
-	@Test
-	public void testCanGetTypeOfField() {
-		// Given:
-		TypeElement el = env.getElementUtils().getTypeElement(SampleClass.class.getCanonicalName());
-
+		
 		// When:
-		List<? extends Element> members = env.getElementUtils().getAllMembers(el);
-		List<VariableElement> fields = ElementFilter.fieldsIn(members);
-		VariableElement field = fields.get(0);
 		TypeMirror fieldType = field.asType();
 
 		// Then:
@@ -84,20 +48,20 @@ public class ClassWithGenericPropertyTest {
 	}
 	
 	@Test
-	public void testCanGetParameterTypeOfField() {
+	public void testGetTypeArgumentsOnFieldShouldReturnDeclaredType() {
 		// Given:
-		TypeElement el = env.getElementUtils().getTypeElement(SampleClass.class.getCanonicalName());
-
-		// When:
+		Class<?> aClass = SampleClass.class;
+		TypeElement el = env.getElementUtils().getTypeElement(aClass.getCanonicalName());
 		List<? extends Element> members = env.getElementUtils().getAllMembers(el);
 		List<VariableElement> fields = ElementFilter.fieldsIn(members);
 		VariableElement field = fields.get(0);
 		TypeMirror fieldType = field.asType();
 		DeclaredType declaredFieldType = (DeclaredType) fieldType;
+
+		// When:
 		List<? extends TypeMirror> paramTypes = declaredFieldType.getTypeArguments();
 		
 		// Then:
-		//TypeMirror  env.getTypeUtils().asMemberOf(classDeclaredType, field);
 		Assert.assertTrue(paramTypes.size()==1);
 		TypeMirror param0Type = paramTypes.get(0);
 		Assert.assertEquals("kind", TypeKind.DECLARED, param0Type.getKind());
