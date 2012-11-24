@@ -43,15 +43,12 @@ public class JavaProject {
 		this.outputRoot = workingDirectory;
 		this.compiler = ToolProvider.getSystemJavaCompiler();
 		this.diagnostics = new DiagnosticCollector<JavaFileObject>();
-		this.fileManager = compiler.getStandardFileManager(diagnostics, null,
-				null);
+		this.fileManager = compiler.getStandardFileManager(diagnostics, null, null);
 
 		try {
 			// Define the output locations
-			fileManager.setLocation(StandardLocation.CLASS_OUTPUT,
-					Arrays.asList(outputRoot));
-			fileManager.setLocation(StandardLocation.SOURCE_OUTPUT,
-					Arrays.asList(outputRoot));
+			fileManager.setLocation(StandardLocation.CLASS_OUTPUT, Arrays.asList(outputRoot));
+			fileManager.setLocation(StandardLocation.SOURCE_OUTPUT, Arrays.asList(outputRoot));
 		} catch (IOException e) {
 			throw new UndeclaredThrowableException(e);
 		}
@@ -87,7 +84,7 @@ public class JavaProject {
 	 * Adds the file with the given relative filename to the source tree.
 	 * 
 	 * @param filename
-	 *            the filename mus be relative to the current directory (that is
+	 *            the filename must be relative to the current directory (that is
 	 *            the directory this JVM has been started from)
 	 */
 	public void addSourceFile(String filename) {
@@ -96,22 +93,30 @@ public class JavaProject {
 		sourceFiles.add(fromFile);
 	}
 
+	/**
+	 * Adds the (compiled) class with the given full qualified name to the list
+	 * of classes, that should be processed by the annotation processor(s)
+	 * without being compiled first. Make sure that the class is available in
+	 * the current class path.
+	 * 
+	 * @param name
+	 *            the full qualified class name of the class
+	 */
 	public void addClassnameForProcessing(String name) {
 		classnamesForProcessing.add(name);
 	}
-	
+
 	/**
-	 * Loads a class with the given classname from this project's output
+	 * Loads a class with the given class name from this project's output
 	 * directory and returns it.
 	 * 
 	 * @param classname
-	 * @return the class with the given classname, loaded from this project's
+	 * @return the class with the given class name, loaded from this project's
 	 *         output directory
 	 * @throws ClassNotFoundException
 	 */
 	public Class<?> findClass(String classname) throws ClassNotFoundException {
-		ClassLoader cl = fileManager
-				.getClassLoader(StandardLocation.CLASS_OUTPUT);
+		ClassLoader cl = fileManager.getClassLoader(StandardLocation.CLASS_OUTPUT);
 		Class<?> result = cl.loadClass(classname);
 		return result;
 	}
@@ -120,21 +125,17 @@ public class JavaProject {
 	 * Compiles this project's sources. All generated files will be placed into
 	 * the output directory.
 	 * 
-	 * @return <code>true</code> if the compilation has been successfull.
+	 * @return <code>true</code> if the compilation has been successful.
 	 * @throws IOException
 	 */
 	public boolean compile() throws IOException {
-		Iterable<? extends JavaFileObject> compilationUnits = fileManager
-				.getJavaFileObjectsFromFiles(this.sourceFiles);
+		Iterable<? extends JavaFileObject> compilationUnits = fileManager.getJavaFileObjectsFromFiles(this.sourceFiles);
 
 		List<String> optionList = new ArrayList<String>();
-		// set compiler's classpath to be same as the runtime's
-		optionList.addAll(Arrays.asList("-classpath",
-				System.getProperty("java.class.path")));
+		// set compiler's class path to be same as the runtime's
+		optionList.addAll(Arrays.asList("-classpath", System.getProperty("java.class.path")));
 		// enable the annotation processor
 		if (!processorClasses.isEmpty()) {
-			// optionList.addAll(Arrays.asList("-processor",
-			// GeneratePojoBuilderAnnotationProcessor.class.getCanonicalName()));#
 			StringBuilder buf = new StringBuilder();
 			for (Class<? extends Processor> cls : processorClasses) {
 				if (buf.length() > 0) {
@@ -145,14 +146,13 @@ public class JavaProject {
 			optionList.addAll(Arrays.asList("-processor", buf.toString()));
 		}
 
-		JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager,
-				diagnostics, optionList, classnamesForProcessing, compilationUnits);
+		JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, diagnostics, optionList,
+				classnamesForProcessing, compilationUnits);
 		boolean success = task.call();
 
 		fileManager.close();
 
-		for (Diagnostic<? extends JavaFileObject> d : diagnostics
-				.getDiagnostics()) {
+		for (Diagnostic<? extends JavaFileObject> d : diagnostics.getDiagnostics()) {
 			System.out.println(d);
 		}
 		return success;

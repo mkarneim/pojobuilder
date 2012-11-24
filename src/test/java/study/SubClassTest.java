@@ -11,6 +11,7 @@ import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.ElementFilter;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -30,8 +31,13 @@ public class SubClassTest {
 		private String fieldC;
 	}
 
-	ProcessingEnvironment env = ProcessingEnvironmentRunner.getProcessingEnvironment();
+	private ProcessingEnvironment env;
 
+	@Before
+	public void setupEnv() {
+		env = ProcessingEnvironmentRunner.getProcessingEnvironment();
+	}
+	
 	@Test
 	public void testGetAllMembersShouldReturnNoPrivateSuperMembers() {
 		// Given:

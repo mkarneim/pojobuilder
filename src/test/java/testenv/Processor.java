@@ -40,11 +40,11 @@ public class Processor extends AbstractProcessor {
 
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-		if ( roundEnv.processingOver()) {
+		if (roundEnv.processingOver()) {
 			return false;
 		}
 		if (listener != null) {
-			listener.onInvoke(getProcessingEnv());
+			listener.onInvoke(getProcessingEnv(), roundEnv);
 		}
 		return true;
 	}

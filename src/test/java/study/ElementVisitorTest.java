@@ -8,6 +8,7 @@ import javax.lang.model.util.ElementFilter;
 
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -34,7 +35,13 @@ public class ElementVisitorTest {
 	public static class SubClass extends ParentClass<Integer> {
 	}
 
-	ProcessingEnvironment env = ProcessingEnvironmentRunner.getProcessingEnvironment();
+	private ProcessingEnvironment env;
+
+	@Before
+	public void setupEnv() {
+		env = ProcessingEnvironmentRunner.getProcessingEnvironment();
+	}
+
 
 	ElementVisitorMock underTest = new ElementVisitorMock();
 

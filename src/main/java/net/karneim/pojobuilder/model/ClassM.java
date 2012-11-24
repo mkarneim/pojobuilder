@@ -8,14 +8,30 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class ClassM {
-	private final TypeM type;
-	private final TypeM superType;
-	private final boolean abstractClass;
+	private TypeM type;
+	private TypeM superType;
+	private boolean abstractClass;
 	private Date created;
 
 	public ClassM(TypeM aType, TypeM aSuperType, boolean abstractClass) {
 		this.type = aType;
 		this.superType = aSuperType;
+		this.abstractClass = abstractClass;
+	}
+	
+	public ClassM() {
+		super();
+	}
+	
+	public void setType(TypeM type) {
+		this.type = type;
+	}
+
+	public void setSuperType(TypeM superType) {
+		this.superType = superType;
+	}
+
+	public void setAbstractClass(boolean abstractClass) {
 		this.abstractClass = abstractClass;
 	}
 

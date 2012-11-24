@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 public class BuilderM extends ClassM {
-    private final TypeM productType;
+    private TypeM productType;
     private FactoryM factory;
     private List<PropertyM> properties = new ArrayList<PropertyM>();
     private TypeM selfType;
@@ -24,8 +24,19 @@ public class BuilderM extends ClassM {
         	this.selfType = selfType;
         }
     }
+    
+    public BuilderM() {
+	}
+    
+	public void setProductType(TypeM productType) {
+		this.productType = productType;
+	}
 
-    public List<TypeM> getAdditionalImports() {
+	public void setSelfType(TypeM selfType) {
+		this.selfType = selfType;
+	}
+
+	public List<TypeM> getAdditionalImports() {
 		return additionalImports;
 	}
 

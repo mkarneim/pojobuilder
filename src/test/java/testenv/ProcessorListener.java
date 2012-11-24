@@ -1,7 +1,9 @@
 package testenv;
 
 import javax.annotation.processing.ProcessingEnvironment;
+import javax.annotation.processing.RoundEnvironment;
 
 interface ProcessorListener {
-	public void onInvoke( ProcessingEnvironment env);
+
+	void onInvoke(ProcessingEnvironment env, RoundEnvironment roundEnv);
 }

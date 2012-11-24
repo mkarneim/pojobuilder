@@ -14,6 +14,7 @@ import javax.lang.model.type.TypeVariable;
 import javax.lang.model.util.ElementFilter;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -29,7 +30,13 @@ public class ParameterizedClassTest {
 
 	}
 
-	ProcessingEnvironment env = ProcessingEnvironmentRunner.getProcessingEnvironment();
+	private ProcessingEnvironment env;
+
+	@Before
+	public void setupEnv() {
+		env = ProcessingEnvironmentRunner.getProcessingEnvironment();
+	}
+
 
 	@Test
 	public void testGetTypeParametersShouldReturnTypeVariable() {

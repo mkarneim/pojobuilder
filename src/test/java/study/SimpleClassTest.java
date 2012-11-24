@@ -14,6 +14,7 @@ import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -27,7 +28,13 @@ public class SimpleClassTest {
 		private String name;
 	}
 
-	ProcessingEnvironment env = ProcessingEnvironmentRunner.getProcessingEnvironment();
+	private ProcessingEnvironment env;
+
+	@Before
+	public void setupEnv() {
+		env = ProcessingEnvironmentRunner.getProcessingEnvironment();
+	}
+
 
 	@Test
 	public void testGetTypeElementShouldReturnClass() {
