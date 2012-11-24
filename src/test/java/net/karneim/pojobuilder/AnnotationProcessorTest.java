@@ -104,7 +104,7 @@ public class AnnotationProcessorTest {
 		Assert.assertNotNull("newAbstractClass", newAbstractClass);
 		Assert.assertEquals( "abstract",  true, Modifier.isAbstract(newAbstractClass.getModifiers()));
 		Assert.assertEquals( "abstract",  false, Modifier.isAbstract(newClass.getModifiers()));
-		Assert.assertEquals( "superclass",  newAbstractClass, newClass.getSuperclass());
+		Assert.assertEquals( "superclass",  newAbstractClass.getCanonicalName(), newClass.getSuperclass().getCanonicalName());
 	}
 
 }
