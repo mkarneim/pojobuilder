@@ -7,8 +7,8 @@
 	<classpathentry kind="src" path="src/main/templates"/>
 	<classpathentry kind="src" path="src/main/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/junit/junit-4.8.2.jar" sourcepath="/Users/karneim/.m2/repository/junit/junit/4.8.2/junit-4.8.2-sources.jar"/>
 	<classpathentry kind="lib" path="lib/stringtemplate/antlr-3.3-complete.jar"/>
 	<classpathentry kind="lib" path="lib/stringtemplate/ST-4.0.4.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
