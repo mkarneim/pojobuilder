@@ -7,6 +7,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import destdata.TestData;
+
 import testenv.JavaProject;
 import testenv.Util;
 
@@ -17,7 +19,7 @@ import testenv.Util;
  */
 public class AnnotationProcessorTest {
 
-	JavaProject prj = new JavaProject(Util.createTempDir());
+	private JavaProject prj = new JavaProject(Util.createTempDir());
 
 	@Before
 	public void setupJavaProject() {
@@ -35,72 +37,72 @@ public class AnnotationProcessorTest {
 	@Test
 	public void testCompileShouldCompileEmptyPojo() throws Exception {
 		// Given: there is a pojo source file
-		prj.addSourceFile("src/test/data/testdata/EmptyPojo.java");
+		prj.addSourceFile(TestData.SRC_TESTDATA_EMPTY_POJO);
 
 		// When: the compilation is invoked
 		boolean success = prj.compile();
 
 		// Then: the class file is generated
 		Assert.assertEquals("success", true, success);
-		Class<?> pojoClass = prj.findClass("testdata.EmptyPojo");
+		Class<?> pojoClass = prj.findClass(TestData.CLS_TESTDATA_EMPTY_POJO);
 		Assert.assertNotNull("pojoClass", pojoClass);
 	}
 
 	@Test
 	public void testCompileShouldGeneratePojoBuilder1() throws Exception {
 		// Given: there is an annotated pojo source file
-		prj.addSourceFile("src/test/data/testdata/SimpleAnnotatedPojo.java");
+		prj.addSourceFile(TestData.SRC_TESTDATA_SIMPLE_ANNOTATED_POJO);
 
 		// When: the compilation is invoked
 		boolean success = prj.compile();
 
 		// Then: a new builder class is generated with a matching name
 		Assert.assertEquals("success", true, success);
-		Class<?> newClass = prj.findClass("testdata.SimpleAnnotatedPojoBuilder");
+		Class<?> newClass = prj.findClass(TestData.CLS_TESTDATA_SIMPLE_ANNOTATED_POJO_BUILDER);
 		Assert.assertNotNull("newClass", newClass);
 	}
 
 	@Test
 	public void testCompileShouldGeneratePojoBuilder2() throws Exception {
 		// Given: there is an annotated pojo source file
-		prj.addSourceFile("src/test/data/testdata/Contact.java");
+		prj.addSourceFile(TestData.SRC_TESTDATA_CONTACT);
 
 		// When: the compilation is invoked
 		boolean success = prj.compile();
 
 		// Then: a new builder class is generated with a matching name
 		Assert.assertEquals("success", true, success);
-		Class<?> newClass = prj.findClass("testdata.ContactBuilder");
+		Class<?> newClass = prj.findClass(TestData.CLS_TESTDATA_CONTACT_BUILDER);
 		Assert.assertNotNull("newClass", newClass);
 	}
 
 	@Test
 	public void testCompileShouldGeneratePojoBuilderIntoTargetPackage() throws Exception {
 		// Given: there is an annotated pojo source file with "intoPackage" directive
-		prj.addSourceFile("src/test/data/testdata/intoPackage/Contact.java");
+		prj.addSourceFile(TestData.SRC_TESTDATA_INTO_PACKAGE_CONTACT);
 
 		// When: the compilation is invoked
 		boolean success = prj.compile();
 
 		// Then: a new builder class is generated into target directory
 		Assert.assertEquals("success", true, success);
-		Class<?> newClass = prj.findClass("testdata.intoPackage.target.ContactBuilder");
+		Class<?> newClass = prj.findClass(TestData.CLS_TESTDATA_INTO_PACKAGE_TARGET_CONTACT_BUILDER);
 		Assert.assertNotNull("newClass", newClass);
 	}
 
 	@Test
 	public void testCompileShouldGeneratePojoBuilderWithGenerationGap() throws Exception {
 		// Given: there is an annotated pojo source file with "useGenerationGap" directive
-		prj.addSourceFile("src/test/data/testdata/generationgap/Contact.java");
+		prj.addSourceFile(TestData.SRC_TESTDATA_GENERATIONGAP_CONTACT);
 
 		// When: the compilation is invoked
 		boolean success = prj.compile();
 
 		// Then: two new classes are generated, one abstract and the other concrete
 		Assert.assertEquals("success", true, success);
-		Class<?> newClass = prj.findClass("testdata.generationgap.ContactBuilder");
+		Class<?> newClass = prj.findClass(TestData.CLS_TESTDATA_GENERATIONGAP_CONTACT_BUILDER);
 		Assert.assertNotNull("newClass", newClass);
-		Class<?> newAbstractClass = prj.findClass("testdata.generationgap.AbstractContactBuilder");
+		Class<?> newAbstractClass = prj.findClass(TestData.CLS_TESTDATA_GENERATIONGAP_ABSTRACT_CONTACT_BUILDER);
 		Assert.assertNotNull("newAbstractClass", newAbstractClass);
 		Assert.assertEquals( "abstract",  true, Modifier.isAbstract(newAbstractClass.getModifiers()));
 		Assert.assertEquals( "abstract",  false, Modifier.isAbstract(newClass.getModifiers()));

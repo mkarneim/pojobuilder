@@ -11,8 +11,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import destdata.TestData;
+
 import study.buildermodelproducer.BuilderModelProducer;
-import study.buildermodelproducer.TestData;
 import testenv.AddSourceFile;
 import testenv.ProcessingEnvironmentRunner;
 
