@@ -18,7 +18,7 @@ public @interface GeneratePojoBuilder {
 	 * 
 	 * @return the base class of the generated builder
 	 */
-	Class withBaseclass() default Object.class;
+	Class<?> withBaseclass() default Object.class;
 
 	/**
 	 * Specifies the name of the generated builder. Any asterisk will be
