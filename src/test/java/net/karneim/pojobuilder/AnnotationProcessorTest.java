@@ -90,7 +90,7 @@ public class AnnotationProcessorTest {
 
 	@Test
 	public void testCompileShouldGeneratePojoBuilderWithGenerationGap() throws Exception {
-		// Given: there is an annotated pojo source file with "userGenerationGap" directive
+		// Given: there is an annotated pojo source file with "useGenerationGap" directive
 		prj.addSourceFile("src/test/data/testdata/generationgap/Contact.java");
 
 		// When: the compilation is invoked
