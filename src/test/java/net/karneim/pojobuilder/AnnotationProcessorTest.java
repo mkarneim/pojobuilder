@@ -1,4 +1,4 @@
-package acceptance;
+package net.karneim.pojobuilder;
 
 import net.karneim.pojobuilder.AnnotationProcessor;
 
@@ -7,8 +7,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import acceptance.env.JavaProject;
-import acceptance.env.Util;
+import testenv.JavaProject;
+import testenv.Util;
+
 
 public class AnnotationProcessorTest {
 

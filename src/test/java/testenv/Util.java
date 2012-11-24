@@ -1,4 +1,4 @@
-package acceptance.env;
+package testenv;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,0 +1,108 @@
+package study;
+
+import static testenv.Matchers.containsName;
+
+import javax.annotation.processing.ProcessingEnvironment;
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.util.ElementFilter;
+
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import testenv.ElementVisitorMock;
+import testenv.ProcessingEnvironmentRunner;
+
+
+@RunWith(ProcessingEnvironmentRunner.class)
+public class ElementVisitorTest {
+	public static class ParentClass<T> {
+		@SuppressWarnings("unused")
+		private String fieldA;
+		public String fieldB;
+		public T fieldC;
+
+		public ParentClass() {
+		}
+		
+		public void foo() {
+			
+		}
+	}
+
+	public static class SubClass extends ParentClass<Integer> {
+	}
+
+	ProcessingEnvironment env = ProcessingEnvironmentRunner.getProcessingEnvironment();
+
+	ElementVisitorMock underTest = new ElementVisitorMock();
+
+	@Test
+	public void testScanShouldVisitAllDeclaredFields() {
+		// Given:
+		TypeElement parentClass = env.getElementUtils().getTypeElement(ParentClass.class.getCanonicalName());
+
+		// When:
+		underTest.scan(parentClass);
+
+		// Then:
+		Assert.assertEquals("variableCount", 3, underTest.getVariableCount());
+		Assert.assertThat(ElementFilter.fieldsIn(underTest.getVisited()), containsName("fieldA"));
+		Assert.assertThat(ElementFilter.fieldsIn(underTest.getVisited()), containsName("fieldB"));
+		Assert.assertThat(ElementFilter.fieldsIn(underTest.getVisited()), containsName("fieldC"));
+	}
+
+	@Test
+	public void testScanShouldVisitConstructor() {
+		// Given:
+		TypeElement parentClass = env.getElementUtils().getTypeElement(ParentClass.class.getCanonicalName());
+
+		// When:
+		underTest.scan(parentClass);
+
+		// Then:
+		Assert.assertEquals("executableCount", 2, underTest.getExecutableCount());
+		Assert.assertThat(ElementFilter.constructorsIn(underTest.getVisited()), containsName("<init>"));
+	}
+	
+	@Test
+	public void testScanShouldVisitMethod() {
+		// Given:
+		TypeElement parentClass = env.getElementUtils().getTypeElement(ParentClass.class.getCanonicalName());
+
+		// When:
+		underTest.scan(parentClass);
+
+		// Then:
+		Assert.assertEquals("executableCount", 2, underTest.getExecutableCount());
+		Assert.assertThat(ElementFilter.methodsIn(underTest.getVisited()), containsName("foo"));
+	}
+
+	@Test
+	public void testScanMustNotVisitFieldsInParentClass() {
+		// Given:
+		TypeElement subClass = env.getElementUtils().getTypeElement(SubClass.class.getCanonicalName());
+
+		// When:
+		underTest.scan(subClass);
+
+		// Then:
+		Assert.assertEquals("variableCount", 0, underTest.getVariableCount());
+	}
+	
+	@Test
+	public void testScanMustNotVisitMethodsInParentClass() {
+		// Given:
+		TypeElement subClass = env.getElementUtils().getTypeElement(SubClass.class.getCanonicalName());
+
+		// When:
+		underTest.scan(subClass);
+
+		// Then:
+		//   we expect to find only the default constructor
+		Assert.assertEquals("variableCount", 1, underTest.getExecutableCount()); 
+		Assert.assertThat(ElementFilter.constructorsIn(underTest.getVisited()), containsName("<init>")); 
+	}
+
+}
