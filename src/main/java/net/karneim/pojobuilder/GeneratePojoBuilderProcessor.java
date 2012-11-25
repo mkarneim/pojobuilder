@@ -88,6 +88,7 @@ public class GeneratePojoBuilderProcessor {
         if ( withGenGap) {
         	String builderClassname2 = getBuilderClassname(builderPackageName, null, productSimpleName, annotation);
         	TypeM builderType2 = new TypeM(builderClassname2);
+        	builderType2.getTypeParameters().addAll( builderType.getTypeParameters());
         	builder.withSelfType(builderType2);
         	builder.withAbstract(true);
         }
@@ -163,6 +164,7 @@ public class GeneratePojoBuilderProcessor {
         if ( withGenGap) {
         	String builderClassname2 = getBuilderClassname(builderPackageName, null, productSimpleName, annotation);
         	TypeM builderType2 = new TypeM(builderClassname2);
+        	builderType2.getTypeParameters().addAll( builderType.getTypeParameters());
         	builder.withSelfType(builderType2);
         	builder.withAbstract(true);
         }
