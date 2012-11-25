@@ -1,6 +1,6 @@
 package study;
 
-import static testenv.Matchers.containsName;
+import static testenv.TestHelpers.containsElementWithName;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.TypeElement;
@@ -55,9 +55,9 @@ public class ElementVisitorTest {
 
 		// Then:
 		Assert.assertEquals("variableCount", 3, underTest.getVariableCount());
-		Assert.assertThat(ElementFilter.fieldsIn(underTest.getVisited()), containsName("fieldA"));
-		Assert.assertThat(ElementFilter.fieldsIn(underTest.getVisited()), containsName("fieldB"));
-		Assert.assertThat(ElementFilter.fieldsIn(underTest.getVisited()), containsName("fieldC"));
+		Assert.assertThat(ElementFilter.fieldsIn(underTest.getVisited()), containsElementWithName("fieldA"));
+		Assert.assertThat(ElementFilter.fieldsIn(underTest.getVisited()), containsElementWithName("fieldB"));
+		Assert.assertThat(ElementFilter.fieldsIn(underTest.getVisited()), containsElementWithName("fieldC"));
 	}
 
 	@Test
@@ -71,8 +71,8 @@ public class ElementVisitorTest {
 		// Then:
 		// expecting 2 executables: 1 constructor and 1 method
 		Assert.assertEquals("executableCount", 2, underTest.getExecutableCount());
-		Assert.assertThat(ElementFilter.constructorsIn(underTest.getVisited()), containsName("<init>"));
-		Assert.assertThat(ElementFilter.methodsIn(underTest.getVisited()), containsName("foo"));
+		Assert.assertThat(ElementFilter.constructorsIn(underTest.getVisited()), containsElementWithName("<init>"));
+		Assert.assertThat(ElementFilter.methodsIn(underTest.getVisited()), containsElementWithName("foo"));
 	}
 
 	@Test
@@ -98,7 +98,7 @@ public class ElementVisitorTest {
 		// Then:
 		//   we expect to find only the default constructor
 		Assert.assertEquals("variableCount", 1, underTest.getExecutableCount()); 
-		Assert.assertThat(ElementFilter.constructorsIn(underTest.getVisited()), containsName("<init>")); 
+		Assert.assertThat(ElementFilter.constructorsIn(underTest.getVisited()), containsElementWithName("<init>")); 
 	}
 
 }

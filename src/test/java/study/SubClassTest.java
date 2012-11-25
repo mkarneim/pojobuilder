@@ -1,6 +1,6 @@
 package study;
 
-import static testenv.Matchers.containsName;
+import static testenv.TestHelpers.containsElementWithName;
 
 import java.util.List;
 
@@ -52,8 +52,8 @@ public class SubClassTest {
 
 		// Then:
 		Assert.assertEquals("size", 2, fields.size());
-		Assert.assertThat(fields, containsName("fieldB"));
-		Assert.assertThat(fields, containsName("fieldC"));
+		Assert.assertThat(fields, containsElementWithName("fieldB"));
+		Assert.assertThat(fields, containsElementWithName("fieldC"));
 	}
 
 }

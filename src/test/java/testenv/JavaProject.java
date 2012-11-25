@@ -79,6 +79,10 @@ public class JavaProject {
 	public File getOutputRoot() {
 		return outputRoot;
 	}
+	
+	public List<Diagnostic<? extends JavaFileObject>> getDiagnostics() {
+		return diagnostics.getDiagnostics();
+	}
 
 	/**
 	 * Adds the file with the given relative filename to the source tree.

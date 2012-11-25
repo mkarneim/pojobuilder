@@ -1,4 +1,4 @@
-package study.buildermodelproducer.baseclass;
+package study.buildermodelproducer;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.TypeElement;
@@ -13,13 +13,12 @@ import org.junit.runner.RunWith;
 
 import destdata.TestData;
 
-import study.buildermodelproducer.BuilderModelProducer;
 import testenv.AddSourceFile;
 import testenv.ProcessingEnvironmentRunner;
 
 @RunWith(ProcessingEnvironmentRunner.class)
 @AddSourceFile({ TestData.SRC_TESTDATA_BASECLASS_CONTACT, TestData.SRC_TESTDATA_BASECLASS_BASE_BUILDER })
-public class BuilderModelProducerTest {
+public class WithBaseclassTest {
 
 	private ProcessingEnvironment env;
 
@@ -28,20 +27,22 @@ public class BuilderModelProducerTest {
 	@Before
 	public void setup() {
 		env = ProcessingEnvironmentRunner.getProcessingEnvironment();
-		underTest = new BuilderModelProducer(env);
+		TypeMUtils typeMUtils = new TypeMUtils();
+		underTest = new BuilderModelProducer(env, typeMUtils);
 	}
 
 	@Test
-	public void testProduceModelReturnsModelWithSuperType() {
+	public void testProduceReturnsModelWithSpecifiedSuperType() {
 		// Given:
 		String pojoClassname = TestData.CLS_TESTDATA_BASECLASS_CONTACT;
 		TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(pojoClassname);
 
 		// When:
-		BuilderM result = underTest.produceModel(pojoTypeElement);
+		Output output = underTest.produce(new Input(pojoTypeElement));
+		BuilderM builder = output.getBuilderModel();
 
 		// Then:
-		Assert.assertEquals("type", TypeM.get(TestData.CLS_TESTDATA_BASECLASS_BASE_BUILDER), result.getSuperType());
+		Assert.assertEquals("superType", TypeM.get(TestData.CLS_TESTDATA_BASECLASS_BASE_BUILDER), builder.getSuperType());
 	}
 
 }

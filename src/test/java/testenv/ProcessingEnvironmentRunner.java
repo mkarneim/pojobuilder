@@ -1,9 +1,13 @@
 package testenv;
 
 import java.lang.reflect.UndeclaredThrowableException;
+import java.util.List;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
+import javax.tools.Diagnostic;
+import javax.tools.Diagnostic.Kind;
+import javax.tools.JavaFileObject;
 
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
@@ -39,19 +43,23 @@ public class ProcessingEnvironmentRunner extends BlockJUnit4ClassRunner {
 		private Statement next;
 		private FrameworkMethod method;
 		private Throwable exception;
+		private JavaProject prj;
 
 		public YYYStatement(Statement next, FrameworkMethod method) {
 			super();
 			this.next = next;
 			this.method = method;
+			this.prj = new JavaProject(Util.createTempDir());
 		}
 
 		@Override
 		public void evaluate() throws Throwable {
 			exception = null;
-			
-			
-			
+			addSourceFiles(prj, klass.getAnnotation(AddSourceFile.class));
+			addSourceFiles(prj,  method.getMethod().getAnnotation(AddSourceFile.class));
+			prj.getProcessorClasses().add(Processor.class);
+			prj.addClassnameForProcessing(klass.getCanonicalName());
+
 			Processor.setListener(new ProcessorListener() {
 
 				@Override
@@ -67,19 +75,19 @@ public class ProcessingEnvironmentRunner extends BlockJUnit4ClassRunner {
 			});
 
 			try {
-				JavaProject prj = new JavaProject(Util.createTempDir());
-				
-				addSourceFiles(prj, klass.getAnnotation(AddSourceFile.class));
-				addSourceFiles(prj,  method.getMethod().getAnnotation(AddSourceFile.class));
-				
-				prj.getProcessorClasses().add(Processor.class);
-				prj.addClassnameForProcessing(klass.getCanonicalName());
 				prj.compile();
+				List<Diagnostic<? extends JavaFileObject>> diagnostics = prj.getDiagnostics();
+				for( Diagnostic<? extends JavaFileObject> diagnostic: diagnostics) {
+					if ( diagnostic.getKind()==Kind.ERROR)  {
+						throw new CompilationException( diagnostic.toString());
+					}
+				}
+			} finally {
+				processingEnvironment.setDelegate(null);
+				roundEnvironment.setDelegate(null);
 				prj.delete();
-			} catch (Exception e) {
-				throw new UndeclaredThrowableException(e);
 			}
-			processingEnvironment.setDelegate(null);
+			
 			if (exception != null) {
 				throw exception;
 			}

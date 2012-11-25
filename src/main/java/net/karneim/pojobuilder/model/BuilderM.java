@@ -52,7 +52,7 @@ public class BuilderM extends ClassM {
         return factory != null;
     }
 
-    public Collection<PropertyM> getProperties() {
+    public List<PropertyM> getProperties() {
         return properties;
     }
 
