@@ -105,7 +105,9 @@ public class GeneratePojoBuilderProcessor {
         	LOG.fine(String.format("typeElement2:\n%s", typeElement2));
             if ( typeElement2 == null) {
             	TypeM builderType2 = new TypeM(builderClassname2);
+            	builderType2.getTypeParameters().addAll( builderType.getTypeParameters());
         		BuilderM model2 = new BuilderMBuilder().withType(builderType2).withSuperType(builderType).withProductType(productType).build();
+        		
         		model2.getAdditionalImports().add( TypeM.get(JAVAX_ANNOTATION_GENERATED));
             	LOG.fine(String.format("Generated model:\n%s", model2));
             	createSourceCode(generator2, model2);
@@ -177,6 +179,7 @@ public class GeneratePojoBuilderProcessor {
         	LOG.fine(String.format("typeElement2:\n%s", typeElement2));
             if ( typeElement2 == null) {
             	TypeM builderType2 = new TypeM(builderClassname2);
+            	builderType2.getTypeParameters().addAll( builderType.getTypeParameters());
         		BuilderM model2 = new BuilderMBuilder().withType(builderType2).withSuperType(builderType).withProductType(productType).build();
         		model2.getAdditionalImports().add( TypeM.get(JAVAX_ANNOTATION_GENERATED));
             	LOG.fine(String.format("Generated model:\n%s", model2));
