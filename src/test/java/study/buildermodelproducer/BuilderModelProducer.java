@@ -49,7 +49,7 @@ public class BuilderModelProducer {
 		result.setBuilderModel(builderModel);
 		
 		builderModel.setProductType(computeProductType(pojoTypeElement));
-		builderModel.setSuperType(computeSuperType(pojoTypeElement));
+		builderModel.setSuperType(computeBuilderSuperType(pojoTypeElement));
 		builderModel.getProperties().addAll(getPropertyModels(pojoTypeElement));
 
 		if (annotation.withGenerationGap()) {
@@ -73,7 +73,7 @@ public class BuilderModelProducer {
 		return result;
 	}
 
-	private TypeM computeSuperType(TypeElement pojoTypeElement) {
+	private TypeM computeBuilderSuperType(TypeElement pojoTypeElement) {
 		String annotationClassname = GeneratePojoBuilder.class.getCanonicalName();
 		TypeElement superTypeElement = getAnnotationClassAttributeValue(pojoTypeElement, annotationClassname,
 				"withBaseclass");
@@ -136,7 +136,7 @@ public class BuilderModelProducer {
 				TypeMirror propertyType = parameters.get(i).asType();
 				TypeM propertyTypeM = typeMUtils.getTypeM(propertyType);
 
-				String fieldName = toBuilderFieldname(propertyName, propertyTypeM.getQualifiedName());
+				String fieldName = computeBuilderFieldname(propertyName, propertyTypeM.getQualifiedName());
 				PropertyM propM = new PropertyM(propertyName, fieldName, propertyTypeM);
 				propM.setParameterPos(i);
 				resultMap.put(fieldName, propM);
@@ -160,7 +160,7 @@ public class BuilderModelProducer {
 
 					TypeM propertyTypeM = typeMUtils.getTypeM(propertyType);
 
-					String fieldName = toBuilderFieldname(propertyName, propertyTypeM.getQualifiedName());
+					String fieldName = computeBuilderFieldname(propertyName, propertyTypeM.getQualifiedName());
 					PropertyM propM = resultMap.get(fieldName);
 					if (propM == null) {
 						propM = new PropertyM(propertyName, fieldName, propertyTypeM);
@@ -186,7 +186,7 @@ public class BuilderModelProducer {
 					TypeM propertyTypeM = typeMUtils.getTypeM(propertyType);
 
 					String propertyName = property.getSimpleName().toString();
-					String fieldName = toBuilderFieldname(propertyName, propertyTypeM.getQualifiedName());
+					String fieldName = computeBuilderFieldname(propertyName, propertyTypeM.getQualifiedName());
 					PropertyM propM = resultMap.get(fieldName);
 					if (propM == null) {
 						propM = new PropertyM(propertyName, fieldName, propertyTypeM);
@@ -213,8 +213,10 @@ public class BuilderModelProducer {
 		if (name.startsWith("set")) {
 			name = name.substring("set".length());
 			name = firstCharToLowerCase(name);
+			return name;
+		} else {
+			throw new IllegalArgumentException(String.format("Not a setter method name: %s!", name));
 		}
-		return name;
 	}
 
 	private String firstCharToLowerCase(String text) {
@@ -234,10 +236,10 @@ public class BuilderModelProducer {
 				&& retType.getKind() == TypeKind.VOID && elem.getParameters().size() == 1;
 	}
 
-	private static String toBuilderFieldname(String propName, String type) {
-		String typeString = type.replaceAll("\\.", "\\$");
+	private static String computeBuilderFieldname(String propertyName, String propertyType) {
+		String typeString = propertyType.replaceAll("\\.", "\\$");
 		typeString = typeString.replaceAll("\\[\\]", "\\$");
-		return propName + "$" + typeString;
+		return propertyName + "$" + typeString;
 	}
 
 	private boolean isMutable(VariableElement field) {
