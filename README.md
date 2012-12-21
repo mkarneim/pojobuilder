@@ -51,7 +51,9 @@ Dependencies
 
 Examples
 --------
-For some examples please have a look into the [samples] directory.
+The wiki provides some [best practices] about how you could use the pojobuilder generator.
+
+For some complete code examples please have a look into the [samples] directory.
 
 How To Use
 ----------
@@ -148,7 +150,8 @@ The following attributes of the @GeneratePojoBuilder annotation can be used to i
         and ["samples/src/generated/java/samples/with/generationgap"].
         Default is `false`.
 	
-### Execution ###
+Execution
+---------
 
 To execute the annotation processor you either can
 
@@ -220,6 +223,7 @@ If you want to compile this project's sources yourself you can use Maven (see [p
 [download page]: http://github.com/mkarneim/pojobuilder/archives/master
 [@GeneratePojoBuilder]: http://github.com/mkarneim/pojobuilder/blob/master/src/main/java/net/karneim/pojobuilder/GeneratePojoBuilder.java
 [samples]: http://github.com/mkarneim/pojobuilder/blob/master/samples
+[best practices]: http://github.com/mkarneim/pojobuilder/wiki/Best-practices
 [COPYING]: http://github.com/mkarneim/pojobuilder/blob/master/COPYING
 [build.xml]: http://github.com/mkarneim/pojobuilder/blob/master/build.xml
 [pom.xml]: http://github.com/mkarneim/pojobuilder/blob/master/pom.xml
