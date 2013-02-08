@@ -156,13 +156,13 @@ Execution
 
 To execute the annotation processor you either can
 
-* use the javac tool to compile your project using the option "-processor net.karneim.pojobuilder.AnnotationProcessor". 
-* use the javac ant task with a special configuration (see below)
+* use the javac tool to compile your project. The option "-processor net.karneim.pojobuilder.AnnotationProcessor" will activate the processor.
+* use the javac ant task (see below)
 * or add the PojoBuilder annotation processor to your Eclipse project configuration (see below)
 
 In any case make sure that the pojobuilder-annotation-*.jar and it's dependend libraries are included in your project's classpath
 during compile time.
-During runtime it is not required since the @GeneratePojoBuilder retention policy is SOURCE.
+During runtime they are not required since the retention policy of PojoBuilder's annotations is SOURCE.
 
 ### Using Ant
 
