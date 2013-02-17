@@ -14,16 +14,16 @@ import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Elements;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import testenv.ProcessingEnvironmentRunner;
+import testenv.TestBase;
 
 
 @RunWith(ProcessingEnvironmentRunner.class)
-public class SimpleClassTest extends Assert {
+public class SimpleClassTest extends TestBase {
 	public static class SampleClass {
 		@SuppressWarnings("unused")
 		private String name;

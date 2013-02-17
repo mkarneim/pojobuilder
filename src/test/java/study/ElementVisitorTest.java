@@ -1,22 +1,20 @@
 package study;
 
-import static testenv.TestHelpers.containsElementWithName;
-
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Elements;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import testenv.CountingElementVisitor;
 import testenv.ProcessingEnvironmentRunner;
+import testenv.TestBase;
 
 @RunWith(ProcessingEnvironmentRunner.class)
-public class ElementVisitorTest extends Assert {
+public class ElementVisitorTest extends TestBase {
 	public static class SampleClass<T> {
 		@SuppressWarnings("unused")
 		private String fieldA;
@@ -36,7 +34,7 @@ public class ElementVisitorTest extends Assert {
 
 	private Elements elements;
 	private CountingElementVisitor underTest = new CountingElementVisitor();
-	
+
 	@Before
 	public void setupEnv() {
 		ProcessingEnvironment env = ProcessingEnvironmentRunner.getProcessingEnvironment();

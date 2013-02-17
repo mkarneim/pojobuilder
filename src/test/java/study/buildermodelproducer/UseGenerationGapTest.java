@@ -11,13 +11,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import testenv.AddToSourceTree;
+import testenv.ProcessingEnvironmentRunner;
+import testenv.TestBase;
 import destdata.TestData;
 
-import testenv.AddSourceFile;
-import testenv.ProcessingEnvironmentRunner;
-
 @RunWith(ProcessingEnvironmentRunner.class)
-public class UseGenerationGapTest {
+@AddToSourceTree({ TestData.SRC_TESTDATA_DIR })
+public class UseGenerationGapTest extends TestBase {
 
 	private ProcessingEnvironment env;
 
@@ -31,53 +32,47 @@ public class UseGenerationGapTest {
 	}
 
 	@Test
-	@AddSourceFile({ TestData.SRC_TESTDATA_GENERATIONGAP_CONTACT })
 	public void testProduceReturnsOutputWithGenerationGap1() {
 		// Given:
-		String pojoClassname = TestData.CLS_TESTDATA_GENERATIONGAP_CONTACT;
+		String pojoClassname = testdata.generationgap.Contact.class.getName();
 		;
 		TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(pojoClassname);
 
 		// When:
 		Output output = underTest.produce(new Input(pojoTypeElement));
-		BuilderM builder = output.getBuilderModel();
-		ManualBuilderM manualBuilder = output.getManualBuilderModel();
+		BuilderM builder = output.getBuilder();
+		ManualBuilderM manualBuilder = output.getManualBuilder();
 
 		// Then:
-		Assert.assertEquals("type", TypeM.get(TestData.CLS_TESTDATA_GENERATIONGAP_CONTACT_BUILDER),
-				manualBuilder.getType());
-		Assert.assertEquals("superType", TypeM.get(TestData.CLS_TESTDATA_GENERATIONGAP_ABSTRACT_CONTACT_BUILDER),
+		assertEquals("type", TypeM.get("testdata.generationgap.ContactBuilder"), manualBuilder.getType());
+		assertEquals("superType", TypeM.get("testdata.generationgap.AbstractContactBuilder"),
 				manualBuilder.getSuperType());
-		Assert.assertEquals("type", TypeM.get(TestData.CLS_TESTDATA_GENERATIONGAP_ABSTRACT_CONTACT_BUILDER),
-				builder.getType());
-		Assert.assertEquals("superType", TypeM.get(TestData.CLS_OBJECT), builder.getSuperType());
+		assertEquals("type", TypeM.get("testdata.generationgap.AbstractContactBuilder"), builder.getType());
+		assertEquals("superType", TypeM.get(Object.class.getName()), builder.getSuperType());
 	}
 
 	@Test
-	@AddSourceFile({ TestData.SRC_TESTDATA_GENERATIONGAP_ORDER })
 	public void testProduceReturnsOutputWithGenerationGap2() {
 		// Given:
-		String pojoClassname = TestData.CLS_TESTDATA_GENERATIONGAP_ORDER;
+		String pojoClassname = testdata.generationgap.Order.class.getName();
 		;
 		TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(pojoClassname);
 
 		// When:
 		Output output = underTest.produce(new Input(pojoTypeElement));
-		BuilderM builder = output.getBuilderModel();
-		ManualBuilderM manualBuilder = output.getManualBuilderModel();
+		BuilderM builder = output.getBuilder();
+		ManualBuilderM manualBuilder = output.getManualBuilder();
 
 		// Then:
-		Assert.assertEquals("type", TypeM.get(TestData.CLS_TESTDATA_GENERATIONGAP_ORDER_BUILDER),
-				manualBuilder.getType());
-		Assert.assertEquals("type.generic", "OrderBuilder<T extends Object>", manualBuilder.getType()
+		assertEquals("type", TypeM.get("testdata.generationgap.OrderBuilder"), manualBuilder.getType());
+		assertEquals("type.generic", "OrderBuilder<T extends Object>", manualBuilder.getType()
 				.getGenericTypeSimpleNameWithBounds());
-		Assert.assertEquals("superType", TypeM.get(TestData.CLS_TESTDATA_GENERATIONGAP_ABSTRACT_ORDER_BUILDER),
+		assertEquals("superType", TypeM.get("testdata.generationgap.AbstractOrderBuilder"),
 				manualBuilder.getSuperType());
-		Assert.assertEquals("type", TypeM.get(TestData.CLS_TESTDATA_GENERATIONGAP_ABSTRACT_ORDER_BUILDER),
-				builder.getType());
-		Assert.assertEquals("type.generic", "AbstractOrderBuilder<T extends Object>", builder.getType()
+		assertEquals("type", TypeM.get("testdata.generationgap.AbstractOrderBuilder"), builder.getType());
+		assertEquals("type.generic", "AbstractOrderBuilder<T extends Object>", builder.getType()
 				.getGenericTypeSimpleNameWithBounds());
-		Assert.assertEquals("superType", TypeM.get(TestData.CLS_OBJECT), builder.getSuperType());
+		assertEquals("superType", TypeM.get(Object.class.getName()), builder.getSuperType());
 	}
 
 }

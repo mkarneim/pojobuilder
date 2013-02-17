@@ -9,15 +9,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import testdata.generics.NumberGrid;
 import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
 import testenv.TestBase;
 import destdata.TestData;
 
 @RunWith(ProcessingEnvironmentRunner.class)
-@AddToSourceTree({ TestData.SRC_TESTDATA_DIR })
-public class GenericsTest extends TestBase {
+@AddToSourceTree({ TestData.SRC_SAMPLES_DIR })
+public class BuilderPackageWithWildcardTest extends TestBase {
+	private static String CONTACT_CLASSNAME = samples.with.builderpackage.Contact.class.getName();
 
 	private ProcessingEnvironment env;
 
@@ -31,19 +31,16 @@ public class GenericsTest extends TestBase {
 	}
 
 	@Test
-	public void testProduceModelReturnsModelWithTypeParameters() {
+	public void testBuilderPackage() {
 		// Given:
-		String pojoClassname = NumberGrid.class.getName();
-		TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(pojoClassname);
+		TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(CONTACT_CLASSNAME);
 
 		// When:
 		Output output = underTest.produce(new Input(pojoTypeElement));
 		BuilderM builder = output.getBuilder();
 
 		// Then:
-		assertEquals("type", "NumberGridBuilder<E extends Number>", builder.getType()
-				.getGenericTypeSimpleNameWithBounds());
-
+		assertEquals("builder classname", "ContactBuilder", builder.getType().getSimpleName());
+		assertEquals("package", "samples.with.builderpackage.builder", builder.getType().getPackage());
 	}
-
 }

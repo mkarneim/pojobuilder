@@ -79,22 +79,38 @@ public class JavaProject {
 	public File getOutputRoot() {
 		return outputRoot;
 	}
-	
+
 	public List<Diagnostic<? extends JavaFileObject>> getDiagnostics() {
 		return diagnostics.getDiagnostics();
 	}
 
 	/**
-	 * Adds the file with the given relative filename to the source tree.
+	 * Adds the file with the given relative filename to the source tree. If the
+	 * file is a directory then all files inside that directory are added
+	 * (recursively).
 	 * 
-	 * @param filename
-	 *            the filename must be relative to the current directory (that is
-	 *            the directory this JVM has been started from)
+	 * @param filepath
+	 *            the filepath must be relative to the current directory (that
+	 *            is the directory this JVM has been started from)
 	 */
-	public void addSourceFile(String filename) {
+	public void addSourceFile(String filepath) {
 		String curDir = System.getProperty("user.dir");
-		File fromFile = new File(curDir, filename);
-		sourceFiles.add(fromFile);
+		File file = new File(curDir, filepath);
+		addSourceFile(file);
+	}
+
+	private void addSourceFile(File aFile) {
+		if (aFile.exists() == false) {
+			return;
+		}
+		if (aFile.isDirectory()) {
+			File[] files = aFile.listFiles();
+			for (File file : files) {
+				addSourceFile(file);
+			}
+		} else if (aFile.getName().endsWith(".java")) {
+			sourceFiles.add(aFile);
+		}
 	}
 
 	/**

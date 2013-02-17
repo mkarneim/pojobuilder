@@ -22,9 +22,12 @@ import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 import javax.tools.Diagnostic;
+import javax.tools.Diagnostic.Kind;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
+import net.karneim.pojobuilder.PropertyNames;
 import net.karneim.pojobuilder.model.BuilderM;
+import net.karneim.pojobuilder.model.FactoryM;
 import net.karneim.pojobuilder.model.PropertyM;
 import net.karneim.pojobuilder.model.TypeM;
 
@@ -42,19 +45,27 @@ public class BuilderModelProducer {
 	public Output produce(Input input) {
 		Output result = new Output();
 
-		TypeElement pojoTypeElement = checkNotNull(input.getPojoTypeElement(), "input.getPojoTypeElement()==null");
-		GeneratePojoBuilder annotation = checkAnnotated(pojoTypeElement, GeneratePojoBuilder.class);
+		TypeElement pojoTypeElement = checkNotNull(input.getPojoType(), "input.getPojoTypeElement()==null");
+
+		GeneratePojoBuilder annotation = input.getGeneratePojoBuilderAnnotation();
+		if (annotation == null) {
+			throw new IllegalStateException(String.format("missing annotation GeneratePojoBuilder for input %s", input));
+		}
 
 		BuilderM builderModel = new BuilderM();
-		result.setBuilderModel(builderModel);
-		
-		builderModel.setProductType(computeProductType(pojoTypeElement));
-		builderModel.setSuperType(computeBuilderSuperType(pojoTypeElement));
-		builderModel.getProperties().addAll(getPropertyModels(pojoTypeElement));
+		result.setBuilder(builderModel);
 
+		builderModel.setProductType(computeProductType(input));
+		builderModel.setSuperType(computeBuilderSuperType(input));
+		builderModel.getProperties().addAll(computePropertyModels(input));
+
+		if ( input.hasFactoryMethod()) {
+			builderModel.setFactory( computeFactoryModel(input));
+		}
+		
 		if (annotation.withGenerationGap()) {
 			ManualBuilderM manualBuilderModel = new ManualBuilderM();
-			result.setManualBuilderModel(manualBuilderModel);
+			result.setManualBuilder(manualBuilderModel);
 
 			builderModel.setAbstractClass(true);
 			TypeM builderType = computeBuilderType(pojoTypeElement, annotation);
@@ -68,17 +79,55 @@ public class BuilderModelProducer {
 			TypeM builderImplType = computeBuilderType(pojoTypeElement, annotation);
 			builderModel.setType(builderImplType);
 			builderModel.setSelfType(builderImplType);
+			
 		}
-
 		return result;
 	}
 
-	private TypeM computeBuilderSuperType(TypeElement pojoTypeElement) {
-		String annotationClassname = GeneratePojoBuilder.class.getCanonicalName();
-		TypeElement superTypeElement = getAnnotationClassAttributeValue(pojoTypeElement, annotationClassname,
-				"withBaseclass");
-		TypeM superType = TypeM.get(superTypeElement.getQualifiedName().toString());
-		return superType;
+	private FactoryM computeFactoryModel(Input input) {
+		ExecutableElement factoryMethod = input.getFactoryMethod();
+		if (!( factoryMethod.getEnclosingElement() instanceof TypeElement)) {
+			throw new BuildException(Kind.ERROR, String.format("Unexpected owner of method %s! Expected class but was %s.", factoryMethod, factoryMethod.getEnclosingElement()), factoryMethod);
+		}
+		TypeElement ownerType = (TypeElement)factoryMethod.getEnclosingElement();
+		
+		TypeM ownerTypeM = typeMUtils.getTypeM(ownerType);
+		FactoryM result = new FactoryM(ownerTypeM, factoryMethod.getSimpleName().toString());
+		return result;
+	}
+
+	private TypeM computeBuilderSuperType(Input input) {
+		if (input.hasFactoryMethod()) {
+			return getAnnotationClassAttributeValue(input.getFactoryMethod(), GeneratePojoBuilder.class.getName(),
+					"withBaseclass");
+		} else {
+			return getAnnotationClassAttributeValue(input.getPojoType(), GeneratePojoBuilder.class.getName(),
+					"withBaseclass");
+		}
+	}
+
+	private TypeM getAnnotationClassAttributeValue(Element annotatedElement, final String annotationName,
+			final String attributeName) {
+		for (AnnotationMirror am : annotatedElement.getAnnotationMirrors()) {
+			if (annotationName.equals(am.getAnnotationType().toString())) {
+				Map<? extends ExecutableElement, ? extends AnnotationValue> valueMap = env.getElementUtils()
+						.getElementValuesWithDefaults(am);
+				for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : valueMap.entrySet()) {
+					if (attributeName.equals(entry.getKey().getSimpleName().toString())) {
+						AnnotationValue value = entry.getValue();
+						if (value == null) {
+							return null;
+						} else {
+							String valueStr = String.valueOf(value.getValue());
+							return TypeM.get(valueStr);
+						}
+					}
+				}
+				return null;
+			}
+		}
+		throw new IllegalArgumentException(String.format("Missing annotation %s on class %s!", annotationName,
+				annotatedElement.toString()));
 	}
 
 	private TypeM computeBuilderType(TypeElement pojoTypeElement, GeneratePojoBuilder annotation) {
@@ -100,20 +149,56 @@ public class BuilderModelProducer {
 		return result;
 	}
 
-	private TypeM computeProductType(TypeElement pojoTypeElement) {
-		String productTypeName = pojoTypeElement.getQualifiedName().toString();
+	private TypeM computeProductType(Input input) {
+		String productTypeName = input.getPojoType().getQualifiedName().toString();
 		TypeM productType = TypeM.get(productTypeName);
 		return productType;
 	}
 
 	//
 	// HELPER METHODS: these are candidates for separate components
-	private Collection<? extends PropertyM> getPropertyModels(TypeElement pojoTypeElement) {
+	private Collection<? extends PropertyM> computePropertyModels(Input input) {
+		TypeElement pojoTypeElement = input.getPojoType(); // TODO does not work
+															// with factory
+															// method args!
 		Map<String, PropertyM> resultMap = new HashMap<String, PropertyM>();
 		addPropertyModelsForConstructor(resultMap, pojoTypeElement);
 		addPropertyModelsForSetterMethods(resultMap, pojoTypeElement);
 		addPropertyModelsForAccessibleFields(resultMap, pojoTypeElement);
+		if (input.hasFactoryMethod()) {
+			addPropertyModelsForParameters(resultMap, input.getFactoryMethod());
+		}
 		return resultMap.values();
+	}
+
+	private void addPropertyModelsForParameters(Map<String, PropertyM> resultMap, ExecutableElement factoryMethod) {
+		if (factoryMethod.getParameters().isEmpty()) {
+			return;
+		}
+		PropertyNames propertyNamesAnno = factoryMethod.getAnnotation(PropertyNames.class);
+		if (propertyNamesAnno == null) {
+			throw new BuildException(Diagnostic.Kind.ERROR, String.format(
+					"Missing annotation %s on factory method %s of class %s!", PropertyNames.class.getSimpleName(),
+					factoryMethod.toString(), factoryMethod.getEnclosingElement().getSimpleName()), factoryMethod);
+		}
+		String[] propertyNames = propertyNamesAnno.value();
+		if (propertyNames.length != factoryMethod.getParameters().size()) {
+			throw new BuildException(Diagnostic.Kind.ERROR, String.format(
+					"Incorrect number of values in annotation %s on method %s! " + "Expected %d, but was %d.",
+					PropertyNames.class.getSimpleName(), factoryMethod, factoryMethod.getParameters().size(),
+					propertyNames.length), factoryMethod);
+		}
+		// loop over all method parameters
+		for (int i = 0; i < propertyNames.length; ++i) {
+			String propertyName = propertyNames[i];
+			TypeMirror propertyType = factoryMethod.getParameters().get(i).asType();
+			TypeM propertyTypeM = typeMUtils.getTypeM(propertyType);
+
+			String fieldName = computeBuilderFieldname(propertyName, propertyTypeM.getQualifiedName());
+			PropertyM propM = new PropertyM(propertyName, fieldName, propertyTypeM);
+			propM.setParameterPos(i);
+			resultMap.put(fieldName, propM);
+		}
 	}
 
 	private void addPropertyModelsForConstructor(Map<String, PropertyM> resultMap, TypeElement pojoTypeElement) {
@@ -146,7 +231,7 @@ public class BuilderModelProducer {
 
 	private void addPropertyModelsForSetterMethods(Map<String, PropertyM> resultMap, TypeElement pojoTypeElement) {
 		TypeElement currentTypeElement = pojoTypeElement;
-		while (!currentTypeElement.getQualifiedName().toString().equals("java.lang.Object")) {
+		while (!currentTypeElement.getQualifiedName().toString().equals(Object.class.getName())) {
 			List<? extends Element> members = env.getElementUtils().getAllMembers(currentTypeElement);
 			// loop over all setter methods
 			List<ExecutableElement> methods = ElementFilter.methodsIn(members);
@@ -175,7 +260,7 @@ public class BuilderModelProducer {
 
 	private void addPropertyModelsForAccessibleFields(Map<String, PropertyM> resultMap, TypeElement pojoTypeElement) {
 		TypeElement currentTypeElement = pojoTypeElement;
-		while (!currentTypeElement.getQualifiedName().toString().equals("java.lang.Object")) {
+		while (!currentTypeElement.getQualifiedName().toString().equals(Object.class.getName())) {
 			List<? extends Element> members = env.getElementUtils().getAllMembers(currentTypeElement);
 			// loop over all fields
 			List<VariableElement> accessibleFields = ElementFilter.fieldsIn(members);
@@ -258,15 +343,6 @@ public class BuilderModelProducer {
 		return obj;
 	}
 
-	private <A extends Annotation> A checkAnnotated(TypeElement typeElement, Class<A> annoClass) {
-		A result = typeElement.getAnnotation(annoClass);
-		if (result == null) {
-			throw new IllegalArgumentException(String.format("Missing required annotation %s on class %s!",
-					annoClass.getCanonicalName(), typeElement.getQualifiedName()));
-		}
-		return result;
-	}
-
 	private TypeM deriveTypeM(TypeElement originalTypeElement, String derivedTypeNamePattern,
 			String derivedPackageNamePattern) {
 		String derivedTypeName = derivedTypeNamePattern.replace("*", originalTypeElement.getSimpleName());
@@ -279,31 +355,6 @@ public class BuilderModelProducer {
 		}
 		TypeM result = TypeM.get(derivedTypeName);
 		return result;
-	}
-
-	private TypeElement getAnnotationClassAttributeValue(Element annotatedElement, final String annotationName,
-			final String attributeName) {
-		for (AnnotationMirror am : annotatedElement.getAnnotationMirrors()) {
-			if (annotationName.equals(am.getAnnotationType().toString())) {
-				Map<? extends ExecutableElement, ? extends AnnotationValue> valueMap = env.getElementUtils()
-						.getElementValuesWithDefaults(am);
-				for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : valueMap.entrySet()) {
-					if (attributeName.equals(entry.getKey().getSimpleName().toString())) {
-						AnnotationValue value = entry.getValue();
-						if (value == null) {
-							return null;
-						} else {
-							String valueStr = String.valueOf(value.getValue());
-							TypeElement result = env.getElementUtils().getTypeElement(valueStr);
-							return result;
-						}
-					}
-				}
-				return null;
-			}
-		}
-		throw new IllegalArgumentException(String.format("Missing annotation %s on class %s!", annotationName,
-				annotatedElement.toString()));
 	}
 
 }

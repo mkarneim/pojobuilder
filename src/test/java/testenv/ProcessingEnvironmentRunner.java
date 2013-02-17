@@ -55,8 +55,8 @@ public class ProcessingEnvironmentRunner extends BlockJUnit4ClassRunner {
 		@Override
 		public void evaluate() throws Throwable {
 			exception = null;
-			addSourceFiles(prj, klass.getAnnotation(AddSourceFile.class));
-			addSourceFiles(prj,  method.getMethod().getAnnotation(AddSourceFile.class));
+			addSourceFiles(prj, klass.getAnnotation(AddToSourceTree.class));
+			addSourceFiles(prj,  method.getMethod().getAnnotation(AddToSourceTree.class));
 			prj.getProcessorClasses().add(Processor.class);
 			prj.addClassnameForProcessing(klass.getCanonicalName());
 
@@ -94,7 +94,7 @@ public class ProcessingEnvironmentRunner extends BlockJUnit4ClassRunner {
 		}
 	}
 
-	private static void addSourceFiles(JavaProject prj, AddSourceFile anno) {
+	private static void addSourceFiles(JavaProject prj, AddToSourceTree anno) {
 		if (anno != null) {
 			String[] files = anno.value();
 			if (files != null) {

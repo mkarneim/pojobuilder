@@ -11,14 +11,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import testdata.baseclass.BaseBuilder;
+import testdata.baseclass.Contact;
+import testenv.AddToSourceTree;
+import testenv.ProcessingEnvironmentRunner;
+import testenv.TestBase;
 import destdata.TestData;
 
-import testenv.AddSourceFile;
-import testenv.ProcessingEnvironmentRunner;
-
 @RunWith(ProcessingEnvironmentRunner.class)
-@AddSourceFile({ TestData.SRC_TESTDATA_BASECLASS_CONTACT, TestData.SRC_TESTDATA_BASECLASS_BASE_BUILDER })
-public class WithBaseclassTest {
+@AddToSourceTree({ TestData.SRC_TESTDATA_DIR })
+public class WithBaseclassTest extends TestBase {
 
 	private ProcessingEnvironment env;
 
@@ -34,15 +36,15 @@ public class WithBaseclassTest {
 	@Test
 	public void testProduceReturnsModelWithSpecifiedSuperType() {
 		// Given:
-		String pojoClassname = TestData.CLS_TESTDATA_BASECLASS_CONTACT;
+		String pojoClassname = Contact.class.getName();
 		TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(pojoClassname);
 
 		// When:
 		Output output = underTest.produce(new Input(pojoTypeElement));
-		BuilderM builder = output.getBuilderModel();
+		BuilderM builder = output.getBuilder();
 
 		// Then:
-		Assert.assertEquals("superType", TypeM.get(TestData.CLS_TESTDATA_BASECLASS_BASE_BUILDER), builder.getSuperType());
+		assertEquals("superType", TypeM.get(BaseBuilder.class.getName()), builder.getSuperType());
 	}
 
 }

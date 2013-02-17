@@ -13,15 +13,15 @@ import javax.lang.model.type.TypeMirror;
 import javax.lang.model.type.TypeVariable;
 import javax.lang.model.util.ElementFilter;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import testenv.ProcessingEnvironmentRunner;
+import testenv.TestBase;
 
 @RunWith(ProcessingEnvironmentRunner.class)
-public class ParameterizedClassTest extends Assert {
+public class ParameterizedClassTest extends TestBase {
 	public static class ParentClass<T> {
 		public T value;
 	}

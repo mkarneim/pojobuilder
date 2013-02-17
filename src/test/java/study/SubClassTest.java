@@ -1,7 +1,5 @@
 package study;
 
-import static testenv.TestHelpers.containsElementWithName;
-
 import java.util.List;
 
 import javax.annotation.processing.ProcessingEnvironment;
@@ -11,15 +9,15 @@ import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Elements;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import testenv.ProcessingEnvironmentRunner;
+import testenv.TestBase;
 
 @RunWith(ProcessingEnvironmentRunner.class)
-public class SubClassTest extends Assert {
+public class SubClassTest extends TestBase {
 	public static class SuperClass {
 		@SuppressWarnings("unused")
 		private String fieldA;

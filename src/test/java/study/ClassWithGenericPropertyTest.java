@@ -12,15 +12,15 @@ import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Elements;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import testenv.ProcessingEnvironmentRunner;
+import testenv.TestBase;
 
 @RunWith(ProcessingEnvironmentRunner.class)
-public class ClassWithGenericPropertyTest extends Assert {
+public class ClassWithGenericPropertyTest extends TestBase {
 	public static class SampleClass {
 		@SuppressWarnings("unused")
 		private List<String> names;

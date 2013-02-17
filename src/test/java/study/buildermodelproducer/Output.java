@@ -3,30 +3,30 @@ package study.buildermodelproducer;
 import net.karneim.pojobuilder.model.BuilderM;
 
 public class Output {
-	private BuilderM builderModel;
-	private ManualBuilderM manualBuilderModel;
+	private BuilderM builder;
+	private ManualBuilderM manualBuilder;
 	
 	public Output() {
 	}
 
-	public Output(BuilderM builderModel) {
+	public Output(BuilderM builder) {
 		super();
-		this.builderModel = builderModel;
+		this.builder = builder;
 	}
 
-	public BuilderM getBuilderModel() {
-		return builderModel;
+	public BuilderM getBuilder() {
+		return builder;
 	}
 
-	public void setBuilderModel(BuilderM builderModel) {
-		this.builderModel = builderModel;
+	public void setBuilder(BuilderM builder) {
+		this.builder = builder;
 	}
 
-	public ManualBuilderM getManualBuilderModel() {
-		return manualBuilderModel;
+	public ManualBuilderM getManualBuilder() {
+		return manualBuilder;
 	}
 
-	public void setManualBuilderModel(ManualBuilderM manualBuilderModel) {
-		this.manualBuilderModel = manualBuilderModel;
+	public void setManualBuilder(ManualBuilderM manualBuilder) {
+		this.manualBuilder = manualBuilder;
 	}
 }

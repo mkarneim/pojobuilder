@@ -11,14 +11,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import testenv.AddToSourceTree;
+import testenv.ProcessingEnvironmentRunner;
+import testenv.TestBase;
 import destdata.TestData;
 
-import testenv.AddSourceFile;
-import testenv.ProcessingEnvironmentRunner;
-
 @RunWith(ProcessingEnvironmentRunner.class)
-@AddSourceFile({ TestData.SRC_TESTDATA_INTO_PACKAGE_CONTACT })
-public class IntoPackageTest {
+@AddToSourceTree({ TestData.SRC_TESTDATA_DIR })
+public class IntoPackageTest extends TestBase {
 
 	private ProcessingEnvironment env;
 
@@ -34,15 +34,15 @@ public class IntoPackageTest {
 	@Test
 	public void testProduceModelReturnsModelWithTargetPackage() {
 		// Given:
-		String pojoClassname = TestData.CLS_TESTDATA_INTO_PACKAGE_CONTACT;
+		String pojoClassname = testdata.intoPackage.Contact.class.getName();
 		TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(pojoClassname);
 
 		// When:
 		Output output = underTest.produce(new Input(pojoTypeElement));
-		BuilderM builder = output.getBuilderModel();
+		BuilderM builder = output.getBuilder();
 
 		// Then:
-		Assert.assertEquals("type", TypeM.get(TestData.CLS_TESTDATA_INTO_PACKAGE_TARGET_CONTACT_BUILDER), builder.getType());
+		assertEquals("type", TypeM.get("testdata.intoPackage.target.ContactBuilder"), builder.getType());
 	}
 
 }
