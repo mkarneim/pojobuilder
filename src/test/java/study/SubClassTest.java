@@ -9,17 +9,17 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.ElementFilter;
+import javax.lang.model.util.Elements;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import study.SimpleClassTest.SampleClass;
 import testenv.ProcessingEnvironmentRunner;
 
 @RunWith(ProcessingEnvironmentRunner.class)
-public class SubClassTest {
+public class SubClassTest extends Assert {
 	public static class SuperClass {
 		@SuppressWarnings("unused")
 		private String fieldA;
@@ -31,29 +31,30 @@ public class SubClassTest {
 		private String fieldC;
 	}
 
-	private ProcessingEnvironment env;
+	private Elements underTest;
 
 	@Before
 	public void setupEnv() {
-		env = ProcessingEnvironmentRunner.getProcessingEnvironment();
+		ProcessingEnvironment env = ProcessingEnvironmentRunner.getProcessingEnvironment();
+		underTest = env.getElementUtils();
 	}
-	
+
 	@Test
-	public void testGetAllMembersShouldReturnNoPrivateSuperMembers() {
+	public void testGetAllMembersOnElementsShouldReturnNoPrivateSuperMembers() {
 		// Given:
 		Class<?> aClass = SampleClass.class;
-		TypeElement el = env.getElementUtils().getTypeElement(aClass.getCanonicalName());
 
 		// When:
 		// getAllMembers returns the members as they are visible from
 		// inside the given class
-		List<? extends Element> members = env.getElementUtils().getAllMembers(el);
+		TypeElement el = underTest.getTypeElement(aClass.getCanonicalName());
+		List<? extends Element> members = underTest.getAllMembers(el);
 		List<VariableElement> fields = ElementFilter.fieldsIn(members);
 
 		// Then:
-		Assert.assertEquals("size", 2, fields.size());
-		Assert.assertThat(fields, containsElementWithName("fieldB"));
-		Assert.assertThat(fields, containsElementWithName("fieldC"));
+		assertEquals("size", 2, fields.size());
+		assertThat(fields, containsElementWithName("fieldB"));
+		assertThat(fields, containsElementWithName("fieldC"));
 	}
 
 }

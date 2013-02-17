@@ -10,6 +10,7 @@ import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
+import javax.lang.model.util.Elements;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -19,57 +20,58 @@ import org.junit.runner.RunWith;
 import testenv.ProcessingEnvironmentRunner;
 
 @RunWith(ProcessingEnvironmentRunner.class)
-public class ClassWithGenericPropertyTest {
+public class ClassWithGenericPropertyTest extends Assert {
 	public static class SampleClass {
 		@SuppressWarnings("unused")
 		private List<String> names;
 	}
 
-	private ProcessingEnvironment env;
+	private Elements underTest;
 
 	@Before
 	public void setupEnv() {
-		env = ProcessingEnvironmentRunner.getProcessingEnvironment();
+		ProcessingEnvironment env = ProcessingEnvironmentRunner.getProcessingEnvironment();
+		underTest = env.getElementUtils();
 	}
 
 	@Test
-	public void testAsTypeOnFieldShouldReturnDeclaredType() {
+	public void testAsTypeOnVariableElementShouldReturnCorrectTypeMirror() {
 		// Given:
 		Class<?> aClass = SampleClass.class;
-		TypeElement el = env.getElementUtils().getTypeElement(aClass.getCanonicalName());
-		List<? extends Element> members = env.getElementUtils().getAllMembers(el);
-		List<VariableElement> fields = ElementFilter.fieldsIn(members);
-		VariableElement field = fields.get(0);
 
 		// When:
+		TypeElement el = underTest.getTypeElement(aClass.getCanonicalName());
+		List<? extends Element> members = underTest.getAllMembers(el);
+		List<VariableElement> fields = ElementFilter.fieldsIn(members);
+		VariableElement field = fields.get(0);
 		TypeMirror fieldType = field.asType();
 
 		// Then:
-		Assert.assertTrue(fieldType.getKind() == TypeKind.DECLARED);
+		assertTrue(fieldType.getKind() == TypeKind.DECLARED);
 		DeclaredType decType = (DeclaredType) fieldType;
-		Assert.assertTrue(decType.asElement().getSimpleName().toString().equals(List.class.getSimpleName()));
+		assertTrue(decType.asElement().getSimpleName().toString().equals(List.class.getSimpleName()));
 	}
 
 	@Test
-	public void testGetTypeArgumentsOnFieldShouldReturnDeclaredType() {
+	public void testGetTypeArgumentsOnDeclaredTypeShouldReturnCorrectListOfTypeMirrors() {
 		// Given:
 		Class<?> aClass = SampleClass.class;
-		TypeElement el = env.getElementUtils().getTypeElement(aClass.getCanonicalName());
-		List<? extends Element> members = env.getElementUtils().getAllMembers(el);
+
+		// When:
+		TypeElement el = underTest.getTypeElement(aClass.getCanonicalName());
+		List<? extends Element> members = underTest.getAllMembers(el);
 		List<VariableElement> fields = ElementFilter.fieldsIn(members);
 		VariableElement field = fields.get(0);
 		TypeMirror fieldType = field.asType();
 		DeclaredType declaredFieldType = (DeclaredType) fieldType;
-
-		// When:
 		List<? extends TypeMirror> paramTypes = declaredFieldType.getTypeArguments();
 
 		// Then:
-		Assert.assertTrue(paramTypes.size() == 1);
+		assertTrue(paramTypes.size() == 1);
 		TypeMirror param0Type = paramTypes.get(0);
-		Assert.assertEquals("kind", TypeKind.DECLARED, param0Type.getKind());
+		assertEquals("kind", TypeKind.DECLARED, param0Type.getKind());
 		DeclaredType declaredParam0Type = (DeclaredType) param0Type;
-		Assert.assertEquals("simpleName", String.class.getSimpleName(), declaredParam0Type.asElement().getSimpleName()
+		assertEquals("simpleName", String.class.getSimpleName(), declaredParam0Type.asElement().getSimpleName()
 				.toString());
 	}
 }

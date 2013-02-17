@@ -21,7 +21,7 @@ import org.junit.runner.RunWith;
 import testenv.ProcessingEnvironmentRunner;
 
 @RunWith(ProcessingEnvironmentRunner.class)
-public class ParameterizedClassTest {
+public class ParameterizedClassTest extends Assert {
 	public static class ParentClass<T> {
 		public T value;
 	}
@@ -37,58 +37,57 @@ public class ParameterizedClassTest {
 		env = ProcessingEnvironmentRunner.getProcessingEnvironment();
 	}
 
-
 	@Test
-	public void testGetTypeParametersShouldReturnTypeVariable() {
+	public void testGetTypeParametersOnTypeElementShouldReturnExpectedTypeParameterElement() {
 		// Given:
 		Class<?> aClass = ParentClass.class;
-		TypeElement el = env.getElementUtils().getTypeElement(aClass.getCanonicalName());
 
 		// When:
+		TypeElement el = env.getElementUtils().getTypeElement(aClass.getCanonicalName());
 		List<? extends TypeParameterElement> typeParameters = el.getTypeParameters();
 
 		// Then:
-		Assert.assertEquals("size", 1, typeParameters.size());
+		assertEquals("size", 1, typeParameters.size());
 		TypeParameterElement tp0 = typeParameters.get(0);
-		Assert.assertEquals("kind", TypeKind.TYPEVAR, tp0.asType().getKind());
-		Assert.assertEquals("simpleName", "T", tp0.getSimpleName().toString());
+		assertEquals("kind", TypeKind.TYPEVAR, tp0.asType().getKind());
+		assertEquals("simpleName", "T", tp0.getSimpleName().toString());
 	}
 
 	@Test
-	public void testAsTypeOnFieldShouldReturnTypeVariable() {
+	public void testAsTypeOnVariableElementShouldReturnTypeMirrorOfField() {
 		// Given:
 		Class<?> parentClass = ParentClass.class;
+
+		// When:
 		TypeElement el = env.getElementUtils().getTypeElement(parentClass.getCanonicalName());
 		List<? extends Element> members = env.getElementUtils().getAllMembers(el);
 		List<VariableElement> fields = ElementFilter.fieldsIn(members);
 		VariableElement field = fields.get(0);
-
-		// When:
 		TypeMirror fieldType = field.asType();
 
 		// Then:
-		Assert.assertEquals("kind", TypeKind.TYPEVAR, fieldType.getKind());
+		assertEquals("kind", TypeKind.TYPEVAR, fieldType.getKind());
 		TypeVariable typeVar = (TypeVariable) fieldType;
-		Assert.assertEquals("name", "T", typeVar.asElement().getSimpleName().toString());
+		assertEquals("name", "T", typeVar.asElement().getSimpleName().toString());
 	}
 
 	@Test
-	public void testAsMemberOfOnFieldShouldReturnConcreteTypeOfField() {
+	public void testAsMemberOfOnTypesShouldReturnConcreteTypeMirrorForGenericField() {
 		// Given:
 		Class<?> aClass = SampleClass.class;
-		TypeElement el = env.getElementUtils().getTypeElement(aClass.getCanonicalName());
-		List<? extends Element> members = env.getElementUtils().getAllMembers(el);
-		List<VariableElement> fields = ElementFilter.fieldsIn(members);
-		Assert.assertEquals("size", 1, fields.size());
-		VariableElement field = fields.get(0);
 
 		// When:
-		TypeMirror actualType = env.getTypeUtils().asMemberOf((DeclaredType) el.asType(), field);
+		TypeElement el = env.getElementUtils().getTypeElement(aClass.getCanonicalName());
+		DeclaredType declType = (DeclaredType) el.asType();
+		List<? extends Element> members = env.getElementUtils().getAllMembers(el);
+		List<VariableElement> fields = ElementFilter.fieldsIn(members);
+		assertEquals("size", 1, fields.size());
+		VariableElement field = fields.get(0);
+		TypeMirror actualType = env.getTypeUtils().asMemberOf(declType, field);
 
 		// Then:
-		Assert.assertEquals("kind", TypeKind.DECLARED, actualType.getKind());
+		assertEquals("kind", TypeKind.DECLARED, actualType.getKind());
 		DeclaredType actualDeclaredType = (DeclaredType) actualType;
-		Assert.assertEquals("name", String.class.getSimpleName(), actualDeclaredType.asElement().getSimpleName()
-				.toString());
+		assertEquals("name", String.class.getSimpleName(), actualDeclaredType.asElement().getSimpleName().toString());
 	}
 }

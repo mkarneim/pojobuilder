@@ -12,6 +12,7 @@ import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
+import javax.lang.model.util.Elements;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -22,17 +23,18 @@ import testenv.ProcessingEnvironmentRunner;
 
 
 @RunWith(ProcessingEnvironmentRunner.class)
-public class SimpleClassTest {
+public class SimpleClassTest extends Assert {
 	public static class SampleClass {
 		@SuppressWarnings("unused")
 		private String name;
 	}
 
-	private ProcessingEnvironment env;
+	private Elements underTest;
 
 	@Before
 	public void setupEnv() {
-		env = ProcessingEnvironmentRunner.getProcessingEnvironment();
+		ProcessingEnvironment env = ProcessingEnvironmentRunner.getProcessingEnvironment();
+		underTest = env.getElementUtils();
 	}
 
 
@@ -42,34 +44,34 @@ public class SimpleClassTest {
 		Class<?> aClass = SampleClass.class;
 		
 		// When:
-		TypeElement el = env.getElementUtils().getTypeElement(aClass.getCanonicalName());
+		TypeElement el = underTest.getTypeElement(aClass.getCanonicalName());
 
 		// Then:
-		Assert.assertEquals("kind", ElementKind.CLASS, el.getKind());
-		Assert.assertEquals("simpleName",  aClass.getSimpleName(), el.getSimpleName().toString());
+		assertEquals("kind", ElementKind.CLASS, el.getKind());
+		assertEquals("simpleName",  aClass.getSimpleName(), el.getSimpleName().toString());
 	}
 
 	@Test
 	public void testGetAllMembersShouldReturnAllAccesibleFields() {
 		// Given:
 		Class<?> aClass = SampleClass.class;
-		TypeElement el = env.getElementUtils().getTypeElement(aClass.getCanonicalName());
+		TypeElement el = underTest.getTypeElement(aClass.getCanonicalName());
 
 		// When:
 		//   note: getAllMembers returns the members as they are accessible from inside the given class
-		List<? extends Element> members = env.getElementUtils().getAllMembers(el);
+		List<? extends Element> members = underTest.getAllMembers(el);
 		List<VariableElement> fields = ElementFilter.fieldsIn(members);
 
 		// Then:
-		Assert.assertEquals("size", 1, fields.size());
+		assertEquals("size", 1, fields.size());
 	}
 
 	@Test
 	public void testGetSimpleNameShouldReturnNameOfField() {
 		// Given:
 		Class<?> aClass = SampleClass.class;
-		TypeElement el = env.getElementUtils().getTypeElement(aClass.getCanonicalName());
-		List<? extends Element> members = env.getElementUtils().getAllMembers(el);
+		TypeElement el = underTest.getTypeElement(aClass.getCanonicalName());
+		List<? extends Element> members = underTest.getAllMembers(el);
 		List<VariableElement> fields = ElementFilter.fieldsIn(members);
 		VariableElement field = fields.get(0);
 		
@@ -77,15 +79,15 @@ public class SimpleClassTest {
 		Name name = field.getSimpleName();
 
 		// Then:
-		Assert.assertTrue(name.toString().equals("name"));
+		assertTrue(name.toString().equals("name"));
 	}
 
 	@Test
 	public void testAsTypeShouldReturnDeclaredType() {
 		// Given:
 		Class<?> aClass = SampleClass.class;
-		TypeElement el = env.getElementUtils().getTypeElement(aClass.getCanonicalName());
-		List<? extends Element> members = env.getElementUtils().getAllMembers(el);
+		TypeElement el = underTest.getTypeElement(aClass.getCanonicalName());
+		List<? extends Element> members = underTest.getAllMembers(el);
 		List<VariableElement> fields = ElementFilter.fieldsIn(members);
 		VariableElement field = fields.get(0);
 		
@@ -93,8 +95,8 @@ public class SimpleClassTest {
 		TypeMirror fieldType = field.asType();
 
 		// Then:
-		Assert.assertTrue(fieldType.getKind() == TypeKind.DECLARED);
+		assertTrue(fieldType.getKind() == TypeKind.DECLARED);
 		DeclaredType decType = (DeclaredType) fieldType;
-		Assert.assertTrue(decType.asElement().getSimpleName().toString().equals(String.class.getSimpleName()));
+		assertTrue(decType.asElement().getSimpleName().toString().equals(String.class.getSimpleName()));
 	}
 }

@@ -11,7 +11,7 @@ import javax.lang.model.element.TypeParameterElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.ElementScanner6;
 
-public class ElementVisitorMock extends ElementScanner6<Void, Void> {
+public class CountingElementVisitor extends ElementScanner6<Void, Void> {
 	private int packageCount = 0;
 	private int typeCount = 0;
 	private int variableCount = 0;

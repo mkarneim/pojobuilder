@@ -3,6 +3,7 @@ package net.karneim.pojobuilder.util;
 import java.util.List;
 
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.TypeParameterElement;
 import javax.lang.model.element.VariableElement;
@@ -163,6 +164,15 @@ public class ExtendedTypeUtil {
                 } else {
                     throw new IllegalStateException(String.format("Expected TypeVariable for %s", typeMirror));
                 }
+            case ERROR:
+            	Element errorElement = types.asElement(typeMirror);
+            	if ( errorElement.getKind()==ElementKind.CLASS) {
+            		TypeElement tel = (TypeElement)errorElement;
+            		System.out.println("tel="+tel.getQualifiedName().toString());
+            		return getTypeM((TypeElement)errorElement);
+            	}
+            	System.out.println("errorElement="+errorElement.getClass());
+            	return TypeM.get(errorElement.getSimpleName().toString());
             default:
                 throw new UnsupportedOperationException(String.format("Unexpected kind %s for typeMirror %s", kind, typeMirror.getClass().getName()));
         }
