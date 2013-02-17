@@ -12,7 +12,6 @@ import org.junit.runner.RunWith;
 import testdata.generics.NumberGrid;
 import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
-import testenv.TestBase;
 import destdata.TestData;
 
 @RunWith(ProcessingEnvironmentRunner.class)

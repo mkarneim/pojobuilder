@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 
 import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
-import testenv.TestBase;
 import destdata.TestData;
 
 @RunWith(ProcessingEnvironmentRunner.class)

@@ -15,7 +15,6 @@ import testdata.baseclass.BaseBuilder;
 import testdata.baseclass.Contact;
 import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
-import testenv.TestBase;
 import destdata.TestData;
 
 @RunWith(ProcessingEnvironmentRunner.class)

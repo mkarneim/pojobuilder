@@ -13,8 +13,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import study.buildermodelproducer.TestBase;
 import testenv.ProcessingEnvironmentRunner;
-import testenv.TestBase;
 
 @RunWith(ProcessingEnvironmentRunner.class)
 public class SubClassTest extends TestBase {

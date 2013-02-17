@@ -1,6 +1,5 @@
 package testenv;
 
-import java.lang.reflect.UndeclaredThrowableException;
 import java.util.List;
 
 import javax.annotation.processing.ProcessingEnvironment;
@@ -36,16 +35,16 @@ public class ProcessingEnvironmentRunner extends BlockJUnit4ClassRunner {
 
 	protected Statement methodBlock(FrameworkMethod method) {
 		final Statement next = super.methodBlock(method);
-		return new YYYStatement(next, method);
+		return new CompilationStatement(next, method);
 	}
 
-	private class YYYStatement extends Statement {
+	private class CompilationStatement extends Statement {
 		private Statement next;
 		private FrameworkMethod method;
 		private Throwable exception;
 		private JavaProject prj;
 
-		public YYYStatement(Statement next, FrameworkMethod method) {
+		public CompilationStatement(Statement next, FrameworkMethod method) {
 			super();
 			this.next = next;
 			this.method = method;
@@ -56,7 +55,7 @@ public class ProcessingEnvironmentRunner extends BlockJUnit4ClassRunner {
 		public void evaluate() throws Throwable {
 			exception = null;
 			addSourceFiles(prj, klass.getAnnotation(AddToSourceTree.class));
-			addSourceFiles(prj,  method.getMethod().getAnnotation(AddToSourceTree.class));
+			addSourceFiles(prj, method.getMethod().getAnnotation(AddToSourceTree.class));
 			prj.getProcessorClasses().add(Processor.class);
 			prj.addClassnameForProcessing(klass.getCanonicalName());
 
@@ -77,9 +76,9 @@ public class ProcessingEnvironmentRunner extends BlockJUnit4ClassRunner {
 			try {
 				prj.compile();
 				List<Diagnostic<? extends JavaFileObject>> diagnostics = prj.getDiagnostics();
-				for( Diagnostic<? extends JavaFileObject> diagnostic: diagnostics) {
-					if ( diagnostic.getKind()==Kind.ERROR)  {
-						throw new CompilationException( diagnostic.toString());
+				for (Diagnostic<? extends JavaFileObject> diagnostic : diagnostics) {
+					if (diagnostic.getKind() == Kind.ERROR) {
+						throw new CompilationException(diagnostic.toString());
 					}
 				}
 			} finally {
@@ -87,7 +86,7 @@ public class ProcessingEnvironmentRunner extends BlockJUnit4ClassRunner {
 				roundEnvironment.setDelegate(null);
 				prj.delete();
 			}
-			
+
 			if (exception != null) {
 				throw exception;
 			}

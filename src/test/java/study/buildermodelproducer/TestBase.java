@@ -1,4 +1,4 @@
-package testenv;
+package study.buildermodelproducer;
 
 import java.util.ArrayList;
 import java.util.List;

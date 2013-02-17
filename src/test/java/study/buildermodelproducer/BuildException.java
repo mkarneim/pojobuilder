@@ -4,6 +4,7 @@ import javax.lang.model.element.Element;
 import javax.tools.Diagnostic;
 import javax.tools.Diagnostic.Kind;
 
+@SuppressWarnings("serial")
 public class BuildException extends RuntimeException {
 	private final Diagnostic.Kind kind;
 	private final String message;

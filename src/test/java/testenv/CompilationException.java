@@ -1,5 +1,6 @@
 package testenv;
 
+@SuppressWarnings("serial")
 public class CompilationException extends Exception {
 
 	public CompilationException() {

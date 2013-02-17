@@ -28,37 +28,50 @@ class ProcessingEnvironmentAdaptor implements ProcessingEnvironment {
 
 	@Override
 	public Map<String, String> getOptions() {
+		checkDelegateNotNull();
 		return delegate.getOptions();
 	}
 
 	@Override
 	public Messager getMessager() {
+		checkDelegateNotNull();
 		return delegate.getMessager();
 	}
 
 	@Override
 	public Filer getFiler() {
+		checkDelegateNotNull();
 		return delegate.getFiler();
 	}
 
 	@Override
 	public Elements getElementUtils() {
+		checkDelegateNotNull();
 		return delegate.getElementUtils();
 	}
 
 	@Override
 	public Types getTypeUtils() {
+		checkDelegateNotNull();
 		return delegate.getTypeUtils();
 	}
 
 	@Override
 	public SourceVersion getSourceVersion() {
+		checkDelegateNotNull();
 		return delegate.getSourceVersion();
 	}
 
 	@Override
 	public Locale getLocale() {
+		checkDelegateNotNull();
 		return delegate.getLocale();
+	}
+
+	private void checkDelegateNotNull() {
+		if ( delegate == null) {
+			throw new IllegalStateException("Calling methods on ProcessingEnvironment is only supported inside test methods!");
+		}
 	}
 
 }

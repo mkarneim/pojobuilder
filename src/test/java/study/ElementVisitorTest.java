@@ -9,9 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import testenv.CountingElementVisitor;
+import study.buildermodelproducer.TestBase;
 import testenv.ProcessingEnvironmentRunner;
-import testenv.TestBase;
 
 @RunWith(ProcessingEnvironmentRunner.class)
 public class ElementVisitorTest extends TestBase {
