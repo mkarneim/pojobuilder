@@ -13,7 +13,7 @@ public class BuilderM extends ClassM {
     private FactoryM factory;
     private List<PropertyM> properties = new ArrayList<PropertyM>();
     private TypeM selfType;
-    private List<TypeM> additionalImports = new ArrayList<TypeM>();
+    
     
     public BuilderM(TypeM aType, TypeM aSuperType, boolean abstractClass, TypeM aProductType, TypeM selfType) {
         super(aType, aSuperType, abstractClass);
@@ -34,10 +34,6 @@ public class BuilderM extends ClassM {
 
 	public void setSelfType(TypeM selfType) {
 		this.selfType = selfType;
-	}
-
-	public List<TypeM> getAdditionalImports() {
-		return additionalImports;
 	}
 
 	public FactoryM getFactory() {
@@ -77,14 +73,7 @@ public class BuilderM extends ClassM {
         if ( factory != null) {
             factory.addToImportTypes( result);
         }
-        addAdditionalImportTypes(result);
     }
-
-    private void addAdditionalImportTypes(Set<String> result) {
-		for( TypeM type: additionalImports) {
-			result.add( type.getQualifiedName());
-		}
-	}
 
 	public Collection<PropertyM> getPropertiesForConstructor() {
         List<PropertyM> result = new ArrayList<PropertyM>(properties);

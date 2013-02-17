@@ -9,11 +9,12 @@ import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Elements;
 
+import net.karneim.pojobuilder.TestBase;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import study.buildermodelproducer.TestBase;
 import testenv.ProcessingEnvironmentRunner;
 
 @RunWith(ProcessingEnvironmentRunner.class)

@@ -13,11 +13,12 @@ import javax.lang.model.type.TypeMirror;
 import javax.lang.model.type.TypeVariable;
 import javax.lang.model.util.ElementFilter;
 
+import net.karneim.pojobuilder.TestBase;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import study.buildermodelproducer.TestBase;
 import testenv.ProcessingEnvironmentRunner;
 
 @RunWith(ProcessingEnvironmentRunner.class)

@@ -1,4 +1,5 @@
-package destdata;
+package net.karneim.pojobuilder;
+
 
 public class TestData {
 

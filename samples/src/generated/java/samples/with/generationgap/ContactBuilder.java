@@ -1,7 +1,6 @@
 package samples.with.generationgap;
 
 import samples.with.generationgap.AbstractContactBuilder;
-import samples.with.generationgap.Contact;
 import javax.annotation.Generated;
 
 /**

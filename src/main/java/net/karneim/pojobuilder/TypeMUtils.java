@@ -1,4 +1,4 @@
-package study.buildermodelproducer;
+package net.karneim.pojobuilder;
 
 import java.util.ArrayList;
 import java.util.List;

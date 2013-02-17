@@ -1,6 +1,5 @@
 package samples.with.generationgap;
 
-import samples.with.generationgap.Order;
 import javax.annotation.Generated;
 import samples.with.generationgap.AbstractOrderBuilder;
 

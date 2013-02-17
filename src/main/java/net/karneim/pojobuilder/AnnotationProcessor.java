@@ -27,12 +27,12 @@ public class AnnotationProcessor extends AbstractProcessor {
 
     // public static final String GEN = "gen";
     private ProcessingEnvironment env;
-    private GeneratePojoBuilderProcessor generatePojoBuilderProcessor;
+    private NewGeneratePojoBuilderProcessor generatePojoBuilderProcessor;
 
     @Override
     public void init(ProcessingEnvironment env) {
         super.init(env);
-        this.generatePojoBuilderProcessor = new GeneratePojoBuilderProcessor(env);
+        this.generatePojoBuilderProcessor = new NewGeneratePojoBuilderProcessor(env);
         this.env = env;
         // enableLogging();
         // String targetDir = env.getOptions().get(GEN);

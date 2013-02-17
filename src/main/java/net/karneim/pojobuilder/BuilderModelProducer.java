@@ -1,4 +1,4 @@
-package study.buildermodelproducer;
+package net.karneim.pojobuilder;
 
 import java.beans.ConstructorProperties;
 import java.lang.annotation.Annotation;
@@ -24,12 +24,12 @@ import javax.lang.model.util.ElementFilter;
 import javax.tools.Diagnostic;
 import javax.tools.Diagnostic.Kind;
 
-import net.karneim.pojobuilder.GeneratePojoBuilder;
-import net.karneim.pojobuilder.PropertyNames;
 import net.karneim.pojobuilder.model.BuilderM;
 import net.karneim.pojobuilder.model.FactoryM;
+import net.karneim.pojobuilder.model.ManualBuilderM;
 import net.karneim.pojobuilder.model.PropertyM;
 import net.karneim.pojobuilder.model.TypeM;
+import net.karneim.pojobuilder.model.TypeParameterM;
 
 public class BuilderModelProducer {
 
@@ -57,20 +57,16 @@ public class BuilderModelProducer {
 
 		builderModel.setProductType(computeProductType(input));
 		builderModel.setSuperType(computeBuilderSuperType(input));
-		builderModel.getProperties().addAll(computePropertyModels(input));
 
-		if ( input.hasFactoryMethod()) {
-			builderModel.setFactory( computeFactoryModel(input));
-		}
-		
 		if (annotation.withGenerationGap()) {
-			ManualBuilderM manualBuilderModel = new ManualBuilderM();
+			ManualBuilderM manualBuilderModel = new ManualBuilderM();			
 			result.setManualBuilder(manualBuilderModel);
 
 			builderModel.setAbstractClass(true);
 			TypeM builderType = computeBuilderType(pojoTypeElement, annotation);
 			builderModel.setType(builderType);
 			manualBuilderModel.setSuperType(builderType);
+			manualBuilderModel.setProductType(builderModel.getProductType());
 
 			TypeM manualBuilderType = computeManualBuilderType(pojoTypeElement, annotation);
 			manualBuilderModel.setType(manualBuilderType);
@@ -79,18 +75,26 @@ public class BuilderModelProducer {
 			TypeM builderImplType = computeBuilderType(pojoTypeElement, annotation);
 			builderModel.setType(builderImplType);
 			builderModel.setSelfType(builderImplType);
-			
+
 		}
+
+		builderModel.getProperties().addAll(computePropertyModels(input, builderModel.getType()));
+		if (input.hasFactoryMethod()) {
+			builderModel.setFactory(computeFactoryModel(input));
+		}
+
 		return result;
 	}
 
 	private FactoryM computeFactoryModel(Input input) {
 		ExecutableElement factoryMethod = input.getFactoryMethod();
-		if (!( factoryMethod.getEnclosingElement() instanceof TypeElement)) {
-			throw new BuildException(Kind.ERROR, String.format("Unexpected owner of method %s! Expected class but was %s.", factoryMethod, factoryMethod.getEnclosingElement()), factoryMethod);
+		if (!(factoryMethod.getEnclosingElement() instanceof TypeElement)) {
+			throw new BuildException(Kind.ERROR, String.format(
+					"Unexpected owner of method %s! Expected class but was %s.", factoryMethod,
+					factoryMethod.getEnclosingElement()), factoryMethod);
 		}
-		TypeElement ownerType = (TypeElement)factoryMethod.getEnclosingElement();
-		
+		TypeElement ownerType = (TypeElement) factoryMethod.getEnclosingElement();
+
 		TypeM ownerTypeM = typeMUtils.getTypeM(ownerType);
 		FactoryM result = new FactoryM(ownerTypeM, factoryMethod.getSimpleName().toString());
 		return result;
@@ -150,21 +154,19 @@ public class BuilderModelProducer {
 	}
 
 	private TypeM computeProductType(Input input) {
-		String productTypeName = input.getPojoType().getQualifiedName().toString();
-		TypeM productType = TypeM.get(productTypeName);
-		return productType;
+		return typeMUtils.getTypeM(input.getPojoType());
 	}
 
 	//
 	// HELPER METHODS: these are candidates for separate components
-	private Collection<? extends PropertyM> computePropertyModels(Input input) {
+	private Collection<? extends PropertyM> computePropertyModels(Input input, TypeM builderType) {
 		TypeElement pojoTypeElement = input.getPojoType(); // TODO does not work
 															// with factory
 															// method args!
 		Map<String, PropertyM> resultMap = new HashMap<String, PropertyM>();
 		addPropertyModelsForConstructor(resultMap, pojoTypeElement);
-		addPropertyModelsForSetterMethods(resultMap, pojoTypeElement);
-		addPropertyModelsForAccessibleFields(resultMap, pojoTypeElement);
+		addPropertyModelsForSetterMethods(resultMap, pojoTypeElement, builderType);
+		addPropertyModelsForAccessibleFields(resultMap, pojoTypeElement, builderType);
 		if (input.hasFactoryMethod()) {
 			addPropertyModelsForParameters(resultMap, input.getFactoryMethod());
 		}
@@ -229,14 +231,15 @@ public class BuilderModelProducer {
 		}
 	}
 
-	private void addPropertyModelsForSetterMethods(Map<String, PropertyM> resultMap, TypeElement pojoTypeElement) {
+	private void addPropertyModelsForSetterMethods(Map<String, PropertyM> resultMap, TypeElement pojoTypeElement,
+			TypeM builderType) {
 		TypeElement currentTypeElement = pojoTypeElement;
 		while (!currentTypeElement.getQualifiedName().toString().equals(Object.class.getName())) {
 			List<? extends Element> members = env.getElementUtils().getAllMembers(currentTypeElement);
 			// loop over all setter methods
 			List<ExecutableElement> methods = ElementFilter.methodsIn(members);
 			for (ExecutableElement method : methods) {
-				if (!isStatic(method) && isSetterMethod(method) && isAccessibleForBuilder(method)) {
+				if (!isStatic(method) && isSetterMethod(method) && isAccessibleForBuilder(method, builderType)) {
 					String propertyName = getPropertyName(method);
 
 					DeclaredType declType = (DeclaredType) pojoTypeElement.asType();
@@ -250,6 +253,7 @@ public class BuilderModelProducer {
 					if (propM == null) {
 						propM = new PropertyM(propertyName, fieldName, propertyTypeM);
 						propM.setSetter(method.getSimpleName().toString());
+						propM.setAccessible(true);
 						resultMap.put(fieldName, propM);
 					}
 				}
@@ -258,14 +262,15 @@ public class BuilderModelProducer {
 		}
 	}
 
-	private void addPropertyModelsForAccessibleFields(Map<String, PropertyM> resultMap, TypeElement pojoTypeElement) {
+	private void addPropertyModelsForAccessibleFields(Map<String, PropertyM> resultMap, TypeElement pojoTypeElement,
+			TypeM builderType) {
 		TypeElement currentTypeElement = pojoTypeElement;
 		while (!currentTypeElement.getQualifiedName().toString().equals(Object.class.getName())) {
 			List<? extends Element> members = env.getElementUtils().getAllMembers(currentTypeElement);
 			// loop over all fields
 			List<VariableElement> accessibleFields = ElementFilter.fieldsIn(members);
 			for (VariableElement property : accessibleFields) {
-				if (!isStatic(property) && isMutable(property)) {
+				if (!isStatic(property) && isMutable(property) && isAccessibleForBuilder(property, builderType)) {
 					DeclaredType declType = (DeclaredType) pojoTypeElement.asType();
 					TypeMirror propertyType = env.getTypeUtils().asMemberOf(declType, property);
 					TypeM propertyTypeM = typeMUtils.getTypeM(propertyType);
@@ -275,6 +280,7 @@ public class BuilderModelProducer {
 					PropertyM propM = resultMap.get(fieldName);
 					if (propM == null) {
 						propM = new PropertyM(propertyName, fieldName, propertyTypeM);
+						propM.setAccessible(true);
 						resultMap.put(fieldName, propM);
 					}
 				}
@@ -328,12 +334,23 @@ public class BuilderModelProducer {
 	}
 
 	private boolean isMutable(VariableElement field) {
-		return !field.getModifiers().contains(Modifier.FINAL) && isAccessibleForBuilder(field);
+		return !field.getModifiers().contains(Modifier.FINAL);
 	}
 
-	private boolean isAccessibleForBuilder(Element field) {
-		// TODO check package private and protected also
-		return field.getModifiers().contains(Modifier.PUBLIC);
+	private boolean isAccessibleForBuilder(Element field, TypeM builderType) {
+		if (field.getModifiers().contains(Modifier.PUBLIC)) {
+			return true;
+		}
+		if (field.getModifiers().contains(Modifier.PRIVATE)) {
+			return false;
+		}
+		PackageElement fieldPackage = env.getElementUtils().getPackageOf(field);
+		String builderPackge = builderType.getPackage();
+		if (fieldPackage.isUnnamed()) {
+			return builderPackge == null;
+		} else {
+			return fieldPackage.getQualifiedName().toString().equals(builderPackge);
+		}
 	}
 
 	private <T> T checkNotNull(T obj, String message) {

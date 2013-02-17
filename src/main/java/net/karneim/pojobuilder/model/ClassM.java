@@ -1,10 +1,12 @@
 package net.karneim.pojobuilder.model;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 public class ClassM {
@@ -12,6 +14,7 @@ public class ClassM {
 	private TypeM superType;
 	private boolean abstractClass;
 	private Date created;
+	private List<TypeM> additionalImports = new ArrayList<TypeM>();
 
 	public ClassM(TypeM aType, TypeM aSuperType, boolean abstractClass) {
 		this.type = aType;
@@ -58,6 +61,16 @@ public class ClassM {
 	public boolean isAbstractClass() {
 		return abstractClass;
 	}
+	
+	public List<TypeM> getAdditionalImports() {
+		return additionalImports;
+	}
+	
+	protected void addAdditionalImportTypes(Set<String> result) {
+		for( TypeM type: additionalImports) {
+			result.add( type.getQualifiedName());
+		}
+	}
 
 	public final Collection<String> getImportTypes() {
 		Set<String> result = new HashSet<String>();
@@ -81,7 +94,15 @@ public class ClassM {
 	}
 
 	public void addToImportTypes(Set<String> result) {
+		if ( type.isGeneric()) {
+			for (TypeParameterM typeParam : type.getTypeParameters()) {
+				typeParam.addToImportTypes(result);
+			}	
+		}
+		
 		superType.addToImportTypes(result);
+		
+		addAdditionalImportTypes(result);
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package study.buildermodelproducer;
+package net.karneim.pojobuilder;
 
 import java.util.Map;
 
@@ -8,7 +8,6 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 
-import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 public class Input {
 	private TypeElement pojoType;

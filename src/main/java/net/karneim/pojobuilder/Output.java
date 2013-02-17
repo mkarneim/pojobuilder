@@ -1,6 +1,7 @@
-package study.buildermodelproducer;
+package net.karneim.pojobuilder;
 
 import net.karneim.pojobuilder.model.BuilderM;
+import net.karneim.pojobuilder.model.ManualBuilderM;
 
 public class Output {
 	private BuilderM builder;

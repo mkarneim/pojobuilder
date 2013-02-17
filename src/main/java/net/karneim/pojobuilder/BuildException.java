@@ -1,4 +1,4 @@
-package study.buildermodelproducer;
+package net.karneim.pojobuilder;
 
 import javax.lang.model.element.Element;
 import javax.tools.Diagnostic;

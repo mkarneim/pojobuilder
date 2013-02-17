@@ -7,8 +7,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import destdata.TestData;
-
 import testenv.JavaProject;
 import testenv.Util;
 
@@ -78,7 +76,8 @@ public class AnnotationProcessorTest {
 
 	@Test
 	public void testCompileShouldGeneratePojoBuilderIntoTargetPackage() throws Exception {
-		// Given: there is an annotated pojo source file with "intoPackage" directive
+		// Given: there is an annotated pojo source file with "intoPackage"
+		// directive
 		prj.addSourceFile("src/test/data/testdata/intoPackage/Contact.java");
 
 		// When: the compilation is invoked
@@ -92,21 +91,24 @@ public class AnnotationProcessorTest {
 
 	@Test
 	public void testCompileShouldGeneratePojoBuilderWithGenerationGap() throws Exception {
-		// Given: there is an annotated pojo source file with "useGenerationGap" directive
+		// Given: there is an annotated pojo source file with "useGenerationGap"
+		// directive
 		prj.addSourceFile("src/test/data/testdata/generationgap/Contact.java");
 
 		// When: the compilation is invoked
 		boolean success = prj.compile();
 
-		// Then: two new classes are generated, one abstract and the other concrete
+		// Then: two new classes are generated, one abstract and the other
+		// concrete
 		Assert.assertEquals("success", true, success);
 		Class<?> newClass = prj.findClass("testdata.generationgap.ContactBuilder");
 		Assert.assertNotNull("newClass", newClass);
 		Class<?> newAbstractClass = prj.findClass("testdata.generationgap.AbstractContactBuilder");
 		Assert.assertNotNull("newAbstractClass", newAbstractClass);
-		Assert.assertEquals( "abstract",  true, Modifier.isAbstract(newAbstractClass.getModifiers()));
-		Assert.assertEquals( "abstract",  false, Modifier.isAbstract(newClass.getModifiers()));
-		Assert.assertEquals( "superclass",  newAbstractClass.getCanonicalName(), newClass.getSuperclass().getCanonicalName());
+		Assert.assertEquals("abstract", true, Modifier.isAbstract(newAbstractClass.getModifiers()));
+		Assert.assertEquals("abstract", false, Modifier.isAbstract(newClass.getModifiers()));
+		Assert.assertEquals("superclass", newAbstractClass.getCanonicalName(), newClass.getSuperclass()
+				.getCanonicalName());
 	}
 
 }
