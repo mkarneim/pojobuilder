@@ -2,11 +2,11 @@ package study.buildermodelproducer;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.util.Elements;
 
 import net.karneim.pojobuilder.model.BuilderM;
 import net.karneim.pojobuilder.model.TypeM;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,13 +20,15 @@ import destdata.TestData;
 @AddToSourceTree({ TestData.SRC_TESTDATA_DIR })
 public class UseGenerationGapTest extends TestBase {
 
-	private ProcessingEnvironment env;
+	private Elements elements;
 
 	private BuilderModelProducer underTest;
 
 	@Before
 	public void setup() {
-		env = ProcessingEnvironmentRunner.getProcessingEnvironment();
+		ProcessingEnvironment env = ProcessingEnvironmentRunner.getProcessingEnvironment();
+		elements = env.getElementUtils();
+
 		TypeMUtils typeMUtils = new TypeMUtils();
 		underTest = new BuilderModelProducer(env, typeMUtils);
 	}
@@ -35,8 +37,8 @@ public class UseGenerationGapTest extends TestBase {
 	public void testProduceReturnsOutputWithGenerationGap1() {
 		// Given:
 		String pojoClassname = testdata.generationgap.Contact.class.getName();
-		;
-		TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(pojoClassname);
+
+		TypeElement pojoTypeElement = elements.getTypeElement(pojoClassname);
 
 		// When:
 		Output output = underTest.produce(new Input(pojoTypeElement));
@@ -55,8 +57,8 @@ public class UseGenerationGapTest extends TestBase {
 	public void testProduceReturnsOutputWithGenerationGap2() {
 		// Given:
 		String pojoClassname = testdata.generationgap.Order.class.getName();
-		;
-		TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(pojoClassname);
+
+		TypeElement pojoTypeElement = elements.getTypeElement(pojoClassname);
 
 		// When:
 		Output output = underTest.produce(new Input(pojoTypeElement));
