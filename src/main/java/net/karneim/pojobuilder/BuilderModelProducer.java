@@ -1,7 +1,6 @@
 package net.karneim.pojobuilder;
 
 import java.beans.ConstructorProperties;
-import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +28,6 @@ import net.karneim.pojobuilder.model.FactoryM;
 import net.karneim.pojobuilder.model.ManualBuilderM;
 import net.karneim.pojobuilder.model.PropertyM;
 import net.karneim.pojobuilder.model.TypeM;
-import net.karneim.pojobuilder.model.TypeParameterM;
 
 public class BuilderModelProducer {
 
@@ -45,7 +43,7 @@ public class BuilderModelProducer {
 	public Output produce(Input input) {
 		Output result = new Output();
 
-		TypeElement pojoTypeElement = checkNotNull(input.getPojoType(), "input.getPojoTypeElement()==null");
+		TypeElement pojoTypeElement = checkNotNull(input.getPojoType(), "input.getPojoType()==null");
 
 		GeneratePojoBuilder annotation = input.getGeneratePojoBuilderAnnotation();
 		if (annotation == null) {
@@ -59,7 +57,7 @@ public class BuilderModelProducer {
 		builderModel.setSuperType(computeBuilderSuperType(input));
 
 		if (annotation.withGenerationGap()) {
-			ManualBuilderM manualBuilderModel = new ManualBuilderM();			
+			ManualBuilderM manualBuilderModel = new ManualBuilderM();
 			result.setManualBuilder(manualBuilderModel);
 
 			builderModel.setAbstractClass(true);
@@ -160,20 +158,19 @@ public class BuilderModelProducer {
 	//
 	// HELPER METHODS: these are candidates for separate components
 	private Collection<? extends PropertyM> computePropertyModels(Input input, TypeM builderType) {
-		TypeElement pojoTypeElement = input.getPojoType(); // TODO does not work
-															// with factory
-															// method args!
+		TypeElement pojoTypeElement = input.getPojoType();
 		Map<String, PropertyM> resultMap = new HashMap<String, PropertyM>();
 		addPropertyModelsForConstructor(resultMap, pojoTypeElement);
 		addPropertyModelsForSetterMethods(resultMap, pojoTypeElement, builderType);
 		addPropertyModelsForAccessibleFields(resultMap, pojoTypeElement, builderType);
 		if (input.hasFactoryMethod()) {
-			addPropertyModelsForParameters(resultMap, input.getFactoryMethod());
+			addPropertyModelsForFactoryMethodParameters(resultMap, input.getFactoryMethod());
 		}
 		return resultMap.values();
 	}
 
-	private void addPropertyModelsForParameters(Map<String, PropertyM> resultMap, ExecutableElement factoryMethod) {
+	private void addPropertyModelsForFactoryMethodParameters(Map<String, PropertyM> resultMap,
+			ExecutableElement factoryMethod) {
 		if (factoryMethod.getParameters().isEmpty()) {
 			return;
 		}
