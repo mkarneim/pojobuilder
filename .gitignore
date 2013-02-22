@@ -5,6 +5,8 @@ src/.DS_Store
 
 libs/.DS_Store
 
+target
+
 samples/build
 
 .DS_Store
