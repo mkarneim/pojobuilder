@@ -64,7 +64,17 @@ public <if(model.abstractClass)>abstract <endif>class <model.type.genericTypeSim
 		return result;
 	}
 	
-
+	<if(model.implementingCopyMethod)>
+	/**
+ 	* Copies properties from <i>original</i> into the builder
+ 	* @param original the object to be copied
+ 	* @return this builder
+ 	*/
+	public <model.selfType.genericTypeSimpleName> copy(<model.productType.genericTypeSimpleName> original) {
+		<model.properties:copyProperty()>
+		return this;
+	}
+	<endif>
 }
 >>
 
@@ -121,3 +131,7 @@ productContructorCall(model) ::= <<
 constructorArgument(property) ::= <<this.value$<property.fieldname> >>
 
 throwsElements(exceptionType) ::= <<<exceptionType.simpleName> >>
+
+copyProperty(property) ::= <<this.with<property.nameUC>(original.<property.getter>());
+
+>>

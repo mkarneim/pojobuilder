@@ -14,6 +14,7 @@ public class BuilderM extends BaseBuilderM {
 	private TypeM selfType;
 	private FactoryM factory;
 	private final Map<String, PropertyM> properties = new HashMap<String, PropertyM>();
+	private boolean isImplementingCopyMethod;
 
 	public void setSelfType(TypeM selfType) {
 		this.selfType = selfType;
@@ -29,6 +30,14 @@ public class BuilderM extends BaseBuilderM {
 
 	public boolean isUsingFactory() {
 		return factory != null;
+	}
+	
+	public void setIsImplementingCopyMethod(boolean isImplementingCopyMethod) {
+	    this.isImplementingCopyMethod = isImplementingCopyMethod;
+	}
+
+	public boolean isImplementingCopyMethod() {
+	    return isImplementingCopyMethod;
 	}
 
 	public List<PropertyM> getProperties() {
@@ -47,6 +56,12 @@ public class BuilderM extends BaseBuilderM {
 			properties.put(fieldname, result);
 		}
 		return result;
+	}
+	
+	public PropertyM getProperty(String propertyName, TypeM propertyType) {
+	    String fieldname = computeBuilderFieldname(propertyName, propertyType.getQualifiedName());
+        PropertyM result = properties.get(fieldname);
+        return result;
 	}
 
 	private static String computeBuilderFieldname(String propertyName, String propertyType) {
