@@ -36,8 +36,6 @@ Download
 
 The latest release is [PojoBuilder 2.0.1].
 
-You can find older versions on the [archive page].
-
 License
 -------
 
@@ -223,7 +221,6 @@ How To Build
 If you want to compile this project's sources yourself you can use Maven (see [pom.xml]) or Ant  (see [build.xml]). 
 
 [PojoBuilder 2.0.1]: http://github.com/mkarneim/pojobuilder/raw/master/dist/pojobuilder-2.0.1.zip
-[archive page]: http://github.com/mkarneim/pojobuilder/archives/master
 [@GeneratePojoBuilder]: http://github.com/mkarneim/pojobuilder/blob/master/src/main/java/net/karneim/pojobuilder/GeneratePojoBuilder.java
 [samples]: http://github.com/mkarneim/pojobuilder/blob/master/samples
 [best practices]: http://github.com/mkarneim/pojobuilder/wiki/Best-practices
