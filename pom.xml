@@ -15,6 +15,7 @@
     </properties>
 
     <build>
+    	<testSourceDirectory>src/test/data/</testSourceDirectory>
         <resources>
       <resource>
         <directory>src/main/resources</directory>
