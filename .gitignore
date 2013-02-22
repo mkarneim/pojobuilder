@@ -12,3 +12,10 @@ samples/build
 build
 
 bin
+
+target
+
+#ignore eclipse project files
+.classpath
+.project
+.settings
