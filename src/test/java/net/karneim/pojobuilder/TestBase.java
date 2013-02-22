@@ -14,8 +14,6 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.junit.Assert;
 
-import quicktime.std.movies.media.BaseMedia;
-
 public class TestBase extends Assert {
 
 	public static ExecutableElement getFirstMethodByName(String name, List<ExecutableElement> methods) {
