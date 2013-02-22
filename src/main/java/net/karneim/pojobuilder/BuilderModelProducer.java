@@ -163,6 +163,7 @@ public class BuilderModelProducer {
 		addPropertyModelsForConstructor(resultMap, pojoTypeElement);
 		addPropertyModelsForSetterMethods(resultMap, pojoTypeElement, builderType);
 		addPropertyModelsForAccessibleFields(resultMap, pojoTypeElement, builderType);
+		addPropertyModelsForGetterMethods(resultMap, pojoTypeElement, builderType);
 		if (input.hasFactoryMethod()) {
 			addPropertyModelsForFactoryMethodParameters(resultMap, input.getFactoryMethod());
 		}
@@ -258,6 +259,34 @@ public class BuilderModelProducer {
 			currentTypeElement = (TypeElement) env.getTypeUtils().asElement(currentTypeElement.getSuperclass());
 		}
 	}
+	
+	private void addPropertyModelsForGetterMethods(Map<String, PropertyM> resultMap, TypeElement pojoTypeElement,
+            TypeM builderType) {
+        TypeElement currentTypeElement = pojoTypeElement;
+        while (!currentTypeElement.getQualifiedName().toString().equals(Object.class.getName())) {
+            List<? extends Element> members = env.getElementUtils().getAllMembers(currentTypeElement);
+            // loop over all setter methods
+            List<ExecutableElement> methods = ElementFilter.methodsIn(members);
+            for (ExecutableElement method : methods) {
+                if (!isStatic(method) && isGetterMethod(method) && isAccessibleForBuilder(method, builderType)) {
+                    String propertyName = getPropertyName(method);
+
+                    DeclaredType declType = (DeclaredType) pojoTypeElement.asType();
+                    ExecutableType execType = (ExecutableType) env.getTypeUtils().asMemberOf(declType, method);
+                    TypeMirror propertyType = execType.getReturnType();
+
+                    TypeM propertyTypeM = typeMUtils.getTypeM(propertyType);
+
+                    String fieldName = computeBuilderFieldname(propertyName, propertyTypeM.getQualifiedName());
+                    PropertyM propM = resultMap.get(fieldName);
+                    if (propM != null) {
+                        propM.setGetter(method.getSimpleName().toString());
+                    }
+                }
+            }
+            currentTypeElement = (TypeElement) env.getTypeUtils().asElement(currentTypeElement.getSuperclass());
+        }
+    }
 
 	private void addPropertyModelsForAccessibleFields(Map<String, PropertyM> resultMap, TypeElement pojoTypeElement,
 			TypeM builderType) {
@@ -298,12 +327,23 @@ public class BuilderModelProducer {
 
 	private String getPropertyName(ExecutableElement setterMethod) {
 		String name = setterMethod.getSimpleName().toString();
+		int prefixLength = -1;
 		if (name.startsWith("set")) {
-			name = name.substring("set".length());
+		    prefixLength = "set".length();
+		}
+		else if(name.startsWith("get")) {
+		    prefixLength = "get".length();
+		}
+		else if(name.startsWith("is")) {
+            prefixLength = "is".length();
+        }
+		
+		if(prefixLength > 0) {
+			name = name.substring(prefixLength);
 			name = firstCharToLowerCase(name);
 			return name;
 		} else {
-			throw new IllegalArgumentException(String.format("Not a setter method name: %s!", name));
+			throw new IllegalArgumentException(String.format("Not a setter or getter method name: %s!", name));
 		}
 	}
 
@@ -323,6 +363,14 @@ public class BuilderModelProducer {
 		return methodName.startsWith("set") && methodName.length() > "set".length()
 				&& retType.getKind() == TypeKind.VOID && elem.getParameters().size() == 1;
 	}
+	
+	private boolean isGetterMethod(ExecutableElement elem) {
+        String methodName = elem.getSimpleName().toString();
+        TypeMirror retType = elem.getReturnType();
+        return (( methodName.startsWith("get") && methodName.length() > "set".length() ) ||
+                ( methodName.startsWith("is") && methodName.length() > "is".length() ) )
+                && retType.getKind() != TypeKind.VOID && elem.getParameters().size() == 0;
+    }
 
 	private static String computeBuilderFieldname(String propertyName, String propertyType) {
 		String typeString = propertyType.replaceAll("\\.", "\\$");
