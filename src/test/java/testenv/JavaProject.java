@@ -29,6 +29,7 @@ public class JavaProject {
 	private final List<File> sourceFiles = new ArrayList<File>();
 	private final List<String> classnamesForProcessing = new ArrayList<String>();
 	private final List<Class<? extends Processor>> processorClasses = new ArrayList<Class<? extends Processor>>();
+	private final List<Processor> processors = new ArrayList<Processor>();
 	private final JavaCompiler compiler;
 	private final DiagnosticCollector<JavaFileObject> diagnostics;
 	private final StandardJavaFileManager fileManager;
@@ -65,7 +66,18 @@ public class JavaProject {
 	 * Returns the annotation processors that will be used during the
 	 * compilation task.
 	 * 
-	 * @return the annotation processors that will be used
+	 * @return the annotation processors that will be used during the
+	 *         compilation task
+	 */
+	public List<Processor> getProcessors() {
+		return processors;
+	}
+
+	/**
+	 * Returns the annotation processor classes that will be used during the
+	 * compilation task.
+	 * 
+	 * @return the annotation processor classes that will be used
 	 */
 	public List<Class<? extends Processor>> getProcessorClasses() {
 		return processorClasses;
@@ -153,7 +165,8 @@ public class JavaProject {
 
 		List<String> optionList = new ArrayList<String>();
 		// set compiler's class path to be same as the runtime's
-		optionList.addAll(Arrays.asList("-classpath", System.getProperty("java.class.path")));
+		// optionList.addAll(Arrays.asList("-classpath",System.getProperty("java.class.path")));
+
 		// enable the annotation processor
 		if (!processorClasses.isEmpty()) {
 			StringBuilder buf = new StringBuilder();
@@ -168,6 +181,9 @@ public class JavaProject {
 
 		JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, diagnostics, optionList,
 				classnamesForProcessing, compilationUnits);
+		if (!processors.isEmpty()) {
+			task.setProcessors(processors);
+		}
 		boolean success = task.call();
 
 		fileManager.close();
