@@ -19,6 +19,7 @@ public class BuilderMBuilder implements Cloneable {
     private boolean[] $abstract = new boolean[1];
     private TypeM[] $productType = new TypeM[1];
     private TypeM[] $selfType = new TypeM[1];
+    private boolean[] $isImplementingCopyMethod = new boolean[1];
     
     private Date[] $created = new Date[0];
     private FactoryM $factory;
@@ -90,6 +91,16 @@ public class BuilderMBuilder implements Cloneable {
     public void withProperties(PropertyM... value) {
         $properties = Arrays.asList(value);
     }
+    
+    public BuilderMBuilder withIsImplementingCopyMethod(boolean value) {
+        this.$isImplementingCopyMethod = new boolean[] { value };
+        return this;
+    }
+
+    public BuilderMBuilder withIsImplementingCopyMethod(boolean... values) {
+        this.$isImplementingCopyMethod = values;
+        return this;
+    }
 
     @Override
     public Object clone() {
@@ -108,7 +119,7 @@ public class BuilderMBuilder implements Cloneable {
 
     public BuilderM build() {
         BuilderM result = new BuilderM($type[buildCounter % $type.length], $superType[buildCounter % $superType.length], $abstract[buildCounter % $abstract.length],
-        		$productType[buildCounter % $productType.length], $selfType[buildCounter % $selfType.length]);
+        		$productType[buildCounter % $productType.length], $selfType[buildCounter % $selfType.length], $isImplementingCopyMethod[buildCounter % $isImplementingCopyMethod.length]);
         if ($created.length > 0) {
             result.setCreated($created[buildCounter % $created.length]);
         }

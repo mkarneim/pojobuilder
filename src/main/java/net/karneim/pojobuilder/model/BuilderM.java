@@ -13,11 +13,13 @@ public class BuilderM extends ClassM {
     private FactoryM factory;
     private List<PropertyM> properties = new ArrayList<PropertyM>();
     private TypeM selfType;
+    private boolean isImplementingCopyMethod;
     
     
-    public BuilderM(TypeM aType, TypeM aSuperType, boolean abstractClass, TypeM aProductType, TypeM selfType) {
+    public BuilderM(TypeM aType, TypeM aSuperType, boolean abstractClass, TypeM aProductType, TypeM selfType, boolean isImplementingCopyMethod) {
         super(aType, aSuperType, abstractClass);
         this.productType = aProductType;
+        this.isImplementingCopyMethod = isImplementingCopyMethod; 
         if ( selfType == null) {
         	this.selfType = aType;
         } else {
@@ -46,6 +48,14 @@ public class BuilderM extends ClassM {
     
     public boolean isUsingFactory() {
         return factory != null;
+    }
+    
+    public void setIsImplementingCopyMethod(boolean isImplementingCopyMethod) {
+        this.isImplementingCopyMethod = isImplementingCopyMethod;
+    }
+    
+    public boolean isImplementingCopyMethod() {
+        return isImplementingCopyMethod;
     }
 
     public List<PropertyM> getProperties() {

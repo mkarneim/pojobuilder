@@ -75,6 +75,8 @@ public class BuilderModelProducer {
 			builderModel.setSelfType(builderImplType);
 
 		}
+		
+		builderModel.setIsImplementingCopyMethod(annotation.withCopyMethod());
 
 		builderModel.getProperties().addAll(computePropertyModels(input, builderModel.getType()));
 		if (input.hasFactoryMethod()) {

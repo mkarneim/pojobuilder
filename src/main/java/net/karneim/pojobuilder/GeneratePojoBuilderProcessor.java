@@ -37,6 +37,7 @@ public class GeneratePojoBuilderProcessor {
     
 	private static final String WITH_BASECLASS_ATTRIBUTE_NAME = "withBaseclass";
     private static final String WITH_GENERATION_GAP_ATTRIBUTE_NAME = "withGenerationGap";
+    private static final String WITH_COPY_METHOD_ATTRIBUTE_NAME = "withCopyMethod";
     private static final String JAVAX_ANNOTATION_GENERATED = "javax.annotation.Generated";
 
     private static final Logger LOG = Logger.getLogger(GeneratePojoBuilderProcessor.class.getName());
@@ -57,6 +58,8 @@ public class GeneratePojoBuilderProcessor {
     public void process(TypeElement productTypeElem, GeneratePojoBuilder annotation) {
     	String withGenerationGapAttr = getAttributeValue(productTypeElem, AnnotationProcessor.GENERATE_POJO_BUILDER_CLASS.getName(), WITH_GENERATION_GAP_ATTRIBUTE_NAME);
         boolean withGenGap = ( withGenerationGapAttr != null && Boolean.parseBoolean(withGenerationGapAttr));
+        String withCopyMethodAttr = getAttributeValue(productTypeElem, AnnotationProcessor.GENERATE_POJO_BUILDER_CLASS.getName(), WITH_COPY_METHOD_ATTRIBUTE_NAME);
+        boolean withCopyMethod = (withCopyMethodAttr != null && Boolean.parseBoolean(withCopyMethodAttr));
         
     	String productSimpleName = extTypeUtil.getSimpleName(productTypeElem.getQualifiedName().toString());
 
@@ -85,6 +88,7 @@ public class GeneratePojoBuilderProcessor {
         BuilderMBuilder builder = new BuilderMBuilder();
         builder.withType(builderType).withSuperType(builderBaseclass);
         builder.withProductType(productType).withProperties(propertyMap.build());
+        builder.withIsImplementingCopyMethod(withCopyMethod);
         if ( withGenGap) {
         	String builderClassname2 = getBuilderClassname(builderPackageName, null, productSimpleName, annotation);
         	TypeM builderType2 = new TypeM(builderClassname2);
@@ -119,6 +123,8 @@ public class GeneratePojoBuilderProcessor {
     public void process(ExecutableElement execElem, GeneratePojoBuilder annotation) {
     	String withGenerationGapAttr = getAttributeValue(execElem, AnnotationProcessor.GENERATE_POJO_BUILDER_CLASS.getName(), WITH_GENERATION_GAP_ATTRIBUTE_NAME);
         boolean withGenGap = ( withGenerationGapAttr != null && Boolean.parseBoolean(withGenerationGapAttr));
+        String withCopyMethodAttr = getAttributeValue(execElem, AnnotationProcessor.GENERATE_POJO_BUILDER_CLASS.getName(), WITH_COPY_METHOD_ATTRIBUTE_NAME);
+        boolean withCopyMethod = (withCopyMethodAttr != null && Boolean.parseBoolean(withCopyMethodAttr));
        
         Set<Modifier> requiredModifiers = new HashSet<Modifier>();
         requiredModifiers.add(Modifier.PUBLIC);
@@ -161,6 +167,7 @@ public class GeneratePojoBuilderProcessor {
         builder.withFactory(factoryM);
         builder.withType(builderType).withSuperType(builderBaseclass);
         builder.withProductType(productType).withProperties(propertyMap.build());
+        builder.withIsImplementingCopyMethod(withCopyMethod);
         if ( withGenGap) {
         	String builderClassname2 = getBuilderClassname(builderPackageName, null, productSimpleName, annotation);
         	TypeM builderType2 = new TypeM(builderClassname2);
