@@ -15,7 +15,7 @@ import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
 
 @RunWith(ProcessingEnvironmentRunner.class)
-@AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
+@AddToSourceTree(TestBase.SRC_TESTDATA_DIR)
 public class ArraysTest extends TestBase {
 
 	private ProcessingEnvironment env;

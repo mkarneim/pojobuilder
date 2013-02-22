@@ -40,6 +40,7 @@ public class ConstructorPropertiesTest extends TestBase {
 
 		// Then:
 		assertEquals("builder classname", "AddressDTOBuilder", builder.getType().getSimpleName());
+		assertEquals("size of properties", 4, builder.getProperties().size());
 		assertThat(builder.getProperties(), containsPropertyWithName("name"));
 		assertThat(builder.getProperties(), containsPropertyWithName("street"));
 		assertThat(builder.getProperties(), containsPropertyWithName("city"));

@@ -2,8 +2,8 @@ package samples.with.generics;
 
 import java.util.List;
 import javax.annotation.Generated;
-import samples.with.generics.NumberGrid;
 import java.util.Collection;
+import samples.with.generics.NumberGrid;
 
 /**
  * The {@link NumberGridBuilder} is a Builder for {@link NumberGrid} objects.

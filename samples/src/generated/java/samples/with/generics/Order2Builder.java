@@ -1,7 +1,7 @@
 package samples.with.generics;
 
-import samples.with.generics.Order2;
 import java.util.List;
+import samples.with.generics.Order2;
 import samples.with.generics.Item;
 import java.io.Serializable;
 import javax.annotation.Generated;

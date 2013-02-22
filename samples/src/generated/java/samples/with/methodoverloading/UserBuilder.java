@@ -1,8 +1,8 @@
 package samples.with.methodoverloading;
 
 import java.io.File;
-import samples.with.methodoverloading.User;
 import java.util.Date;
+import samples.with.methodoverloading.User;
 import javax.annotation.Generated;
 
 /**
