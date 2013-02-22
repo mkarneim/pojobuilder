@@ -23,8 +23,6 @@ public class AnnotationProcessorTest {
 	public void setupJavaProject() {
 		// Enable the AnnotationProcessor
 		prj.getProcessorClasses().add(AnnotationProcessor.class);
-		// Enable Logging
-		AnnotationProcessor.enableLogging();
 	}
 
 	@After

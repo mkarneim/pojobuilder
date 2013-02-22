@@ -1,13 +1,7 @@
 package net.karneim.pojobuilder;
 
-import java.util.Map;
-
-import javax.lang.model.element.AnnotationMirror;
-import javax.lang.model.element.AnnotationValue;
-import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
-
 
 public class Input {
 	private TypeElement pojoType;
@@ -50,6 +44,5 @@ public class Input {
 	public String toString() {
 		return "Input [pojoType=" + pojoType + ", factoryMethod=" + factoryMethod + "]";
 	}
-
 
 }

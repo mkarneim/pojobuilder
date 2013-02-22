@@ -73,7 +73,6 @@ public class BuilderModelProducer {
 			TypeM builderImplType = computeBuilderType(pojoTypeElement, annotation);
 			builderModel.setType(builderImplType);
 			builderModel.setSelfType(builderImplType);
-
 		}
 
 		builderModel.getProperties().addAll(computePropertyModels(input, builderModel.getType()));
