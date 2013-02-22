@@ -1,27 +1,23 @@
 package net.karneim.pojobuilder;
 
-
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.TypeElement;
 
-import net.karneim.pojobuilder.BuilderModelProducer;
-import net.karneim.pojobuilder.Input;
-import net.karneim.pojobuilder.Output;
-import net.karneim.pojobuilder.TypeMUtils;
 import net.karneim.pojobuilder.model.BuilderM;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import testdata.generics.Container;
 import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
 
 @RunWith(ProcessingEnvironmentRunner.class)
-@AddToSourceTree({ TestData.SRC_SAMPLES_DIR })
+@AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
 public class BoundGenericsTest extends TestBase {
 
 	private ProcessingEnvironment env;
@@ -38,7 +34,7 @@ public class BoundGenericsTest extends TestBase {
 	@Test
 	public void testProduceModelReturnsModelWithTypeParameters() {
 		// Given:
-		String pojoClassname = samples.with.generics.Container.class.getName();
+		String pojoClassname = Container.class.getName();
 		TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(pojoClassname);
 
 		// When:
@@ -48,15 +44,14 @@ public class BoundGenericsTest extends TestBase {
 		// Then:
 		assertEquals("type", "ContainerBuilder<T extends Item & Serializable>", builder.getType()
 				.getGenericTypeSimpleNameWithBounds());
-	
+
 		// When:
 		Set<String> imports = new HashSet<String>();
 		builder.addToImportTypes(imports);
-		
+
 		// Then
-		assertThat( imports, contains("java.io.Serializable"));
-		
+		assertThat(imports, contains("java.io.Serializable"));
+
 	}
-	
-	
+
 }

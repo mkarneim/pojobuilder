@@ -15,6 +15,7 @@ import org.hamcrest.Matcher;
 import org.junit.Assert;
 
 public class TestBase extends Assert {
+	public static final String SRC_TESTDATA_DIR = "src/test/java/testdata";
 
 	public static ExecutableElement getFirstMethodByName(String name, List<ExecutableElement> methods) {
 		for (ExecutableElement e : methods) {
@@ -30,7 +31,7 @@ public class TestBase extends Assert {
 
 			@Override
 			public boolean matches(Object item) {
-				Collection<T> actual = (Collection<T>)item;
+				Collection<T> actual = (Collection<T>) item;
 				return actual.contains(element);
 			}
 
@@ -39,11 +40,11 @@ public class TestBase extends Assert {
 				description.appendText("contains element ");
 				description.appendValue(element);
 			}
-			
+
 		};
 		return result;
 	}
-	
+
 	public static Matcher<List<PropertyM>> containsPropertyWithName(final String aName) {
 		Matcher<List<PropertyM>> result = new BaseMatcher<List<PropertyM>>() {
 			@Override

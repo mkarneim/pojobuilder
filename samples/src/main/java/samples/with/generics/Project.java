@@ -8,28 +8,29 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 @GeneratePojoBuilder
 public class Project {
-    private String name;
-    private Set<File> files;
-    @ConstructorProperties({"name"})    
-    public Project(String name) {
-        super();
-        this.name = name;
-    }
+	private String name;
+	private Set<File> files;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	@ConstructorProperties({ "name" })
+	public Project(String name) {
+		super();
+		this.name = name;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public Set<File> getFiles() {
-        return files;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setFiles(Set<File> files) {
-        this.files = files;
-    }
+	public Set<File> getFiles() {
+		return files;
+	}
+
+	public void setFiles(Set<File> files) {
+		this.files = files;
+	}
 
 }

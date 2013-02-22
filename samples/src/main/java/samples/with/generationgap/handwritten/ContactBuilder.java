@@ -6,11 +6,11 @@ import java.util.List;
 /**
  * The {@link ContactBuilder} is a Builder for {@link Contact} objects.
  * <p>
- * This class has been moved out of the generated-sources folder 
- * to prevent it from being overwritten! 
- * It contains handwritten extensions to the {@link AbstractContactBuilder}.
+ * This class has been moved out of the generated-sources folder to prevent it
+ * from being overwritten! It contains handwritten extensions to the
+ * {@link AbstractContactBuilder}.
  * 
- * @created initially by the PojoBuilder generator 
+ * @created initially by the PojoBuilder generator
  */
 public class ContactBuilder extends AbstractContactBuilder implements Cloneable {
 

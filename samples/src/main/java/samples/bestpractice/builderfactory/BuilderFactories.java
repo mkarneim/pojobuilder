@@ -8,8 +8,9 @@ import samples.bestpractice.OrderBuilder;
 
 public class BuilderFactories {
 	/**
-	* This is a builder factory that creates a new OrderBuilder with some default values.
-	*/
+	 * This is a builder factory that creates a new OrderBuilder with some
+	 * default values.
+	 */
 	public static OrderBuilder $Order() {
 		return new OrderBuilder().withDate(new Date()).withItems(new ArrayList<Item>());
 	}

@@ -6,12 +6,12 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 @GeneratePojoBuilder
 public class Person {
-	
+
 	private final Long id;
 	private final boolean artificial;
 	private String name;
 
-	@ConstructorProperties({"id","artificial"})
+	@ConstructorProperties({ "id", "artificial" })
 	public Person(Long id, boolean artificial) {
 		super();
 		this.id = id;
@@ -33,5 +33,5 @@ public class Person {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 }

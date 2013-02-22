@@ -12,8 +12,7 @@ public class Util {
 			tempFile.delete();
 			tempFile.mkdir();
 			if (!tempFile.exists()) {
-				throw new IllegalStateException(String.format(
-						"Directory '%s' could not be created.", tempFile));
+				throw new IllegalStateException(String.format("Directory '%s' could not be created.", tempFile));
 			}
 			return tempFile;
 		} catch (IOException e) {

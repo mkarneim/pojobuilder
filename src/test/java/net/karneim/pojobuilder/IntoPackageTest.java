@@ -1,17 +1,11 @@
 package net.karneim.pojobuilder;
 
-
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.TypeElement;
 
-import net.karneim.pojobuilder.BuilderModelProducer;
-import net.karneim.pojobuilder.Input;
-import net.karneim.pojobuilder.Output;
-import net.karneim.pojobuilder.TypeMUtils;
 import net.karneim.pojobuilder.model.BuilderM;
 import net.karneim.pojobuilder.model.TypeM;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +14,7 @@ import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
 
 @RunWith(ProcessingEnvironmentRunner.class)
-@AddToSourceTree({ TestData.SRC_TESTDATA_DIR })
+@AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
 public class IntoPackageTest extends TestBase {
 
 	private ProcessingEnvironment env;

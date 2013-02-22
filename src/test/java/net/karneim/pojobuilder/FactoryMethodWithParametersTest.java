@@ -1,6 +1,5 @@
 package net.karneim.pojobuilder;
 
-
 import java.util.List;
 
 import javax.annotation.processing.ProcessingEnvironment;
@@ -9,10 +8,6 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Elements;
 
-import net.karneim.pojobuilder.BuilderModelProducer;
-import net.karneim.pojobuilder.Input;
-import net.karneim.pojobuilder.Output;
-import net.karneim.pojobuilder.TypeMUtils;
 import net.karneim.pojobuilder.model.BuilderM;
 import net.karneim.pojobuilder.model.PropertyM;
 
@@ -20,15 +15,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import testdata.factory.Contact;
+import testdata.factory.PojoFactory;
 import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
 
 @RunWith(ProcessingEnvironmentRunner.class)
-@AddToSourceTree({ TestData.SRC_SAMPLES_DIR })
+@AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
 public class FactoryMethodWithParametersTest extends TestBase {
 
-	private static String FACTORY_CLASSNAME = samples.with.factory.PojoFactory.class.getName();
-	private static String CONTACT_CLASSNAME = samples.with.factory.Contact.class.getName();
+	private static String FACTORY_CLASSNAME = PojoFactory.class.getName();
+	private static String CONTACT_CLASSNAME = Contact.class.getName();
 
 	private Elements elements;
 
