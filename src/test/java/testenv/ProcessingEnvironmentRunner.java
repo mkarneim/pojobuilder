@@ -56,10 +56,9 @@ public class ProcessingEnvironmentRunner extends BlockJUnit4ClassRunner {
 			exception = null;
 			addSourceFiles(prj, klass.getAnnotation(AddToSourceTree.class));
 			addSourceFiles(prj, method.getMethod().getAnnotation(AddToSourceTree.class));
-			prj.getProcessorClasses().add(Processor.class);
-			prj.addClassnameForProcessing(klass.getCanonicalName());
 
-			Processor.setListener(new ProcessorListener() {
+			ProcessingInterceptor interceptor = new ProcessingInterceptor();
+			interceptor.setListener(new ProcessorListener() {
 
 				@Override
 				public void onInvoke(ProcessingEnvironment env, RoundEnvironment roundEnv) {
@@ -72,6 +71,8 @@ public class ProcessingEnvironmentRunner extends BlockJUnit4ClassRunner {
 					}
 				}
 			});
+			prj.getProcessors().add( interceptor);
+			prj.addClassnameForProcessing(klass.getCanonicalName());
 
 			try {
 				prj.compile();

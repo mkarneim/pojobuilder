@@ -57,7 +57,7 @@ public <if(model.abstractClass)>abstract <endif>class <model.type.genericTypeSim
 	 * Creates a new {@link <model.productType.simpleName>} based on this builder's settings.
 	 * @return the created <model.productType.simpleName>
 	 */
-	public <model.productType.genericTypeSimpleName> build() {
+	public <model.productType.genericTypeSimpleName> build() <if(!model.buildExceptions.empty)>throws <model.buildExceptions:throwsElements(); separator=","><endif>{
 		<model:productContructorCall()>
 		<model.propertiesForSetters:propertySetterCall()>
 		<model.propertiesForAssignment:propertyAssignment()>
@@ -119,3 +119,5 @@ productContructorCall(model) ::= <<
 >>
 
 constructorArgument(property) ::= <<this.value$<property.fieldname> >>
+
+throwsElements(exceptionType) ::= <<<exceptionType.simpleName> >>
