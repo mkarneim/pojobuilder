@@ -1,6 +1,5 @@
 package net.karneim.pojobuilder.model;
 
-
 public class ManualBuilderM extends ClassM {
 	private TypeM productType;
 
@@ -17,5 +16,5 @@ public class ManualBuilderM extends ClassM {
 		return "ManualBuilderM [productType=" + productType + ", getType()=" + getType() + ", getSuperType()="
 				+ getSuperType() + ", isAbstractClass()=" + isAbstractClass() + "]";
 	}
-	
+
 }

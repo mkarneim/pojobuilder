@@ -14,7 +14,8 @@ import java.lang.annotation.Target;
 @Retention(SOURCE)
 public @interface PropertyNames {
 	/**
-	 * An array of property names that maps the method parameters to the pojo's property names by index.
+	 * An array of property names that maps the method parameters to the pojo's
+	 * property names by index.
 	 */
 	String[] value();
 }

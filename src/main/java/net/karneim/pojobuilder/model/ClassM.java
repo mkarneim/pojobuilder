@@ -21,11 +21,11 @@ public class ClassM {
 		this.superType = aSuperType;
 		this.abstractClass = abstractClass;
 	}
-	
+
 	public ClassM() {
 		super();
 	}
-	
+
 	public void setType(TypeM type) {
 		this.type = type;
 	}
@@ -61,14 +61,14 @@ public class ClassM {
 	public boolean isAbstractClass() {
 		return abstractClass;
 	}
-	
+
 	public List<TypeM> getAdditionalImports() {
 		return additionalImports;
 	}
-	
+
 	protected void addAdditionalImportTypes(Set<String> result) {
-		for( TypeM type: additionalImports) {
-			result.add( type.getQualifiedName());
+		for (TypeM type : additionalImports) {
+			result.add(type.getQualifiedName());
 		}
 	}
 
@@ -94,21 +94,20 @@ public class ClassM {
 	}
 
 	public void addToImportTypes(Set<String> result) {
-		if ( type.isGeneric()) {
+		if (type.isGeneric()) {
 			for (TypeParameterM typeParam : type.getTypeParameters()) {
 				typeParam.addToImportTypes(result);
-			}	
+			}
 		}
-		
+
 		superType.addToImportTypes(result);
-		
+
 		addAdditionalImportTypes(result);
 	}
 
 	@Override
 	public String toString() {
-		return "ClassM [type=" + type + ", superType=" + superType
-				+ ", created=" + created + "]";
+		return "ClassM [type=" + type + ", superType=" + superType + ", created=" + created + "]";
 	}
 
 }

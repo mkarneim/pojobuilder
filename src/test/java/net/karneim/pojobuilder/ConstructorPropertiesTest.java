@@ -1,13 +1,8 @@
 package net.karneim.pojobuilder;
 
-
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.TypeElement;
 
-import net.karneim.pojobuilder.BuilderModelProducer;
-import net.karneim.pojobuilder.Input;
-import net.karneim.pojobuilder.Output;
-import net.karneim.pojobuilder.TypeMUtils;
 import net.karneim.pojobuilder.model.BuilderM;
 import net.karneim.pojobuilder.model.PropertyM;
 
@@ -19,9 +14,9 @@ import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
 
 @RunWith(ProcessingEnvironmentRunner.class)
-@AddToSourceTree({ TestData.SRC_SAMPLES_DIR })
+@AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
 public class ConstructorPropertiesTest extends TestBase {
-	private static String ADDRESS_DTO_CLASSNAME = samples.with.constructorproperties.AddressDTO.class.getName();
+	private static String ADDRESS_DTO_CLASSNAME = testdata.constructorproperties.AddressDTO.class.getName();
 
 	private ProcessingEnvironment env;
 

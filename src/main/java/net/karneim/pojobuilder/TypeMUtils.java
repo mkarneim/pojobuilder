@@ -79,7 +79,7 @@ public class TypeMUtils {
 					typeMirror.getClass().getName()));
 		}
 	}
-	
+
 	public TypeM getTypeM(TypeElement typeElem) {
 		TypeM result = new TypeM(typeElem.getQualifiedName().toString());
 		if (typeElem.getTypeParameters().isEmpty() == false) {
@@ -121,5 +121,4 @@ public class TypeMUtils {
 		return result;
 	}
 
-	
 }

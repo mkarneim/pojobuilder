@@ -1,13 +1,8 @@
 package net.karneim.pojobuilder;
 
-
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.TypeElement;
 
-import net.karneim.pojobuilder.BuilderModelProducer;
-import net.karneim.pojobuilder.Input;
-import net.karneim.pojobuilder.Output;
-import net.karneim.pojobuilder.TypeMUtils;
 import net.karneim.pojobuilder.model.BuilderM;
 import net.karneim.pojobuilder.model.PropertyM;
 
@@ -15,11 +10,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import testdata.array.Order;
 import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
 
 @RunWith(ProcessingEnvironmentRunner.class)
-@AddToSourceTree({ TestData.SRC_SAMPLES_DIR })
+@AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
 public class ArraysTest extends TestBase {
 
 	private ProcessingEnvironment env;
@@ -36,7 +32,7 @@ public class ArraysTest extends TestBase {
 	@Test
 	public void testBuilderClassname() {
 		// Given:
-		String pojoClassname = samples.with.arrays.Order.class.getName();
+		String pojoClassname = Order.class.getName();
 		TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(pojoClassname);
 
 		// When:
@@ -50,7 +46,7 @@ public class ArraysTest extends TestBase {
 	@Test
 	public void testNumberOfProperties() {
 		// Given:
-		String pojoClassname = samples.with.arrays.Order.class.getName();
+		String pojoClassname = Order.class.getName();
 		TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(pojoClassname);
 
 		// When:
@@ -64,13 +60,13 @@ public class ArraysTest extends TestBase {
 	@Test
 	public void testItemsProperty() {
 		// Given:
-		String pojoClassname = samples.with.arrays.Order.class.getName();
+		String pojoClassname = Order.class.getName();
 		TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(pojoClassname);
 
 		// When:
 		Output output = underTest.produce(new Input(pojoTypeElement));
 		BuilderM builder = output.getBuilder();
-		
+
 		// Then:
 		assertThat(builder.getProperties(), containsPropertyWithName("items"));
 		PropertyM p0 = filterByName(builder.getProperties(), "items").get(0);

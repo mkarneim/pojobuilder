@@ -6,10 +6,6 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 
-import net.karneim.pojobuilder.BuilderModelProducer;
-import net.karneim.pojobuilder.Input;
-import net.karneim.pojobuilder.Output;
-import net.karneim.pojobuilder.TypeMUtils;
 import net.karneim.pojobuilder.model.BuilderM;
 import net.karneim.pojobuilder.model.PropertyM;
 import net.karneim.pojobuilder.model.TypeM;
@@ -18,15 +14,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import samples.bestpractice.Item;
+import testdata.publicfields.Item;
 import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
 
 @RunWith(ProcessingEnvironmentRunner.class)
-@AddToSourceTree({ TestData.SRC_SAMPLES_DIR })
+@AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
 public class PublicFieldsTest extends TestBase {
 
-	private static final String ITEM_BUILDER = "samples.bestpractice.ItemBuilder";
+	private static final String ITEM_BUILDER = "testdata.publicfields.ItemBuilder";
 
 	private Elements elements;
 
@@ -120,7 +116,7 @@ public class PublicFieldsTest extends TestBase {
 
 		Collection<PropertyM> setterProps = builder.getPropertiesForSetters();
 		assertEquals("size of properties to set", 0, setterProps.size());
-		
+
 		Collection<PropertyM> assignProps = builder.getPropertiesForAssignment();
 		assertEquals("size of properties to assign", 2, assignProps.size());
 	}

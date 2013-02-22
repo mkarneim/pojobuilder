@@ -14,5 +14,5 @@ public class ConcreteEntity extends AbstractEntity<Long> {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 }

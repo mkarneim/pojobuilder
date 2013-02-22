@@ -69,8 +69,9 @@ class ProcessingEnvironmentAdaptor implements ProcessingEnvironment {
 	}
 
 	private void checkDelegateNotNull() {
-		if ( delegate == null) {
-			throw new IllegalStateException("Calling methods on ProcessingEnvironment is only supported inside test methods!");
+		if (delegate == null) {
+			throw new IllegalStateException(
+					"Calling methods on ProcessingEnvironment is only supported inside test methods!");
 		}
 	}
 

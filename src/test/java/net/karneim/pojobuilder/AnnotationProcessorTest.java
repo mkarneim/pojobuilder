@@ -23,8 +23,6 @@ public class AnnotationProcessorTest {
 	public void setupJavaProject() {
 		// Enable the AnnotationProcessor
 		prj.getProcessorClasses().add(AnnotationProcessor.class);
-		// Enable Logging
-		AnnotationProcessor.enableLogging();
 	}
 
 	@After
@@ -35,7 +33,7 @@ public class AnnotationProcessorTest {
 	@Test
 	public void testCompileShouldCompileEmptyPojo() throws Exception {
 		// Given: there is a pojo source file
-		prj.addSourceFile("src/test/data/testdata/EmptyPojo.java");
+		prj.addSourceFile("src/test/java/testdata/EmptyPojo.java");
 
 		// When: the compilation is invoked
 		boolean success = prj.compile();
@@ -49,7 +47,7 @@ public class AnnotationProcessorTest {
 	@Test
 	public void testCompileShouldGeneratePojoBuilder1() throws Exception {
 		// Given: there is an annotated pojo source file
-		prj.addSourceFile("src/test/data/testdata/SimpleAnnotatedPojo.java");
+		prj.addSourceFile("src/test/java/testdata/SimpleAnnotatedPojo.java");
 
 		// When: the compilation is invoked
 		boolean success = prj.compile();
@@ -63,7 +61,7 @@ public class AnnotationProcessorTest {
 	@Test
 	public void testCompileShouldGeneratePojoBuilder2() throws Exception {
 		// Given: there is an annotated pojo source file
-		prj.addSourceFile("src/test/data/testdata/Contact.java");
+		prj.addSourceFile("src/test/java/testdata/Contact.java");
 
 		// When: the compilation is invoked
 		boolean success = prj.compile();
@@ -78,7 +76,7 @@ public class AnnotationProcessorTest {
 	public void testCompileShouldGeneratePojoBuilderIntoTargetPackage() throws Exception {
 		// Given: there is an annotated pojo source file with "intoPackage"
 		// directive
-		prj.addSourceFile("src/test/data/testdata/intoPackage/Contact.java");
+		prj.addSourceFile("src/test/java/testdata/intoPackage/Contact.java");
 
 		// When: the compilation is invoked
 		boolean success = prj.compile();
@@ -93,7 +91,7 @@ public class AnnotationProcessorTest {
 	public void testCompileShouldGeneratePojoBuilderWithGenerationGap() throws Exception {
 		// Given: there is an annotated pojo source file with "useGenerationGap"
 		// directive
-		prj.addSourceFile("src/test/data/testdata/generationgap/Contact.java");
+		prj.addSourceFile("src/test/java/testdata/generationgap/Contact.java");
 
 		// When: the compilation is invoked
 		boolean success = prj.compile();

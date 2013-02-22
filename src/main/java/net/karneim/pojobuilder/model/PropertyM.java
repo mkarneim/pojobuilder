@@ -83,10 +83,8 @@ public class PropertyM {
 
 	@Override
 	public String toString() {
-		return "PropertyM [name=" + name + ", fieldname=" + fieldname
-				+ ", type=" + type + ", setter=" + setter + ", getter="
-				+ getter + ", accessible=" + accessible + ", parameterPos="
-				+ parameterPos + "]";
+		return "PropertyM [name=" + name + ", fieldname=" + fieldname + ", type=" + type + ", setter=" + setter
+				+ ", getter=" + getter + ", accessible=" + accessible + ", parameterPos=" + parameterPos + "]";
 	}
 
 }

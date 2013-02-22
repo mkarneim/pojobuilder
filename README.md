@@ -34,9 +34,7 @@ For more information on
 Download
 --------
 
-The latest release is [PojoBuilder 2.0.0].
-
-You can find older versions on the [archive page].
+The latest release is [PojoBuilder 2.0.1].
 
 License
 -------
@@ -218,12 +216,73 @@ Do the following to configure the PojoBuilder annotation processor for your proj
 
 Now the annotation processor will be automatically invoked during the Eclipse build cycle.
 
+### Using maven
+
+Add the following to configure the PojoBuilder annotation processor for your project in Maven to your pom.xml:
+
+First, add the following compile time dependency
+
+	<dependency>
+			<groupId>net.karneim</groupId>
+			<artifactId>pojobuilder</artifactId>
+			<version>2.0.0</version>
+			<scope>compile</scope>
+	</dependency>
+
+Afterwards, add the following build configuration to your project
+
+	<build>
+		<plugins>
+			<plugin>
+				<!-- will run the annotation processor -->
+				<groupId>org.bsc.maven</groupId>
+				<artifactId>maven-processor-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>process</id>
+						<goals>
+							<goal>process</goal>
+						</goals>
+						<phase>generate-sources</phase>
+						<configuration>
+							<processors>
+								<processor>net.karneim.pojobuilder.AnnotationProcessor</processor>
+							</processors>
+							<outputDirectory>${project.build.directory}/generated-sources/annotations</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+	          <!-- will add the generated code to the build path -->
+	          <groupId>org.codehaus.mojo</groupId>
+	          <artifactId>build-helper-maven-plugin</artifactId>
+	          <version>1.5</version>
+	          <executions>
+	              <execution>
+	                  <phase>generate-sources</phase>
+	                  <goals>
+	                      <goal>add-source</goal>
+	                  </goals>
+	                  <configuration>
+	                      <sources>
+	                          <source>${project.build.directory}/generated-sources/annotations</source>
+	                      </sources>
+	                  </configuration>
+	              </execution>
+	          </executions>
+	      </plugin>
+		</plugins>
+	</build>
+
+
+Note that if you already have a build section in your pom, that you will have edit it accordingly to match the code above.
+
 How To Build
 ------------
 If you want to compile this project's sources yourself you can use Maven (see [pom.xml]) or Ant  (see [build.xml]). 
 
-[PojoBuilder 2.0.0]: http://github.com/mkarneim/pojobuilder/raw/master/dist/pojobuilder-2.0.0.zip
-[archive page]: http://github.com/mkarneim/pojobuilder/archives/master
+[PojoBuilder 2.0.1]: http://github.com/mkarneim/pojobuilder/raw/master/dist/pojobuilder-2.0.1.zip
 [@GeneratePojoBuilder]: http://github.com/mkarneim/pojobuilder/blob/master/src/main/java/net/karneim/pojobuilder/GeneratePojoBuilder.java
 [samples]: http://github.com/mkarneim/pojobuilder/blob/master/samples
 [best practices]: http://github.com/mkarneim/pojobuilder/wiki/Best-practices

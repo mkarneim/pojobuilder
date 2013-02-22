@@ -1,14 +1,9 @@
 package net.karneim.pojobuilder;
 
-
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 
-import net.karneim.pojobuilder.BuilderModelProducer;
-import net.karneim.pojobuilder.Input;
-import net.karneim.pojobuilder.Output;
-import net.karneim.pojobuilder.TypeMUtils;
 import net.karneim.pojobuilder.model.BuilderM;
 import net.karneim.pojobuilder.model.ManualBuilderM;
 import net.karneim.pojobuilder.model.TypeM;
@@ -21,7 +16,7 @@ import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
 
 @RunWith(ProcessingEnvironmentRunner.class)
-@AddToSourceTree({ TestData.SRC_TESTDATA_DIR })
+@AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
 public class UseGenerationGapTest extends TestBase {
 
 	private Elements elements;

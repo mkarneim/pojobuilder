@@ -6,10 +6,6 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 
-import net.karneim.pojobuilder.BuilderModelProducer;
-import net.karneim.pojobuilder.Input;
-import net.karneim.pojobuilder.Output;
-import net.karneim.pojobuilder.TypeMUtils;
 import net.karneim.pojobuilder.model.BuilderM;
 import net.karneim.pojobuilder.model.PropertyM;
 import net.karneim.pojobuilder.model.TypeM;
@@ -18,15 +14,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import samples.bestpractice.Item;
+import testdata.modifiers.Contact;
 import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
 
 @RunWith(ProcessingEnvironmentRunner.class)
-@AddToSourceTree({ TestData.SRC_SAMPLES_DIR })
+@AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
 public class ModifiersTest extends TestBase {
 
-	private static final String ITEM_BUILDER = "samples.with.modifiers.ContactBuilder";
+	private static final String BUILDER = "ContactBuilder";
 
 	private Elements elements;
 
@@ -43,7 +39,7 @@ public class ModifiersTest extends TestBase {
 	@Test
 	public void testProduceReturnsBuilderWithCorrectProductType() {
 		// Given:
-		String pojoClassname = samples.with.modifiers.Contact.class.getName();
+		String pojoClassname = Contact.class.getName();
 		TypeElement pojoType = elements.getTypeElement(pojoClassname);
 
 		// When:
@@ -57,7 +53,7 @@ public class ModifiersTest extends TestBase {
 	@Test
 	public void testProduceReturnsBuilderWithCorrectBuilderType() {
 		// Given:
-		String pojoClassname = samples.with.modifiers.Contact.class.getName();
+		String pojoClassname = Contact.class.getName();
 		TypeElement pojoType = elements.getTypeElement(pojoClassname);
 
 		// When:
@@ -65,13 +61,13 @@ public class ModifiersTest extends TestBase {
 		BuilderM builder = output.getBuilder();
 
 		// Then:
-		assertEquals("type", TypeM.get(ITEM_BUILDER), builder.getType());
+		assertEquals("type", BUILDER, builder.getType().getSimpleName());
 	}
 
 	@Test
 	public void testProduceReturnsBuilderWithCorrectSuperType() {
 		// Given:
-		String pojoClassname = samples.with.modifiers.Contact.class.getName();
+		String pojoClassname = Contact.class.getName();
 		TypeElement pojoType = elements.getTypeElement(pojoClassname);
 
 		// When:
@@ -85,7 +81,7 @@ public class ModifiersTest extends TestBase {
 	@Test
 	public void testProduceReturnsBuilderWithCorrectSelfType() {
 		// Given:
-		String pojoClassname = samples.with.modifiers.Contact.class.getName();
+		String pojoClassname = Contact.class.getName();
 		TypeElement pojoType = elements.getTypeElement(pojoClassname);
 
 		// When:
@@ -93,13 +89,13 @@ public class ModifiersTest extends TestBase {
 		BuilderM builder = output.getBuilder();
 
 		// Then:
-		assertEquals("selfType", TypeM.get(ITEM_BUILDER), builder.getSelfType());
+		assertEquals("selfType", BUILDER, builder.getSelfType().getSimpleName());
 	}
 
 	@Test
 	public void testProduceReturnsBuilderWithCorrectProperties() {
 		// Given:
-		String pojoClassname = samples.with.modifiers.Contact.class.getName();
+		String pojoClassname = Contact.class.getName();
 		TypeElement pojoType = elements.getTypeElement(pojoClassname);
 
 		// When:
@@ -118,12 +114,12 @@ public class ModifiersTest extends TestBase {
 		assertEquals("type of firstname", "java.lang.String", p1.getType().getQualifiedName());
 		PropertyM p2 = getFirstPropertyByName(builder.getProperties(), "email");
 		assertEquals("type of email", "java.lang.String", p2.getType().getQualifiedName());
-		
-		assertEquals("selfType", TypeM.get(ITEM_BUILDER), builder.getSelfType());
+
+		assertEquals("selfType", BUILDER, builder.getSelfType().getSimpleName());
 
 		Collection<PropertyM> setterProps = builder.getPropertiesForSetters();
 		assertEquals("size of properties to set", 0, setterProps.size());
-		
+
 		Collection<PropertyM> assignProps = builder.getPropertiesForAssignment();
 		assertEquals("size of properties to assign", 2, assignProps.size());
 	}

@@ -11,5 +11,5 @@ public class AbstractEntity<K> {
 	public void setKey(K key) {
 		this.key = key;
 	}
-	
+
 }

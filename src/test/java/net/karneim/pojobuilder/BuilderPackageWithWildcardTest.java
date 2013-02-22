@@ -1,13 +1,8 @@
 package net.karneim.pojobuilder;
 
-
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.TypeElement;
 
-import net.karneim.pojobuilder.BuilderModelProducer;
-import net.karneim.pojobuilder.Input;
-import net.karneim.pojobuilder.Output;
-import net.karneim.pojobuilder.TypeMUtils;
 import net.karneim.pojobuilder.model.BuilderM;
 
 import org.junit.Before;
@@ -18,9 +13,9 @@ import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
 
 @RunWith(ProcessingEnvironmentRunner.class)
-@AddToSourceTree({ TestData.SRC_SAMPLES_DIR })
+@AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
 public class BuilderPackageWithWildcardTest extends TestBase {
-	private static String CONTACT_CLASSNAME = samples.with.builderpackage.Contact.class.getName();
+	private static String CONTACT_CLASSNAME = testdata.intoPackage.wildcard.Contact.class.getName();
 
 	private ProcessingEnvironment env;
 
@@ -44,6 +39,6 @@ public class BuilderPackageWithWildcardTest extends TestBase {
 
 		// Then:
 		assertEquals("builder classname", "ContactBuilder", builder.getType().getSimpleName());
-		assertEquals("package", "samples.with.builderpackage.builder", builder.getType().getPackage());
+		assertEquals("package", "testdata.intoPackage.wildcard.builder", builder.getType().getPackage());
 	}
 }

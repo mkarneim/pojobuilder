@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import net.karneim.pojobuilder.util.ExtendedTypeUtil;
-
 public class TypeM {
 	public static final TypeM BOOLEAN_TYPE = new TypeM("boolean", true);
 	public static final TypeM CHAR_TYPE = new TypeM("char", true);
@@ -17,9 +15,8 @@ public class TypeM {
 	public static final TypeM DOUBLE_TYPE = new TypeM("double", true);
 	public static final TypeM VOID_TYPE = new TypeM("void", true);
 
-	private static final TypeM[] primitives = new TypeM[] { BOOLEAN_TYPE,
-			CHAR_TYPE, BYTE_TYPE, SHORT_TYPE, INT_TYPE, LONG_TYPE, FLOAT_TYPE,
-			DOUBLE_TYPE, VOID_TYPE };
+	private static final TypeM[] primitives = new TypeM[] { BOOLEAN_TYPE, CHAR_TYPE, BYTE_TYPE, SHORT_TYPE, INT_TYPE,
+			LONG_TYPE, FLOAT_TYPE, DOUBLE_TYPE, VOID_TYPE };
 
 	public static TypeM OBJECT = new TypeM("java.lang.Object");
 
@@ -48,7 +45,7 @@ public class TypeM {
 	}
 
 	public String getSimpleName() {
-		return ExtendedTypeUtil.getSimpleName(qualifiedName);
+		return extractSimpleName(qualifiedName);
 	}
 
 	public String getGenericTypeSimpleName() {
@@ -94,7 +91,7 @@ public class TypeM {
 	}
 
 	public String getPackage() {
-		return ExtendedTypeUtil.getPackage(qualifiedName);
+		return extractPackage(qualifiedName);
 	}
 
 	public boolean isPrimitive() {
@@ -118,7 +115,7 @@ public class TypeM {
 	}
 
 	private String getImportName() {
-		if (ExtendedTypeUtil.getPackage(qualifiedName) == null) {
+		if (extractPackage(qualifiedName) == null) {
 			return null;
 		}
 		int idx = qualifiedName.indexOf('[');
@@ -126,6 +123,30 @@ public class TypeM {
 			return qualifiedName.substring(0, idx);
 		} else {
 			return qualifiedName;
+		}
+	}
+
+	private static String extractPackage(String qualifiedName) {
+		if (qualifiedName == null) {
+			return null;
+		}
+		int idx = qualifiedName.lastIndexOf('.');
+		if (idx == -1) {
+			return null;
+		} else {
+			return qualifiedName.substring(0, idx);
+		}
+	}
+
+	private static String extractSimpleName(String qualifiedName) {
+		if (qualifiedName == null) {
+			return null;
+		}
+		int idx = qualifiedName.lastIndexOf('.');
+		if (idx == -1) {
+			return qualifiedName;
+		} else {
+			return qualifiedName.substring(idx + 1);
 		}
 	}
 
@@ -155,8 +176,7 @@ public class TypeM {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((qualifiedName == null) ? 0 : qualifiedName.hashCode());
+		result = prime * result + ((qualifiedName == null) ? 0 : qualifiedName.hashCode());
 		return result;
 	}
 
@@ -191,8 +211,7 @@ public class TypeM {
 
 	@Override
 	public String toString() {
-		return "TypeM [name=" + qualifiedName + ", primitive=" + primitive
-				+ "]";
+		return "TypeM [name=" + qualifiedName + ", primitive=" + primitive + "]";
 	}
 
 }

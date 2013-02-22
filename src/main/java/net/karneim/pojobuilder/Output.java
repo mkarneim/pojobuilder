@@ -6,7 +6,7 @@ import net.karneim.pojobuilder.model.ManualBuilderM;
 public class Output {
 	private BuilderM builder;
 	private ManualBuilderM manualBuilder;
-	
+
 	public Output() {
 	}
 

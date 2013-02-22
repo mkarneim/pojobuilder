@@ -22,7 +22,6 @@ import org.junit.runner.RunWith;
 
 import testenv.ProcessingEnvironmentRunner;
 
-
 @RunWith(ProcessingEnvironmentRunner.class)
 public class SimpleClassTest extends TestBase {
 	public static class SampleClass {
@@ -38,18 +37,17 @@ public class SimpleClassTest extends TestBase {
 		underTest = env.getElementUtils();
 	}
 
-
 	@Test
 	public void testGetTypeElementShouldReturnClass() {
 		// Given:
 		Class<?> aClass = SampleClass.class;
-		
+
 		// When:
 		TypeElement el = underTest.getTypeElement(aClass.getCanonicalName());
 
 		// Then:
 		assertEquals("kind", ElementKind.CLASS, el.getKind());
-		assertEquals("simpleName",  aClass.getSimpleName(), el.getSimpleName().toString());
+		assertEquals("simpleName", aClass.getSimpleName(), el.getSimpleName().toString());
 	}
 
 	@Test
@@ -59,7 +57,8 @@ public class SimpleClassTest extends TestBase {
 		TypeElement el = underTest.getTypeElement(aClass.getCanonicalName());
 
 		// When:
-		//   note: getAllMembers returns the members as they are accessible from inside the given class
+		// note: getAllMembers returns the members as they are accessible from
+		// inside the given class
 		List<? extends Element> members = underTest.getAllMembers(el);
 		List<VariableElement> fields = ElementFilter.fieldsIn(members);
 
@@ -75,7 +74,7 @@ public class SimpleClassTest extends TestBase {
 		List<? extends Element> members = underTest.getAllMembers(el);
 		List<VariableElement> fields = ElementFilter.fieldsIn(members);
 		VariableElement field = fields.get(0);
-		
+
 		// When:
 		Name name = field.getSimpleName();
 
@@ -91,7 +90,7 @@ public class SimpleClassTest extends TestBase {
 		List<? extends Element> members = underTest.getAllMembers(el);
 		List<VariableElement> fields = ElementFilter.fieldsIn(members);
 		VariableElement field = fields.get(0);
-		
+
 		// When:
 		TypeMirror fieldType = field.asType();
 
