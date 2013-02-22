@@ -12,20 +12,19 @@ import javax.lang.model.element.TypeElement;
 
 import org.junit.runner.RunWith;
 
-public class Processor extends AbstractProcessor {
+public class ProcessingInterceptor extends AbstractProcessor {
 
-	public static void setListener(ProcessorListener aListener) {
-		Processor.listener = aListener;
-	}
-
-	private static ProcessorListener listener;
-
+	private ProcessorListener listener;
 	private ProcessingEnvironment processingEnv;
 
-	public static Processor INSTANCE;
+	public static ProcessingInterceptor INSTANCE;
 
-	public Processor() {
+	public ProcessingInterceptor() {
 		INSTANCE = this;
+	}
+
+	public void setListener(ProcessorListener aListener) {
+		this.listener = aListener;
 	}
 
 	@Override

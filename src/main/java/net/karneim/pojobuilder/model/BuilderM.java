@@ -4,33 +4,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-public class BuilderM extends ClassM {
-	private TypeM productType;
-	private FactoryM factory;
-	private List<PropertyM> properties = new ArrayList<PropertyM>();
+public class BuilderM extends BaseBuilderM {
 	private TypeM selfType;
-    private boolean isImplementingCopyMethod;
-
-	public BuilderM(TypeM aType, TypeM aSuperType, boolean abstractClass, TypeM aProductType, TypeM selfType) {
-		super(aType, aSuperType, abstractClass);
-		this.productType = aProductType;
-		if (selfType == null) {
-			this.selfType = aType;
-		} else {
-			this.selfType = selfType;
-		}
-	}
-
-	public BuilderM() {
-	}
-
-	public void setProductType(TypeM productType) {
-		this.productType = productType;
-	}
+	private FactoryM factory;
+	private final Map<String, PropertyM> properties = new HashMap<String, PropertyM>();
+	private boolean isImplementingCopyMethod;
 
 	public void setSelfType(TypeM selfType) {
 		this.selfType = selfType;
@@ -57,34 +41,48 @@ public class BuilderM extends ClassM {
 	}
 
 	public List<PropertyM> getProperties() {
-		return properties;
-	}
-
-	public TypeM getProductType() {
-		return productType;
+		return new ArrayList<PropertyM>(properties.values());
 	}
 
 	public TypeM getSelfType() {
 		return selfType;
 	}
 
-	public void setProperties(Collection<PropertyM> properties) {
-		this.properties = new ArrayList<PropertyM>(properties);
+	public PropertyM getOrCreateProperty(String propertyName, TypeM propertyType) {
+		String fieldname = computeBuilderFieldname(propertyName, propertyType.getQualifiedName());
+		PropertyM result = properties.get(fieldname);
+		if (result == null) {
+			result = new PropertyM(propertyName, fieldname, propertyType);
+			properties.put(fieldname, result);
+		}
+		return result;
+	}
+	
+	public PropertyM getProperty(String propertyName, TypeM propertyType) {
+	    String fieldname = computeBuilderFieldname(propertyName, propertyType.getQualifiedName());
+        PropertyM result = properties.get(fieldname);
+        return result;
 	}
 
+	private static String computeBuilderFieldname(String propertyName, String propertyType) {
+		String typeString = propertyType.replaceAll("\\.", "\\$");
+		typeString = typeString.replaceAll("\\[\\]", "\\$");
+		return propertyName + "$" + typeString;
+	}
+
+	@Override
 	public void addToImportTypes(Set<String> result) {
 		super.addToImportTypes(result);
-		for (PropertyM prop : properties) {
+		for (PropertyM prop : properties.values()) {
 			prop.getType().addToImportTypes(result);
 		}
-		productType.addToImportTypes(result);
 		if (factory != null) {
 			factory.addToImportTypes(result);
 		}
 	}
 
 	public Collection<PropertyM> getPropertiesForConstructor() {
-		List<PropertyM> result = new ArrayList<PropertyM>(properties);
+		List<PropertyM> result = getProperties();
 		// Remove properties that have no parameter position
 		Iterator<PropertyM> it = result.iterator();
 		while (it.hasNext()) {
@@ -105,7 +103,7 @@ public class BuilderM extends ClassM {
 	}
 
 	public Collection<PropertyM> getPropertiesForSetters() {
-		List<PropertyM> result = new ArrayList<PropertyM>(properties);
+		List<PropertyM> result = getProperties();
 		// Remove properties that have a parameter position
 		Iterator<PropertyM> it = result.iterator();
 		while (it.hasNext()) {
@@ -118,7 +116,7 @@ public class BuilderM extends ClassM {
 	}
 
 	public Collection<PropertyM> getPropertiesForAssignment() {
-		List<PropertyM> result = new ArrayList<PropertyM>(properties);
+		List<PropertyM> result = getProperties();
 		// Remove properties that have a parameter position and have setters
 		Iterator<PropertyM> it = result.iterator();
 		while (it.hasNext()) {
@@ -128,12 +126,6 @@ public class BuilderM extends ClassM {
 			}
 		}
 		return result;
-	}
-
-	@Override
-	public String toString() {
-		return "BuilderM [productType=" + productType + ", properties=" + properties + ", getType()=" + getType()
-				+ ", getSuperType()=" + getSuperType() + "]";
 	}
 
 }

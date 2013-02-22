@@ -16,12 +16,6 @@ public class ClassM {
 	private Date created;
 	private List<TypeM> additionalImports = new ArrayList<TypeM>();
 
-	public ClassM(TypeM aType, TypeM aSuperType, boolean abstractClass) {
-		this.type = aType;
-		this.superType = aSuperType;
-		this.abstractClass = abstractClass;
-	}
-
 	public ClassM() {
 		super();
 	}

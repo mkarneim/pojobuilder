@@ -2,8 +2,8 @@ package samples.with.generics;
 
 import java.awt.Color;
 import java.util.List;
-import samples.with.generics.Pallettes;
 import java.util.Set;
+import samples.with.generics.Pallettes;
 import javax.annotation.Generated;
 
 /**
