@@ -44,4 +44,12 @@ public @interface GeneratePojoBuilder {
 	 * folder. Default is "false".
 	 */
 	boolean withGenerationGap() default false;
+	
+	/**
+	 * Specifies whether a copy method should be generated. The copy
+	 * method will take an instance of the buileded class and will
+	 * copy all its fields into the builder. This allows it to easily
+	 * change one or more fields of immutable objects
+	 */
+	boolean withCopyMethod() default false;
 }
