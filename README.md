@@ -70,7 +70,7 @@ To generate a builder class for a POJO you can annotate its class with @Generate
 
 Let's have a look at the following example POJO:
 
-	@GeneratePojoBuilder(intoPackage = "samples.builder")
+	@GeneratePojoBuilder
 	public class Contact {
 		private final String surname;
 		private final String firstname;
@@ -101,9 +101,11 @@ Let's have a look at the following example POJO:
 	}
 
 The [@GeneratePojoBuilder] annotation tells the annotation processor to create a new Java source file with 
-the name "ContactBuilder" into the package "samples.builder" (the "intoPackage" attribute is optional). 
-If the POJO has no default constructor or if you want the generated builder to use a specific constructor 
-then annotate it with @ConstructorProperties and specify the mapping from the parameters to the corresponding properties.
+the name "ContactBuilder".
+
+Use the @ConstructorProperties annotation if the POJO has no default constructor 
+or if you want the generated builder to use a specific constructor.
+The value array specifies the mapping from the parameters to the corresponding property names.
 
 Have a look at ["samples/src/generated/java/samples/builder/ContactBuilder.java"] to see the generated source code.
 
@@ -124,8 +126,8 @@ like annotating a POJO, you can annotate a factory method.
 
 Please note that the factory method must be *public* and *static*. 
 
-If it has parameters then you need to specify a mapping
-from the parameters to the corresponding POJO properties by using the @PropertyNames annotation.
+Use the @PropertyNames annotation if the factory method requires parameters. 
+The value array specifies the mapping from the parameters to the corresponding property names.
 
 Have a look at ["samples/src/generated/java/samples/with/factory/ContactBuilder.java"] to see the generated source code.
 
