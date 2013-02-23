@@ -46,8 +46,8 @@ public class TestBase extends Assert {
 		return result;
 	}
 
-	public static Matcher<List<PropertyM>> containsPropertyWithName(final String aName) {
-		Matcher<List<PropertyM>> result = new BaseMatcher<List<PropertyM>>() {
+	public static Matcher<Collection<PropertyM>> containsPropertyWithName(final String aName) {
+		Matcher<Collection<PropertyM>> result = new BaseMatcher<Collection<PropertyM>>() {
 			@Override
 			public boolean matches(Object item) {
 				@SuppressWarnings("unchecked")
@@ -70,6 +70,30 @@ public class TestBase extends Assert {
 		return result;
 	}
 
+	public static Matcher<Collection<PropertyM>> doesNotContainPropertyWithName(final String aName) {
+		Matcher<Collection<PropertyM>> result = new BaseMatcher<Collection<PropertyM>>() {
+			@Override
+			public boolean matches(Object item) {
+				@SuppressWarnings("unchecked")
+				List<PropertyM> actual = (List<PropertyM>) item;
+				for (PropertyM p : actual) {
+					if (aName.equals(p.getName().toString())) {
+						return false;
+					}
+				}
+				return true;
+			}
+
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("name ");
+				description.appendValue(aName);
+			}
+
+		};
+		return result;
+	}
+	
 	public static Matcher<List<? extends Element>> containsElementWithName(final String aName) {
 		Matcher<List<? extends Element>> result = new BaseMatcher<List<? extends Element>>() {
 

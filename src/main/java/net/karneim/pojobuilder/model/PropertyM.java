@@ -9,6 +9,8 @@ public class PropertyM {
 	private String getter;
 	private boolean accessible;
 	private Integer parameterPos;
+	private boolean readable;
+	private boolean writable;
 
 	public PropertyM(String name, String fieldname, TypeM type) {
 		super();
@@ -23,6 +25,22 @@ public class PropertyM {
 
 	public void setAccessible(boolean accessible) {
 		this.accessible = accessible;
+	}
+
+	public boolean isReadable() {
+		return readable;
+	}
+
+	public void setReadable(boolean readable) {
+		this.readable = readable;
+	}
+
+	public boolean isWritable() {
+		return writable;
+	}
+
+	public void setWritable(boolean writable) {
+		this.writable = writable;
 	}
 
 	public Integer getParameterPos() {
@@ -84,7 +102,8 @@ public class PropertyM {
 	@Override
 	public String toString() {
 		return "PropertyM [name=" + name + ", fieldname=" + fieldname + ", type=" + type + ", setter=" + setter
-				+ ", getter=" + getter + ", accessible=" + accessible + ", parameterPos=" + parameterPos + "]";
+				+ ", getter=" + getter + ", accessible=" + accessible + ", parameterPos=" + parameterPos
+				+ ", readable=" + readable + ", writable=" + writable + "]";
 	}
 
 }

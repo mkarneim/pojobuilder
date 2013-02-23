@@ -18,7 +18,7 @@ builderClass(model) ::= <<
 @Generated("PojoBuilder")
 public <if(model.abstractClass)>abstract <endif>class <model.type.genericTypeSimpleNameWithBounds> <if(!model.superType.object)>extends <model.superType.genericTypeSimpleName> <endif>implements Cloneable {
 	protected <model.selfType.genericTypeSimpleName> self;
-	<model.properties:propertyVar()>
+	<model.propertiesForWith:propertyVar()>
 	
 	/**
 	 * Creates a new {@link <model.type.simpleName>}.
@@ -27,7 +27,7 @@ public <if(model.abstractClass)>abstract <endif>class <model.type.genericTypeSim
 		self = (<model.selfType.genericTypeSimpleName>)this;
 	}
 	
-	<model.properties:propertyWith()>
+	<model.propertiesForWith:propertyWith()>
 	
 	/**
 	 * Returns a clone of this builder.
@@ -71,7 +71,8 @@ public <if(model.abstractClass)>abstract <endif>class <model.type.genericTypeSim
  	* @return this builder
  	*/
 	public <model.selfType.genericTypeSimpleName> copy(<model.productType.genericTypeSimpleName> original) {
-		<model.properties:copyProperty()>
+		<model.propertiesForCopyByFieldAccess:copyPropertyByFieldAccess()>
+		<model.propertiesForCopyByGetter:copyPropertyByGetter()>
 		return this;
 	}
 	<endif>
@@ -132,6 +133,10 @@ constructorArgument(property) ::= <<this.value$<property.fieldname> >>
 
 throwsElements(exceptionType) ::= <<<exceptionType.simpleName> >>
 
-copyProperty(property) ::= <<this.with<property.nameUC>(original.<property.getter>());
+copyPropertyByGetter(property) ::= <<this.with<property.nameUC>(original.<property.getter>());
+
+>>
+
+copyPropertyByFieldAccess(property) ::= <<this.with<property.nameUC>(original.<property.name>);
 
 >>
