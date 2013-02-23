@@ -133,6 +133,6 @@ public class ContactBuilder implements Cloneable {
 		this.withFirstname(original.firstname);
 		this.withEmail(original.email);
 
-		return this;
+		return self;
 	}
 }

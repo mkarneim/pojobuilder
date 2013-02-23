@@ -137,6 +137,6 @@ public class AddressDTOBuilder implements Cloneable {
 		this.withCity(original.getCity());
 		this.withName(original.getName());
 
-		return this;
+		return self;
 	}
 }
