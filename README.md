@@ -162,8 +162,9 @@ Execution
 To execute the annotation processor you either can
 
 * use the javac tool to compile your project. The option "-processor net.karneim.pojobuilder.AnnotationProcessor" will activate the processor.
-* use Ant's javac task (see below)
-* or add the PojoBuilder annotation processor to your Eclipse project configuration (see below)
+* [use Ant's javac task](#using-ant)
+* [use the maven-processor-plugin](#using-maven)
+* or [use Eclipse](#using-eclipse).
 
 In any case make sure that the pojobuilder-annotation-*.jar and it's dependend libraries are included in your project's classpath
 during compile time.
@@ -198,30 +199,7 @@ Here is a code snippet of an ANT build script that runs the PojoBuilder annotati
 
 You can find a complete sample build script at ["samples/build.xml"].
 
-### Using Eclipse
-
-Do the following to configure the PojoBuilder annotation processor for your project in Eclipse:
-
-* Place the PojoBuilder libraries (antlr-*.jar, ST-*.jar pojobuilder-*.jar) into your project library directory 
-* Open your project's properties dialog
-* Navigate to "Java Build Path" tree node
-* Open the "Libraries" tab
-* Add the library pojobuilder-*.jar to your project classpath
-* Navigate to "Java Compiler / Annotation Processing" tree node
-* Check "Enable project specific settings"
-* Check "Enable annotation processing"
-* Check "Enable processing in editor"
-* Specify the target directory for the generated code in "Generated source directory"
-* Navigate to "Java Compiler / Annotation Processing / Factory Path" tree node
-* Check "Enable project specific settings"
-* Click "Add JARs..."
-* Add antlr-*.jar
-* Add ST-*.jar
-* Add pojobuilder-*.jar
-
-Now the annotation processor will be automatically invoked during the Eclipse build cycle.
-
-### Using maven
+### Using Maven
 
 Add the following to configure the PojoBuilder annotation processor for your project in Maven to your pom.xml:
 
@@ -282,6 +260,29 @@ Afterwards, add the following build configuration to your project
 
 
 Note that if you already have a build section in your pom, that you will have edit it accordingly to match the code above.
+
+### Using Eclipse
+
+Do the following to configure the PojoBuilder annotation processor for your project in Eclipse:
+
+* Place the PojoBuilder libraries (antlr-*.jar, ST-*.jar pojobuilder-*.jar) into your project library directory 
+* Open your project's properties dialog
+* Navigate to "Java Build Path" tree node
+* Open the "Libraries" tab
+* Add the library pojobuilder-*.jar to your project classpath
+* Navigate to "Java Compiler / Annotation Processing" tree node
+* Check "Enable project specific settings"
+* Check "Enable annotation processing"
+* Check "Enable processing in editor"
+* Specify the target directory for the generated code in "Generated source directory"
+* Navigate to "Java Compiler / Annotation Processing / Factory Path" tree node
+* Check "Enable project specific settings"
+* Click "Add JARs..."
+* Add antlr-*.jar
+* Add ST-*.jar
+* Add pojobuilder-*.jar
+
+Now the annotation processor will be automatically invoked during the Eclipse build cycle.
 
 How To Build
 ------------
