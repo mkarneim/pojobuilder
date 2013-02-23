@@ -161,14 +161,17 @@ Execution
 
 To execute the annotation processor you either can
 
-* use the javac tool to compile your project. The option "-processor net.karneim.pojobuilder.AnnotationProcessor" will activate the processor.
+* [use the javac tool](#using-javac)
 * [use Ant's javac task](#using-ant)
 * [use the maven-processor-plugin](#using-maven)
 * or [use Eclipse](#using-eclipse).
 
-In any case make sure that the pojobuilder-annotation-*.jar and it's dependend libraries are included in your project's classpath
+In any case make sure that the pojobuilder-*.jar and it's dependend libraries are included in your project's classpath
 during compile time.
-During runtime they are not required since the retention policy of PojoBuilder's annotations is SOURCE.
+During runtime no libraries are required since the retention policy of PojoBuilder's annotations is SOURCE.
+
+### Using Javac
+The option `-processor net.karneim.pojobuilder.AnnotationProcessor` will activate the processor when running `javac`.
 
 ### Using Ant
 
