@@ -126,7 +126,7 @@ public class AddressDTOBuilder implements Cloneable {
 	}
 
 	/**
- 	* Copies properties from original into the builder
+ 	* Copies properties from <i>original</i> into the builder
  	* @param original the object to be copied
  	* @return this builder
  	*/
