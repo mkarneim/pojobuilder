@@ -73,7 +73,7 @@ public <if(model.abstractClass)>abstract <endif>class <model.type.genericTypeSim
 	public <model.selfType.genericTypeSimpleName> copy(<model.productType.genericTypeSimpleName> original) {
 		<model.propertiesForCopyByFieldAccess:copyPropertyByFieldAccess()>
 		<model.propertiesForCopyByGetter:copyPropertyByGetter()>
-		return this;
+		return self;
 	}
 	<endif>
 }
