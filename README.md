@@ -1,4 +1,4 @@
-PojoBuilder -  A code generator for POJO builders
+PojoBuilder -  A Code Generator for Pojo Builders
 ================================================= 
 
 Author: Michael Karneim
@@ -8,14 +8,14 @@ Project Homepage: http://github.com/mkarneim/pojobuilder
 About
 -----
 
-PojoBuilder is a Java 6 compliant annotation processor that generates a fluent builder class for POJOs (Plain Old Java Object). 
+The PojoBuilder Generator is a Java 6 compliant annotation processor that generates a fluent builder class for POJOs (Plain Old Java Object). 
 
 The generated builder provides 
 
-* a fluent interface for specifying values for the POJO's properties 
-* and a "build()" method for creating a new POJO instance with these values.
+* a fluent interface for specifying values for the pojo's properties 
+* and a "build()" method for creating a new pojo instance with these values.
 
-Here is an example of how you could use a generated POJO Builder from your code:
+Here is an example of how you could use a generated pojo builder from your code:
 
 	Contact james = new ContactBuilder()
 		.withSurname("Bond")
@@ -51,24 +51,24 @@ Dependencies
 
 Examples
 --------
-The wiki provides some [best practices] about how you could use the pojobuilder generator.
+The wiki provides some [best practices] about how you could use the PojoBuilder Generator.
 
 For some complete code examples please have a look into the [samples] directory.
 
 How To Use
 ----------
 
-The POJO Builder Annotation Processor will generate the builder class for you.
+The PojoBuilder Generator uses an annotation processor to generate pojo builders for you.
 You have two options to activate it:
 
-* by [annotating the POJO class](#annotating-the-pojo)
+* by [annotating the pojo class](#annotating-the-pojo)
 * by [annotating a factory method](#annotating-a-factory-method)
 
-### Annotating the POJO ###
+### Annotating the Pojo ###
 
-To generate a builder class for a POJO you can annotate its class with @GeneratePojoBuilder.
+To generate a builder class for a pojo you can annotate its class with @GeneratePojoBuilder.
 
-Let's have a look at the following example POJO:
+Let's have a look at the following example pojo:
 
 	@GeneratePojoBuilder
 	public class Contact {
@@ -103,7 +103,7 @@ Let's have a look at the following example POJO:
 The [@GeneratePojoBuilder] annotation tells the annotation processor to create a new Java source file with 
 the name "ContactBuilder".
 
-Use the @ConstructorProperties annotation if the POJO has no default constructor 
+Use the @ConstructorProperties annotation if the pojo has no default constructor 
 or if you want the generated builder to use a specific constructor.
 The value array specifies the mapping from the parameters to the corresponding property names.
 
@@ -111,8 +111,8 @@ Have a look at ["samples/src/generated/java/samples/builder/ContactBuilder.java"
 
 ### Annotating a Factory Method ###
 
-Alternatively, if you can't modify the POJO's source code or if you don't 
-like annotating a POJO, you can annotate a factory method. 
+Alternatively, if you can't modify the pojo's source code or if you don't 
+like annotating a pojo, you can annotate a factory method. 
 
 	public class PojoFactory {
 	
@@ -174,6 +174,8 @@ During runtime no libraries are required since the retention policy of PojoBuild
 
 ### Using Javac
 The option `-processor net.karneim.pojobuilder.AnnotationProcessor` will activate the processor when running `javac`.
+
+For more information see the [javac documentation].
 
 ### Using Ant
 
@@ -307,6 +309,7 @@ If you want to compile this project's sources yourself you can use Maven (see [p
 ["samples/src/main/java/samples/with/generationgap"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/src/main/java/samples/with/generationgap/
 ["samples/src/generated/java/samples/with/generationgap"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/src/generated/java/samples/with/generationgap/
 ["samples/src/generated/java/samples/with/copy/AddressDTOBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/src/generated/java/samples/with/copy/AddressDTOBuilder.java
+[javac documentation]: http://docs.oracle.com/javase/6/docs/technotes/tools/solaris/javac.html#processing
 [Java]: http://www.oracle.com/technetwork/java/
 [ANTLR Parser Generator]: http://www.antlr.org/
 [StringTemplate Template Engine]: http://www.stringtemplate.org/
