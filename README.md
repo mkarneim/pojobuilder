@@ -206,7 +206,7 @@ You can find a complete sample build script at ["samples/build.xml"].
 
 ### Using Maven
 
-Add the following to configure the PojoBuilder annotation processor for your project in Maven to your pom.xml:
+Add the following to your project's pom.xml to configure the PojoBuilder annotation processor.
 
 First, add the following compile time dependency
 
