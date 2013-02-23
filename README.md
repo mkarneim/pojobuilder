@@ -61,8 +61,8 @@ How To Use
 The POJO Builder Annotation Processor will generate the builder class for you.
 You have two options to activate it:
 
-* by annotating the POJO class
-* by annotating a factory method
+* by [annotating the POJO class](#annotating-the-pojo)
+* by [annotating a factory method](#annotating-a-factory-method)
 
 ### Annotating the POJO ###
 
