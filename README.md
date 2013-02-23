@@ -153,7 +153,7 @@ The following attributes of the @GeneratePojoBuilder annotation can be used to i
 * `withCopyMethod=<boolean>`
     Specifies whether a copy method should be generated. Use the copy
 	method to initialize the builder's values from a given pojo instance.
-	For an example please see ["samples/src/main/java/samples/with/copy/AddressDTOBuilder.java"].
+	For an example please see ["samples/src/generated/java/samples/with/copy/AddressDTOBuilder.java"].
 	Default is `false`.
 	
 Execution
@@ -300,7 +300,7 @@ If you want to compile this project's sources yourself you can use Maven (see [p
 [generation gap pattern]: http://martinfowler.com/dslCatalog/generationGap.html
 ["samples/src/main/java/samples/with/generationgap"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/src/main/java/samples/with/generationgap/
 ["samples/src/generated/java/samples/with/generationgap"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/src/generated/java/samples/with/generationgap/
-["samples/src/main/java/samples/with/copy/AddressDTOBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/src/main/java/samples/with/copy/AddressDTOBuilder.java
+["samples/src/generated/java/samples/with/copy/AddressDTOBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/src/generated/java/samples/with/copy/AddressDTOBuilder.java
 [Java]: http://www.oracle.com/technetwork/java/
 [ANTLR Parser Generator]: http://www.antlr.org/
 [StringTemplate Template Engine]: http://www.stringtemplate.org/
