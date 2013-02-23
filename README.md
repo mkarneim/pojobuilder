@@ -135,17 +135,17 @@ Have a look at ["samples/src/generated/java/samples/with/factory/ContactBuilder.
 The following attributes of the @GeneratePojoBuilder annotation can be used to influence the code generation process.
 
 * `withBaseclass=<Class>`
-    Specifies the base class of the generated builder. The default class is `Object.class`.
+    specifies the base class of the generated builder. The default class is `Object.class`.
 * `withName=<String>`
-    Specifies the pattern of the builder's name. Any asterisk will be
+    specifies the pattern of the builder's name. Any asterisk will be
 	replaced with the pojos simple name. For example, the result of the pattern "Fluent*Builder" will become 
         "FluentContactBuilder" if the pojo's name is "Contact". The default pattern is `"*Builder"`.
 * `intoPackage=<String>`
-    Specifies the package of the generated builder. Any asterisk will be
+    specifies the package of the generated builder. Any asterisk will be
 	replaced with the pojos package. For example, the result of the pattern "*.util" will become
         "com.example.util" if the pojo's package is "com.example". The default pattern is `"*"`.
 * `withGenerationGap=<boolean>`
-    Specifies whether the [generation gap pattern] is used. If enabled, this
+    specifies whether the [generation gap pattern] is used. If enabled, this
 	will generate two classes (instead of one), of which one contains the
 	ordinary builder code, whereas the other class extends the first one and is an empty template for handwritten code. 
         Please move it out of the generated-sources folder to prevent it from being overwritten. 
@@ -153,7 +153,7 @@ The following attributes of the @GeneratePojoBuilder annotation can be used to i
         and ["samples/src/generated/java/samples/with/generationgap"].
         Default is `false`.
 * `withCopyMethod=<boolean>`
-    Specifies whether a copy method should be generated. Use the copy
+    specifies whether a copy method should be generated. Use the copy
 	method to initialize the builder's values from a given pojo instance.
 	For an example please see ["samples/src/generated/java/samples/with/copy/AddressDTOBuilder.java"].
 	Default is `false`.
