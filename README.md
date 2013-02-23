@@ -150,6 +150,9 @@ The following attributes of the @GeneratePojoBuilder annotation can be used to i
  	For examples please see ["samples/src/main/java/samples/with/generationgap"] 
         and ["samples/src/generated/java/samples/with/generationgap"].
         Default is `false`.
+* `withCopyMethod=<boolean>`
+    Specifies whether a copy method should be generated. Use the copy
+	method to initialize the builder's values from a given pojo instance.
 	
 Execution
 ---------
