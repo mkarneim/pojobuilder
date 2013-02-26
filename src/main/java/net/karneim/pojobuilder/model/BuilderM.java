@@ -150,9 +150,8 @@ public class BuilderM extends BaseBuilderM {
 		Iterator<PropertyM> it = result.iterator();
 		while (it.hasNext()) {
 			PropertyM p = it.next();
-			if (!p.isAccessible()) {
-				it.remove();
-			} else if (!p.isReadable() && !p.isHasGetter()) {
+
+			if (!p.isReadable() && !p.isHasGetter()) {
 				it.remove();
 			}
 		}
