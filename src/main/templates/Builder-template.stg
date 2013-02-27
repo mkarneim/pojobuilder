@@ -10,7 +10,7 @@ builderClass(model) ::= <<
  *
  * \<p\>
  *     This class has been generated.
- *     Please DO NOT MODIFY this file
+ *     Please DO NOT MODIFIY this file
  *     since it will be overwritten 
  *     by the PojoBuilder generator.
  * \</p\>
