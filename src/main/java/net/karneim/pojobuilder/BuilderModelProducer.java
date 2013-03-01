@@ -9,8 +9,10 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
+import javax.lang.model.element.Name;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
@@ -246,17 +248,17 @@ public class BuilderModelProducer {
 	}
 
 	private void addPropertyModelsForSetterMethods(TypeElement pojoTypeElement, BuilderM builderModel) {
+		DeclaredType declType = (DeclaredType) pojoTypeElement.asType();
 		TypeElement currentTypeElement = pojoTypeElement;
 		while (!currentTypeElement.getQualifiedName().toString().equals(Object.class.getName())) {
 			List<? extends Element> members = env.getElementUtils().getAllMembers(currentTypeElement);
 			// loop over all setter methods
 			List<ExecutableElement> methods = ElementFilter.methodsIn(members);
 			for (ExecutableElement method : methods) {
-				if (!isStatic(method) && isSetterMethod(method)
+				if (!isStatic(method) && isSetterMethod(method) && !isDeclaredInObject(method)
 						&& isAccessibleForBuilder(method, builderModel.getType())) {
 					String propertyName = getPropertyName(method);
 
-					DeclaredType declType = (DeclaredType) pojoTypeElement.asType();
 					ExecutableType execType = (ExecutableType) env.getTypeUtils().asMemberOf(declType, method);
 					TypeMirror propertyType = execType.getParameterTypes().get(0);
 
@@ -273,18 +275,25 @@ public class BuilderModelProducer {
 	}
 
 	private void addPropertyModelsForGetterMethods(TypeElement pojoTypeElement, BuilderM builderModel) {
+		DeclaredType declType = (DeclaredType) pojoTypeElement.asType();
 		TypeElement currentTypeElement = pojoTypeElement;
 		while (!currentTypeElement.getQualifiedName().toString().equals(Object.class.getName())) {
 			List<? extends Element> members = env.getElementUtils().getAllMembers(currentTypeElement);
 			// loop over all setter methods
 			List<ExecutableElement> methods = ElementFilter.methodsIn(members);
 			for (ExecutableElement method : methods) {
-				if (!isStatic(method) && isGetterMethod(method)
+				if (!isStatic(method) && isGetterMethod(method) && !isDeclaredInObject(method)
 						&& isAccessibleForBuilder(method, builderModel.getType())) {
 					String propertyName = getPropertyName(method);
 
-					DeclaredType declType = (DeclaredType) pojoTypeElement.asType();
-					ExecutableType execType = (ExecutableType) env.getTypeUtils().asMemberOf(declType, method);
+					ExecutableType execType;
+					try {
+						execType = (ExecutableType) env.getTypeUtils().asMemberOf(declType, method);
+					} catch (IllegalArgumentException e) {
+						String errorMessage = String.format("%s.%nElement=%s, declaredType=%s, currentTypeElement=%s",
+								e.getMessage(), method, declType, currentTypeElement);
+						throw new BuildException(Kind.ERROR, errorMessage, pojoTypeElement);
+					}
 					TypeMirror propertyType = execType.getReturnType();
 
 					TypeM propertyTypeM = typeMUtils.getTypeM(propertyType);
@@ -299,6 +308,15 @@ public class BuilderModelProducer {
 		}
 	}
 
+	private boolean isDeclaredInObject(Element elem) {
+		Element owner = elem.getEnclosingElement();
+		if (owner.getKind() == ElementKind.CLASS) {
+			TypeElement typeElem = (TypeElement) owner;
+			return typeElem.getQualifiedName().toString().equals(Object.class.getName());
+		}
+		return false;
+	}
+
 	private void addPropertyModelsForAccessibleFields(TypeElement pojoTypeElement, BuilderM builderModel) {
 		TypeElement currentTypeElement = pojoTypeElement;
 		while (!currentTypeElement.getQualifiedName().toString().equals(Object.class.getName())) {
@@ -306,7 +324,8 @@ public class BuilderModelProducer {
 			// loop over all fields
 			List<VariableElement> accessibleFields = ElementFilter.fieldsIn(members);
 			for (VariableElement property : accessibleFields) {
-				if (!isStatic(property) && isAccessibleForBuilder(property, builderModel.getType())) {
+				if (!isStatic(property) && !isDeclaredInObject(property)
+						&& isAccessibleForBuilder(property, builderModel.getType())) {
 					DeclaredType declType = (DeclaredType) pojoTypeElement.asType();
 					TypeMirror propertyType = env.getTypeUtils().asMemberOf(declType, property);
 					TypeM propertyTypeM = typeMUtils.getTypeM(propertyType);
@@ -315,7 +334,7 @@ public class BuilderModelProducer {
 					PropertyM propM = builderModel.getOrCreateProperty(propertyName, propertyTypeM);
 					propM.setReadable(true);
 					propM.setAccessible(true);
-					if ( isMutable(property)) {
+					if (isMutable(property)) {
 						propM.setWritable(true);
 					}
 				}
@@ -385,12 +404,6 @@ public class BuilderModelProducer {
 		TypeMirror retType = elem.getReturnType();
 		return ((methodName.startsWith("get") && methodName.length() > "set".length()) || (methodName.startsWith("is") && methodName
 				.length() > "is".length())) && retType.getKind() != TypeKind.VOID && elem.getParameters().size() == 0;
-	}
-
-	private static String computeBuilderFieldname(String propertyName, String propertyType) {
-		String typeString = propertyType.replaceAll("\\.", "\\$");
-		typeString = typeString.replaceAll("\\[\\]", "\\$");
-		return propertyName + "$" + typeString;
 	}
 
 	private boolean isMutable(VariableElement field) {
