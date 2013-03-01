@@ -34,7 +34,7 @@ For more information on
 Download
 --------
 
-The latest release is [PojoBuilder 2.2.3].
+The latest release is [PojoBuilder 2.2.4].
 
 License
 -------
@@ -215,7 +215,7 @@ First, add the following compile time dependency
 	<dependency>
 			<groupId>net.karneim</groupId>
 			<artifactId>pojobuilder</artifactId>
-			<version>2.2.3</version>
+			<version>2.2.4</version>
 			<scope>compile</scope>
 	</dependency>
 
@@ -295,7 +295,7 @@ How To Build
 ------------
 If you want to compile this project's sources yourself you can use Maven (see [pom.xml]) or Ant  (see [build.xml]). 
 
-[PojoBuilder 2.2.3]: http://github.com/mkarneim/pojobuilder/raw/master/dist/pojobuilder-2.2.3.zip
+[PojoBuilder 2.2.4]: http://github.com/mkarneim/pojobuilder/raw/master/dist/pojobuilder-2.2.4.zip
 [@GeneratePojoBuilder]: http://github.com/mkarneim/pojobuilder/blob/master/src/main/java/net/karneim/pojobuilder/GeneratePojoBuilder.java
 [samples]: http://github.com/mkarneim/pojobuilder/blob/master/samples
 [best practices]: http://github.com/mkarneim/pojobuilder/wiki/Best-practices
