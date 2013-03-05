@@ -15,45 +15,47 @@
     </properties>
 
     <build>
-    	<resources>
-      <resource>
-        <directory>src/main/resources</directory>
-      </resource>
-      <resource>
-        <directory>src/main/templates</directory>
-      </resource>
-    </resources>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/main/templates</directory>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>2.1</version>
-                    <configuration>
-                        <source>1.6</source>
-                        <target>1.6</target>
-                    </configuration>
-                </plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
     <dependencies>
-	<dependency>
-	    <groupId>junit</groupId>
+        <dependency>
+            <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.8.2</version>
             <scope>test</scope>
-        </dependency>	
-	<dependency>
-	    <groupId>org.antlr</groupId>
-	    <artifactId>ST4</artifactId>
-	    <version>4.0.7</version>
-	</dependency>	
+        </dependency>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>ST4</artifactId>
+            <version>4.0.7</version>
+        </dependency>
     </dependencies>
+
     <scm>
-    	<url>https://github.com/mkarneim/pojobuilder.git</url>
+        <url>https://github.com/mkarneim/pojobuilder.git</url>
     </scm>
     <issueManagement>
-    	<url>https://github.com/mkarneim/pojobuilder/issues</url>
-    	<system>GitHub</system>
+        <url>https://github.com/mkarneim/pojobuilder/issues</url>
+        <system>GitHub</system>
     </issueManagement>
+
 </project>
