@@ -210,8 +210,6 @@ You can find a complete sample build script at ["samples/build.xml"].
 
 Add the following to your project's pom.xml to configure the PojoBuilder annotation processor.
 
-First, add the following dependency
-
 	<dependency>
 		<!-- Provided scope because this is only needed during compilation -->
 		<groupId>net.karneim</groupId>
@@ -220,29 +218,10 @@ First, add the following dependency
 		<scope>provided</scope>
 	</dependency>
 
-Afterwards, merge the following build configuration into your project.
-
-	<build>
-	<plugins>
-		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-compiler-plugin</artifactId>
-			<version>3.0</version>
-			<configuration>
-				<source>1.6</source>
-				<target>1.6</target>
-			</configuration>
-			<annotationProcessors>
-				<annotationProcessor>net.karneim.pojobuilder.AnnotationProcessor</annotationProcessor>
-			</annotationProcessors>
-		</plugin>
-	</plugins>
-	</build>
-
 Notes:
-
+* The compile phase will automatically detect and activate Pojobuilder.
 * Generated sources will appear in the standard location: ${project.build.directory}/generated-sources/annotations.
-* If using Eclipse you should install [m2e-apt](https://github.com/jbosstools/m2e-apt) to have integrated support for the <annotationProcessors> element.
+* If using Eclipse you should install [m2e-apt](https://github.com/jbosstools/m2e-apt) to have integrated support for APT-generated sources.
 
 ### Using Eclipse
 
