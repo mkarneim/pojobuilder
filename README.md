@@ -173,7 +173,7 @@ during compile time.
 During runtime no libraries are required since the retention policy of PojoBuilder's annotations is SOURCE.
 
 ### Using Javac
-The option `-processor net.karneim.pojobuilder.AnnotationProcessor` will activate the processor when running `javac`.
+The `javac`compiler will auto-detect the presence of Pojobuilder but it can be explicitly enabled with the option `-processor net.karneim.pojobuilder.AnnotationProcessor`
 
 For more information see the [javac documentation].
 
