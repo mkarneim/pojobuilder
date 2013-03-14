@@ -34,7 +34,7 @@ For more information on
 Download
 --------
 
-The latest release is [PojoBuilder 2.2.4].
+The latest release is [PojoBuilder 2.3.0].
 
 License
 -------
@@ -177,7 +177,7 @@ The `javac` compiler will auto-detect the presence of PojoBuilder if pojobuilder
 
 For example:
     
-    javac -cp pojobuilder-2.2.4.jar Contact.java
+    javac -cp pojobuilder-2.3.0.jar Contact.java
    
 will generate a ContactBuilder if Contact is annotated with @GeneratePojoBuilder.
 
@@ -220,7 +220,7 @@ Add the following to your project's pom.xml to configure the PojoBuilder annotat
 		<!-- Provided scope because this is only needed during compilation -->
 		<groupId>net.karneim</groupId>
 		<artifactId>pojobuilder</artifactId>
-		<version>2.2.4</version>
+		<version>2.3.0</version>
 		<scope>provided</scope>
 	</dependency>
 
@@ -256,7 +256,7 @@ How To Build
 ------------
 If you want to compile this project's sources yourself you can use Maven (see [pom.xml]) or Ant  (see [build.xml]). 
 
-[PojoBuilder 2.2.4]: http://github.com/mkarneim/pojobuilder/raw/master/dist/pojobuilder-2.2.4.zip
+[PojoBuilder 2.3.0]: http://github.com/mkarneim/pojobuilder/raw/master/dist/pojobuilder-2.3.0.zip
 [@GeneratePojoBuilder]: http://github.com/mkarneim/pojobuilder/blob/master/src/main/java/net/karneim/pojobuilder/GeneratePojoBuilder.java
 [@PropertyNames]: http://github.com/mkarneim/pojobuilder/blob/master/src/main/java/net/karneim/pojobuilder/PropertyNames.java
 [@ConstructorProperties]: http://docs.oracle.com/javase/6/docs/api/java/beans/ConstructorProperties.html
