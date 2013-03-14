@@ -173,7 +173,13 @@ during compile time.
 During runtime no libraries are required since the retention policy of PojoBuilder's annotations is SOURCE.
 
 ### Using Javac
-The `javac`compiler will auto-detect the presence of Pojobuilder but it can be explicitly enabled with the option `-processor net.karneim.pojobuilder.AnnotationProcessor`
+The `javac` compiler will auto-detect the presence of PojoBuilder if pojobuilder-*.jar is included in the classpath.
+
+For example:
+    
+    javac -cp pojobuilder-2.2.4.jar Contact.java
+   
+will generate a ContactBuilder if Contact is annotated with @GeneratePojoBuilder.
 
 For more information see the [javac documentation].
 
