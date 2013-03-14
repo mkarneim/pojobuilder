@@ -103,7 +103,7 @@ Let's have a look at the following example pojo:
 The [@GeneratePojoBuilder] annotation tells the annotation processor to create a new Java source file with 
 the name "ContactBuilder".
 
-Use the @ConstructorProperties annotation if the pojo has no default constructor 
+Use the [@ConstructorProperties] annotation if the pojo has no default constructor 
 or if you want the generated builder to use a specific constructor.
 The value array specifies the mapping from the parameters to the corresponding property names.
 
@@ -126,7 +126,7 @@ like annotating a pojo, you can annotate a factory method.
 
 Please note that the factory method must be *public* and *static*. 
 
-Use the @PropertyNames annotation if the factory method requires parameters. 
+Use the [@PropertyNames] annotation if the factory method requires parameters. 
 The value array specifies the mapping from the parameters to the corresponding property names.
 
 Have a look at ["samples/src/generated/java/samples/with/factory/ContactBuilder.java"] to see the generated source code.
@@ -258,6 +258,8 @@ If you want to compile this project's sources yourself you can use Maven (see [p
 
 [PojoBuilder 2.2.4]: http://github.com/mkarneim/pojobuilder/raw/master/dist/pojobuilder-2.2.4.zip
 [@GeneratePojoBuilder]: http://github.com/mkarneim/pojobuilder/blob/master/src/main/java/net/karneim/pojobuilder/GeneratePojoBuilder.java
+[@PropertyNames]: http://github.com/mkarneim/pojobuilder/blob/master/src/main/java/net/karneim/pojobuilder/PropertyNames.java
+[@ConstructorProperties]: http://docs.oracle.com/javase/6/docs/api/java/beans/ConstructorProperties.html
 [samples]: http://github.com/mkarneim/pojobuilder/blob/master/samples
 [best practices]: http://github.com/mkarneim/pojobuilder/wiki/Best-practices
 [COPYING]: http://github.com/mkarneim/pojobuilder/blob/master/COPYING
