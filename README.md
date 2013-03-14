@@ -16,13 +16,13 @@ The generated builder provides
 * and a "build()" method for creating a new pojo instance with these values.
 
 Here is an example of how you could use a generated pojo builder from your code:
-
+```java
 	Contact james = new ContactBuilder()
 		.withSurname("Bond")
 		.withFirstname("James")
 		.withEmail("007@secretservice.org")
 		.build()
-
+```
 Builders are quite useful, for example, to build test data, where you only want to set the relevant data properties.
 
 For more information on 
@@ -69,7 +69,7 @@ You have two options to activate it:
 To generate a builder class for a pojo you can annotate its class with @GeneratePojoBuilder.
 
 Let's have a look at the following example pojo:
-
+```java
 	@GeneratePojoBuilder
 	public class Contact {
 		private final String surname;
@@ -99,7 +99,7 @@ Let's have a look at the following example pojo:
 			return firstname;
 		}
 	}
-
+```
 The [@GeneratePojoBuilder] annotation tells the annotation processor to create a new Java source file with 
 the name "ContactBuilder".
 
@@ -114,7 +114,7 @@ Have a look at ["samples/src/generated/java/samples/builder/ContactBuilder.java"
 Alternatively, if you don't have access to the pojo's source code, or if you are no fan of annotating a pojo,
 you can annotate a factory method:
  
-
+```java
 	public class PojoFactory {
 	
 		@GeneratePojoBuilder
@@ -124,7 +124,7 @@ you can annotate a factory method:
 			return result;
 		}
 	}
-
+```
 Please note that the factory method must be *public* and *static*. 
 
 Use the [@PropertyNames] annotation if the factory method requires parameters. 
