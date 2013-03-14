@@ -111,8 +111,9 @@ Have a look at ["samples/src/generated/java/samples/builder/ContactBuilder.java"
 
 ### Annotating a Factory Method ###
 
-Alternatively, if you can't modify the pojo's source code or if you don't 
-like annotating a pojo, you can annotate a factory method. 
+Alternatively, if you don't have access to the pojo's source code, or if you are no fan of annotating a pojo,
+you can annotate a factory method,
+ 
 
 	public class PojoFactory {
 	
