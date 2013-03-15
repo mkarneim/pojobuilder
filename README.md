@@ -46,8 +46,8 @@ Dependencies
 ------------
 
 * [Java] 6 
-* [ANTLR Parser Generator] 3.3 
-* [StringTemplate Template Engine] 4.0.4 
+* [ANTLR Parser Generator] 3.5 
+* [StringTemplate Template Engine] 4.0.7 
 
 Examples
 --------
