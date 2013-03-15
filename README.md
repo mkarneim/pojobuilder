@@ -219,7 +219,7 @@ Add the following to your project's pom.xml to configure the PojoBuilder annotat
 
 	<dependency>
 		<!-- Provided scope because this is only needed during compilation -->
-		<groupId>net.karneim.pojobuilder</groupId>
+		<groupId>net.karneim</groupId>
 		<artifactId>pojobuilder</artifactId>
 		<version>2.3.0</version>
 		<scope>provided</scope>
