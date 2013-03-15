@@ -59,7 +59,7 @@ public class TypeMUtils {
 			return TypeM.get(typeMirror.toString());
 		case TYPEVAR:
 			if (typeMirror instanceof TypeVariable) {
-				TypeVariable typeVar = (TypeVariable) typeMirror;
+				// TypeVariable typeVar = (TypeVariable) typeMirror;
 				TypeM result = TypeM.get(typeMirror.toString()); // Ugly, since
 																	// this
 																	// can't see
@@ -68,8 +68,8 @@ public class TypeMUtils {
 																	// type-var's
 																	// value
 				// TODO: ??
-				TypeMirror upperBound = typeVar.getUpperBound();
-				TypeMirror lowerBound = typeVar.getUpperBound();
+				// TypeMirror upperBound = typeVar.getUpperBound();
+				// TypeMirror lowerBound = typeVar.getUpperBound();
 				return result;
 			} else {
 				throw new IllegalStateException(String.format("Expected TypeVariable for %s", typeMirror));

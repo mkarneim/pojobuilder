@@ -12,7 +12,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import testdata.copy.AddressDTO;
-import testdata.copy.Contact;
 import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
 
