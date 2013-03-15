@@ -219,14 +219,14 @@ Add the following to your project's pom.xml to configure the PojoBuilder annotat
 
 	<dependency>
 		<!-- Provided scope because this is only needed during compilation -->
-		<groupId>net.karneim</groupId>
+		<groupId>net.karneim.pojobuilder</groupId>
 		<artifactId>pojobuilder</artifactId>
 		<version>2.3.0</version>
 		<scope>provided</scope>
 	</dependency>
 
 Notes:
-* The compile phase will automatically detect and activate Pojobuilder.
+* The compile phase will automatically detect and activate PojoBuilder.
 * Generated sources will appear in the standard location: ${project.build.directory}/generated-sources/annotations.
 * If using Eclipse you should install [m2e-apt](https://github.com/jbosstools/m2e-apt) to have integrated support for APT-generated sources.
 

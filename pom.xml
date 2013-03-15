@@ -1,13 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>net.karneim</groupId>
+    <groupId>net.karneim.pojobuilder</groupId>
     <artifactId>pojobuilder</artifactId>
     <version>2.3.0</version>
     <packaging>jar</packaging>
 
-    <name>POJO Builder</name>
+    <name>PojoBuilder</name>
     <url>http://github.com/mkarneim/pojobuilder</url>
 
     <properties>
@@ -29,9 +29,46 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.1</version>
                 <configuration>
+                    <compilerArgument>-proc:none</compilerArgument>
                     <source>1.6</source>
                     <target>1.6</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -49,8 +86,30 @@
             <version>4.0.7</version>
         </dependency>
     </dependencies>
-
+    <licenses>
+        <license>
+            <name>PUBLIC DOMAIN</name>
+            <url>http://github.com/mkarneim/pojobuilder/blob/master/COPYING</url>
+            <distribution>manual</distribution>
+            <!-- <distribution>repo</distribution> -->
+            <comments>Do-whatever-you-want license</comments>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <id>mkarneim</id>
+            <name>Michael Karneim</name>
+            <email>mkarneim@googlemail.com</email>
+            <timezone>GMT+1</timezone>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
     <scm>
+        <connection>scm:git@github.com:mkarneim/pojobuilder.git</connection>
+        <developerConnection>scm:git@github.com:mkarneim/pojobuilder.git</developerConnection>
         <url>https://github.com/mkarneim/pojobuilder.git</url>
     </scm>
     <issueManagement>
