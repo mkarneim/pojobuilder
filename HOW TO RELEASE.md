@@ -27,7 +27,7 @@ Replace the '*****' with Sonatype Nexus password.
 * hit [ENTER] for all prompts
 * Run ```mvn release:perform```
 
-== Release it ==
+## Release it 
 For details see https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
 
 * Login to the Nexus UI at https://oss.sonatype.org/
