@@ -5,6 +5,7 @@
     <artifactId>pojobuilder</artifactId>
     <version>2.3.2-SNAPSHOT</version>
     <packaging>jar</packaging>
+    <description>The PojoBuilder Generator is a Java 6 compliant annotation processor that generates a fluent builder class for POJOs (Plain Old Java Object)</description>
 
     <name>PojoBuilder</name>
     <url>http://github.com/mkarneim/pojobuilder</url>
