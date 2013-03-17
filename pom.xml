@@ -113,8 +113,7 @@
         <license>
             <name>PUBLIC DOMAIN</name>
             <url>http://github.com/mkarneim/pojobuilder/blob/master/COPYING</url>
-            <distribution>manual</distribution>
-            <!-- <distribution>repo</distribution> -->
+            <distribution>repo</distribution>
             <comments>Do-whatever-you-want license</comments>
         </license>
     </licenses>
