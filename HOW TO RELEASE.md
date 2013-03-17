@@ -1,9 +1,10 @@
 # How to release
 This document describes the steps that I will follow in order to release
-a new version of this project's artifacts to the Central Maven repository.
+a new version of this project's artifacts to the Maven Central repository.
 
 ## One-time Preparation
 Edit .m2/settings.xml and add server URLs:
+
     <servers>
       <server>
         <id>sonatype-nexus-snapshots</id>
@@ -16,6 +17,7 @@ Edit .m2/settings.xml and add server URLs:
         <password>*****</password>
       </server>  
     </servers>
+
 Replace the '*****' with Sonatype Nexus password.
   
 ## To make a release 
