@@ -4,7 +4,7 @@
 
     <groupId>net.karneim</groupId>
     <artifactId>pojobuilder</artifactId>
-    <version>2.3.1</version>
+    <version>2.3.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>PojoBuilder</name>
