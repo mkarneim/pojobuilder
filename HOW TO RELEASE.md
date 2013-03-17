@@ -21,7 +21,7 @@ Edit .m2/settings.xml and add server URLs:
 Replace the '*****' with Sonatype Nexus password.
   
 ## To make a release 
-* Change version in pom.xml to *-SNAPSHOT, e.g. 2.3.2-SNAPSHOT.
+* Make sure that the artifact version in pom.xml is a SNAPSHOT, e.g. 2.3.2-SNAPSHOT.
 * Commit changes to scm
 * Run ```mvn release:prepare``` 
 * hit [ENTER] for all prompts
