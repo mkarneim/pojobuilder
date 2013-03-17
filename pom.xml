@@ -3,7 +3,7 @@
 
     <groupId>net.karneim</groupId>
     <artifactId>pojobuilder</artifactId>
-    <version>2.3.1</version>
+    <version>2.3.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>PojoBuilder</name>
@@ -132,7 +132,7 @@
         <connection>scm:git:git@github.com:mkarneim/pojobuilder.git</connection>
         <developerConnection>scm:git:git@github.com:mkarneim/pojobuilder.git</developerConnection>
         <url>git@github.com:mkarneim/pojobuilder.git</url>
-      <tag>pojobuilder-2.3.1</tag>
+      <tag>HEAD</tag>
   </scm>
     <issueManagement>
         <url>https://github.com/mkarneim/pojobuilder/issues</url>
