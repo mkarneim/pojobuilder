@@ -178,7 +178,7 @@ The `javac` compiler will auto-detect the presence of PojoBuilder if pojobuilder
 
 For example:
     
-    javac -cp pojobuilder-2.3.0.jar Contact.java
+    javac -cp pojobuilder-2.3.0.jar;ST4-4.0.7.jar;antlr-runtime-3.5.jar Contact.java
    
 will generate a ContactBuilder if Contact is annotated with @GeneratePojoBuilder.
 
