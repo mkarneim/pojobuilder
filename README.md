@@ -34,7 +34,7 @@ For more information on
 Download
 --------
 
-The latest release is [PojoBuilder 2.3.0].
+You can download the [PojoBuilder at Maven Central].
 
 License
 -------
@@ -257,7 +257,7 @@ How To Build
 ------------
 If you want to compile this project's sources yourself you can use Maven (see [pom.xml]) or Ant  (see [build.xml]). 
 
-[PojoBuilder 2.3.0]: http://github.com/mkarneim/pojobuilder/raw/master/dist/pojobuilder-2.3.0.zip
+[PojoBuilder at Maven Central]: http://search.maven.org/#search|ga|1|a%3A%22pojobuilder%22
 [@GeneratePojoBuilder]: http://github.com/mkarneim/pojobuilder/blob/master/src/main/java/net/karneim/pojobuilder/GeneratePojoBuilder.java
 [@PropertyNames]: http://github.com/mkarneim/pojobuilder/blob/master/src/main/java/net/karneim/pojobuilder/PropertyNames.java
 [@ConstructorProperties]: http://docs.oracle.com/javase/6/docs/api/java/beans/ConstructorProperties.html
