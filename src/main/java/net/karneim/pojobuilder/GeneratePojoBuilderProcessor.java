@@ -11,6 +11,7 @@ import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 
+import net.karneim.pojobuilder.model.BaseBuilderM;
 import net.karneim.pojobuilder.model.BuilderM;
 import net.karneim.pojobuilder.model.ManualBuilderM;
 import net.karneim.pojobuilder.model.TypeM;
@@ -39,11 +40,7 @@ public class GeneratePojoBuilderProcessor {
 		BuilderModelProducer producer = new BuilderModelProducer(env, typeMUtils);
 		Output output = producer.produce(new Input(productTypeElem));
 
-		createSourceCode(builderGenerator, output.getBuilder());
-		if (output.getManualBuilder() != null) {
-			createSourceCode(manualBuilderGenerator, output.getManualBuilder());
-		}
-
+        createAllSourceCode(output);
 	}
 
 	public void process(ExecutableElement execElem) {
@@ -52,38 +49,24 @@ public class GeneratePojoBuilderProcessor {
 		TypeElement productTypeElem = (TypeElement) env.getTypeUtils().asElement(execElem.getReturnType());
 		Output output = producer.produce(new Input(productTypeElem, execElem));
 
-		createSourceCode(builderGenerator, output.getBuilder());
-		if (output.getManualBuilder() != null) {
-			createSourceCode(manualBuilderGenerator, output.getManualBuilder());
-		}
+		createAllSourceCode(output);
 	}
 
-	private void createSourceCode(BuilderSourceGenerator generator, BuilderM model) {
-		try {
-			model.getAdditionalImports().add(TypeM.get(JAVAX_ANNOTATION_GENERATED));
+    private void createAllSourceCode( Output output ) {
+        createSourceCode(builderGenerator, output.getBuilder(), true);
+        if (output.getManualBuilder() != null) {
+            createSourceCode(manualBuilderGenerator, output.getManualBuilder(), false);
+        }
+    }
 
-			String builderClassname = model.getType().getQualifiedName();
-			JavaFileObject jobj = env.getFiler().createSourceFile(builderClassname);
-			Writer writer = jobj.openWriter();
-			generator.generate(model, writer);
-			writer.close();
-
-			env.getMessager().printMessage(Diagnostic.Kind.NOTE, String.format("Generated class %s", builderClassname));
-			LOG.fine(String.format("Generated %s", jobj.toUri()));
-
-		} catch (IOException e) {
-			env.getMessager().printMessage(Diagnostic.Kind.ERROR, String.format("Error while processing: %s", e));
-			throw new UndeclaredThrowableException(e);
-		}
-	}
-
-	private void createSourceCode(BuilderSourceGenerator generator, ManualBuilderM model) {
+	private void createSourceCode(BuilderSourceGenerator generator, BaseBuilderM model, boolean overwrite) {
 		try {
 			model.getAdditionalImports().add(TypeM.get(JAVAX_ANNOTATION_GENERATED));
 
 			String builderClassname = model.getType().getQualifiedName();
 
-			if (env.getElementUtils().getTypeElement(builderClassname) == null) {
+            boolean missing = env.getElementUtils().getTypeElement(builderClassname) == null;
+			if ( overwrite || missing ) {
 				JavaFileObject jobj = env.getFiler().createSourceFile(builderClassname);
 				Writer writer = jobj.openWriter();
 				generator.generate(model, writer);
