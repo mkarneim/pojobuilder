@@ -40,11 +40,25 @@ public class FactoryMethodWithParametersTest extends TestBase {
 	}
 
 	@Test
-	public void testFactoryMethodParameterPositions() {
+    public void testFactoryMethodParameterPositionsWithParameterNames( ) {
+        testFactoryMethodParameterPositions( "createContact" );
+    }
+
+    @Test
+    public void testFactoryMethodParameterPositionsWithFactoryProperties( ) {
+        testFactoryMethodParameterPositions( "createContact2" );
+    }
+
+    @Test(expected = BuildException.class)
+    public void testFactoryMethodParameterPositionsWithBothAnnotations( ) {
+        testFactoryMethodParameterPositions( "createContact3" );
+    }
+
+	private void testFactoryMethodParameterPositions( String factoryMethodName ) {
 		// Given:
 		TypeElement factoryTypeElement = elements.getTypeElement(FACTORY_CLASSNAME);
 		List<ExecutableElement> methods = ElementFilter.methodsIn(elements.getAllMembers(factoryTypeElement));
-		ExecutableElement factoryMetod = getFirstMethodByName("createContact", methods);
+		ExecutableElement factoryMetod = getFirstMethodByName(factoryMethodName, methods);
 		TypeElement pojoTypeElement = elements.getTypeElement(CONTACT_CLASSNAME);
 
 		// When:
@@ -54,7 +68,7 @@ public class FactoryMethodWithParametersTest extends TestBase {
 		// Then:
 		assertEquals("builder classname", "ContactBuilder", builder.getType().getSimpleName());
 		assertNotNull("factory", builder.getFactory());
-		assertEquals("factory method name", "createContact", builder.getFactory().getMethodName());
+		assertEquals("factory method name", factoryMethodName, builder.getFactory().getMethodName());
 		assertThat(builder.getProperties(), containsPropertyWithName("surname"));
 		assertThat(builder.getProperties(), containsPropertyWithName("firstname"));
 		assertThat(builder.getProperties(), containsPropertyWithName("email"));

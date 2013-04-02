@@ -218,35 +218,73 @@ public class BuilderModelProducer {
 		}
 	}
 
-	private void addPropertyModelsForFactoryMethodParameters(ExecutableElement factoryMethod, BuilderM builderModel) {
-		if (factoryMethod.getParameters().isEmpty()) {
-			return;
-		}
-		PropertyNames propertyNamesAnno = factoryMethod.getAnnotation(PropertyNames.class);
-		if (propertyNamesAnno == null) {
-			throw new BuildException(Diagnostic.Kind.ERROR, String.format(
-					"Missing annotation %s on factory method %s of class %s!", PropertyNames.class.getSimpleName(),
-					factoryMethod.toString(), factoryMethod.getEnclosingElement().getSimpleName()), factoryMethod);
-		}
-		String[] propertyNames = propertyNamesAnno.value();
-		if (propertyNames.length != factoryMethod.getParameters().size()) {
-			throw new BuildException(Diagnostic.Kind.ERROR, String.format(
-					"Incorrect number of values in annotation %s on method %s! " + "Expected %d, but was %d.",
-					PropertyNames.class.getSimpleName(), factoryMethod, factoryMethod.getParameters().size(),
-					propertyNames.length), factoryMethod);
-		}
-		// loop over all method parameters
-		for (int i = 0; i < propertyNames.length; ++i) {
-			String propertyName = propertyNames[i];
-			TypeMirror propertyType = factoryMethod.getParameters().get(i).asType();
-			TypeM propertyTypeM = typeMUtils.getTypeM(propertyType);
+    @SuppressWarnings("deprecation")
+    private void addPropertyModelsForFactoryMethodParameters(ExecutableElement factoryMethod, BuilderM builderModel) {
+        if (factoryMethod.getParameters().isEmpty()) {
+            return;
+        }
 
-			PropertyM propM = builderModel.getOrCreateProperty(propertyName, propertyTypeM);
-			propM.setParameterPos(i);
-		}
-	}
+        // This method can be simplified when we only have one annotation to handle in future
+        PropertyNames propertyNamesAnno = factoryMethod.getAnnotation(PropertyNames.class);
+        FactoryProperties factoryPropertiesAnno = factoryMethod.getAnnotation(FactoryProperties.class);
+        if (propertyNamesAnno == null && factoryPropertiesAnno == null) {
+            throw new BuildException(
+                    Diagnostic.Kind.ERROR,
+                    String.format(
+                            "Missing annotation %s on factory method %s of class %s!",
+                            FactoryProperties.class.getSimpleName(),
+                            factoryMethod.toString(),
+                            factoryMethod.getEnclosingElement().getSimpleName()),
+                    factoryMethod);
+        }
 
-	private void addPropertyModelsForSetterMethods(TypeElement pojoTypeElement, BuilderM builderModel) {
+        if (propertyNamesAnno != null && factoryPropertiesAnno != null) {
+            throw new BuildException(
+                    Diagnostic.Kind.ERROR,
+                    String.format(
+                            "Cannot specify both %s and %s on factory method %s of class %s!",
+                            FactoryProperties.class.getSimpleName(),
+                            PropertyNames.class.getSimpleName(),
+                            factoryMethod.toString(),
+                            factoryMethod.getEnclosingElement().getSimpleName()),
+                    factoryMethod);
+        }
+
+        String[] propertyNames;
+        String annotationName;
+        if (factoryPropertiesAnno != null) {
+            propertyNames = factoryPropertiesAnno.value();
+            annotationName = FactoryProperties.class.getSimpleName();
+        } else {
+            propertyNames = propertyNamesAnno.value();
+            annotationName = PropertyNames.class.getSimpleName();
+        }
+
+        if (propertyNames.length != factoryMethod.getParameters().size()) {
+            throw new BuildException(
+                    Diagnostic.Kind.ERROR,
+                    String.format(
+                            "Incorrect number of values in annotation %s on method %s! Expected %d, but was %d.",
+                            annotationName,
+                            factoryMethod,
+                            factoryMethod.getParameters().size(),
+                            propertyNames.length),
+                    factoryMethod);
+        }
+
+        // loop over all method parameters
+        for (int i = 0; i < propertyNames.length; ++i) {
+            String propertyName = propertyNames[i];
+            TypeMirror propertyType = factoryMethod.getParameters().get(i).asType();
+            TypeM propertyTypeM = typeMUtils.getTypeM(propertyType);
+
+            PropertyM propM = builderModel.getOrCreateProperty(propertyName, propertyTypeM);
+            propM.setParameterPos(i);
+        }
+    }
+
+
+    private void addPropertyModelsForSetterMethods(TypeElement pojoTypeElement, BuilderM builderModel) {
 		DeclaredType declType = (DeclaredType) pojoTypeElement.asType();
 		TypeElement currentTypeElement = pojoTypeElement;
 		while (currentTypeElement != null && !currentTypeElement.getQualifiedName().toString().equals(Object.class.getName())) {

@@ -1,12 +1,12 @@
 package samples.with.factory;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
-import net.karneim.pojobuilder.PropertyNames;
+import net.karneim.pojobuilder.FactoryProperties;
 
 public class PojoFactory {
 
 	@GeneratePojoBuilder
-	@PropertyNames({ "firstname", "surname" })
+	@FactoryProperties({ "firstname", "surname" })
 	public static Contact createContact(String aFirstname, String aSurname) {
 		Contact result = new Contact(aSurname, aFirstname);
 		return result;
