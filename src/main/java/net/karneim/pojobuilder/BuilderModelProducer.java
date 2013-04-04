@@ -249,7 +249,7 @@ public class BuilderModelProducer {
 	private void addPropertyModelsForSetterMethods(TypeElement pojoTypeElement, BuilderM builderModel) {
 		DeclaredType declType = (DeclaredType) pojoTypeElement.asType();
 		TypeElement currentTypeElement = pojoTypeElement;
-		while (!currentTypeElement.getQualifiedName().toString().equals(Object.class.getName())) {
+		while (currentTypeElement != null && !currentTypeElement.getQualifiedName().toString().equals(Object.class.getName())) {
 			List<? extends Element> members = env.getElementUtils().getAllMembers(currentTypeElement);
 			// loop over all setter methods
 			List<ExecutableElement> methods = ElementFilter.methodsIn(members);
@@ -276,7 +276,7 @@ public class BuilderModelProducer {
 	private void addPropertyModelsForGetterMethods(TypeElement pojoTypeElement, BuilderM builderModel) {
 		DeclaredType declType = (DeclaredType) pojoTypeElement.asType();
 		TypeElement currentTypeElement = pojoTypeElement;
-		while (!currentTypeElement.getQualifiedName().toString().equals(Object.class.getName())) {
+		while (currentTypeElement != null && !currentTypeElement.getQualifiedName().toString().equals(Object.class.getName())) {
 			List<? extends Element> members = env.getElementUtils().getAllMembers(currentTypeElement);
 			// loop over all setter methods
 			List<ExecutableElement> methods = ElementFilter.methodsIn(members);
@@ -318,7 +318,7 @@ public class BuilderModelProducer {
 
 	private void addPropertyModelsForAccessibleFields(TypeElement pojoTypeElement, BuilderM builderModel) {
 		TypeElement currentTypeElement = pojoTypeElement;
-		while (!currentTypeElement.getQualifiedName().toString().equals(Object.class.getName())) {
+		while (currentTypeElement != null && !currentTypeElement.getQualifiedName().toString().equals(Object.class.getName())) {
 			List<? extends Element> members = env.getElementUtils().getAllMembers(currentTypeElement);
 			// loop over all fields
 			List<VariableElement> accessibleFields = ElementFilter.fieldsIn(members);
