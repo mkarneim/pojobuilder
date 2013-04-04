@@ -121,7 +121,7 @@ you can annotate a factory method:
 	public class PojoFactory {
 	
 		@GeneratePojoBuilder
-		@PropertyNames({ "firstname", "surname" })
+		@FactoryProperties({ "firstname", "surname" })
 		public static Contact createContact(String aFirstname, String aSurname) {
 			Contact result = new Contact(aSurname, aFirstname);
 			return result;
@@ -130,7 +130,7 @@ you can annotate a factory method:
 ```
 Please note that the factory method must be *public* and *static*. 
 
-Use the [@PropertyNames] annotation if the factory method requires parameters. 
+Use the [@FactoryProperties] annotation if the factory method requires parameters.
 The value array specifies the mapping from the parameters to the corresponding property names.
 
 Have a look at ["samples/src/generated/java/samples/with/factory/ContactBuilder.java"] to see the generated source code.
@@ -259,7 +259,7 @@ If you want to compile this project's sources yourself you can use Maven (see [p
 [Maven Central]: http://search.maven.org/#search|ga|1|a%3A%22pojobuilder%22
 [Sonatype OSS Maven Repository]: https://oss.sonatype.org/content/repositories/releases/net/karneim/pojobuilder
 [@GeneratePojoBuilder]: http://github.com/mkarneim/pojobuilder/blob/master/src/main/java/net/karneim/pojobuilder/GeneratePojoBuilder.java
-[@PropertyNames]: http://github.com/mkarneim/pojobuilder/blob/master/src/main/java/net/karneim/pojobuilder/PropertyNames.java
+[@FactoryProperties]: http://github.com/mkarneim/pojobuilder/blob/master/src/main/java/net/karneim/pojobuilder/FactoryProperties.java
 [@ConstructorProperties]: http://docs.oracle.com/javase/6/docs/api/java/beans/ConstructorProperties.html
 [samples]: http://github.com/mkarneim/pojobuilder/blob/master/samples
 [best practices]: http://github.com/mkarneim/pojobuilder/wiki/Best-practices
