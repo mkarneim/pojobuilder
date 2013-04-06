@@ -1,23 +1,17 @@
+# ignore osx temp files
+.DS_Store/
 
-src/main/.DS_Store
+# ignore ant output
+build/
+bin/
 
-src/.DS_Store
+# ignore maven output
+target/
 
-libs/.DS_Store
-
-target
-
-samples/build
-
-.DS_Store
-
-build
-
-bin
-
-target
-
-#ignore eclipse project files
+# ignore eclipse project files
 .classpath
 .project
 .settings
+
+# ignore intellij
+*.iml
