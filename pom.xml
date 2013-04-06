@@ -6,9 +6,9 @@
 	<artifactId>pojobuilder-project</artifactId>
 	<version>2.3.3-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<description>The PojoBuilder Generator is a Java 6 compliant annotation processor that generates a fluent builder class for POJOs (Plain Old Java Object)</description>
+	<description>PojoBuilder Maven aggregator and common parent module</description>
 
-	<name>PojoBuilder</name>
+	<name>PojoBuilder project</name>
 	<url>http://github.com/mkarneim/pojobuilder</url>
 
 	<properties>
@@ -62,6 +62,38 @@
 
 	<modules>
 		<module>pojobuilder</module>
+		<module>pojobuilder-samples</module>
 	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>net.karneim</groupId>
+				<artifactId>pojobuilder</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.karneim</groupId>
+				<artifactId>pojobuilder-samples</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.0</version>
+                    <configuration>
+                        <source>1.6</source>
+                        <target>1.6</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>

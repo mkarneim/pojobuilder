@@ -1,0 +1,25 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>net.karneim</groupId>
+	    <artifactId>pojobuilder-project</artifactId>
+        <version>2.3.3-SNAPSHOT</version>
+	</parent>
+	<artifactId>pojobuilder-samples</artifactId>
+	<packaging>jar</packaging>
+    <name>PojoBuilder samples</name>
+
+	<description>Sample usages of PojoBuilder</description>
+
+	<dependencies>
+		<dependency>
+            <!-- Provided scope because this is only needed during compilation -->
+			<groupId>net.karneim</groupId>
+	        <artifactId>pojobuilder</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+</project>
