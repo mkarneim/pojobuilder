@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>net.karneim</groupId>
 	<artifactId>pojobuilder</artifactId>
-	<version>2.3.3-SNAPSHOT</version>
+	<version>2.3.3</version>
 	<packaging>jar</packaging>
 	<description>The PojoBuilder Generator is a Java 6 compliant annotation processor that generates a fluent builder class for POJOs (Plain Old Java Object)</description>
 
@@ -157,7 +156,7 @@
 		<connection>scm:git:git@github.com:mkarneim/pojobuilder.git</connection>
 		<developerConnection>scm:git:git@github.com:mkarneim/pojobuilder.git</developerConnection>
 		<url>git@github.com:mkarneim/pojobuilder.git</url>
-		<tag>pojobuilder-2.3.1</tag>
+		<tag>pojobuilder-2.3.3</tag>
 	</scm>
 	<issueManagement>
 		<url>https://github.com/mkarneim/pojobuilder/issues</url>
