@@ -21,15 +21,17 @@ Edit .m2/settings.xml and add server URLs:
 Replace the '*****' with Sonatype Nexus password.
   
 ## To make a release 
+For details see http://maven.apache.org/maven-release/maven-release-plugin/usage.html
 * Make sure that the artifact version in pom.xml is a SNAPSHOT, e.g. 2.3.2-SNAPSHOT.
 * Commit changes to scm
-* Run ```mvn release:prepare``` 
+* Run ```mvn release:prepare -DdryRun=true```
+* Check for failures, review output and copied POMs.
+* If ok, run ```mvn release:prepare``` 
 * hit [ENTER] for all prompts
 * Run ```mvn release:perform```
 
 ## Release it 
 For details see https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
-
 * Login to the Nexus UI at https://oss.sonatype.org/
 * Go to Staging Repositories page.
 * Select the PojoBuilder's staging repository.
