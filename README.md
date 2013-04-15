@@ -224,6 +224,8 @@ Add the following to your project's pom.xml to configure the PojoBuilder annotat
 Notes:
 * The compile phase will automatically detect and activate PojoBuilder.
 * Generated sources will appear in the standard location: ${project.build.directory}/generated-sources/annotations.
+* If you need to keep the generated sources in a specific directory outside of the 'target' directory, 
+then configure the 'generatedSourcesDirectory' of the 'maven-compiler-plugin'. See ["samples/pom.xml"] for an example.
 * Eclipse users might want to install [m2e-apt](https://github.com/jbosstools/m2e-apt) to have integrated support for APT-generated sources.
 
 ### Using Eclipse
@@ -262,6 +264,7 @@ If you want to compile this project's sources yourself you can use Maven (see [p
 [COPYING]: http://github.com/mkarneim/pojobuilder/blob/master/COPYING
 [pom.xml]: http://github.com/mkarneim/pojobuilder/blob/master/pom.xml
 ["samples/build.xml"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/build.xml
+["samples/pom.xml"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/pom.xml
 ["samples/src/generated/java/samples/builder/ContactBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/src/generated/java/samples/builder/ContactBuilder.java
 ["samples/src/generated/java/samples/with/factory/ContactBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/src/generated/java/samples/with/factory/ContactBuilder.java
 [generation gap pattern]: http://martinfowler.com/dslCatalog/generationGap.html
