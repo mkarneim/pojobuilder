@@ -170,8 +170,7 @@ To execute the annotation processor you either can
 * [use the maven-processor-plugin](#using-maven)
 * or [use Eclipse](#using-eclipse).
 
-In any case make sure that the pojobuilder-*.jar and it's dependend libraries are included in your project's classpath
-during compile time.
+In any case make sure that the required libraries are included in your project's classpath during compile time.
 During runtime no libraries are required since the retention policy of PojoBuilder's annotations is SOURCE.
 
 ### Using Javac
@@ -179,7 +178,7 @@ The `javac` compiler will auto-detect the presence of PojoBuilder if pojobuilder
 
 For example:
     
-    javac -cp pojobuilder-2.3.0.jar;ST4-4.0.7.jar;antlr-runtime-3.5.jar Contact.java
+    javac -cp pojobuilder-2.3.3-jar-with-dependencies.jar Contact.java
    
 will generate a ContactBuilder if Contact is annotated with @GeneratePojoBuilder.
 
@@ -189,12 +188,9 @@ For more information see the [javac documentation].
 
 Here is a code snippet of an ANT build script that runs the PojoBuilder annotation processor within the javac task. 
 
-    <!-- Filesets and Classpaths  -->
-    <fileset id="libs.fileset" dir="${lib.dir}">
-        <include name="antlr-*.jar" />
-        <include name="ST-*.jar" />
-        <include name="pojobuilder-*.jar" />
-        <!-- include any project specific libs here -->
+    <!-- Add the required libraries into this directory. -->
+    <fileset id="libs.fileset" dir="${basedir}/lib">
+        <include name="*.jar" />
     </fileset>
     	
     <path id="class.path">
@@ -211,29 +207,30 @@ Here is a code snippet of an ANT build script that runs the PojoBuilder annotati
     	</javac>
     </target>
 
-
-You can find a complete sample build script at ["samples/build.xml"].
+You find a complete sample build script at ["samples/build.xml"].
 
 ### Using Maven
 
 Add the following to your project's pom.xml to configure the PojoBuilder annotation processor.
 
 	<dependency>
-		<!-- Provided scope because this is only needed during compilation -->
 		<groupId>net.karneim</groupId>
 		<artifactId>pojobuilder</artifactId>
-		<version>2.3.0</version>
+		<version>2.3.3</version>
+		<!-- 'provided' scope because this is only needed during compilation -->
 		<scope>provided</scope>
 	</dependency>
 
 Notes:
 * The compile phase will automatically detect and activate PojoBuilder.
 * Generated sources will appear in the standard location: ${project.build.directory}/generated-sources/annotations.
-* If using Eclipse you should install [m2e-apt](https://github.com/jbosstools/m2e-apt) to have integrated support for APT-generated sources.
+* Eclipse users might want to install [m2e-apt](https://github.com/jbosstools/m2e-apt) to have integrated support for APT-generated sources.
 
 ### Using Eclipse
+You could also configure Eclipse to run the PojoBuilder annotation processor during the build cycle.
+It will be invoked whenever you save files that contain sources annotated with @GeneratePojoBuilder.
 
-Do the following to configure the PojoBuilder annotation processor manually for your project in Eclipse:
+Do the following to enable PojoBuilder for your Eclipse project:
 
 * Place the PojoBuilder libraries (antlr-*.jar, ST-*.jar pojobuilder-*.jar) into your project library directory 
 * Open your project's properties dialog
@@ -252,11 +249,9 @@ Do the following to configure the PojoBuilder annotation processor manually for 
 * Add ST-*.jar
 * Add pojobuilder-*.jar
 
-Now the annotation processor will be automatically invoked during the Eclipse build cycle.
-
 How To Build
 ------------
-If you want to compile this project's sources yourself you can use Maven (see [pom.xml]) or Ant  (see [build.xml]). 
+If you want to compile this project's sources yourself you can use Maven (see [pom.xml]). 
 
 [PojoBuilder at Maven Central]: http://search.maven.org/#search|ga|1|a%3A%22pojobuilder%22
 [@GeneratePojoBuilder]: http://github.com/mkarneim/pojobuilder/blob/master/src/main/java/net/karneim/pojobuilder/GeneratePojoBuilder.java
@@ -265,7 +260,6 @@ If you want to compile this project's sources yourself you can use Maven (see [p
 [samples]: http://github.com/mkarneim/pojobuilder/blob/master/samples
 [best practices]: http://github.com/mkarneim/pojobuilder/wiki/Best-practices
 [COPYING]: http://github.com/mkarneim/pojobuilder/blob/master/COPYING
-[build.xml]: http://github.com/mkarneim/pojobuilder/blob/master/build.xml
 [pom.xml]: http://github.com/mkarneim/pojobuilder/blob/master/pom.xml
 ["samples/build.xml"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/build.xml
 ["samples/src/generated/java/samples/builder/ContactBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/src/generated/java/samples/builder/ContactBuilder.java

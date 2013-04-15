@@ -1,7 +1,7 @@
-Please add the required libraries 
+For building this project with ANT please add the required library 
 
-  antlr-*.jar
-  ST-*.jar 
-  pojobuilder-*.jar
-  
+  pojobuilder-*-jar-with-dependencies.jar
+
 here.
+
+You can find it at http://search.maven.org/#search|ga|1|a%3A%22pojobuilder%22.
