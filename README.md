@@ -240,7 +240,7 @@ Do the following to enable PojoBuilder for your Eclipse project:
 * Open your project's properties dialog
 * Navigate to "Java Build Path" tree node
 * Open the "Libraries" tab
-* Add the PojoBuilder library to your project classpath
+* Add the PojoBuilder libraries to your project classpath
 * Navigate to "Java Compiler / Annotation Processing" tree node
 * Check "Enable project specific settings"
 * Check "Enable annotation processing"
