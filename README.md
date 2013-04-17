@@ -167,7 +167,7 @@ To execute the annotation processor you either can
 
 * [use the javac tool](#using-javac)
 * [use Ant's javac task](#using-ant)
-* [use the maven-processor-plugin](#using-maven)
+* [use the maven-compiler-plugin](#using-maven)
 * or [use Eclipse](#using-eclipse).
 
 In any case make sure that the required libraries are included in your project's classpath during compile time.
