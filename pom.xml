@@ -156,7 +156,6 @@
 		<connection>scm:git:git@github.com:mkarneim/pojobuilder.git</connection>
 		<developerConnection>scm:git:git@github.com:mkarneim/pojobuilder.git</developerConnection>
 		<url>git@github.com:mkarneim/pojobuilder.git</url>
-		<tag>pojobuilder-2.3.1</tag>
 	</scm>
 	<issueManagement>
 		<url>https://github.com/mkarneim/pojobuilder/issues</url>
