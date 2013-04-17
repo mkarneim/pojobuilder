@@ -236,7 +236,7 @@ It will be invoked whenever you save files that contain sources annotated with @
 
 Do the following to enable PojoBuilder for your Eclipse project:
 
-* Place the PojoBuilder library (```pojobuilder-*-jar-with-dependencies.jar```) into your project library directory 
+* Place the PojoBuilder library and the dependencies (e.g. pojobuilder-*-jar-with-dependencies.jar) into your project library directory 
 * Open your project's properties dialog
 * Navigate to "Java Build Path" tree node
 * Open the "Libraries" tab
