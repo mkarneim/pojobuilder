@@ -31,16 +31,18 @@ For more information on
 * the builder pattern see http://en.wikipedia.org/wiki/Builder_pattern. 
 * fluent interface see http://www.martinfowler.com/bliki/FluentInterface.html
 
+License
+-------
+
+The source code located in the "src" and "samples" directory is in the PUBLIC DOMAIN. 
+Read the [COPYING] file.
+
 Download
 --------
 
 PojoBuilder is available for download at [Maven Central] and [Sonatype OSS Maven Repository].
 
-License
--------
-
-The source code located in the "src" directory is in the PUBLIC DOMAIN. 
-Read the [COPYING] file.
+You might want to download the ```pojobuilder-*-jar-with-dependencies.jar``` which includes the dependent libraries.
 
 Dependencies
 ------------
@@ -234,11 +236,11 @@ It will be invoked whenever you save files that contain sources annotated with @
 
 Do the following to enable PojoBuilder for your Eclipse project:
 
-* Place the PojoBuilder libraries (antlr-*.jar, ST-*.jar pojobuilder-*.jar) into your project library directory 
+* Place the PojoBuilder library (```pojobuilder-*-jar-with-dependencies.jar```) into your project library directory 
 * Open your project's properties dialog
 * Navigate to "Java Build Path" tree node
 * Open the "Libraries" tab
-* Add the library pojobuilder-*.jar to your project classpath
+* Add the PojoBuilder library to your project classpath
 * Navigate to "Java Compiler / Annotation Processing" tree node
 * Check "Enable project specific settings"
 * Check "Enable annotation processing"
