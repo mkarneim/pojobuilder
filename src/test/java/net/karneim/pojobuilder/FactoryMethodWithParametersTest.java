@@ -54,6 +54,11 @@ public class FactoryMethodWithParametersTest extends TestBase {
         testFactoryMethodParameterPositions( "createContact3" );
     }
 
+    @Test
+    public void testFactoryMethodParameterPositionsWithImplicitParameterNames( ) {
+        testFactoryMethodParameterPositions( "createContactImplicit" );
+    }
+
 	private void testFactoryMethodParameterPositions( String factoryMethodName ) {
 		// Given:
 		TypeElement factoryTypeElement = elements.getTypeElement(FACTORY_CLASSNAME);

@@ -21,7 +21,7 @@ import testenv.ProcessingEnvironmentRunner;
 
 @RunWith(ProcessingEnvironmentRunner.class)
 @AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
-public class SimpleFactoryMethodTest extends TestBase {
+public class FactoryMethodWithNoParametersTest extends TestBase {
 
 	private static String FACTORY_CLASSNAME = PojoFactory.class.getName();
 	private static String NOTE_CLASSNAME = Note.class.getName();
