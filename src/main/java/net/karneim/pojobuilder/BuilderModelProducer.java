@@ -228,14 +228,9 @@ public class BuilderModelProducer {
         PropertyNames propertyNamesAnno = factoryMethod.getAnnotation(PropertyNames.class);
         FactoryProperties factoryPropertiesAnno = factoryMethod.getAnnotation(FactoryProperties.class);
         if (propertyNamesAnno == null && factoryPropertiesAnno == null) {
-            throw new BuildException(
-                    Diagnostic.Kind.ERROR,
-                    String.format(
-                            "Missing annotation %s on factory method %s of class %s!",
-                            FactoryProperties.class.getSimpleName(),
-                            factoryMethod.toString(),
-                            factoryMethod.getEnclosingElement().getSimpleName()),
-                    factoryMethod);
+            // ... add some kind of NamingStrategy and extract commonality
+            addPropertyModelsForImplicitMethodParameters(factoryMethod,builderModel);
+            return;
         }
 
         if (propertyNamesAnno != null && factoryPropertiesAnno != null) {
@@ -283,6 +278,17 @@ public class BuilderModelProducer {
         }
     }
 
+    private void addPropertyModelsForImplicitMethodParameters( ExecutableElement factoryMethod, BuilderM builderModel ) {
+        // loop over all method parameters
+        int i = 0;
+        for (VariableElement param : factoryMethod.getParameters()) {
+            String propertyName = param.getSimpleName().toString();
+            TypeMirror propertyType = param.asType();
+            TypeM propertyTypeM = typeMUtils.getTypeM(propertyType);
+            PropertyM propM = builderModel.getOrCreateProperty(propertyName, propertyTypeM);
+            propM.setParameterPos(i++);
+        }
+    }
 
     private void addPropertyModelsForSetterMethods(TypeElement pojoTypeElement, BuilderM builderModel) {
 		DeclaredType declType = (DeclaredType) pojoTypeElement.asType();
