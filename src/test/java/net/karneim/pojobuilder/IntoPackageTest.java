@@ -4,18 +4,19 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.TypeElement;
 
 import net.karneim.pojobuilder.model.BuilderM;
-import net.karneim.pojobuilder.model.TypeM;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import testdata.intoPackage.AddressDTO;
 import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
 
 @RunWith(ProcessingEnvironmentRunner.class)
 @AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
 public class IntoPackageTest extends TestBase {
+	private static String ADDRESS_DTO_CLASSNAME = AddressDTO.class.getName();
 
 	private ProcessingEnvironment env;
 
@@ -29,17 +30,16 @@ public class IntoPackageTest extends TestBase {
 	}
 
 	@Test
-	public void testProduceModelReturnsModelWithTargetPackage() {
+	public void testBuilderPackage() {
 		// Given:
-		String pojoClassname = testdata.intoPackage.Contact.class.getName();
-		TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(pojoClassname);
+		TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(ADDRESS_DTO_CLASSNAME);
 
 		// When:
 		Output output = underTest.produce(new Input(pojoTypeElement));
 		BuilderM builder = output.getBuilder();
 
 		// Then:
-		assertEquals("type", TypeM.get("testdata.intoPackage.target.ContactBuilder"), builder.getType());
+		assertEquals("builder classname", "AddressDTOBuilder", builder.getType().getSimpleName());
+		assertEquals("package", "testdata.builder", builder.getType().getPackage());
 	}
-
 }
