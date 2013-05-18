@@ -81,7 +81,6 @@ Let's have a look at the following example pojo:
 	    
 		@ConstructorProperties({"surname","firstname"})
 		public Contact(String aSurname, String aFirstname) {
-			super();
 			this.surname = aSurname;
 			this.firstname = aFirstname;
 		}
@@ -119,19 +118,15 @@ you can annotate a factory method:
  
 ```java
 	public class PojoFactory {
-	
 		@GeneratePojoBuilder
-		@FactoryProperties({ "firstname", "surname" })
-		public static Contact createContact(String aFirstname, String aSurname) {
-			Contact result = new Contact(aSurname, aFirstname);
-			return result;
+		public static Contact createContact(String firstname, String surname) {
+			return new Contact(surname, firstname);
 		}
 	}
 ```
 Please note that the factory method must be *public* and *static*. 
 
-Use the [@FactoryProperties] annotation if the factory method requires parameters.
-The value array specifies the mapping from the parameters to the corresponding property names.
+The optional [@FactoryProperties] annotation specifies the mapping from the factory-method-parameter-names to the corresponding bean-property-names on the pojo if they differ.
 
 Have a look at ["samples/src/generated/java/samples/with/factory/ContactBuilder.java"] to see the generated source code.
 
