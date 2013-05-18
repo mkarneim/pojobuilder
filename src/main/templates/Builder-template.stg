@@ -58,7 +58,7 @@ public <if(model.abstractClass)>abstract <endif>class <model.type.genericTypeSim
 	 * @return the created <model.productType.simpleName>
 	 */
 	public <model.productType.genericTypeSimpleName> build() <if(!model.buildExceptions.empty)>throws <model.buildExceptions:throwsElements(); separator=","><endif>{
-		<model:productContructorCall()>
+		<model:productConstructorCall()>
 		<model.propertiesForSetters:propertySetterCall()>
 		<model.propertiesForAssignment:propertyAssignment()>
 		return result;
@@ -96,6 +96,7 @@ protected boolean isSet$<property.fieldname> = false;
 propertyWith(property) ::= <<
 /**
  * Sets the default value for the {@link <model.productType.simpleName>#<property.name>} property.
+DO STUFF
  * @param value the default value
  * @return this builder
  */
@@ -121,7 +122,7 @@ if ( this.isSet$<property.fieldname>) {
 
 >>
 
-productContructorCall(model) ::= <<
+productConstructorCall(model) ::= <<
 <if(model.usingFactory)>
 <model.productType.genericTypeSimpleName> result = <model.factory.ownerType.simpleName>.<model.factory.methodName>( <model.propertiesForConstructor:constructorArgument(); separator=",">);
 <else>
