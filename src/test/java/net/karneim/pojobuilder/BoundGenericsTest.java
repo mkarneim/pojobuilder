@@ -34,7 +34,7 @@ public class BoundGenericsTest extends TestBase {
 	@Test
 	public void testProduceModelReturnsModelWithTypeParameters() {
 		// Given:
-		String pojoClassname = Container.class.getName();
+		String pojoClassname = Container.class.getCanonicalName();
 		TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(pojoClassname);
 
 		// When:

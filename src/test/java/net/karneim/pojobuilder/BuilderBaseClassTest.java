@@ -16,7 +16,7 @@ import testenv.ProcessingEnvironmentRunner;
 @RunWith(ProcessingEnvironmentRunner.class)
 @AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
 public class BuilderBaseClassTest extends TestBase {
-	private static String CONTACT_CLASSNAME = Contact.class.getName();
+	private static String CONTACT_CLASSNAME = Contact.class.getCanonicalName();
 
 	private ProcessingEnvironment env;
 

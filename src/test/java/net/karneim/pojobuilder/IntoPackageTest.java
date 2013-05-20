@@ -16,7 +16,7 @@ import testenv.ProcessingEnvironmentRunner;
 @RunWith(ProcessingEnvironmentRunner.class)
 @AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
 public class IntoPackageTest extends TestBase {
-	private static String ADDRESS_DTO_CLASSNAME = AddressDTO.class.getName();
+	private static String ADDRESS_DTO_CLASSNAME = AddressDTO.class.getCanonicalName();
 
 	private ProcessingEnvironment env;
 

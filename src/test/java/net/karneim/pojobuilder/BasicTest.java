@@ -37,7 +37,7 @@ public class BasicTest extends TestBase {
 	@Test
 	public void testProduceReturnsBuilderWithCorrectProductType() {
 		// Given:
-		String pojoClassname = Sample.class.getName();
+		String pojoClassname = Sample.class.getCanonicalName();
 		TypeElement pojoType = elements.getTypeElement(pojoClassname);
 
 		// When:
@@ -51,7 +51,7 @@ public class BasicTest extends TestBase {
 	@Test
 	public void testProduceReturnsBuilderWithCorrectBuilderType() {
 		// Given:
-		String pojoClassname = Sample.class.getName();
+		String pojoClassname = Sample.class.getCanonicalName();
 		TypeElement pojoType = elements.getTypeElement(pojoClassname);
 
 		// When:
@@ -65,7 +65,7 @@ public class BasicTest extends TestBase {
 	@Test
 	public void testProduceReturnsBuilderWithCorrectSuperType() {
 		// Given:
-		String pojoClassname = Sample.class.getName();
+		String pojoClassname = Sample.class.getCanonicalName();
 		TypeElement pojoType = elements.getTypeElement(pojoClassname);
 
 		// When:
@@ -73,13 +73,13 @@ public class BasicTest extends TestBase {
 		BuilderM builder = output.getBuilder();
 
 		// Then:
-		assertEquals("type", TypeM.get(Object.class.getName()), builder.getSuperType());
+		assertEquals("type", TypeM.get(Object.class.getCanonicalName()), builder.getSuperType());
 	}
 
 	@Test
 	public void testProduceReturnsBuilderWithCorrectSelfType() {
 		// Given:
-		String pojoClassname = Sample.class.getName();
+		String pojoClassname = Sample.class.getCanonicalName();
 		TypeElement pojoType = elements.getTypeElement(pojoClassname);
 
 		// When:
@@ -93,7 +93,7 @@ public class BasicTest extends TestBase {
 	@Test
 	public void testProduceReturnsBuilderWithCorrectProperties() {
 		// Given:
-		String pojoClassname = Sample.class.getName();
+		String pojoClassname = Sample.class.getCanonicalName();
 		TypeElement pojoType = elements.getTypeElement(pojoClassname);
 
 		// When:

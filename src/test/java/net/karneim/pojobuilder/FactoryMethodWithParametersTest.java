@@ -24,8 +24,8 @@ import testenv.ProcessingEnvironmentRunner;
 @AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
 public class FactoryMethodWithParametersTest extends TestBase {
 
-	private static String FACTORY_CLASSNAME = PojoFactory.class.getName();
-	private static String CONTACT_CLASSNAME = Contact.class.getName();
+	private static String FACTORY_CLASSNAME = PojoFactory.class.getCanonicalName();
+	private static String CONTACT_CLASSNAME = Contact.class.getCanonicalName();
 
 	private Elements elements;
 

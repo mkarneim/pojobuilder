@@ -36,7 +36,7 @@ public class ExceptionTest extends TestBase {
 	@Test
 	public void testProduceReturnsBuilderWithCorrectProductType() {
 		// Given:
-		String pojoClassname = Resource.class.getName();
+		String pojoClassname = Resource.class.getCanonicalName();
 		TypeElement pojoType = elements.getTypeElement(pojoClassname);
 
 		// When:
@@ -50,7 +50,7 @@ public class ExceptionTest extends TestBase {
 	@Test
 	public void testProduceReturnsBuilderWithCorrectBuildExceptions() {
 		// Given:
-		String pojoClassname = Resource.class.getName();
+		String pojoClassname = Resource.class.getCanonicalName();
 		TypeElement pojoType = elements.getTypeElement(pojoClassname);
 
 		// When:
@@ -58,7 +58,7 @@ public class ExceptionTest extends TestBase {
 		BuilderM builder = output.getBuilder();
 
 		// Then:
-		assertThat(builder.getBuildExceptions(), contains(TypeM.get(MalformedURLException.class.getName())));
+		assertThat(builder.getBuildExceptions(), contains(TypeM.get(MalformedURLException.class.getCanonicalName())));
 	}
 
 }

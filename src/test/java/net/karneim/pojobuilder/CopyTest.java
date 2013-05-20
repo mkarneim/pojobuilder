@@ -34,7 +34,7 @@ public class CopyTest extends TestBase {
 	@Test
 	public void testProduceReturnsBuilderWithCorrectProductType() {
 		// Given:
-		String pojoClassname = AddressDTO.class.getName();
+		String pojoClassname = AddressDTO.class.getCanonicalName();
 		TypeElement pojoType = elements.getTypeElement(pojoClassname);
 
 		// When:
@@ -48,7 +48,7 @@ public class CopyTest extends TestBase {
 	@Test
 	public void testProduceReturnsBuilderWithCorrectBuildExceptions() {
 		// Given:
-		String pojoClassname = AddressDTO.class.getName();
+		String pojoClassname = AddressDTO.class.getCanonicalName();
 		TypeElement pojoType = elements.getTypeElement(pojoClassname);
 
 		// When:

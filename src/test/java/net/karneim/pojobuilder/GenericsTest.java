@@ -31,7 +31,7 @@ public class GenericsTest extends TestBase {
 	@Test
 	public void testProduceModelReturnsModelWithTypeParameters() {
 		// Given:
-		String pojoClassname = NumberGrid.class.getName();
+		String pojoClassname = NumberGrid.class.getCanonicalName();
 		TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(pojoClassname);
 
 		// When:

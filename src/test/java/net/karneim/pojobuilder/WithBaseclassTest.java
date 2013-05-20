@@ -33,7 +33,7 @@ public class WithBaseclassTest extends TestBase {
 	@Test
 	public void testProduceReturnsModelWithSpecifiedSuperType() {
 		// Given:
-		String pojoClassname = Contact.class.getName();
+		String pojoClassname = Contact.class.getCanonicalName();
 		TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(pojoClassname);
 
 		// When:
@@ -41,7 +41,7 @@ public class WithBaseclassTest extends TestBase {
 		BuilderM builder = output.getBuilder();
 
 		// Then:
-		assertEquals("superType", TypeM.get(BaseBuilder.class.getName()), builder.getSuperType());
+		assertEquals("superType", TypeM.get(BaseBuilder.class.getCanonicalName()), builder.getSuperType());
 	}
 
 }

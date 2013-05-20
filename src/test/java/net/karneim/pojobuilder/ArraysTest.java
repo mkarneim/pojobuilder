@@ -32,7 +32,7 @@ public class ArraysTest extends TestBase {
 	@Test
 	public void testBuilderClassname() {
 		// Given:
-		String pojoClassname = Order.class.getName();
+		String pojoClassname = Order.class.getCanonicalName();
 		TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(pojoClassname);
 
 		// When:
@@ -46,7 +46,7 @@ public class ArraysTest extends TestBase {
 	@Test
 	public void testNumberOfProperties() {
 		// Given:
-		String pojoClassname = Order.class.getName();
+		String pojoClassname = Order.class.getCanonicalName();
 		TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(pojoClassname);
 
 		// When:
@@ -60,7 +60,7 @@ public class ArraysTest extends TestBase {
 	@Test
 	public void testItemsProperty() {
 		// Given:
-		String pojoClassname = Order.class.getName();
+		String pojoClassname = Order.class.getCanonicalName();
 		TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(pojoClassname);
 
 		// When:

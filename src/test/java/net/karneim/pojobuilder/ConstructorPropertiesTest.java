@@ -16,7 +16,7 @@ import testenv.ProcessingEnvironmentRunner;
 @RunWith(ProcessingEnvironmentRunner.class)
 @AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
 public class ConstructorPropertiesTest extends TestBase {
-	private static String ADDRESS_DTO_CLASSNAME = testdata.constructorproperties.AddressDTO.class.getName();
+	private static String ADDRESS_DTO_CLASSNAME = testdata.constructorproperties.AddressDTO.class.getCanonicalName();
 
 	private ProcessingEnvironment env;
 

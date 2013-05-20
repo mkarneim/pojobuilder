@@ -23,8 +23,8 @@ import testenv.ProcessingEnvironmentRunner;
 @AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
 public class SimpleFactoryMethodTest extends TestBase {
 
-	private static String FACTORY_CLASSNAME = PojoFactory.class.getName();
-	private static String NOTE_CLASSNAME = Note.class.getName();
+	private static String FACTORY_CLASSNAME = PojoFactory.class.getCanonicalName();
+	private static String NOTE_CLASSNAME = Note.class.getCanonicalName();
 
 	private Elements elements;
 

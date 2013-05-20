@@ -15,7 +15,7 @@ import testenv.ProcessingEnvironmentRunner;
 @RunWith(ProcessingEnvironmentRunner.class)
 @AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
 public class IntoPackageWithWildcardTest extends TestBase {
-	private static String CONTACT_CLASSNAME = testdata.intoPackage.wildcard.Contact.class.getName();
+	private static String CONTACT_CLASSNAME = testdata.intoPackage.wildcard.Contact.class.getCanonicalName();
 
 	private ProcessingEnvironment env;
 
