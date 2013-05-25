@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.TypeElement;
 
+
 import net.karneim.pojobuilder.model.BuilderM;
 
 import org.junit.Before;
@@ -16,6 +17,7 @@ import testdata.generics.Container;
 import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
 
+import static net.karneim.pojobuilder.matchers.PBMatchers.contains;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 

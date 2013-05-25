@@ -8,6 +8,7 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Elements;
 
+
 import net.karneim.pojobuilder.model.BuilderM;
 import net.karneim.pojobuilder.model.PropertyM;
 
@@ -20,6 +21,7 @@ import testdata.factory.PojoFactory;
 import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
 
+import static net.karneim.pojobuilder.matchers.PBMatchers.containsPropertyWithName;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;

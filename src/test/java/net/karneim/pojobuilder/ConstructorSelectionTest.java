@@ -1,7 +1,7 @@
 package net.karneim.pojobuilder;
 
+
 import net.karneim.pojobuilder.model.BuilderM;
-import net.karneim.pojobuilder.model.PropertyM;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +12,7 @@ import testenv.ProcessingEnvironmentRunner;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.TypeElement;
 
+import static net.karneim.pojobuilder.matchers.PBMatchers.containsPropertyWithName;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 

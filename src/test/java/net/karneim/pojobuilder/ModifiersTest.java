@@ -6,6 +6,7 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 
+
 import net.karneim.pojobuilder.model.BuilderM;
 import net.karneim.pojobuilder.model.PropertyM;
 import net.karneim.pojobuilder.model.TypeM;
@@ -18,6 +19,7 @@ import testdata.modifiers.Contact;
 import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
 
+import static net.karneim.pojobuilder.matchers.PBMatchers.containsPropertyWithName;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 

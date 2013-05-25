@@ -11,12 +11,14 @@ import javax.lang.model.util.Elements;
 
 import net.karneim.pojobuilder.TestBase;
 
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import testenv.ProcessingEnvironmentRunner;
 
+import static net.karneim.pojobuilder.matchers.PBMatchers.containsElementWithName;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
