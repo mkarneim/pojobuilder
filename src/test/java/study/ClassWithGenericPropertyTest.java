@@ -20,6 +20,9 @@ import org.junit.runner.RunWith;
 
 import testenv.ProcessingEnvironmentRunner;
 
+import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+
 @RunWith(ProcessingEnvironmentRunner.class)
 public class ClassWithGenericPropertyTest extends TestBase {
 	public static class SampleClass {

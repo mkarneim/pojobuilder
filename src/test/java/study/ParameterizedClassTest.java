@@ -21,6 +21,8 @@ import org.junit.runner.RunWith;
 
 import testenv.ProcessingEnvironmentRunner;
 
+import static org.junit.Assert.assertEquals;
+
 @RunWith(ProcessingEnvironmentRunner.class)
 public class ParameterizedClassTest extends TestBase {
 	public static class ParentClass<T> {

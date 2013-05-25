@@ -15,6 +15,8 @@ import testdata.baseclass.Contact;
 import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
 
+import static org.junit.Assert.assertEquals;
+
 @RunWith(ProcessingEnvironmentRunner.class)
 @AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
 public class WithBaseclassTest extends TestBase {

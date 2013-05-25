@@ -13,8 +13,9 @@ import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.junit.Assert;
+import org.junit.internal.matchers.TypeSafeMatcher;
 
-public class TestBase extends Assert {
+public class TestBase {
 	public static final String SRC_TESTDATA_DIR = "src/test/java";
 
 	public static ExecutableElement getFirstMethodByName(String name, List<ExecutableElement> methods) {
@@ -27,12 +28,9 @@ public class TestBase extends Assert {
 	}
 
 	public static <T> Matcher<Collection<T>> contains(final T element) {
-		Matcher<Collection<T>> result = new BaseMatcher<Collection<T>>() {
-
+		Matcher<Collection<T>> result = new TypeSafeMatcher<Collection<T>>() {
 			@Override
-			public boolean matches(Object item) {
-				@SuppressWarnings("unchecked")
-				Collection<T> actual = (Collection<T>) item;
+			public boolean matchesSafely(Collection<T> actual) {
 				return actual.contains(element);
 			}
 
@@ -47,11 +45,9 @@ public class TestBase extends Assert {
 	}
 
 	public static Matcher<Collection<PropertyM>> containsPropertyWithName(final String aName) {
-		Matcher<Collection<PropertyM>> result = new BaseMatcher<Collection<PropertyM>>() {
+		Matcher<Collection<PropertyM>> result = new TypeSafeMatcher<Collection<PropertyM>>() {
 			@Override
-			public boolean matches(Object item) {
-				@SuppressWarnings("unchecked")
-				List<PropertyM> actual = (List<PropertyM>) item;
+			public boolean matchesSafely(Collection<PropertyM> actual) {
 				for (PropertyM p : actual) {
 					if (aName.equals(p.getName().toString())) {
 						return true;
@@ -71,11 +67,9 @@ public class TestBase extends Assert {
 	}
 
 	public static Matcher<Collection<PropertyM>> doesNotContainPropertyWithName(final String aName) {
-		Matcher<Collection<PropertyM>> result = new BaseMatcher<Collection<PropertyM>>() {
+		Matcher<Collection<PropertyM>> result = new TypeSafeMatcher<Collection<PropertyM>>() {
 			@Override
-			public boolean matches(Object item) {
-				@SuppressWarnings("unchecked")
-				List<PropertyM> actual = (List<PropertyM>) item;
+			public boolean matchesSafely(Collection<PropertyM> actual) {
 				for (PropertyM p : actual) {
 					if (aName.equals(p.getName().toString())) {
 						return false;
@@ -95,12 +89,9 @@ public class TestBase extends Assert {
 	}
 	
 	public static Matcher<List<? extends Element>> containsElementWithName(final String aName) {
-		Matcher<List<? extends Element>> result = new BaseMatcher<List<? extends Element>>() {
-
+		Matcher<List<? extends Element>> result = new TypeSafeMatcher<List<? extends Element>>() {
 			@Override
-			public boolean matches(Object item) {
-				@SuppressWarnings("unchecked")
-				List<Element> actual = (List<Element>) item;
+			public boolean matchesSafely(List<? extends Element> actual) {
 				for (Element elem : actual) {
 					if (aName.equals(elem.getSimpleName().toString())) {
 						return true;

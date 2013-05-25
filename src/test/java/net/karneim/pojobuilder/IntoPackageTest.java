@@ -13,6 +13,8 @@ import org.junit.runner.RunWith;
 import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
 
+import static org.junit.Assert.assertEquals;
+
 @RunWith(ProcessingEnvironmentRunner.class)
 @AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
 public class IntoPackageTest extends TestBase {

@@ -15,6 +15,9 @@ import testdata.copy.Contact;
 import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+
 @RunWith(ProcessingEnvironmentRunner.class)
 @AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
 public class Copy2Test extends TestBase {

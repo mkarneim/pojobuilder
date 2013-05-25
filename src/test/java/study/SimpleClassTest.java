@@ -22,6 +22,9 @@ import org.junit.runner.RunWith;
 
 import testenv.ProcessingEnvironmentRunner;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+
 @RunWith(ProcessingEnvironmentRunner.class)
 public class SimpleClassTest extends TestBase {
 	public static class SampleClass {

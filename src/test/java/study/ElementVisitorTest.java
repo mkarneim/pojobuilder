@@ -13,6 +13,9 @@ import org.junit.runner.RunWith;
 
 import testenv.ProcessingEnvironmentRunner;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+
 @RunWith(ProcessingEnvironmentRunner.class)
 public class ElementVisitorTest extends TestBase {
 	public static class SampleClass<T> {
