@@ -1,23 +1,19 @@
 package net.karneim.pojobuilder;
 
-import javax.annotation.processing.ProcessingEnvironment;
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.util.Elements;
-
-
 import net.karneim.pojobuilder.model.BuilderM;
 import net.karneim.pojobuilder.model.TypeM;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import testdata.copy.Contact;
 import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
 
-import static net.karneim.pojobuilder.matchers.PBMatchers.containsPropertyWithName;
-import static net.karneim.pojobuilder.matchers.PBMatchers.doesNotContainPropertyWithName;
+import javax.annotation.processing.ProcessingEnvironment;
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.util.Elements;
+
+import static net.karneim.pojobuilder.matchers.PBMatchers.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
@@ -52,7 +48,7 @@ public class Copy2Test extends TestBase {
 	}
 
 	@Test
-	public void testProduceReturnsBuilderWithCorrectBuildExceptions() {
+	public void testProduceReturnsBuilderWithCorrectProperties() {
 		// Given:
 		String pojoClassname = Contact.class.getName();
 		TypeElement pojoType = elements.getTypeElement(pojoClassname);
@@ -62,13 +58,18 @@ public class Copy2Test extends TestBase {
 		BuilderM builder = output.getBuilder();
 
 		// Then:
-
-		assertThat(builder.getPropertiesForCopy(), containsPropertyWithName("firstname"));
-		assertThat(builder.getPropertiesForCopy(), containsPropertyWithName("email"));
-		assertThat(builder.getPropertiesForCopy(), containsPropertyWithName("birthdate"));
-
-		assertThat(builder.getPropertiesForCopy(), doesNotContainPropertyWithName("surname"));
-		assertThat(builder.getPropertiesForCopy(), doesNotContainPropertyWithName("hasSurname"));
+        assertThat(builder.getProperties(), containsOnly(
+                propertyM(named("firstname")),
+                propertyM(named("email")),
+                propertyM(named("birthdate")),
+                propertyM(named("surname")),
+                propertyM(named("hasSurname"))
+        ));
+		assertThat(builder.getPropertiesForCopy(), containsOnly(
+                propertyM(named("firstname")),
+                propertyM(named("email")),
+                propertyM(named("birthdate"))
+        ));
 	}
 
 }

@@ -2,7 +2,6 @@ package testdata.constructor;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
-import java.awt.*;
 import java.beans.ConstructorProperties;
 
 /**

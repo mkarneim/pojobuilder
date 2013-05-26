@@ -1,23 +1,21 @@
 package net.karneim.pojobuilder;
 
-import javax.annotation.processing.ProcessingEnvironment;
-import javax.lang.model.element.TypeElement;
-
-
 import net.karneim.pojobuilder.model.BuilderM;
-import net.karneim.pojobuilder.model.PropertyM;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import testdata.array.Order;
 import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
 
-import static net.karneim.pojobuilder.matchers.PBMatchers.containsPropertyWithName;
+import javax.annotation.processing.ProcessingEnvironment;
+import javax.lang.model.element.TypeElement;
+
+import static net.karneim.pojobuilder.matchers.PBMatchers.*;
+import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+
 
 @RunWith(ProcessingEnvironmentRunner.class)
 @AddToSourceTree(TestBase.SRC_TESTDATA_DIR)
@@ -73,9 +71,8 @@ public class ArraysTest extends TestBase {
 		BuilderM builder = output.getBuilder();
 
 		// Then:
-		assertThat(builder.getProperties(), containsPropertyWithName("items"));
-		PropertyM p0 = filterByName(builder.getProperties(), "items").get(0);
-		assertEquals("property type", "Item[]", p0.getType().getSimpleName());
-		assertEquals("setter", "setItems", p0.getSetter());
+        assertThat(builder.getProperties(), hasItem(
+                propertyM(named("items"), withType("testdata.array.Item[]"), withSetter("setItems"))
+        ));
 	}
 }

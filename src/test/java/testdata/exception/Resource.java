@@ -1,10 +1,10 @@
 package testdata.exception;
 
+import net.karneim.pojobuilder.GeneratePojoBuilder;
+
 import java.beans.ConstructorProperties;
 import java.net.MalformedURLException;
 import java.net.URL;
-
-import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 @GeneratePojoBuilder
 public class Resource {

@@ -1,9 +1,9 @@
 package testdata.generics;
 
+import net.karneim.pojobuilder.GeneratePojoBuilder;
+
 import java.util.Collection;
 import java.util.List;
-
-import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 @GeneratePojoBuilder
 public class NumberGrid<E extends Number> {

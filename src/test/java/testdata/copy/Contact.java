@@ -1,9 +1,9 @@
 package testdata.copy;
 
+import net.karneim.pojobuilder.GeneratePojoBuilder;
+
 import java.beans.ConstructorProperties;
 import java.util.Date;
-
-import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 @GeneratePojoBuilder(withCopyMethod=true)
 public class Contact {

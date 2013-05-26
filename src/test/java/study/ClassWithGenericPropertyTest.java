@@ -1,6 +1,10 @@
 package study;
 
-import java.util.List;
+import net.karneim.pojobuilder.TestBase;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import testenv.ProcessingEnvironmentRunner;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.Element;
@@ -11,16 +15,9 @@ import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Elements;
+import java.util.List;
 
-import net.karneim.pojobuilder.TestBase;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import testenv.ProcessingEnvironmentRunner;
-
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(ProcessingEnvironmentRunner.class)

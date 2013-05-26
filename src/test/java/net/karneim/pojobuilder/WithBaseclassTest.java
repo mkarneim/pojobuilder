@@ -1,19 +1,17 @@
 package net.karneim.pojobuilder;
 
-import javax.annotation.processing.ProcessingEnvironment;
-import javax.lang.model.element.TypeElement;
-
 import net.karneim.pojobuilder.model.BuilderM;
 import net.karneim.pojobuilder.model.TypeM;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import testdata.baseclass.BaseBuilder;
 import testdata.baseclass.Contact;
 import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
+
+import javax.annotation.processing.ProcessingEnvironment;
+import javax.lang.model.element.TypeElement;
 
 import static org.junit.Assert.assertEquals;
 

@@ -1,8 +1,8 @@
 package testdata.generics;
 
-import java.io.Serializable;
-
 import net.karneim.pojobuilder.GeneratePojoBuilder;
+
+import java.io.Serializable;
 
 @GeneratePojoBuilder
 public class Container<T extends Item & Serializable> {

@@ -1,16 +1,15 @@
 package testenv;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import org.junit.runner.RunWith;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.TypeElement;
-
-import org.junit.runner.RunWith;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ProcessingInterceptor extends AbstractProcessor {
 

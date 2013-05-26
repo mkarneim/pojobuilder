@@ -1,6 +1,10 @@
 package study;
 
-import java.util.List;
+import net.karneim.pojobuilder.TestBase;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import testenv.ProcessingEnvironmentRunner;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.Element;
@@ -8,15 +12,7 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Elements;
-
-import net.karneim.pojobuilder.TestBase;
-
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import testenv.ProcessingEnvironmentRunner;
+import java.util.List;
 
 import static net.karneim.pojobuilder.matchers.PBMatchers.containsElementWithName;
 import static org.junit.Assert.assertEquals;

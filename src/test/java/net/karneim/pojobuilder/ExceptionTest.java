@@ -1,24 +1,20 @@
 package net.karneim.pojobuilder;
 
-import java.net.MalformedURLException;
-
-import javax.annotation.processing.ProcessingEnvironment;
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.util.Elements;
-
-
 import net.karneim.pojobuilder.model.BuilderM;
 import net.karneim.pojobuilder.model.TypeM;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import testdata.exception.Resource;
 import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
 
-import static net.karneim.pojobuilder.matchers.PBMatchers.contains;
+import javax.annotation.processing.ProcessingEnvironment;
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.util.Elements;
+import java.net.MalformedURLException;
+
+import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 

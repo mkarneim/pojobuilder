@@ -1,30 +1,23 @@
 package net.karneim.pojobuilder;
 
-import java.util.List;
+import net.karneim.pojobuilder.model.BuilderM;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import testdata.factory.Contact;
+import testdata.factory.PojoFactory;
+import testenv.AddToSourceTree;
+import testenv.ProcessingEnvironmentRunner;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Elements;
+import java.util.List;
 
-
-import net.karneim.pojobuilder.model.BuilderM;
-import net.karneim.pojobuilder.model.PropertyM;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import testdata.factory.Contact;
-import testdata.factory.PojoFactory;
-import testenv.AddToSourceTree;
-import testenv.ProcessingEnvironmentRunner;
-
-import static net.karneim.pojobuilder.matchers.PBMatchers.containsPropertyWithName;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static net.karneim.pojobuilder.matchers.PBMatchers.*;
+import static org.junit.Assert.*;
 
 @RunWith(ProcessingEnvironmentRunner.class)
 @AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
@@ -80,13 +73,11 @@ public class FactoryMethodWithParametersTest extends TestBase {
 		assertEquals("builder classname", "ContactBuilder", builder.getType().getSimpleName());
 		assertNotNull("factory", builder.getFactory());
 		assertEquals("factory method name", factoryMethodName, builder.getFactory().getMethodName());
-		assertThat(builder.getProperties(), containsPropertyWithName("surname"));
-		assertThat(builder.getProperties(), containsPropertyWithName("firstname"));
-		assertThat(builder.getProperties(), containsPropertyWithName("email"));
-		PropertyM p0 = getFirstPropertyByName(builder.getProperties(), "firstname");
-		assertEquals("parameter position", 0, (int) p0.getParameterPos());
-		PropertyM p1 = getFirstPropertyByName(builder.getProperties(), "surname");
-		assertEquals("parameter position", 1, (int) p1.getParameterPos());
+		assertThat(builder.getProperties(), containsOnly(
+                propertyM(named("firstname"), withPosition(0)),
+                propertyM(named("surname"), withPosition(1)),
+                propertyM(named("email"))
+        ));
 	}
 
 }
