@@ -15,9 +15,9 @@ public class Input {
         this.pojoType = pojoType;
     }
 
-    public Input(TypeElement pojoType, ExecutableElement factoryMetod) {
+    public Input(TypeElement pojoType, ExecutableElement factoryMethod) {
         this.pojoType = pojoType;
-        this.factoryMethod = factoryMetod;
+        this.factoryMethod = factoryMethod;
     }
 
     public TypeElement getPojoType() {

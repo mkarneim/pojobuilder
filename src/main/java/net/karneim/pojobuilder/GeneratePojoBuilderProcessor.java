@@ -22,12 +22,11 @@ public class GeneratePojoBuilderProcessor {
 
     private static final Logger LOG = Logger.getLogger(GeneratePojoBuilderProcessor.class.getName());
 
-    private ProcessingEnvironment env;
-    private BuilderSourceGenerator builderGenerator;
-    private BuilderSourceGenerator manualBuilderGenerator;
+	private final ProcessingEnvironment env;
+	private final BuilderSourceGenerator builderGenerator;
+	private final BuilderSourceGenerator manualBuilderGenerator;
 
     public GeneratePojoBuilderProcessor(ProcessingEnvironment env) {
-        super();
         this.env = env;
         this.builderGenerator = new BuilderSourceGenerator(new STGroupFile("Builder-template.stg"));
         this.manualBuilderGenerator = new BuilderSourceGenerator(new STGroupFile("ManualBuilder-template.stg"));
