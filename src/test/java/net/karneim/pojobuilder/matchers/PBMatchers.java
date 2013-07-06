@@ -52,10 +52,12 @@ public class PBMatchers {
         };
     }
 
+    // TODO Java7 @SafeVarargs
     public static Matcher<PropertyM> propertyM(Matcher<? super PropertyM>... features) {
         return allOf(features);
     }
 
+    // TODO Java7 @SafeVarargs
     public static <T> Matcher<Iterable<? extends T>> containsOnly(Matcher<? super T>... matchers) {
         return containsInAnyOrder(matchers);
     }
