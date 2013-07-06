@@ -16,34 +16,50 @@ import static org.hamcrest.Matchers.*;
  */
 public class PBMatchers {
 
-    public static Matcher<PropertyM> named( String name ) {
-        return hasProperty("name", equalTo(name));
-    }
-
-    public static Matcher<PropertyM> withPosition( int position ) {
-        return hasProperty( "parameterPos", equalTo( position ));
-    }
-
-    public static Matcher<PropertyM> withSetter( String setter ) {
-        return hasProperty( "setter", equalTo( setter ));
-    }
-
-
-    public static Matcher<PropertyM> withType( final String qualifiedName ) {
-        Matcher<PropertyM> result = new FeatureMatcher<PropertyM, String>(equalTo(qualifiedName),"type", "type" ) {
+    public static Matcher<PropertyM> named(final String name) {
+        return new FeatureMatcher<PropertyM, String>(equalTo(name), "named", "name") {
             @Override
-            protected String featureValueOf(PropertyM propertyM) {
-                return propertyM.getType().getQualifiedName();
+            protected String featureValueOf(PropertyM actual) {
+                return actual.getName();
+            }
+
+        };
+    }
+
+    public static Matcher<PropertyM> withPosition(final int position) {
+        return new FeatureMatcher<PropertyM, Integer>(equalTo(position), "in position", "position") {
+            @Override
+            protected Integer featureValueOf(PropertyM actual) {
+                return actual.getParameterPos();
+            }
+
+        };
+    }
+
+    public static Matcher<PropertyM> withSetter(final String setter) {
+        return new FeatureMatcher<PropertyM, String>(equalTo(setter), "set via", "setter") {
+            @Override
+            protected String featureValueOf(PropertyM actual) {
+                return actual.getSetter();
+            }
+
+        };
+    }
+
+    public static Matcher<PropertyM> withType(final String qualifiedName) {
+        return new FeatureMatcher<PropertyM, String>(equalTo(qualifiedName), "typed", "type") {
+            @Override
+            protected String featureValueOf(PropertyM actual) {
+                return actual.getType().getQualifiedName();
             }
         };
-        return result;
     }
 
-    public static Matcher<PropertyM> propertyM(Matcher<PropertyM>... features) {
+    public static Matcher<PropertyM> propertyM(Matcher<? super PropertyM>... features) {
         return allOf(features);
     }
 
-    public static Matcher<Iterable<? extends PropertyM>> containsOnly(Matcher<PropertyM>... matchers) {
+    public static Matcher<Iterable<? extends PropertyM>> containsOnly(Matcher<? super PropertyM>... matchers) {
         return containsInAnyOrder(matchers);
     }
 
