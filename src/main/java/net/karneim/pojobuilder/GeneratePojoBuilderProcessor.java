@@ -1,30 +1,31 @@
 package net.karneim.pojobuilder;
 
+import net.karneim.pojobuilder.model.BaseBuilderM;
+import net.karneim.pojobuilder.model.TypeM;
+import org.stringtemplate.v4.STGroupFile;
+
+import javax.annotation.processing.ProcessingEnvironment;
+import javax.lang.model.element.Element;
+import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.util.ElementKindVisitor6;
+import javax.tools.Diagnostic;
+import javax.tools.JavaFileObject;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.logging.Logger;
 
-import javax.annotation.processing.ProcessingEnvironment;
-import javax.lang.model.element.ExecutableElement;
-import javax.lang.model.element.TypeElement;
-import javax.tools.Diagnostic;
-import javax.tools.JavaFileObject;
-
-import net.karneim.pojobuilder.model.BaseBuilderM;
-import net.karneim.pojobuilder.model.TypeM;
-
-import org.stringtemplate.v4.STGroupFile;
-
-public class GeneratePojoBuilderProcessor {
+public class GeneratePojoBuilderProcessor extends ElementKindVisitor6<Output, Void> {
 
     private static final String JAVAX_ANNOTATION_GENERATED = "javax.annotation.Generated";
+    private static final String ANNOTATION = GeneratePojoBuilder.class.getSimpleName();
 
     private static final Logger LOG = Logger.getLogger(GeneratePojoBuilderProcessor.class.getName());
 
-	private final ProcessingEnvironment env;
-	private final BuilderSourceGenerator builderGenerator;
-	private final BuilderSourceGenerator manualBuilderGenerator;
+    private final ProcessingEnvironment env;
+    private final BuilderSourceGenerator builderGenerator;
+    private final BuilderSourceGenerator manualBuilderGenerator;
 
     public GeneratePojoBuilderProcessor(ProcessingEnvironment env) {
         this.env = env;
@@ -32,21 +33,41 @@ public class GeneratePojoBuilderProcessor {
         this.manualBuilderGenerator = new BuilderSourceGenerator(new STGroupFile("ManualBuilder-template.stg"));
     }
 
-    public void process(TypeElement productTypeElem) {
-        TypeMUtils typeMUtils = new TypeMUtils();
-        BuilderModelProducer producer = new BuilderModelProducer(env, typeMUtils);
-        Output output = producer.produce(new Input(productTypeElem));
-
+    public void process(Element elem) {
+        Output output = elem.accept(this, null);
         createAllSourceCode(output);
     }
 
-    public void process(ExecutableElement execElem) {
+    /**
+     * Annotation was set on a constructor
+     */
+    @Override
+    public Output visitExecutableAsConstructor(ExecutableElement constructorElement, Void context) {
+        LOG.fine("Processing " + ANNOTATION + " on constructor " + constructorElement.asType().toString());
+        return null;
+    }
+
+    /**
+     * Annotation was set on a factory method
+     */
+    @Override
+    public Output visitExecutableAsMethod(ExecutableElement methodElement, Void context) {
+        LOG.fine("Processing " + ANNOTATION + " on method " + methodElement.asType().toString());
         TypeMUtils typeMUtils = new TypeMUtils();
         BuilderModelProducer producer = new BuilderModelProducer(env, typeMUtils);
-        TypeElement productTypeElem = (TypeElement) env.getTypeUtils().asElement(execElem.getReturnType());
-        Output output = producer.produce(new Input(productTypeElem, execElem));
+        TypeElement pojoType = (TypeElement) env.getTypeUtils().asElement(methodElement.getReturnType());
+        return producer.produce(new Input(pojoType, methodElement));
+    }
 
-        createAllSourceCode(output);
+    /**
+     * Annotation was set on a class. This is deprecated behaviour from versions prior to 2.3
+     */
+    @Override
+    public Output visitTypeAsClass(TypeElement classElement, Void context) {
+        LOG.fine("Processing " + ANNOTATION + " on class " + classElement.asType().toString());
+        TypeMUtils typeMUtils = new TypeMUtils();
+        BuilderModelProducer producer = new BuilderModelProducer(env, typeMUtils);
+        return producer.produce(new Input(classElement));
     }
 
     private void createAllSourceCode(Output output) {
