@@ -7,31 +7,31 @@ import java.lang.annotation.Target;
 
 /**
  * Use this annotation for generating a fluent pojo builder.
- * 
+ *
  * @author karneim
  */
 @Retention(RetentionPolicy.SOURCE)
-@Target({ ElementType.TYPE, ElementType.METHOD })
+@Target({ElementType.TYPE, ElementType.METHOD, ElementType.CONSTRUCTOR})
 public @interface GeneratePojoBuilder {
     /**
      * Specifies the base class of the generated builder.
-     * 
+     *
      * @return the base class of the generated builder
      */
     Class<?> withBaseclass() default Object.class;
 
     /**
      * Specifies the name of the generated builder. Any asterisk will be
-     * replaced with the pojos simple name. Default is "*Builder".
-     * 
+     * replaced with the pojo's simple name. Default is "*Builder".
+     *
      * @return the name of the generated builder
      */
     String withName() default "*Builder";
 
     /**
      * Specifies the package of the generated builder. Any asterisk will be
-     * replaced with the pojos package. Default is "*".
-     * 
+     * replaced with the pojo's package. Default is "*".
+     *
      * @return the package of the generated builder
      */
     String intoPackage() default "*";

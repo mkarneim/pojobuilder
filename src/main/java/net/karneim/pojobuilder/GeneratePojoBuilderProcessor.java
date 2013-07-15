@@ -2,8 +2,13 @@ package net.karneim.pojobuilder;
 
 import net.karneim.pojobuilder.model.BaseBuilderM;
 import net.karneim.pojobuilder.model.TypeM;
+import net.karneim.pojobuilder.name.NameStrategy;
+import net.karneim.pojobuilder.name.ParameterisableNameStrategy;
+import net.karneim.pojobuilder.packages.PackageStrategy;
+import net.karneim.pojobuilder.packages.ParameterisablePackageStrategy;
 import org.stringtemplate.v4.STGroupFile;
 
+import javax.annotation.Generated;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
@@ -18,7 +23,7 @@ import java.util.logging.Logger;
 
 public class GeneratePojoBuilderProcessor extends ElementKindVisitor6<Output, Void> {
 
-    private static final String JAVAX_ANNOTATION_GENERATED = "javax.annotation.Generated";
+    private static final String JAVAX_ANNOTATION_GENERATED = Generated.class.getName();
     private static final String ANNOTATION = GeneratePojoBuilder.class.getSimpleName();
 
     private static final Logger LOG = Logger.getLogger(GeneratePojoBuilderProcessor.class.getName());
@@ -53,21 +58,32 @@ public class GeneratePojoBuilderProcessor extends ElementKindVisitor6<Output, Vo
     @Override
     public Output visitExecutableAsMethod(ExecutableElement methodElement, Void context) {
         LOG.fine("Processing " + ANNOTATION + " on method " + methodElement.asType().toString());
-        TypeMUtils typeMUtils = new TypeMUtils();
-        BuilderModelProducer producer = new BuilderModelProducer(env, typeMUtils);
+        BuilderModelProducer producer = constructProducer(env);
         TypeElement pojoType = (TypeElement) env.getTypeUtils().asElement(methodElement.getReturnType());
         return producer.produce(new Input(pojoType, methodElement));
     }
 
     /**
-     * Annotation was set on a class. This is deprecated behaviour from versions prior to 2.3
+     * Annotation was set on a class. This is deprecated behaviour from 2.2.x
      */
     @Override
     public Output visitTypeAsClass(TypeElement classElement, Void context) {
         LOG.fine("Processing " + ANNOTATION + " on class " + classElement.asType().toString());
-        TypeMUtils typeMUtils = new TypeMUtils();
-        BuilderModelProducer producer = new BuilderModelProducer(env, typeMUtils);
+        BuilderModelProducer producer = constructProducer(env);
         return producer.produce(new Input(classElement));
+    }
+
+    private BuilderModelProducer constructProducer(ProcessingEnvironment env) {
+        TypeMUtils typeMUtils = new TypeMUtils(); // TODO why is this not a static util class?
+        NameStrategy nameStrategy = new ParameterisableNameStrategy(env);
+        PackageStrategy packageStrategy = new ParameterisablePackageStrategy(env);
+        BuilderModelProducer producer = new BuilderModelProducer(
+                env,
+                typeMUtils,
+                nameStrategy,
+                packageStrategy
+        );
+        return producer;
     }
 
     private void createAllSourceCode(Output output) {
@@ -79,6 +95,7 @@ public class GeneratePojoBuilderProcessor extends ElementKindVisitor6<Output, Vo
 
     private void createSourceCode(BuilderSourceGenerator generator, BaseBuilderM model, boolean overwrite) {
         try {
+            // TODO we should not still be "producing" the model here
             model.getAdditionalImports().add(TypeM.get(JAVAX_ANNOTATION_GENERATED));
 
             String builderClassname = model.getType().getQualifiedName();

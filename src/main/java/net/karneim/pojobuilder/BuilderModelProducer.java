@@ -21,17 +21,17 @@ import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
+import net.karneim.pojobuilder.model.*;
+import net.karneim.pojobuilder.name.NameStrategy;
+import net.karneim.pojobuilder.name.ParameterisableNameStrategy;
+import net.karneim.pojobuilder.packages.PackageStrategy;
+import net.karneim.pojobuilder.packages.ParameterisablePackageStrategy;
+
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.ExecutableType;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 import javax.tools.Diagnostic;
-
-import net.karneim.pojobuilder.model.BuilderM;
-import net.karneim.pojobuilder.model.FactoryM;
-import net.karneim.pojobuilder.model.ManualBuilderM;
-import net.karneim.pojobuilder.model.PropertyM;
-import net.karneim.pojobuilder.model.TypeM;
 
 public class BuilderModelProducer {
 
@@ -40,11 +40,30 @@ public class BuilderModelProducer {
     private static final String SET = "set";
     private final ProcessingEnvironment env;
     private final TypeMUtils typeMUtils;
+    private final NameStrategy nameStrategy;
+    private final PackageStrategy packageStrategy;
 
-    public BuilderModelProducer(ProcessingEnvironment env, TypeMUtils typeMUtils) {
+    public BuilderModelProducer(ProcessingEnvironment env, TypeMUtils typeMUtils, NameStrategy nameStrategy, PackageStrategy packageStrategy) {
         super();
         this.env = env;
         this.typeMUtils = typeMUtils;
+        this.nameStrategy = nameStrategy;
+        this.packageStrategy = packageStrategy;
+    }
+
+    /**
+     * Shim for test packages while we expiriment with strategy selection
+     *
+     * @param env
+     * @param typeMUtils
+     */
+    // FIXME delete
+    public BuilderModelProducer(ProcessingEnvironment env, TypeMUtils typeMUtils) {
+        this(env,
+                typeMUtils,
+                new ParameterisableNameStrategy(env),
+                new ParameterisablePackageStrategy(env)
+        );
     }
 
     public Output produce(Input input) {
@@ -117,7 +136,7 @@ public class BuilderModelProducer {
     }
 
     private TypeM getAnnotationClassAttributeValue(Element annotatedEl, final String annotationName,
-            final String attributeName) {
+                                                   final String attributeName) {
         for (AnnotationMirror annoType : annotatedEl.getAnnotationMirrors()) {
             if (annotationName.equals(annoType.getAnnotationType().toString())) {
                 Map<? extends ExecutableElement, ? extends AnnotationValue> valueMap = env.getElementUtils()
@@ -137,24 +156,25 @@ public class BuilderModelProducer {
             }
         }
         throw new IllegalArgumentException(String.format("Missing annotation %s on class %s!", annotationName,
-                annotatedEl.toString()));
+                annotatedElement.toString()));
     }
 
     private TypeM computeBuilderType(TypeElement pojoClassEl, GeneratePojoBuilder annotation) {
-        String builderTypeNamePattern = annotation.withName();
+        String typeName = nameStrategy.getName(annotation, pojoTypeElement);
+        // FIXME Strategy
         if (annotation.withGenerationGap()) {
-            builderTypeNamePattern = "Abstract" + builderTypeNamePattern;
+            typeName = "Abstract" + typeName;
         }
-        String packageNamePattern = annotation.intoPackage();
-        TypeM result = deriveTypeM(pojoClassEl, builderTypeNamePattern, packageNamePattern);
+        String packageName = packageStrategy.getPackage(annotation, pojoTypeEl);
+        TypeM result = deriveTypeM(packageName, typeName);
         result.getTypeParameters().addAll(typeMUtils.getTypeParameters(pojoClassEl));
         return result;
     }
 
     private TypeM computeManualBuilderType(TypeElement pojoClassEl, GeneratePojoBuilder annotation) {
-        String builderTypeNamePattern = annotation.withName();
-        String packageNamePattern = annotation.intoPackage();
-        TypeM result = deriveTypeM(pojoClassEl, builderTypeNamePattern, packageNamePattern);
+        String typeName = nameStrategy.getName(annotation, pojoTypeEl);
+        String packageName = packageStrategy.getPackage(annotation, pojoTypeEl);
+        TypeM result = deriveTypeM(packageName, typeName);
         result.getTypeParameters().addAll(typeMUtils.getTypeParameters(pojoClassEl));
         return result;
     }
@@ -229,8 +249,7 @@ public class BuilderModelProducer {
             return;
         }
 
-        // This method can be simplified when we only have one annotation to
-        // handle in future
+        // This method can be simplified when we only have one annotation to handle in future
         PropertyNames propertyNamesAnno = factoryMethodEl.getAnnotation(PropertyNames.class);
         FactoryProperties factoryPropertiesAnno = factoryMethodEl.getAnnotation(FactoryProperties.class);
         if (propertyNamesAnno == null && factoryPropertiesAnno == null) {
@@ -288,51 +307,53 @@ public class BuilderModelProducer {
     private void addPropertyModelsForSetterMethods(TypeElement pojoClassEl, BuilderM builderModel) {
         DeclaredType declType = (DeclaredType) pojoClassEl.asType();
         List<? extends Element> memberEls = env.getElementUtils().getAllMembers(pojoClassEl);
-        // loop over all setter methods
+            // loop over all setter methods
         List<ExecutableElement> methodEls = ElementFilter.methodsIn(memberEls);
         for (ExecutableElement methodEl : methodEls) {
             if (!isStatic(methodEl) && isSetterMethod(methodEl) && !isDeclaredInObject(methodEl)
                     && isAccessibleForBuilder(methodEl, builderModel.getType())) {
                 String propertyName = getPropertyName(methodEl);
+
                 ExecutableType execType = (ExecutableType) env.getTypeUtils().asMemberOf(declType, methodEl);
-                TypeMirror propertyType = execType.getParameterTypes().get(0);
+                    TypeMirror propertyType = execType.getParameterTypes().get(0);
 
-                TypeM propertyTypeM = typeMUtils.getTypeM(propertyType);
+                    TypeM propertyTypeM = typeMUtils.getTypeM(propertyType);
 
-                PropertyM propM = builderModel.getOrCreateProperty(propertyName, propertyTypeM);
+                    PropertyM propM = builderModel.getOrCreateProperty(propertyName, propertyTypeM);
                 propM.setSetter(methodEl.getSimpleName().toString());
-                propM.setAccessible(true);
-            }
+                    propM.setAccessible(true);
+
+                }
         }
     }
 
     private void addPropertyModelsForGetterMethods(TypeElement pojoClassEl, BuilderM builderModel) {
         DeclaredType pojoClassType = (DeclaredType) pojoClassEl.asType();
         List<? extends Element> memberEls = env.getElementUtils().getAllMembers(pojoClassEl);
-        // loop over all setter methods
+            // loop over all setter methods
         List<ExecutableElement> methodsEls = ElementFilter.methodsIn(memberEls);
         for (ExecutableElement methodEl : methodsEls) {
             if (!isStatic(methodEl) && isGetterMethod(methodEl) && !isDeclaredInObject(methodEl)
                     && isAccessibleForBuilder(methodEl, builderModel.getType())) {
                 String propertyName = getPropertyName(methodEl);
-                ExecutableType execType;
-                try {
+                    ExecutableType execType;
+                    try {
                     execType = (ExecutableType) env.getTypeUtils().asMemberOf(pojoClassType, methodEl);
-                } catch (IllegalArgumentException e) {
+                    } catch (IllegalArgumentException e) {
                     String errorMessage = String.format("%s.%nElement=%s, pojoClassType=%s, pojoClassElement=%s",
                             e.getMessage(), methodEl, pojoClassType, pojoClassEl);
                     throw new BuildException(ERROR, errorMessage, pojoClassEl);
-                }
-                TypeMirror propertyType = execType.getReturnType();
+                    }
+                    TypeMirror propertyType = execType.getReturnType();
 
-                TypeM propertyTypeM = typeMUtils.getTypeM(propertyType);
+                    TypeM propertyTypeM = typeMUtils.getTypeM(propertyType);
 
-                PropertyM propM = builderModel.getProperty(propertyName, propertyTypeM);// resultMap.get(fieldName);
-                if (propM != null) {
+                    PropertyM propM = builderModel.getProperty(propertyName, propertyTypeM);// resultMap.get(fieldName);
+                    if (propM != null) {
                     propM.setGetter(methodEl.getSimpleName().toString());
+                    }
                 }
             }
-        }
 
     }
 
@@ -457,18 +478,9 @@ public class BuilderModelProducer {
         return obj;
     }
 
-    private TypeM deriveTypeM(TypeElement originalTypeElement, String derivedTypeNamePattern,
-            String derivedPackageNamePattern) {
-        String derivedTypeName = derivedTypeNamePattern.replace("*", originalTypeElement.getSimpleName());
-        PackageElement packageElement = env.getElementUtils().getPackageOf(originalTypeElement);
-        if (!packageElement.isUnnamed()) {
-            String derivedPackage = derivedPackageNamePattern.replace("*", packageElement.getQualifiedName());
-            if (!derivedPackage.isEmpty()) {
-                derivedTypeName = derivedPackage + "." + derivedTypeName;
-            }
-        }
-        TypeM result = TypeM.get(derivedTypeName);
-        return result;
+    private TypeM deriveTypeM(String packageName, String typeName) {
+        String qualifiedName = "".equals(packageName) ? typeName : (packageName + '.' + typeName);
+        return TypeM.get(qualifiedName);
     }
 
 }
