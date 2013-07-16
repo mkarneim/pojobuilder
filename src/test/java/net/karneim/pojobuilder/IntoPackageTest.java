@@ -1,10 +1,6 @@
 package net.karneim.pojobuilder;
 
-import javax.annotation.processing.ProcessingEnvironment;
-import javax.lang.model.element.TypeElement;
-
 import net.karneim.pojobuilder.model.BuilderM;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +8,11 @@ import org.junit.runner.RunWith;
 import testdata.intoPackage.AddressDTO;
 import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
+
+import javax.annotation.processing.ProcessingEnvironment;
+import javax.lang.model.element.TypeElement;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(ProcessingEnvironmentRunner.class)
 @AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })

@@ -1,8 +1,8 @@
 package testdata.generationgap;
 
-import java.beans.ConstructorProperties;
-
 import net.karneim.pojobuilder.GeneratePojoBuilder;
+
+import java.beans.ConstructorProperties;
 
 @GeneratePojoBuilder(withGenerationGap = true)
 public class Contact {

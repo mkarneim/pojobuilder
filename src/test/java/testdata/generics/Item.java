@@ -1,9 +1,9 @@
 package testdata.generics;
 
+import net.karneim.pojobuilder.GeneratePojoBuilder;
+
 import java.beans.ConstructorProperties;
 import java.math.BigDecimal;
-
-import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 @GeneratePojoBuilder
 public class Item {

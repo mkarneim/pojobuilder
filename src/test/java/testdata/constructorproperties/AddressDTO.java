@@ -1,8 +1,8 @@
 package testdata.constructorproperties;
 
-import java.beans.ConstructorProperties;
-
 import net.karneim.pojobuilder.GeneratePojoBuilder;
+
+import java.beans.ConstructorProperties;
 
 @GeneratePojoBuilder
 public class AddressDTO {

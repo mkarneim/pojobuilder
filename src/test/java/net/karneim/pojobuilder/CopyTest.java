@@ -1,19 +1,21 @@
 package net.karneim.pojobuilder;
 
+import net.karneim.pojobuilder.model.BuilderM;
+import net.karneim.pojobuilder.model.TypeM;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import testdata.copy.AddressDTO;
+import testenv.AddToSourceTree;
+import testenv.ProcessingEnvironmentRunner;
+
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 
-import net.karneim.pojobuilder.model.BuilderM;
-import net.karneim.pojobuilder.model.TypeM;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import testdata.copy.AddressDTO;
-import testenv.AddToSourceTree;
-import testenv.ProcessingEnvironmentRunner;
+import static net.karneim.pojobuilder.matchers.PBMatchers.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 @RunWith(ProcessingEnvironmentRunner.class)
 @AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
@@ -46,7 +48,7 @@ public class CopyTest extends TestBase {
 	}
 
 	@Test
-	public void testProduceReturnsBuilderWithCorrectBuildExceptions() {
+	public void testProduceReturnsBuilderWithCorrectProperties() {
 		// Given:
 		String pojoClassname = AddressDTO.class.getCanonicalName();
 		TypeElement pojoType = elements.getTypeElement(pojoClassname);
@@ -56,12 +58,13 @@ public class CopyTest extends TestBase {
 		BuilderM builder = output.getBuilder();
 
 		// Then:
-
-		assertThat(builder.getPropertiesForCopy(), containsPropertyWithName("name"));
-		assertThat(builder.getPropertiesForCopy(), containsPropertyWithName("street"));
-		assertThat(builder.getPropertiesForCopy(), containsPropertyWithName("city"));
-		assertThat(builder.getPropertiesForCopy(), containsPropertyWithName("postCode"));
-		assertThat(builder.getPropertiesForCopy(), containsPropertyWithName("forSale"));
+        assertThat(builder.getPropertiesForCopy(), containsOnly(
+                propertyM(named("name")),
+                propertyM(named("street")),
+                propertyM(named("city")),
+                propertyM(named("postCode")),
+                propertyM(named("forSale"))
+        ));
 
 		// NOT assertThat(builder.getProperties(),
 		// containsPropertyWithName("surname"));

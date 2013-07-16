@@ -1,8 +1,8 @@
 package testdata.modifiers;
 
-import java.beans.ConstructorProperties;
-
 import net.karneim.pojobuilder.GeneratePojoBuilder;
+
+import java.beans.ConstructorProperties;
 
 @GeneratePojoBuilder
 public class Contact {

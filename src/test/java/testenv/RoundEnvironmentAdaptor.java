@@ -1,11 +1,10 @@
 package testenv;
 
-import java.lang.annotation.Annotation;
-import java.util.Set;
-
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
+import java.lang.annotation.Annotation;
+import java.util.Set;
 
 public class RoundEnvironmentAdaptor implements RoundEnvironment {
 	private RoundEnvironment delegate;

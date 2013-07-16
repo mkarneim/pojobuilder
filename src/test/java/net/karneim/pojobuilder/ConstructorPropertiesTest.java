@@ -1,17 +1,18 @@
 package net.karneim.pojobuilder;
 
-import javax.annotation.processing.ProcessingEnvironment;
-import javax.lang.model.element.TypeElement;
-
 import net.karneim.pojobuilder.model.BuilderM;
-import net.karneim.pojobuilder.model.PropertyM;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
+
+import javax.annotation.processing.ProcessingEnvironment;
+import javax.lang.model.element.TypeElement;
+
+import static net.karneim.pojobuilder.matchers.PBMatchers.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 @RunWith(ProcessingEnvironmentRunner.class)
 @AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
@@ -40,18 +41,12 @@ public class ConstructorPropertiesTest extends TestBase {
 
 		// Then:
 		assertEquals("builder classname", "AddressDTOBuilder", builder.getType().getSimpleName());
-		assertEquals("size of properties", 4, builder.getProperties().size());
-		assertThat(builder.getProperties(), containsPropertyWithName("name"));
-		assertThat(builder.getProperties(), containsPropertyWithName("street"));
-		assertThat(builder.getProperties(), containsPropertyWithName("city"));
-		assertThat(builder.getProperties(), containsPropertyWithName("postCode"));
-		PropertyM p0 = filterByName(builder.getProperties(), "name").get(0);
-		assertEquals("constructor parameter pos", 0, (int) p0.getParameterPos());
-		PropertyM p1 = filterByName(builder.getProperties(), "street").get(0);
-		assertEquals("constructor parameter pos", 1, (int) p1.getParameterPos());
-		PropertyM p2 = filterByName(builder.getProperties(), "city").get(0);
-		assertEquals("constructor parameter pos", 2, (int) p2.getParameterPos());
-		PropertyM p3 = filterByName(builder.getProperties(), "postCode").get(0);
-		assertEquals("constructor parameter pos", 3, (int) p3.getParameterPos());
-	}
+        assertThat(builder.getProperties(), containsOnly(
+                propertyM(named("name"), withPosition(0)),
+                propertyM(named("street"), withPosition(1)),
+                propertyM(named("city"), withPosition(2)),
+                propertyM(named("postCode"), withPosition(3))
+        ));
+
+    }
 }

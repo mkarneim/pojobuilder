@@ -1,27 +1,27 @@
 package net.karneim.pojobuilder;
 
-import java.util.List;
+import net.karneim.pojobuilder.model.BuilderM;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import testdata.factory.Note;
+import testdata.factory.PojoFactory;
+import testenv.AddToSourceTree;
+import testenv.ProcessingEnvironmentRunner;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Elements;
+import java.util.List;
 
-import net.karneim.pojobuilder.model.BuilderM;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import testdata.factory.Note;
-import testdata.factory.PojoFactory;
-import testenv.AddToSourceTree;
-import testenv.ProcessingEnvironmentRunner;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(ProcessingEnvironmentRunner.class)
 @AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
-public class SimpleFactoryMethodTest extends TestBase {
+public class FactoryMethodWithNoParametersTest extends TestBase {
 
 	private static String FACTORY_CLASSNAME = PojoFactory.class.getCanonicalName();
 	private static String NOTE_CLASSNAME = Note.class.getCanonicalName();

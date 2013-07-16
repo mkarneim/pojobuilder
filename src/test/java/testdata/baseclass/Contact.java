@@ -1,8 +1,8 @@
 package testdata.baseclass;
 
-import java.beans.ConstructorProperties;
-
 import net.karneim.pojobuilder.GeneratePojoBuilder;
+
+import java.beans.ConstructorProperties;
 
 @GeneratePojoBuilder(withBaseclass = BaseBuilder.class)
 public class Contact {
