@@ -51,21 +51,6 @@ public class BuilderModelProducer {
         this.packageStrategy = packageStrategy;
     }
 
-    /**
-     * Shim for test packages while we expiriment with strategy selection
-     *
-     * @param env
-     * @param typeMUtils
-     */
-    // FIXME delete
-    public BuilderModelProducer(ProcessingEnvironment env, TypeMUtils typeMUtils) {
-        this(env,
-                typeMUtils,
-                new ParameterisableNameStrategy(env),
-                new ParameterisablePackageStrategy(env)
-        );
-    }
-
     public Output produce(Input input) {
         Output result = new Output();
 

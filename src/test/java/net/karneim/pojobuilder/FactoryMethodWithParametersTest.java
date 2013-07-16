@@ -58,26 +58,25 @@ public class FactoryMethodWithParametersTest extends TestBase {
         testFactoryMethodParameterPositions( "createContactImplicit" );
     }
 
-    private void testFactoryMethodParameterPositions( String factoryMethodName ) {
-        // Given:
-        TypeElement factoryTypeElement = elements.getTypeElement(FACTORY_CLASSNAME);
-        List<ExecutableElement> methods = ElementFilter.methodsIn(elements.getAllMembers(factoryTypeElement));
-        ExecutableElement factoryMetod = getFirstMethodByName(factoryMethodName, methods);
-        TypeElement pojoTypeElement = elements.getTypeElement(CONTACT_CLASSNAME);
+	private void testFactoryMethodParameterPositions( String factoryMethodName ) {
+		// Given:
+		TypeElement factoryTypeElement = elements.getTypeElement(FACTORY_CLASSNAME);
+		List<ExecutableElement> methods = ElementFilter.methodsIn(elements.getAllMembers(factoryTypeElement));
+		ExecutableElement factoryMethod = getFirstMethodByName(factoryMethodName, methods);
 
-        // When:
-        Output output = underTest.produce(new Input(pojoTypeElement, factoryMetod));
-        BuilderM builder = output.getBuilder();
+		// When:
+        Output output = underTest.testProcess(factoryMethod);
+		BuilderM builder = output.getBuilder();
 
-        // Then:
-        assertEquals("builder classname", "ContactBuilder", builder.getType().getSimpleName());
-        assertNotNull("factory", builder.getFactory());
-        assertEquals("factory method name", factoryMethodName, builder.getFactory().getMethodName());
+		// Then:
+		assertEquals("builder classname", "ContactBuilder", builder.getType().getSimpleName());
+		assertNotNull("factory", builder.getFactory());
+		assertEquals("factory method name", factoryMethodName, builder.getFactory().getMethodName());
         assertThat(builder.getProperties(), containsOnly(
                 propertyM(named("firstname"), withPosition(0)),
                 propertyM(named("surname"), withPosition(1)),
                 propertyM(named("email"))
         ));
-    }
+	}
 
 }

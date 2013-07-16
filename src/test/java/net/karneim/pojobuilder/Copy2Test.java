@@ -21,43 +21,42 @@ import static org.junit.Assert.assertThat;
 @AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
 public class Copy2Test extends TestBase {
 
-    private Elements elements;
+	private Elements elements;
 
-    private BuilderModelProducer underTest;
+	private GeneratePojoBuilderProcessor underTest;
 
-    @Before
-    public void setup() {
-        ProcessingEnvironment env = ProcessingEnvironmentRunner.getProcessingEnvironment();
-        elements = env.getElementUtils();
-        TypeMUtils typeMUtils = new TypeMUtils();
-        underTest = new BuilderModelProducer(env, typeMUtils);
-    }
+	@Before
+	public void setup() {
+		ProcessingEnvironment env = ProcessingEnvironmentRunner.getProcessingEnvironment();
+		elements = env.getElementUtils();
+        underTest = new GeneratePojoBuilderProcessor(env);
+	}
 
-    @Test
-    public void testProduceReturnsBuilderWithCorrectProductType() {
-        // Given:
+	@Test
+	public void testProduceReturnsBuilderWithCorrectProductType() {
+		// Given:
         String pojoClassname = Contact.class.getCanonicalName();
-        TypeElement pojoType = elements.getTypeElement(pojoClassname);
+		TypeElement pojoType = elements.getTypeElement(pojoClassname);
 
-        // When:
-        Output output = underTest.produce(new Input(pojoType));
-        BuilderM builder = output.getBuilder();
+		// When:
+        Output output = underTest.testProcess(pojoType);
+		BuilderM builder = output.getBuilder();
 
-        // Then:
-        assertEquals("productType", TypeM.get(pojoClassname), builder.getProductType());
-    }
+		// Then:
+		assertEquals("productType", TypeM.get(pojoClassname), builder.getProductType());
+	}
 
-    @Test
+	@Test
     public void testProduceReturnsBuilderWithCorrectProperties() {
-        // Given:
-        String pojoClassname = Contact.class.getCanonicalName();
-        TypeElement pojoType = elements.getTypeElement(pojoClassname);
+		// Given:
+		String pojoClassname = Contact.class.getName();
+		TypeElement pojoType = elements.getTypeElement(pojoClassname);
 
-        // When:
-        Output output = underTest.produce(new Input(pojoType));
-        BuilderM builder = output.getBuilder();
+		// When:
+        Output output = underTest.testProcess(pojoType);
+		BuilderM builder = output.getBuilder();
 
-        // Then:
+		// Then:
         assertThat(builder.getProperties(), containsOnly(
                 propertyM(named("firstname")),
                 propertyM(named("email")),
@@ -70,6 +69,6 @@ public class Copy2Test extends TestBase {
                 propertyM(named("email")),
                 propertyM(named("birthdate"))
         ));
-    }
+	}
 
 }

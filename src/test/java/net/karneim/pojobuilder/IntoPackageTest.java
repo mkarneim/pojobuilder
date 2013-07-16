@@ -19,25 +19,24 @@ import static org.junit.Assert.assertEquals;
 public class IntoPackageTest extends TestBase {
     private static String ADDRESS_DTO_CLASSNAME = AddressDTO.class.getCanonicalName();
 
-    private ProcessingEnvironment env;
+	private ProcessingEnvironment env;
 
-    private BuilderModelProducer underTest;
+	private GeneratePojoBuilderProcessor underTest;
 
-    @Before
-    public void setup() {
-        env = ProcessingEnvironmentRunner.getProcessingEnvironment();
-        TypeMUtils typeMUtils = new TypeMUtils();
-        underTest = new BuilderModelProducer(env, typeMUtils);
-    }
+	@Before
+	public void setup() {
+		env = ProcessingEnvironmentRunner.getProcessingEnvironment();
+        underTest = new GeneratePojoBuilderProcessor(env);
+	}
 
-    @Test
+	@Test
     public void testBuilderPackage() {
-        // Given:
+		// Given:
         TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(ADDRESS_DTO_CLASSNAME);
 
-        // When:
-        Output output = underTest.produce(new Input(pojoTypeElement));
-        BuilderM builder = output.getBuilder();
+		// When:
+        Output output = underTest.testProcess(pojoType);
+		BuilderM builder = output.getBuilder();
 
         // Then:
         assertEquals("builder classname", "AddressDTOBuilder", builder.getType().getSimpleName());

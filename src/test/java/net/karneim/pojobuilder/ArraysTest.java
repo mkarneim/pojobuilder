@@ -26,59 +26,58 @@ import testenv.ProcessingEnvironmentRunner;
 @AddToSourceTree(TestBase.SRC_TESTDATA_DIR)
 public class ArraysTest extends TestBase {
 
-    private ProcessingEnvironment env;
+	private ProcessingEnvironment env;
 
-    private BuilderModelProducer underTest;
+	private GeneratePojoBuilderProcessor underTest;
 
-    @Before
-    public void setup() {
-        env = ProcessingEnvironmentRunner.getProcessingEnvironment();
-        TypeMUtils typeMUtils = new TypeMUtils();
-        underTest = new BuilderModelProducer(env, typeMUtils);
-    }
+	@Before
+	public void setup() {
+		env = ProcessingEnvironmentRunner.getProcessingEnvironment();
+        underTest = new GeneratePojoBuilderProcessor(env);
+	}
 
-    @Test
-    public void testBuilderClassname() {
-        // Given:
+	@Test
+	public void testBuilderClassname() {
+		// Given:
         String pojoClassname = Order.class.getCanonicalName();
-        TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(pojoClassname);
+		TypeElement pojoType = env.getElementUtils().getTypeElement(pojoClassname);
 
-        // When:
-        Output output = underTest.produce(new Input(pojoTypeElement));
-        BuilderM builder = output.getBuilder();
+		// When:
+        Output output = underTest.testProcess(pojoType);
+		BuilderM builder = output.getBuilder();
 
-        // Then:
-        assertEquals("builder classname", "OrderBuilder", builder.getType().getSimpleName());
-    }
+		// Then:
+		assertEquals("builder classname", "OrderBuilder", builder.getType().getSimpleName());
+	}
 
-    @Test
-    public void testNumberOfProperties() {
-        // Given:
-        String pojoClassname = Order.class.getCanonicalName();
-        TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(pojoClassname);
+	@Test
+	public void testNumberOfProperties() {
+		// Given:
+		String pojoClassname = Order.class.getName();
+		TypeElement pojoType = env.getElementUtils().getTypeElement(pojoClassname);
 
-        // When:
-        Output output = underTest.produce(new Input(pojoTypeElement));
-        BuilderM builder = output.getBuilder();
+		// When:
+        Output output = underTest.testProcess(pojoType);
+		BuilderM builder = output.getBuilder();
 
-        // Then:
-        assertEquals("number of properties", 2, builder.getProperties().size());
-    }
+		// Then:
+		assertEquals("number of properties", 2, builder.getProperties().size());
+	}
 
     @SuppressWarnings("unchecked")
-    @Test
-    public void testItemsProperty() {
-        // Given:
+	@Test
+	public void testItemsProperty() {
+		// Given:
         String pojoClassname = Order.class.getCanonicalName();
-        TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(pojoClassname);
+		TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(pojoClassname);
 
-        // When:
-        Output output = underTest.produce(new Input(pojoTypeElement));
-        BuilderM builder = output.getBuilder();
+		// When:
+        Output output = underTest.testProcess(pojoTypeElement);
+		BuilderM builder = output.getBuilder();
 
-        // Then:
+		// Then:
         assertThat(builder.getProperties(), Matchers.<PropertyM>hasItem(propertyM(named("items"),
                 withType("testdata.array.Item[]"), withSetter("setItems"))));
 
-    }
+	}
 }

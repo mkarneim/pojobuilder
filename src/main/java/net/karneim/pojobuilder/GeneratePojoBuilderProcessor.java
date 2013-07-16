@@ -44,6 +44,14 @@ public class GeneratePojoBuilderProcessor extends ElementKindVisitor6<Output, Vo
     }
 
     /**
+     * Temporary shim for testing before we change it to assert on the generated classes
+     * themselves instead of the intermediate model
+     */
+    public Output testProcess(Element elem) {
+        return elem.accept(this, null);
+    }
+
+    /**
      * Annotation was set on a constructor
      */
     @Override

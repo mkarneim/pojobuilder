@@ -20,13 +20,12 @@ public class BuilderBaseClassTest extends TestBase {
 
     private ProcessingEnvironment env;
 
-    private BuilderModelProducer underTest;
+	private GeneratePojoBuilderProcessor underTest;
 
     @Before
     public void setup() {
         env = ProcessingEnvironmentRunner.getProcessingEnvironment();
-        TypeMUtils typeMUtils = new TypeMUtils();
-        underTest = new BuilderModelProducer(env, typeMUtils);
+		underTest = new GeneratePojoBuilderProcessor(env);
     }
 
     @Test
@@ -34,7 +33,7 @@ public class BuilderBaseClassTest extends TestBase {
         TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(CONTACT_CLASSNAME);
 
         // When:
-        Output output = underTest.produce(new Input(pojoTypeElement));
+		Output output = underTest.testProcess(pojoTypeElement);
         BuilderM builder = output.getBuilder();
 
         // Then:
@@ -47,7 +46,7 @@ public class BuilderBaseClassTest extends TestBase {
         TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(CONTACT_CLASSNAME);
 
         // When:
-        Output output = underTest.produce(new Input(pojoTypeElement));
+        Output output = underTest.testProcess(pojoTypeElement);
         BuilderM builder = output.getBuilder();
 
         // Then:
