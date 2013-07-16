@@ -16,34 +16,34 @@ builderClass(model) ::= <<
  * \</p>
  */
 @Generated("PojoBuilder")
-public <if(model.abstractClass)>abstract <endif>class <model.type.genericTypeSimpleNameWithBounds> <if(!model.superType.object)>extends <model.superType.genericTypeSimpleName> <endif>implements Cloneable {
-    protected <model.selfType.genericTypeSimpleName> self;
-    <model.propertiesForWith:propertyVar()>
+public <if(model.abstractClass)>abstract <endif>class <model.type.genericTypeSimpleNameWithBounds> <if(model.superType)>extends <model.superType.genericTypeSimpleName> <endif>implements Cloneable {
+	protected <model.selfType.genericTypeSimpleName> self;
+	<model.propertiesForWith:propertyVar()>
+	
+	/**
+	 * Creates a new {@link <model.type.simpleName>}.
+	 */
+	public <model.type.simpleName>() {
+		self = (<model.selfType.genericTypeSimpleName>)this;
+	}
+	
+	<model.propertiesForWith:propertyWith()>
+	
+	/**
+	 * Returns a clone of this builder.
+	 * @return the clone
+	 */
+	@Override	
+	public Object clone() {
+		try {
+			<model.selfType.genericTypeSimpleName> result = (<model.selfType.genericTypeSimpleName>)super.clone();
+			result.self = result;
+			return result;
+		} catch (CloneNotSupportedException e) {
+			throw new InternalError(e.getMessage());
+		}        
+	}
     
-    /**
-     * Creates a new {@link <model.type.simpleName>}.
-     */
-    public <model.type.simpleName>() {
-        self = (<model.selfType.genericTypeSimpleName>)this;
-    }
-
-    <model.propertiesForWith:propertyWith()>
-
-    /**
-     * Returns a clone of this builder.
-     * @return the clone
-     */
-    @Override    
-    public Object clone() {
-        try {
-            <model.selfType.genericTypeSimpleName> result = (<model.selfType.genericTypeSimpleName>)super.clone();
-            result.self = result;
-            return result;
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError(e.getMessage());
-        }
-    }
-
     /**
      * Returns a clone of this builder.
      * @return the clone

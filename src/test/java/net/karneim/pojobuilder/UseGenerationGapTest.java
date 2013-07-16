@@ -13,7 +13,10 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 @RunWith(ProcessingEnvironmentRunner.class)
 @AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
@@ -46,7 +49,7 @@ public class UseGenerationGapTest extends TestBase {
 		assertEquals("superType", TypeM.get("testdata.generationgap.AbstractContactBuilder"),
 				manualBuilder.getSuperType());
 		assertEquals("type", TypeM.get("testdata.generationgap.AbstractContactBuilder"), builder.getType());
-        assertEquals("superType", TypeM.get(Object.class.getCanonicalName()), builder.getSuperType());
+        assertThat(builder.getSuperType(), is(nullValue()));
 	}
 
 	@Test
@@ -69,7 +72,7 @@ public class UseGenerationGapTest extends TestBase {
 		assertEquals("type", TypeM.get("testdata.generationgap.AbstractOrderBuilder"), builder.getType());
 		assertEquals("type.generic", "AbstractOrderBuilder<T extends Object>", builder.getType()
 				.getGenericTypeSimpleNameWithBounds());
-        assertEquals("superType", TypeM.get(Object.class.getCanonicalName()), builder.getSuperType());
+        assertThat(builder.getSuperType(), is(nullValue()));
 	}
 
 }

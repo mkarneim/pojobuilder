@@ -18,8 +18,6 @@ public class TypeM {
 	private static final TypeM[] primitives = new TypeM[] { BOOLEAN_TYPE, CHAR_TYPE, BYTE_TYPE, SHORT_TYPE, INT_TYPE,
 			LONG_TYPE, FLOAT_TYPE, DOUBLE_TYPE, VOID_TYPE };
 
-	public static TypeM OBJECT = new TypeM("java.lang.Object");
-
 	private final String qualifiedName;
 	private final boolean primitive;
 	private final List<TypeParameterM> typeParameters = new ArrayList<TypeParameterM>();

@@ -17,7 +17,7 @@ builderClass(model) ::= <<
  *
  */
 @Generated("PojoBuilder")
-public class <model.type.genericTypeSimpleNameWithBounds> <if(!model.superType.object)>extends <model.superType.genericTypeSimpleName> <endif>implements Cloneable {
+public class <model.type.genericTypeSimpleNameWithBounds> extends <model.superType.genericTypeSimpleName> implements Cloneable {
 
     /**
      * Creates a new {@link <model.type.simpleName>}.

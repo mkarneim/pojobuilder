@@ -15,6 +15,8 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 
 import static net.karneim.pojobuilder.matchers.PBMatchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
@@ -74,10 +76,10 @@ public class BasicTest extends TestBase {
 		BuilderM builder = output.getBuilder();
 
 		// Then:
-        assertEquals("type", TypeM.get(Object.class.getCanonicalName()), builder.getSuperType());
+		assertThat(builder.getSuperType(), is(nullValue()));
 	}
 
-	@Test
+    @Test
 	public void testProduceReturnsBuilderWithCorrectSelfType() {
 		// Given:
         String pojoClassname = Sample.class.getCanonicalName();

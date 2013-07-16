@@ -21,6 +21,9 @@ import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
+import net.karneim.pojobuilder.baseclass.BaseClassStrategy;
+import net.karneim.pojobuilder.baseclass.WithBaseClass;
+import net.karneim.pojobuilder.baseclass.WithoutBaseClass;
 import net.karneim.pojobuilder.model.*;
 import net.karneim.pojobuilder.name.NameStrategy;
 import net.karneim.pojobuilder.name.ParameterisableNameStrategy;
@@ -42,13 +45,20 @@ public class BuilderModelProducer {
     private final TypeMUtils typeMUtils;
     private final NameStrategy nameStrategy;
     private final PackageStrategy packageStrategy;
+    private final BaseClassStrategy baseClassStrategy;
 
-    public BuilderModelProducer(ProcessingEnvironment env, TypeMUtils typeMUtils, NameStrategy nameStrategy, PackageStrategy packageStrategy) {
+    public BuilderModelProducer(
+            ProcessingEnvironment env,
+            TypeMUtils typeMUtils,
+            NameStrategy nameStrategy,
+            PackageStrategy packageStrategy,
+            BaseClassStrategy baseClassStrategy) {
         super();
         this.env = env;
         this.typeMUtils = typeMUtils;
         this.nameStrategy = nameStrategy;
         this.packageStrategy = packageStrategy;
+        this.baseClassStrategy = baseClassStrategy;
     }
 
     public Output produce(Input input) {
@@ -65,7 +75,7 @@ public class BuilderModelProducer {
         result.setBuilder(builderModel);
 
         builderModel.setProductType(computeProductType(input));
-        builderModel.setSuperType(computeBuilderSuperType(input));
+        builderModel.setSuperType(baseClassStrategy.getBaseClass());
 
         if (annotation.withGenerationGap()) {
             ManualBuilderM manualBuilderModel = new ManualBuilderM();
@@ -108,40 +118,6 @@ public class BuilderModelProducer {
         TypeM ownerTypeM = typeMUtils.getTypeM(ownerEl);
         FactoryM result = new FactoryM(ownerTypeM, factoryMethodEl.getSimpleName().toString());
         return result;
-    }
-
-    private TypeM computeBuilderSuperType(Input input) {
-        if (input.hasFactoryMethod()) {
-            return getAnnotationClassAttributeValue(input.getFactoryMethod(), GeneratePojoBuilder.class.getName(),
-                    "withBaseclass");
-        } else {
-            return getAnnotationClassAttributeValue(input.getPojoType(), GeneratePojoBuilder.class.getName(),
-                    "withBaseclass");
-        }
-    }
-
-    private TypeM getAnnotationClassAttributeValue(Element annotatedEl, final String annotationName,
-                                                   final String attributeName) {
-        for (AnnotationMirror annoType : annotatedEl.getAnnotationMirrors()) {
-            if (annotationName.equals(annoType.getAnnotationType().toString())) {
-                Map<? extends ExecutableElement, ? extends AnnotationValue> valueMap = env.getElementUtils()
-                        .getElementValuesWithDefaults(annoType);
-                for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : valueMap.entrySet()) {
-                    if (attributeName.equals(entry.getKey().getSimpleName().toString())) {
-                        AnnotationValue value = entry.getValue();
-                        if (value == null) {
-                            return null;
-                        } else {
-                            String valueStr = String.valueOf(value.getValue());
-                            return TypeM.get(valueStr);
-                        }
-                    }
-                }
-                return null;
-            }
-        }
-        throw new IllegalArgumentException(String.format("Missing annotation %s on class %s!", annotationName,
-                annotatedElement.toString()));
     }
 
     private TypeM computeBuilderType(TypeElement pojoClassEl, GeneratePojoBuilder annotation) {

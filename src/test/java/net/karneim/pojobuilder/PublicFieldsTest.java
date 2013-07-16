@@ -16,6 +16,8 @@ import javax.lang.model.util.Elements;
 import static net.karneim.pojobuilder.matchers.PBMatchers.*;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
@@ -75,7 +77,7 @@ public class PublicFieldsTest extends TestBase {
 		BuilderM builder = output.getBuilder();
 
 		// Then:
-		assertEquals("type", TypeM.get(Object.class.getName()), builder.getSuperType());
+        assertThat(builder.getSuperType(), is(nullValue()));
 	}
 
 	@Test
