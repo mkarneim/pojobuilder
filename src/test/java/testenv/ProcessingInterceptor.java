@@ -17,10 +17,7 @@ public class ProcessingInterceptor extends AbstractProcessor {
 	private ProcessorListener listener;
 	private ProcessingEnvironment processingEnv;
 
-	public static ProcessingInterceptor INSTANCE;
-
 	public ProcessingInterceptor() {
-		INSTANCE = this;
 	}
 
 	public void setListener(ProcessorListener aListener) {
