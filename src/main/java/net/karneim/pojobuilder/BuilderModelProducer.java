@@ -60,20 +60,17 @@ public class BuilderModelProducer {
         this.baseClassStrategy = baseClassStrategy;
     }
 
-    public Output produce(Input input) {
+    public Output produce() {
         Output result = new Output();
 
-        TypeElement pojoTypeEl = checkNotNull(input.getPojoType(), "input.getAnnotationStrategy()==null");
+        TypeElement pojoTypeElement = checkNotNull(annotationStrategy.getPojoType(), "input.getAnnotationStrategy()==null");
 
-        GeneratePojoBuilder annotation = input.getGeneratePojoBuilderAnnotation();
-        if (annotation == null) {
-            throw new IllegalStateException(String.format("missing annotation GeneratePojoBuilder for input %s", input));
-        }
+        GeneratePojoBuilder annotation = annotationStrategy.getAnnotation();
 
         BuilderM builderModel = new BuilderM();
         result.setBuilder(builderModel);
 
-        builderModel.setProductType(computeProductType(input));
+        builderModel.setProductType(typeMUtils.getTypeM(annotationStrategy.getPojoType()));
         builderModel.setSuperType(baseClassStrategy.getBaseClass());
 
         if (annotation.withGenerationGap()) {
@@ -97,29 +94,12 @@ public class BuilderModelProducer {
 
         builderModel.setIsImplementingCopyMethod(annotation.withCopyMethod());
 
-        computePropertyModels(input, builderModel);
-
-        if (input.hasFactoryMethod()) {
-            builderModel.setFactory(computeFactoryModel(input));
-        }
+        computePropertyModels(builderModel);
 
         return result;
     }
 
-    private FactoryM computeFactoryModel(Input input) {
-        ExecutableElement factoryMethodEl = input.getFactoryMethod();
-        if (!(factoryMethodEl.getEnclosingElement() instanceof TypeElement)) {
-            throw new BuildException(ERROR, String.format("Unexpected owner of method %s! Expected class but was %s.",
-                    factoryMethodEl, factoryMethodEl.getEnclosingElement()), factoryMethodEl);
-        }
-        TypeElement ownerEl = (TypeElement) factoryMethodEl.getEnclosingElement();
-
-        TypeM ownerTypeM = typeMUtils.getTypeM(ownerEl);
-        FactoryM result = new FactoryM(ownerTypeM, factoryMethodEl.getSimpleName().toString());
-        return result;
-    }
-
-    private TypeM computeBuilderType(TypeElement pojoClassEl, GeneratePojoBuilder annotation) {
+    private TypeM computeBuilderType(TypeElement pojoTypeElement, GeneratePojoBuilder annotation) {
         String typeName = nameStrategy.getName(annotation, pojoTypeElement);
         // FIXME Strategy
         if (annotation.withGenerationGap()) {
@@ -139,129 +119,16 @@ public class BuilderModelProducer {
         return result;
     }
 
-    private TypeM computeProductType(Input input) {
-        return typeMUtils.getTypeM(input.getPojoType());
-    }
-
     //
     // HELPER METHODS: these are candidates for separate components
-    private void computePropertyModels(Input input, BuilderM builderModel) {
-        TypeElement pojoClassEl = input.getPojoType();
+    private void computePropertyModels(BuilderM builderModel) {
+        TypeElement pojoTypeElement = annotationStrategy.getPojoType();
+        annotationStrategy.addPropertyModelsForAnnotatedElement(builderModel);
 
-        if (input.hasFactoryMethod()) {
-            addPropertyModelsForFactoryMethodParameters(input.getFactoryMethod(), builderModel);
-        } else {
-            addPropertyModelsForConstructor(pojoClassEl, builderModel);
-        }
-        addPropertyModelsForSetterMethods(pojoClassEl, builderModel);
-        addPropertyModelsForAccessibleFields(pojoClassEl, builderModel);
-        addPropertyModelsForGetterMethods(pojoClassEl, builderModel);
+        addPropertyModelsForSetterMethods(pojoTypeElement, builderModel);
+        addPropertyModelsForAccessibleFields(pojoTypeElement, builderModel);
+        addPropertyModelsForGetterMethods(pojoTypeElement, builderModel);
 
-    }
-
-    private void addPropertyModelsForConstructor(TypeElement pojoClassEl, BuilderM builderModel) {
-        List<ExecutableElement> constructorEls = ElementFilter.constructorsIn(env.getElementUtils().getAllMembers(
-                pojoClassEl));
-        ExecutableElement constrEl = findFirstAnnotatedConstructor(constructorEls, ConstructorProperties.class);
-        if (constrEl != null) {
-            ConstructorProperties constrPropsAnno = constrEl.getAnnotation(ConstructorProperties.class);
-            String[] propertyNames = constrPropsAnno.value();
-            List<? extends VariableElement> parameters = constrEl.getParameters();
-            if (propertyNames.length != parameters.size()) {
-                throw new BuildException(Diagnostic.Kind.ERROR, String.format(
-                        "Incorrect number of values in annotation %s on constructor %s in class %s!"
-                                + "Expected %d, but was %d.", ConstructorProperties.class.getCanonicalName(), constrEl,
-                        pojoClassEl, parameters.size(), propertyNames.length), constrEl);
-            }
-
-            // loop over all constructor parameters
-            for (int i = 0; i < propertyNames.length; ++i) {
-                String propertyName = propertyNames[i];
-                TypeMirror propertyType = parameters.get(i).asType();
-                TypeM propertyTypeM = typeMUtils.getTypeM(propertyType);
-
-                PropertyM propM = builderModel.getOrCreateProperty(propertyName, propertyTypeM);
-                propM.setParameterPos(i);
-            }
-        } else {
-            constrEl = findDefaultConstructor(constructorEls);
-        }
-
-        if (constrEl != null) {
-            // find all exceptions that can be thrown by this constructor
-            List<? extends TypeMirror> throwTypes = constrEl.getThrownTypes();
-            List<TypeM> exceptionTypes = new ArrayList<TypeM>();
-            for (TypeMirror throwType : throwTypes) {
-                TypeM exeptionType = typeMUtils.getTypeM(throwType);
-                exceptionTypes.add(exeptionType);
-            }
-            builderModel.getBuildExceptions().addAll(exceptionTypes);
-        } else {
-            throw new BuildException(Diagnostic.Kind.ERROR, String.format(
-                    "Missing default constructor OR constructor annotated with %s in class %s!",
-                    ConstructorProperties.class.getCanonicalName(), pojoClassEl.getQualifiedName()), pojoClassEl);
-        }
-    }
-
-    @SuppressWarnings("deprecation")
-    private void addPropertyModelsForFactoryMethodParameters(ExecutableElement factoryMethodEl, BuilderM builderModel) {
-        if (factoryMethodEl.getParameters().isEmpty()) {
-            return;
-        }
-
-        // This method can be simplified when we only have one annotation to handle in future
-        PropertyNames propertyNamesAnno = factoryMethodEl.getAnnotation(PropertyNames.class);
-        FactoryProperties factoryPropertiesAnno = factoryMethodEl.getAnnotation(FactoryProperties.class);
-        if (propertyNamesAnno == null && factoryPropertiesAnno == null) {
-            // ... add some kind of NamingStrategy and extract commonality
-            addPropertyModelsForImplicitMethodParameters(factoryMethodEl, builderModel);
-            return;
-        }
-
-        if (propertyNamesAnno != null && factoryPropertiesAnno != null) {
-            throw new BuildException(Diagnostic.Kind.ERROR, String.format(
-                    "Cannot specify both %s and %s on factory method %s of class %s!",
-                    FactoryProperties.class.getSimpleName(), PropertyNames.class.getSimpleName(),
-                    factoryMethodEl.toString(), factoryMethodEl.getEnclosingElement().getSimpleName()), factoryMethodEl);
-        }
-
-        String[] propertyNames;
-        String annotationName;
-        if (factoryPropertiesAnno != null) {
-            propertyNames = factoryPropertiesAnno.value();
-            annotationName = FactoryProperties.class.getSimpleName();
-        } else {
-            propertyNames = propertyNamesAnno.value();
-            annotationName = PropertyNames.class.getSimpleName();
-        }
-
-        if (propertyNames.length != factoryMethodEl.getParameters().size()) {
-            throw new BuildException(Diagnostic.Kind.ERROR, String.format(
-                    "Incorrect number of values in annotation %s on method %s! Expected %d, but was %d.",
-                    annotationName, factoryMethodEl, factoryMethodEl.getParameters().size(), propertyNames.length),
-                    factoryMethodEl);
-        }
-        // loop over all method parameters
-        for (int i = 0; i < propertyNames.length; ++i) {
-            String propertyName = propertyNames[i];
-            TypeMirror propertyType = factoryMethodEl.getParameters().get(i).asType();
-            TypeM propertyTypeM = typeMUtils.getTypeM(propertyType);
-
-            PropertyM propM = builderModel.getOrCreateProperty(propertyName, propertyTypeM);
-            propM.setParameterPos(i);
-        }
-    }
-
-    private void addPropertyModelsForImplicitMethodParameters(ExecutableElement factoryMethod, BuilderM builderModel) {
-        // loop over all method parameters
-        int i = 0;
-        for (VariableElement param : factoryMethod.getParameters()) {
-            String propertyName = param.getSimpleName().toString();
-            TypeMirror propertyType = param.asType();
-            TypeM propertyTypeM = typeMUtils.getTypeM(propertyType);
-            PropertyM propM = builderModel.getOrCreateProperty(propertyName, propertyTypeM);
-            propM.setParameterPos(i++);
-        }
     }
 
     private void addPropertyModelsForSetterMethods(TypeElement pojoClassEl, BuilderM builderModel) {
@@ -346,25 +213,6 @@ public class BuilderModelProducer {
                 }
             }
         }
-    }
-
-    private ExecutableElement findFirstAnnotatedConstructor(List<ExecutableElement> constructorEls,
-            Class<ConstructorProperties> annoType) {
-        for (ExecutableElement constrEl : constructorEls) {
-            if (constrEl.getAnnotation(annoType) != null) {
-                return constrEl;
-            }
-        }
-        return null;
-    }
-
-    private ExecutableElement findDefaultConstructor(List<ExecutableElement> constructorEls) {
-        for (ExecutableElement constrEl : constructorEls) {
-            if (constrEl.getParameters().size() == 0) {
-                return constrEl;
-            }
-        }
-        return null;
     }
 
     private String getPropertyName(ExecutableElement methodEl) {

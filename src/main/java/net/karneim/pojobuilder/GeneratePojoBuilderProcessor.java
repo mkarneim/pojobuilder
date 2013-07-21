@@ -73,9 +73,10 @@ public class GeneratePojoBuilderProcessor extends ElementKindVisitor6<Output, Vo
     @Override
     public Output visitExecutableAsMethod(ExecutableElement methodElement, Void context) {
         LOG.fine("Processing " + ANNOTATION + " on method " + methodElement.asType().toString());
-        AnnotationStrategy annotationStrategy = new AnnotatedFactoryMethod(env, methodElement);
-        BuilderModelProducer producer = constructProducer(env, methodElement, annotationStrategy);
-        return producer.produce(new Input(annotationStrategy));
+        TypeMUtils typeMUtils = new TypeMUtils(); // TODO why is this not a static util class?
+        AnnotationStrategy annotationStrategy = new AnnotatedFactoryMethod(env, methodElement, typeMUtils);
+        BuilderModelProducer producer = constructProducer(typeMUtils, env, methodElement, annotationStrategy);
+        return producer.produce();
     }
 
     /**
@@ -84,17 +85,17 @@ public class GeneratePojoBuilderProcessor extends ElementKindVisitor6<Output, Vo
     @Override
     public Output visitTypeAsClass(TypeElement classElement, Void context) {
         LOG.fine("Processing " + ANNOTATION + " on class " + classElement.asType().toString());
-        AnnotationStrategy annotationStrategy = new AnnotatedClass(classElement);
-        BuilderModelProducer producer = constructProducer(env, classElement, annotationStrategy);
-        return producer.produce(new Input(annotationStrategy));
+        TypeMUtils typeMUtils = new TypeMUtils(); // TODO why is this not a static util class?
+        AnnotationStrategy annotationStrategy = new AnnotatedClass(env, classElement, typeMUtils);
+        BuilderModelProducer producer = constructProducer(typeMUtils, env, classElement, annotationStrategy);
+        return producer.produce();
     }
 
     /*
      * Compose a producer from strategies, removing as many conditionals as possible from
      * any given implementation - especially the producer itself
      */
-    private BuilderModelProducer constructProducer(ProcessingEnvironment env, Element element, AnnotationStrategy annotationStrategy) {
-        TypeMUtils typeMUtils = new TypeMUtils(); // TODO why is this not a static util class?
+    private BuilderModelProducer constructProducer(TypeMUtils typeMUtils, ProcessingEnvironment env, Element element, AnnotationStrategy annotationStrategy) {
 
         NameStrategy nameStrategy = new ParameterisableNameStrategy(env);
 
