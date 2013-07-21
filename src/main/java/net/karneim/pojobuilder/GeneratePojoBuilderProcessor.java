@@ -1,5 +1,8 @@
 package net.karneim.pojobuilder;
 
+import net.karneim.pojobuilder.annotationlocation.AnnotatedClass;
+import net.karneim.pojobuilder.annotationlocation.AnnotatedFactoryMethod;
+import net.karneim.pojobuilder.annotationlocation.AnnotationStrategy;
 import net.karneim.pojobuilder.baseclass.BaseClassStrategy;
 import net.karneim.pojobuilder.baseclass.WithBaseClass;
 import net.karneim.pojobuilder.baseclass.WithoutBaseClass;
@@ -21,7 +24,6 @@ import javax.tools.JavaFileObject;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -71,9 +73,9 @@ public class GeneratePojoBuilderProcessor extends ElementKindVisitor6<Output, Vo
     @Override
     public Output visitExecutableAsMethod(ExecutableElement methodElement, Void context) {
         LOG.fine("Processing " + ANNOTATION + " on method " + methodElement.asType().toString());
-        BuilderModelProducer producer = constructProducer(env, methodElement);
-        TypeElement pojoType = (TypeElement) env.getTypeUtils().asElement(methodElement.getReturnType());
-        return producer.produce(new Input(pojoType, methodElement));
+        AnnotationStrategy annotationStrategy = new AnnotatedFactoryMethod(env, methodElement);
+        BuilderModelProducer producer = constructProducer(env, methodElement, annotationStrategy);
+        return producer.produce(new Input(annotationStrategy));
     }
 
     /**
@@ -82,15 +84,16 @@ public class GeneratePojoBuilderProcessor extends ElementKindVisitor6<Output, Vo
     @Override
     public Output visitTypeAsClass(TypeElement classElement, Void context) {
         LOG.fine("Processing " + ANNOTATION + " on class " + classElement.asType().toString());
-        BuilderModelProducer producer = constructProducer(env, classElement);
-        return producer.produce(new Input(classElement));
+        AnnotationStrategy annotationStrategy = new AnnotatedClass(classElement);
+        BuilderModelProducer producer = constructProducer(env, classElement, annotationStrategy);
+        return producer.produce(new Input(annotationStrategy));
     }
 
     /*
      * Compose a producer from strategies, removing as many conditionals as possible from
      * any given implementation - especially the producer itself
      */
-    private BuilderModelProducer constructProducer(ProcessingEnvironment env, Element element) {
+    private BuilderModelProducer constructProducer(ProcessingEnvironment env, Element element, AnnotationStrategy annotationStrategy) {
         TypeMUtils typeMUtils = new TypeMUtils(); // TODO why is this not a static util class?
 
         NameStrategy nameStrategy = new ParameterisableNameStrategy(env);
@@ -102,6 +105,7 @@ public class GeneratePojoBuilderProcessor extends ElementKindVisitor6<Output, Vo
         BuilderModelProducer producer = new BuilderModelProducer(
                 env,
                 typeMUtils,
+                annotationStrategy,
                 nameStrategy,
                 packageStrategy,
                 baseClassStrategy

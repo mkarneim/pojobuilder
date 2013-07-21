@@ -21,14 +21,11 @@ import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
+import net.karneim.pojobuilder.annotationlocation.AnnotationStrategy;
 import net.karneim.pojobuilder.baseclass.BaseClassStrategy;
-import net.karneim.pojobuilder.baseclass.WithBaseClass;
-import net.karneim.pojobuilder.baseclass.WithoutBaseClass;
 import net.karneim.pojobuilder.model.*;
 import net.karneim.pojobuilder.name.NameStrategy;
-import net.karneim.pojobuilder.name.ParameterisableNameStrategy;
 import net.karneim.pojobuilder.packages.PackageStrategy;
-import net.karneim.pojobuilder.packages.ParameterisablePackageStrategy;
 
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.ExecutableType;
@@ -43,6 +40,7 @@ public class BuilderModelProducer {
     private static final String SET = "set";
     private final ProcessingEnvironment env;
     private final TypeMUtils typeMUtils;
+    private final AnnotationStrategy annotationStrategy;
     private final NameStrategy nameStrategy;
     private final PackageStrategy packageStrategy;
     private final BaseClassStrategy baseClassStrategy;
@@ -50,12 +48,13 @@ public class BuilderModelProducer {
     public BuilderModelProducer(
             ProcessingEnvironment env,
             TypeMUtils typeMUtils,
-            NameStrategy nameStrategy,
+            AnnotationStrategy annotationStrategy, NameStrategy nameStrategy,
             PackageStrategy packageStrategy,
             BaseClassStrategy baseClassStrategy) {
         super();
         this.env = env;
         this.typeMUtils = typeMUtils;
+        this.annotationStrategy = annotationStrategy;
         this.nameStrategy = nameStrategy;
         this.packageStrategy = packageStrategy;
         this.baseClassStrategy = baseClassStrategy;
@@ -64,7 +63,7 @@ public class BuilderModelProducer {
     public Output produce(Input input) {
         Output result = new Output();
 
-        TypeElement pojoClassEl = checkNotNull(input.getPojoType(), "input.getPojoType()==null");
+        TypeElement pojoTypeEl = checkNotNull(input.getPojoType(), "input.getAnnotationStrategy()==null");
 
         GeneratePojoBuilder annotation = input.getGeneratePojoBuilderAnnotation();
         if (annotation == null) {

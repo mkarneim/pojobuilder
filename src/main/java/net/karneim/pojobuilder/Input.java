@@ -1,48 +1,37 @@
 package net.karneim.pojobuilder;
 
+import net.karneim.pojobuilder.annotationlocation.AnnotationStrategy;
+
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 
 public class Input {
-    private TypeElement pojoType;
-    private ExecutableElement factoryMethod;
 
-    public Input() {
-    }
+	private AnnotationStrategy annotationStrategy;
 
-    public Input(TypeElement pojoType) {
-        super();
-        this.pojoType = pojoType;
-    }
+	public Input(AnnotationStrategy annotationStrategy) {
+		this.annotationStrategy = annotationStrategy;
+	}
 
-    public Input(TypeElement pojoType, ExecutableElement factoryMethod) {
-        this.pojoType = pojoType;
-        this.factoryMethod = factoryMethod;
-    }
+	public TypeElement getPojoType() {
+		return annotationStrategy.getPojoType();
+	}
 
-    public TypeElement getPojoType() {
-        return pojoType;
-    }
+	public ExecutableElement getFactoryMethod() {
+		return annotationStrategy.getFactoryMethod();
+	}
 
-    public ExecutableElement getFactoryMethod() {
-        return factoryMethod;
-    }
+	public boolean hasFactoryMethod() {
+		return annotationStrategy.getFactoryMethod()!=null;
+	}
 
-    public boolean hasFactoryMethod() {
-        return factoryMethod != null;
-    }
+	public GeneratePojoBuilder getGeneratePojoBuilderAnnotation() {
+		return annotationStrategy.getAnnotation();
+	}
 
-    public GeneratePojoBuilder getGeneratePojoBuilderAnnotation() {
-        if (hasFactoryMethod()) {
-            return factoryMethod.getAnnotation(GeneratePojoBuilder.class);
-        } else {
-            return pojoType.getAnnotation(GeneratePojoBuilder.class);
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "Input [pojoType=" + pojoType + ", factoryMethod=" + factoryMethod + "]";
-    }
+	@Override
+	public String toString() {
+		return "Input";
+	}
 
 }
