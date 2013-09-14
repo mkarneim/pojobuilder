@@ -45,9 +45,9 @@ public class BoundGenericsTest extends TestBase {
         assertEquals("type", "ContainerBuilder<T extends Item & Serializable>", builder.getType()
                 .getGenericTypeSimpleNameWithBounds());
 
-        // When:
-        Set<String> imports = new HashSet<String>();
-        builder.addToImportTypes(imports);
+		// When:
+		Set<String> imports = new HashSet<String>();
+		builder.exportImportTypes(imports);
 
         // Then
         assertThat(imports, hasItem("java.io.Serializable"));

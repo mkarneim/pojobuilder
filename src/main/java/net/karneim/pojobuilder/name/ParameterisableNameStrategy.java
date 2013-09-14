@@ -31,4 +31,9 @@ public class ParameterisableNameStrategy implements NameStrategy {
         return finalName;
     }
 
+    @Override
+    public boolean isAbstract() {
+        return false;
+    }
+
 }

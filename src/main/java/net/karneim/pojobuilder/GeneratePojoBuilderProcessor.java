@@ -6,15 +6,21 @@ import net.karneim.pojobuilder.annotationlocation.AnnotationStrategy;
 import net.karneim.pojobuilder.baseclass.BaseClassStrategy;
 import net.karneim.pojobuilder.baseclass.WithBaseClass;
 import net.karneim.pojobuilder.baseclass.WithoutBaseClass;
+import net.karneim.pojobuilder.generationgap.GenerationGapNameStrategy;
 import net.karneim.pojobuilder.model.BaseBuilderM;
+import net.karneim.pojobuilder.model.BuilderM;
+import net.karneim.pojobuilder.model.ManualBuilderM;
 import net.karneim.pojobuilder.model.TypeM;
+import net.karneim.pojobuilder.modelproducers.BuilderModelProducer;
+import net.karneim.pojobuilder.modelproducers.DummyModelProducer;
+import net.karneim.pojobuilder.modelproducers.GenerationGapModelProducer;
+import net.karneim.pojobuilder.modelproducers.ModelProducer;
 import net.karneim.pojobuilder.name.NameStrategy;
 import net.karneim.pojobuilder.name.ParameterisableNameStrategy;
 import net.karneim.pojobuilder.packages.PackageStrategy;
 import net.karneim.pojobuilder.packages.ParameterisablePackageStrategy;
 import org.stringtemplate.v4.STGroupFile;
 
-import javax.annotation.Generated;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.*;
 import javax.lang.model.type.TypeMirror;
@@ -30,7 +36,6 @@ import java.util.logging.Logger;
 
 public class GeneratePojoBuilderProcessor extends ElementKindVisitor6<Output, Void> {
 
-    private static final String JAVAX_ANNOTATION_GENERATED = Generated.class.getName();
     private static final String ANNOTATION = GeneratePojoBuilder.class.getSimpleName();
 
     private static final Logger LOG = Logger.getLogger(GeneratePojoBuilderProcessor.class.getName());
@@ -75,8 +80,7 @@ public class GeneratePojoBuilderProcessor extends ElementKindVisitor6<Output, Vo
         LOG.fine("Processing " + ANNOTATION + " on method " + methodElement.asType().toString());
         TypeMUtils typeMUtils = new TypeMUtils(); // TODO why is this not a static util class?
         AnnotationStrategy annotationStrategy = new AnnotatedFactoryMethod(env, methodElement, typeMUtils);
-        BuilderModelProducer producer = constructProducer(typeMUtils, env, methodElement, annotationStrategy);
-        return producer.produce();
+        return buildOutput(methodElement, annotationStrategy);
     }
 
     /**
@@ -87,31 +91,73 @@ public class GeneratePojoBuilderProcessor extends ElementKindVisitor6<Output, Vo
         LOG.fine("Processing " + ANNOTATION + " on class " + classElement.asType().toString());
         TypeMUtils typeMUtils = new TypeMUtils(); // TODO why is this not a static util class?
         AnnotationStrategy annotationStrategy = new AnnotatedClass(env, classElement, typeMUtils);
-        BuilderModelProducer producer = constructProducer(typeMUtils, env, classElement, annotationStrategy);
-        return producer.produce();
+        return buildOutput(classElement, annotationStrategy);
+    }
+
+    private Output buildOutput(Element element, AnnotationStrategy annotationStrategy) {
+
+        TypeMUtils typeMUtils = new TypeMUtils(); // TODO why is this not a static util class?
+        Producers producers = constructProducers(typeMUtils, env, element, annotationStrategy);
+
+        BuilderM builderModel = producers.builderModelProducer.produce();
+        ManualBuilderM manualBuilderModel = producers.generationGapModelProducer.produce();
+
+        if (manualBuilderModel!=null) {
+            // rewriting main builder to get around g-gap circular dependency
+            // In g-gap-problem, we could use a generic for selfType in the abstract class to avoid this.
+            // class AbstractBuilder<B extends AbstractBuilder> { B withProp() }
+            builderModel.setSelfType(manualBuilderModel.getType());
+        }
+
+        return new Output(builderModel, manualBuilderModel);
+    }
+
+    // Exists only for g-gap problem. Ignore unclean code.
+    private static final class Producers {
+        ModelProducer<BuilderM> builderModelProducer;
+        ModelProducer<ManualBuilderM> generationGapModelProducer;
+        public Producers(ModelProducer<BuilderM> builderModelProducer, ModelProducer<ManualBuilderM> generationGapModelProducer) {
+            this.builderModelProducer = builderModelProducer;
+            this.generationGapModelProducer = generationGapModelProducer;
+        }
     }
 
     /*
-     * Compose a producer from strategies, removing as many conditionals as possible from
-     * any given implementation - especially the producer itself
+     * Compose a builderModelProducer from strategies, removing as many conditionals as possible from
+     * any given implementation - especially the builderModelProducer itself
      */
-    private BuilderModelProducer constructProducer(TypeMUtils typeMUtils, ProcessingEnvironment env, Element element, AnnotationStrategy annotationStrategy) {
+    private Producers constructProducers(TypeMUtils typeMUtils, ProcessingEnvironment env, Element element, AnnotationStrategy annotationStrategy) {
+
+        // Convoluted code here is due to g-gap circular issue
+        boolean hasGenerationGap = element.getAnnotation(GeneratePojoBuilder.class).withGenerationGap();
 
         NameStrategy nameStrategy = new ParameterisableNameStrategy(env);
-
         PackageStrategy packageStrategy = new ParameterisablePackageStrategy(env);
-
         BaseClassStrategy baseClassStrategy = selectBaseClassStrategy(typeMUtils, element);
+        NameStrategy builderNameStrategy = hasGenerationGap ? new GenerationGapNameStrategy(nameStrategy) : nameStrategy;
 
-        BuilderModelProducer producer = new BuilderModelProducer(
+        BuilderModelProducer builderModelProducer = new BuilderModelProducer(
                 env,
                 typeMUtils,
                 annotationStrategy,
-                nameStrategy,
+                builderNameStrategy,
                 packageStrategy,
-                baseClassStrategy
-        );
-        return producer;
+                baseClassStrategy);
+
+        ModelProducer<ManualBuilderM> generationGapModelProducer;
+        if ( hasGenerationGap ) {
+            generationGapModelProducer = new GenerationGapModelProducer(
+                    env,
+                    typeMUtils,
+                    annotationStrategy,
+                    nameStrategy,
+                    packageStrategy,
+                    builderModelProducer);
+        } else {
+            generationGapModelProducer = DummyModelProducer.dummyModelProducer();
+        }
+
+        return new Producers(builderModelProducer, generationGapModelProducer);
     }
 
     private BaseClassStrategy selectBaseClassStrategy(TypeMUtils typeMUtils, Element element) {
@@ -134,7 +180,7 @@ public class GeneratePojoBuilderProcessor extends ElementKindVisitor6<Output, Vo
                 return am;
             }
         }
-        throw new IllegalArgumentException(String.format("Missing annotation %s on class %s!", annotation,
+        throw new IllegalStateException(String.format("Missing annotation %s on class %s!", annotation,
                 element.toString()));
     }
 
@@ -164,9 +210,6 @@ public class GeneratePojoBuilderProcessor extends ElementKindVisitor6<Output, Vo
 
     private void createSourceCode(BuilderSourceGenerator generator, BaseBuilderM model, boolean overwrite) {
         try {
-            // TODO we should not still be "producing" the model here
-            model.getAdditionalImports().add(TypeM.get(JAVAX_ANNOTATION_GENERATED));
-
             String builderClassname = model.getType().getQualifiedName();
 
             boolean missing = env.getElementUtils().getTypeElement(builderClassname) == null;

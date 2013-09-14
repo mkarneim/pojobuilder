@@ -1,41 +1,44 @@
 package net.karneim.pojobuilder.model;
 
+import javax.annotation.Generated;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 public class BaseBuilderM extends ClassM {
-    private TypeM productType;
-    private final List<TypeM> buildExceptions = new ArrayList<TypeM>();
+	private TypeM productType;
+	private final List<TypeM> buildExceptions = new ArrayList<TypeM>();
 
-    public BaseBuilderM() {
-    }
+	public BaseBuilderM() {
+        // Add @Generated to this builder
+        this.getAdditionalImports().add(TypeM.get(Generated.class.getName()));
+	}
 
-    public TypeM getProductType() {
-        return productType;
-    }
+	public TypeM getPojoType() {
+		return productType;
+	}
 
-    public void setProductType(TypeM productType) {
-        this.productType = productType;
-    }
+	public void setPojoType(TypeM productType) {
+		this.productType = productType;
+	}
+	
+	public List<TypeM> getBuildExceptions() {
+		return buildExceptions;
+	}
+	
+	@Override
+	public void exportImportTypes(Set<String> result) {
+		super.exportImportTypes(result);
+		for (TypeM exception : buildExceptions) {
+			exception.exportImportTypes(result);
+		}
+		productType.exportImportTypes(result);
+	}
 
-    public List<TypeM> getBuildExceptions() {
-        return buildExceptions;
-    }
-
-    @Override
-    public void addToImportTypes(Set<String> result) {
-        super.addToImportTypes(result);
-        for (TypeM exception : buildExceptions) {
-            exception.addToImportTypes(result);
-        }
-        productType.addToImportTypes(result);
-    }
-
-    @Override
-    public String toString() {
-        return "BaseBuilderM [productType=" + productType + ", getType()=" + getType() + ", getSuperType()="
-                + getSuperType() + ", isAbstractClass()=" + isAbstractClass() + "]";
-    }
+	@Override
+	public String toString() {
+		return "BaseBuilderM [pojoType=" + productType + ",type=" + getType() + ",superType="
+				+ getSuperType() + ",abstract=" + isAbstract() + "]";
+	}
 
 }

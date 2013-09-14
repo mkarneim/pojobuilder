@@ -46,19 +46,19 @@ public class TypeParameterM {
         return b.toString();
     }
 
-    public void addToImportTypes(Set<String> result) {
-        if (isBounded()) {
-            for (TypeM bound : bounds) {
-                bound.addToImportTypes(result);
-            }
-        }
-        type.addToImportTypes(result);
+	public void exportImportTypes(Set<String> result) {
+		if (isBounded()) {
+			for (TypeM bound : bounds) {
+				bound.exportImportTypes(result);
+			}
+		}
+		type.exportImportTypes(result);
 
     }
 
-    @Override
-    public String toString() {
-        return "TypeParameterM [type=" + type + ", bounds=" + bounds + "]";
-    }
+	@Override
+	public String toString() {
+		return "TypeParameterM[type=" + type + ",bounds=" + bounds + "]";
+	}
 
 }

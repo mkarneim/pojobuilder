@@ -6,7 +6,7 @@ builderClass(model) ::= <<
 
 <model.importTypes:importStatement()>
 /**
- * The {@link <model.type.simpleName>} is a Builder for {@link <model.productType.simpleName>} objects.
+ * The {@link <model.type.simpleName>} is a Builder for {@link <model.pojoType.simpleName>} objects.
  *
  * \<p>
  *     This class has been generated.
@@ -16,7 +16,7 @@ builderClass(model) ::= <<
  * \</p>
  */
 @Generated("PojoBuilder")
-public <if(model.abstractClass)>abstract <endif>class <model.type.genericTypeSimpleNameWithBounds> <if(model.superType)>extends <model.superType.genericTypeSimpleName> <endif>implements Cloneable {
+public <if(model.abstract)>abstract <endif>class <model.type.genericTypeSimpleNameWithBounds> <if(model.superType)>extends <model.superType.genericTypeSimpleName> <endif>implements Cloneable {
 	protected <model.selfType.genericTypeSimpleName> self;
 	<model.propertiesForWith:propertyVar()>
 	
@@ -44,38 +44,38 @@ public <if(model.abstractClass)>abstract <endif>class <model.type.genericTypeSim
 		}        
 	}
     
-    /**
-     * Returns a clone of this builder.
-     * @return the clone
-     */
-    <if(model.type.generic)>@SuppressWarnings("unchecked")<endif>
-    public <model.selfType.genericTypeSimpleName> but() {
-        return (<model.selfType.genericTypeSimpleName>)clone();
-    }
-
-    /**
-     * Creates a new {@link <model.productType.simpleName>} based on this builder's settings.
-     * @return the created <model.productType.simpleName>
-     */
-    public <model.productType.genericTypeSimpleName> build() <if(!model.buildExceptions.empty)>throws <model.buildExceptions:throwsElements(); separator=","><endif>{
-        <model:productConstructorCall()>
-        <model.propertiesForSetters:propertySetterCall()>
-        <model.propertiesForAssignment:propertyAssignment()>
-        return result;
-    }
-
-    <if(model.implementingCopyMethod)>
-    /**
-     * Copies properties from \<i>original\</i> into the builder
-     * @param original the object to be copied
-     * @return this builder
-     */
-    public <model.selfType.genericTypeSimpleName> copy(<model.productType.genericTypeSimpleName> original) {
-        <model.propertiesForCopyByFieldAccess:copyPropertyByFieldAccess()>
-        <model.propertiesForCopyByGetter:copyPropertyByGetter()>
-        return self;
-    }
-    <endif>
+	/**
+	 * Returns a clone of this builder.
+	 * @return the clone
+	 */
+	<if(model.type.generic)>@SuppressWarnings("unchecked")<endif>
+	public <model.selfType.genericTypeSimpleName> but() {
+		return (<model.selfType.genericTypeSimpleName>)clone();
+	}
+	
+	/**
+	 * Creates a new {@link <model.pojoType.simpleName>} based on this builder's settings.
+	 * @return the created <model.pojoType.simpleName>
+	 */
+	public <model.pojoType.genericTypeSimpleName> build() <if(!model.buildExceptions.empty)>throws <model.buildExceptions:throwsElements(); separator=","><endif>{
+		<model:productContructorCall()>
+		<model.propertiesForSetters:propertySetterCall()>
+		<model.propertiesForAssignment:propertyAssignment()>
+		return result;
+	}
+	
+	<if(model.implementingCopyMethod)>
+	/**
+ 	* Copies properties from \<i>original\</i> into the builder
+ 	* @param original the object to be copied
+ 	* @return this builder
+ 	*/
+	public <model.selfType.genericTypeSimpleName> copy(<model.pojoType.genericTypeSimpleName> original) {
+		<model.propertiesForCopyByFieldAccess:copyPropertyByFieldAccess()>
+		<model.propertiesForCopyByGetter:copyPropertyByGetter()>
+		return self;
+	}
+	<endif>
 }
 >>
 
@@ -95,7 +95,7 @@ protected boolean isSet$<property.fieldname> = false;
 
 propertyWith(property) ::= <<
 /**
- * Sets the default value for the {@link <model.productType.simpleName>#<property.name>} property.
+ * Sets the default value for the {@link <model.pojoType.simpleName>#<property.name>} property.
  * @param value the default value
  * @return this builder
  */
@@ -123,9 +123,9 @@ if ( this.isSet$<property.fieldname>) {
 
 productConstructorCall(model) ::= <<
 <if(model.usingFactory)>
-<model.productType.genericTypeSimpleName> result = <model.factory.ownerType.simpleName>.<model.factory.methodName>( <model.propertiesForConstructor:constructorArgument(); separator=",">);
+<model.pojoType.genericTypeSimpleName> result = <model.factory.ownerType.simpleName>.<model.factory.methodName>( <model.propertiesForConstructor:constructorArgument(); separator=",">);
 <else>
-<model.productType.genericTypeSimpleName> result = new <model.productType.genericTypeSimpleName>( <model.propertiesForConstructor:constructorArgument(); separator=",">);
+<model.pojoType.genericTypeSimpleName> result = new <model.pojoType.genericTypeSimpleName>( <model.propertiesForConstructor:constructorArgument(); separator=",">);
 <endif>
 >>
 

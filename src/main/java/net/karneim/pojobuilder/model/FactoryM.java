@@ -20,8 +20,8 @@ public class FactoryM {
         return methodName;
     }
 
-    public void addToImportTypes(Set<String> result) {
-        ownerType.addToImportTypes(result);
-    }
+	public void addToImportTypes(Set<String> result) {
+		ownerType.exportImportTypes(result);
+	}
 
 }

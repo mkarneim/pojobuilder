@@ -96,14 +96,14 @@ public class TypeM {
 		return primitive;
 	}
 
-	public void addToImportTypes(Set<String> result) {
+	public void exportImportTypes(Set<String> result) {
 		String importName = getImportName();
 		if (importName != null) {
 			result.add(importName);
 		}
 		if (isGeneric()) {
 			for (TypeParameterM typeParam : getTypeParameters()) {
-				typeParam.addToImportTypes(result);
+				typeParam.exportImportTypes(result);
 			}
 		}
 	}
@@ -202,7 +202,7 @@ public class TypeM {
 
 	@Override
 	public String toString() {
-		return "TypeM [name=" + qualifiedName + ", primitive=" + primitive + "]";
+		return "TypeM[name=" + qualifiedName + ",primitive=" + primitive + "]";
 	}
 
 }

@@ -43,7 +43,7 @@ public class Copy2Test extends TestBase {
 		BuilderM builder = output.getBuilder();
 
 		// Then:
-		assertEquals("productType", TypeM.get(pojoClassname), builder.getProductType());
+		assertEquals("productType", TypeM.get(pojoClassname), builder.getPojoType());
 	}
 
 	@Test

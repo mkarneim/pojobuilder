@@ -28,7 +28,7 @@ public class ClassM {
 		this.superType = superType;
 	}
 
-	public void setAbstractClass(boolean abstractClass) {
+	public void setAbstract(boolean abstractClass) {
 		this.abstractClass = abstractClass;
 	}
 
@@ -52,7 +52,7 @@ public class ClassM {
 		return superType;
 	}
 
-	public boolean isAbstractClass() {
+	public boolean isAbstract() {
 		return abstractClass;
 	}
 
@@ -60,7 +60,7 @@ public class ClassM {
 		return additionalImports;
 	}
 
-	protected void addAdditionalImportTypes(Set<String> result) {
+	protected void exportAdditionalImportTypes(Set<String> result) {
 		for (TypeM type : additionalImports) {
 			result.add(type.getQualifiedName());
 		}
@@ -68,7 +68,7 @@ public class ClassM {
 
 	public final Collection<String> getImportTypes() {
 		Set<String> result = new HashSet<String>();
-		addToImportTypes(result);
+		exportImportTypes(result);
 		removeDefaultImports(result);
 		return result;
 	}
@@ -87,23 +87,23 @@ public class ClassM {
 		return typeName.startsWith("java.lang.");
 	}
 
-	public void addToImportTypes(Set<String> result) {
+	public void exportImportTypes(Set<String> result) {
 		if (type.isGeneric()) {
 			for (TypeParameterM typeParam : type.getTypeParameters()) {
-				typeParam.addToImportTypes(result);
+				typeParam.exportImportTypes(result);
 			}
 		}
 
 		if ( superType!=null ) {
-            superType.addToImportTypes(result);
+            superType.exportImportTypes(result);
         }
 
-		addAdditionalImportTypes(result);
+		exportAdditionalImportTypes(result);
 	}
 
 	@Override
 	public String toString() {
-		return "ClassM [type=" + type + ", superType=" + superType + ", created=" + created + "]";
+		return "ClassM[type=" + type + ",superType=" + superType + ",created=" + created + "]";
 	}
 
 }

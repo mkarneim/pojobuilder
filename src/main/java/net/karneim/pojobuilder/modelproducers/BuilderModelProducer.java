@@ -1,4 +1,4 @@
-package net.karneim.pojobuilder;
+package net.karneim.pojobuilder.modelproducers;
 
 import static javax.lang.model.element.ElementKind.CLASS;
 import static javax.lang.model.element.Modifier.FINAL;
@@ -21,6 +21,9 @@ import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
+import net.karneim.pojobuilder.BuildException;
+import net.karneim.pojobuilder.GeneratePojoBuilder;
+import net.karneim.pojobuilder.TypeMUtils;
 import net.karneim.pojobuilder.annotationlocation.AnnotationStrategy;
 import net.karneim.pojobuilder.baseclass.BaseClassStrategy;
 import net.karneim.pojobuilder.model.*;
@@ -33,7 +36,7 @@ import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 import javax.tools.Diagnostic;
 
-public class BuilderModelProducer {
+public class BuilderModelProducer implements ModelProducer<BuilderM> {
 
     private static final String IS = "is";
     private static final String GET = "get";
@@ -44,11 +47,13 @@ public class BuilderModelProducer {
     private final NameStrategy nameStrategy;
     private final PackageStrategy packageStrategy;
     private final BaseClassStrategy baseClassStrategy;
+    private BuilderM cachedResult;
 
     public BuilderModelProducer(
             ProcessingEnvironment env,
             TypeMUtils typeMUtils,
-            AnnotationStrategy annotationStrategy, NameStrategy nameStrategy,
+            AnnotationStrategy annotationStrategy,
+            NameStrategy nameStrategy,
             PackageStrategy packageStrategy,
             BaseClassStrategy baseClassStrategy) {
         super();
@@ -60,60 +65,34 @@ public class BuilderModelProducer {
         this.baseClassStrategy = baseClassStrategy;
     }
 
-    public Output produce() {
-        Output result = new Output();
+    public BuilderM produce() {
 
-        TypeElement pojoTypeElement = checkNotNull(annotationStrategy.getPojoType(), "input.getAnnotationStrategy()==null");
-
+        TypeElement pojoTypeElement = annotationStrategy.getPojoType();
         GeneratePojoBuilder annotation = annotationStrategy.getAnnotation();
 
         BuilderM builderModel = new BuilderM();
-        result.setBuilder(builderModel);
 
-        builderModel.setProductType(typeMUtils.getTypeM(annotationStrategy.getPojoType()));
+        TypeM builderType = computeBuilderType(pojoTypeElement, annotation);
+        builderModel.setType(builderType);
+        builderModel.setPojoType(typeMUtils.getTypeM(annotationStrategy.getPojoType()));
         builderModel.setSuperType(baseClassStrategy.getBaseClass());
-
-        if (annotation.withGenerationGap()) {
-            ManualBuilderM manualBuilderModel = new ManualBuilderM();
-            result.setManualBuilder(manualBuilderModel);
-
-            builderModel.setAbstractClass(true);
-            TypeM builderType = computeBuilderType(pojoClassEl, annotation);
-            builderModel.setType(builderType);
-            manualBuilderModel.setSuperType(builderType);
-            manualBuilderModel.setProductType(builderModel.getProductType());
-
-            TypeM manualBuilderType = computeManualBuilderType(pojoClassEl, annotation);
-            manualBuilderModel.setType(manualBuilderType);
-            builderModel.setSelfType(manualBuilderType);
-        } else {
-            TypeM builderImplType = computeBuilderType(pojoClassEl, annotation);
-            builderModel.setType(builderImplType);
-            builderModel.setSelfType(builderImplType);
-        }
-
+        builderModel.setAbstract(nameStrategy.isAbstract());
+        // TODO g-gap This gets overwritten by GenerationGapModelProducer!
+        builderModel.setSelfType(builderType);
+        // No Strategy required ...
         builderModel.setIsImplementingCopyMethod(annotation.withCopyMethod());
 
         computePropertyModels(builderModel);
 
-        return result;
+        // TODO remove when g-gap-problem is cleaned up
+        cachedResult = builderModel;
+
+        return builderModel;
     }
 
     private TypeM computeBuilderType(TypeElement pojoTypeElement, GeneratePojoBuilder annotation) {
         String typeName = nameStrategy.getName(annotation, pojoTypeElement);
-        // FIXME Strategy
-        if (annotation.withGenerationGap()) {
-            typeName = "Abstract" + typeName;
-        }
-        String packageName = packageStrategy.getPackage(annotation, pojoTypeEl);
-        TypeM result = deriveTypeM(packageName, typeName);
-        result.getTypeParameters().addAll(typeMUtils.getTypeParameters(pojoClassEl));
-        return result;
-    }
-
-    private TypeM computeManualBuilderType(TypeElement pojoClassEl, GeneratePojoBuilder annotation) {
-        String typeName = nameStrategy.getName(annotation, pojoTypeEl);
-        String packageName = packageStrategy.getPackage(annotation, pojoTypeEl);
+        String packageName = packageStrategy.getPackage(annotation, pojoTypeElement);
         TypeM result = deriveTypeM(packageName, typeName);
         result.getTypeParameters().addAll(typeMUtils.getTypeParameters(pojoClassEl));
         return result;
@@ -128,7 +107,6 @@ public class BuilderModelProducer {
         addPropertyModelsForSetterMethods(pojoTypeElement, builderModel);
         addPropertyModelsForAccessibleFields(pojoTypeElement, builderModel);
         addPropertyModelsForGetterMethods(pojoTypeElement, builderModel);
-
     }
 
     private void addPropertyModelsForSetterMethods(TypeElement pojoClassEl, BuilderM builderModel) {
@@ -286,9 +264,14 @@ public class BuilderModelProducer {
         return obj;
     }
 
-    private TypeM deriveTypeM(String packageName, String typeName) {
+    static TypeM deriveTypeM(String packageName, String typeName) {
         String qualifiedName = "".equals(packageName) ? typeName : (packageName + '.' + typeName);
         return TypeM.get(qualifiedName);
     }
 
+    @Deprecated
+    public BuilderM getCachedResult() {
+        // g-gap-problem
+        return cachedResult;
+    }
 }

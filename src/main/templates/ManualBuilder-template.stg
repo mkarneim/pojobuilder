@@ -6,7 +6,7 @@ builderClass(model) ::= <<
 
 <model.importTypes:importStatement()>
 /**
- * The {@link <model.type.simpleName>} is a Builder for {@link <model.productType.simpleName>} objects.
+ * The {@link <model.type.simpleName>} is a Builder for {@link <model.pojoType.simpleName>} objects.
  *
  * \<p>
  *     This class has been generated.

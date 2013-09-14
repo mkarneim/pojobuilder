@@ -18,4 +18,9 @@ public interface NameStrategy {
      */
     String getName(GeneratePojoBuilder annotation, TypeElement pojoType);
 
+    /**
+     * If this builder is abstract.
+     */
+    boolean isAbstract();
+
 }
