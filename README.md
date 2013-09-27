@@ -12,7 +12,7 @@ The PojoBuilder Generator is a Java 6 compliant annotation processor that genera
 
 The generated builder provides 
 
-* a fluent interface for specifying values for the pojo's properties 
+* a fluent interface for specifying values for the pojo's properties in a DSL like manner
 * and a "build()" method for creating a new pojo instance with these values.
 
 Here is an example of how you could use a generated pojo builder from your code:
@@ -277,3 +277,4 @@ If you want to compile this project's sources yourself you can use Maven (see [p
 [Java]: http://www.oracle.com/technetwork/java/
 [ANTLR Parser Generator]: http://www.antlr.org/
 [StringTemplate Template Engine]: http://www.stringtemplate.org/
+
