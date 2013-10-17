@@ -1,5 +1,13 @@
 package net.karneim.pojobuilder;
 
+import static javax.lang.model.element.ElementKind.CLASS;
+import static javax.lang.model.element.Modifier.FINAL;
+import static javax.lang.model.element.Modifier.PRIVATE;
+import static javax.lang.model.element.Modifier.PUBLIC;
+import static javax.lang.model.element.Modifier.STATIC;
+import static javax.lang.model.type.TypeKind.VOID;
+import static javax.tools.Diagnostic.Kind.ERROR;
+
 import java.beans.ConstructorProperties;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,19 +17,15 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
-import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
-import javax.lang.model.element.Modifier;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.ExecutableType;
-import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 import javax.tools.Diagnostic;
-import javax.tools.Diagnostic.Kind;
 
 import net.karneim.pojobuilder.model.BuilderM;
 import net.karneim.pojobuilder.model.FactoryM;
@@ -31,7 +35,10 @@ import net.karneim.pojobuilder.model.TypeM;
 
 public class BuilderModelProducer {
 
-    private final ProcessingEnvironment env;
+    private static final String IS = "is";
+	private static final String GET = "get";
+	private static final String SET = "set";
+	private final ProcessingEnvironment env;
     private final TypeMUtils typeMUtils;
 
     public BuilderModelProducer(ProcessingEnvironment env, TypeMUtils typeMUtils) {
@@ -89,7 +96,7 @@ public class BuilderModelProducer {
     private FactoryM computeFactoryModel(Input input) {
         ExecutableElement factoryMethodEl = input.getFactoryMethod();
         if (!(factoryMethodEl.getEnclosingElement() instanceof TypeElement)) {
-            throw new BuildException(Kind.ERROR, String.format(
+            throw new BuildException(ERROR, String.format(
                     "Unexpected owner of method %s! Expected class but was %s.", factoryMethodEl,
                     factoryMethodEl.getEnclosingElement()), factoryMethodEl);
         }
@@ -160,16 +167,16 @@ public class BuilderModelProducer {
     //
     // HELPER METHODS: these are candidates for separate components
     private void computePropertyModels(Input input, BuilderM builderModel) {
-        TypeElement pojoTypeElement = input.getPojoType();
+        TypeElement pojoClassEl = input.getPojoType();
 
         if (input.hasFactoryMethod()) {
             addPropertyModelsForFactoryMethodParameters(input.getFactoryMethod(), builderModel);
         } else {
-            addPropertyModelsForConstructor(pojoTypeElement, builderModel);
+            addPropertyModelsForConstructor(pojoClassEl, builderModel);
         }
-        addPropertyModelsForSetterMethods(pojoTypeElement, builderModel);
-        addPropertyModelsForAccessibleFields(pojoTypeElement, builderModel);
-        addPropertyModelsForGetterMethods(pojoTypeElement, builderModel);
+        addPropertyModelsForSetterMethods(pojoClassEl, builderModel);
+        addPropertyModelsForAccessibleFields(pojoClassEl, builderModel);
+        addPropertyModelsForGetterMethods(pojoClassEl, builderModel);
 
     }
 
@@ -282,7 +289,7 @@ public class BuilderModelProducer {
                 } catch (IllegalArgumentException e) {
                     String errorMessage = String.format("%s.%nElement=%s, pojoClassType=%s, pojoClassElement=%s",
                             e.getMessage(), methodEl, pojoClassType, pojoClassEl);
-                    throw new BuildException(Kind.ERROR, errorMessage, pojoClassEl);
+                    throw new BuildException(ERROR, errorMessage, pojoClassEl);
                 }
                 TypeMirror propertyType = execType.getReturnType();
 
@@ -299,7 +306,7 @@ public class BuilderModelProducer {
 
     private boolean isDeclaredInObject(Element el) {
         Element ownerEl = el.getEnclosingElement();
-        if (ownerEl.getKind() == ElementKind.CLASS) {
+        if (ownerEl.getKind() == CLASS) {
             TypeElement typeEl = (TypeElement)ownerEl;
             return typeEl.getQualifiedName().toString().equals(Object.class.getName());
         }
@@ -350,12 +357,12 @@ public class BuilderModelProducer {
     private String getPropertyName(ExecutableElement methodEl) {
         String name = methodEl.getSimpleName().toString();
         int prefixLength = -1;
-        if (name.startsWith("set")) {
-            prefixLength = "set".length();
-        } else if (name.startsWith("get")) {
-            prefixLength = "get".length();
-        } else if (name.startsWith("is")) {
-            prefixLength = "is".length();
+        if (name.startsWith(SET)) {
+            prefixLength = SET.length();
+        } else if (name.startsWith(GET)) {
+            prefixLength = GET.length();
+        } else if (name.startsWith(IS)) {
+            prefixLength = IS.length();
         }
 
         if (prefixLength > 0) {
@@ -374,32 +381,32 @@ public class BuilderModelProducer {
     }
 
     private boolean isStatic(Element el) {
-        return el.getModifiers().contains(Modifier.STATIC);
+        return el.getModifiers().contains(STATIC);
     }
 
     private boolean isSetterMethod(ExecutableElement el) {
         String methodName = el.getSimpleName().toString();
         TypeMirror retType = el.getReturnType();
-        return methodName.startsWith("set") && methodName.length() > "set".length()
-                && retType.getKind() == TypeKind.VOID && el.getParameters().size() == 1;
+        return methodName.startsWith(SET) && methodName.length() > SET.length()
+                && retType.getKind() == VOID && el.getParameters().size() == 1;
     }
 
     private boolean isGetterMethod(ExecutableElement el) {
         String methodName = el.getSimpleName().toString();
         TypeMirror retType = el.getReturnType();
-        return ((methodName.startsWith("get") && methodName.length() > "set".length()) || (methodName.startsWith("is") && methodName
-                .length() > "is".length())) && retType.getKind() != TypeKind.VOID && el.getParameters().size() == 0;
+        return ((methodName.startsWith(GET) && methodName.length() > GET.length()) || (methodName.startsWith(IS) && methodName
+                .length() > IS.length())) && retType.getKind() != VOID && el.getParameters().size() == 0;
     }
 
     private boolean isMutable(VariableElement fieldEl) {
-        return !fieldEl.getModifiers().contains(Modifier.FINAL);
+        return !fieldEl.getModifiers().contains(FINAL);
     }
 
     private boolean isAccessibleForBuilder(Element el, TypeM builderType) {
-        if (el.getModifiers().contains(Modifier.PUBLIC)) {
+        if (el.getModifiers().contains(PUBLIC)) {
             return true;
         }
-        if (el.getModifiers().contains(Modifier.PRIVATE)) {
+        if (el.getModifiers().contains(PRIVATE)) {
             return false;
         }
         PackageElement fieldPackage = env.getElementUtils().getPackageOf(el);
