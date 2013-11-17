@@ -11,64 +11,64 @@ import java.util.Map;
 
 class ProcessingEnvironmentAdaptor implements ProcessingEnvironment {
 
-	private ProcessingEnvironment delegate;
+	private final ThreadLocal<ProcessingEnvironment> delegate = new ThreadLocal<ProcessingEnvironment>();
 
 	public ProcessingEnvironmentAdaptor() {
 		super();
 	}
 
 	public ProcessingEnvironment getDelegate() {
-		return delegate;
+		return delegate.get();
 	}
 
 	public void setDelegate(ProcessingEnvironment delegate) {
-		this.delegate = delegate;
+		this.delegate.set(delegate);
 	}
 
 	@Override
 	public Map<String, String> getOptions() {
 		checkDelegateNotNull();
-		return delegate.getOptions();
+		return getDelegate().getOptions();
 	}
 
 	@Override
 	public Messager getMessager() {
 		checkDelegateNotNull();
-		return delegate.getMessager();
+		return getDelegate().getMessager();
 	}
 
 	@Override
 	public Filer getFiler() {
 		checkDelegateNotNull();
-		return delegate.getFiler();
+		return getDelegate().getFiler();
 	}
 
 	@Override
 	public Elements getElementUtils() {
 		checkDelegateNotNull();
-		return delegate.getElementUtils();
+		return getDelegate().getElementUtils();
 	}
 
 	@Override
 	public Types getTypeUtils() {
 		checkDelegateNotNull();
-		return delegate.getTypeUtils();
+		return getDelegate().getTypeUtils();
 	}
 
 	@Override
 	public SourceVersion getSourceVersion() {
 		checkDelegateNotNull();
-		return delegate.getSourceVersion();
+		return getDelegate().getSourceVersion();
 	}
 
 	@Override
 	public Locale getLocale() {
 		checkDelegateNotNull();
-		return delegate.getLocale();
+		return getDelegate().getLocale();
 	}
 
 	private void checkDelegateNotNull() {
-		if (delegate == null) {
+		if (delegate.get() == null) {
 			throw new IllegalStateException(
 					"Calling methods on ProcessingEnvironment is only supported inside test methods!");
 		}

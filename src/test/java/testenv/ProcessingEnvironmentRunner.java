@@ -31,7 +31,8 @@ public class ProcessingEnvironmentRunner extends BlockJUnit4ClassRunner {
 		super(klass);
 		this.klass = klass;
 	}
-
+	
+	@Override
 	protected Statement methodBlock(FrameworkMethod method) {
 		final Statement next = super.methodBlock(method);
 		return new CompilationStatement(next, method);
@@ -41,18 +42,17 @@ public class ProcessingEnvironmentRunner extends BlockJUnit4ClassRunner {
 		private Statement next;
 		private FrameworkMethod method;
 		private Throwable exception;
-		private JavaProject prj;
 
 		public CompilationStatement(Statement next, FrameworkMethod method) {
 			super();
 			this.next = next;
-			this.method = method;
-			this.prj = new JavaProject(Util.createTempDir());
+			this.method = method;			
 		}
 
 		@Override
 		public void evaluate() throws Throwable {
 			exception = null;
+			JavaProject prj = new JavaProject(Util.createTempDir());
 			addSourceFiles(prj, klass.getAnnotation(AddToSourceTree.class));
 			addSourceFiles(prj, method.getMethod().getAnnotation(AddToSourceTree.class));
 
@@ -75,6 +75,7 @@ public class ProcessingEnvironmentRunner extends BlockJUnit4ClassRunner {
 
 			try {
 				prj.compile();
+				
 				List<Diagnostic<? extends JavaFileObject>> diagnostics = prj.getDiagnostics();
 				for (Diagnostic<? extends JavaFileObject> diagnostic : diagnostics) {
 					if (diagnostic.getKind() == Kind.ERROR) {

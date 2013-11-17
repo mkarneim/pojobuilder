@@ -7,48 +7,48 @@ import java.lang.annotation.Annotation;
 import java.util.Set;
 
 public class RoundEnvironmentAdaptor implements RoundEnvironment {
-	private RoundEnvironment delegate;
+	private final ThreadLocal<RoundEnvironment> delegate = new ThreadLocal<RoundEnvironment>();
 
 	public RoundEnvironment getDelegate() {
-		return delegate;
+		return delegate.get();
 	}
 
 	public void setDelegate(RoundEnvironment delegate) {
-		this.delegate = delegate;
+		this.delegate.set(delegate);
 	}
 
 	@Override
 	public boolean processingOver() {
 		checkDelegateNotNull();
-		return delegate.processingOver();
+		return getDelegate().processingOver();
 	}
 
 	@Override
 	public boolean errorRaised() {
 		checkDelegateNotNull();
-		return delegate.errorRaised();
+		return getDelegate().errorRaised();
 	}
 
 	@Override
 	public Set<? extends Element> getRootElements() {
 		checkDelegateNotNull();
-		return delegate.getRootElements();
+		return getDelegate().getRootElements();
 	}
 
 	@Override
 	public Set<? extends Element> getElementsAnnotatedWith(TypeElement a) {
 		checkDelegateNotNull();
-		return delegate.getElementsAnnotatedWith(a);
+		return getDelegate().getElementsAnnotatedWith(a);
 	}
 
 	@Override
 	public Set<? extends Element> getElementsAnnotatedWith(Class<? extends Annotation> a) {
 		checkDelegateNotNull();
-		return delegate.getElementsAnnotatedWith(a);
+		return getDelegate().getElementsAnnotatedWith(a);
 	}
 
 	private void checkDelegateNotNull() {
-		if (delegate == null) {
+		if (delegate.get() == null) {
 			throw new IllegalStateException(
 					"Calling methods on RoundEnvironment is only supported inside test methods!");
 		}
