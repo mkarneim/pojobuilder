@@ -163,8 +163,8 @@ Execution
 To execute the annotation processor you either can
 
 * [use the javac tool](#using-javac)
-* [use Ant's javac task](#using-ant)
 * [use the maven-compiler-plugin](#using-maven)
+* [use Ant's javac task](#using-ant)
 * or [use Eclipse](#using-eclipse).
 
 In any case make sure that the required libraries are included in your project's classpath during compile time.
@@ -180,6 +180,25 @@ For example:
 will generate a ContactBuilder if Contact is annotated with @GeneratePojoBuilder.
 
 For more information see the [javac documentation].
+
+### Using Maven
+
+Add the following to your project's pom.xml to configure the PojoBuilder annotation processor.
+
+	<dependency>
+		<groupId>net.karneim</groupId>
+		<artifactId>pojobuilder</artifactId>
+		<version>2.3.4</version>
+		<!-- 'provided' scope because this is only needed during compilation -->
+		<scope>provided</scope>
+	</dependency>
+
+Notes:
+* The compile phase will automatically detect and activate PojoBuilder.
+* Generated sources will appear in the standard location: ${project.build.directory}/generated-sources/annotations.
+* If you need to keep the generated sources in a specific directory outside of the 'target' directory, 
+then configure the 'generatedSourcesDirectory' of the 'maven-compiler-plugin'. See ["samples/pom.xml"] for an example.
+* Eclipse users might want to install [m2e-apt](https://github.com/jbosstools/m2e-apt) to have integrated support for APT-generated sources.
 
 ### Using Ant
 
@@ -205,25 +224,6 @@ Here is a code snippet of an ANT build script that runs the PojoBuilder annotati
     </target>
 
 You find a complete sample build script at ["samples/build.xml"].
-
-### Using Maven
-
-Add the following to your project's pom.xml to configure the PojoBuilder annotation processor.
-
-	<dependency>
-		<groupId>net.karneim</groupId>
-		<artifactId>pojobuilder</artifactId>
-		<version>2.3.3</version>
-		<!-- 'provided' scope because this is only needed during compilation -->
-		<scope>provided</scope>
-	</dependency>
-
-Notes:
-* The compile phase will automatically detect and activate PojoBuilder.
-* Generated sources will appear in the standard location: ${project.build.directory}/generated-sources/annotations.
-* If you need to keep the generated sources in a specific directory outside of the 'target' directory, 
-then configure the 'generatedSourcesDirectory' of the 'maven-compiler-plugin'. See ["samples/pom.xml"] for an example.
-* Eclipse users might want to install [m2e-apt](https://github.com/jbosstools/m2e-apt) to have integrated support for APT-generated sources.
 
 ### Using Eclipse
 You could also configure Eclipse to run the PojoBuilder annotation processor during the build cycle.

@@ -46,7 +46,7 @@ public class GeneratePojoBuilderProcessor {
 	public void process(ExecutableElement execElem) {
 		TypeMUtils typeMUtils = new TypeMUtils();
 		BuilderModelProducer producer = new BuilderModelProducer(env, typeMUtils);
-		TypeElement productTypeElem = (TypeElement) env.getTypeUtils().asElement(execElem.getReturnType());
+		TypeElement productTypeElem = (TypeElement)env.getTypeUtils().asElement(execElem.getReturnType());
 		Output output = producer.produce(new Input(productTypeElem, execElem));
 
 		createAllSourceCode(output);
