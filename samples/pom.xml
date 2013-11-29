@@ -15,8 +15,8 @@
 			<groupId>net.karneim</groupId>
 			<artifactId>pojobuilder</artifactId>
 			<version>LATEST</version>
-			<!-- 'provided' scope because this is only needed during compilation -->
-			<scope>provided</scope>
+            <scope>system</scope>
+            <systemPath>${basedir}/../target/pojobuilder-2.3.5-SNAPSHOT-jar-with-dependencies.jar</systemPath>
 		</dependency>
 	</dependencies>
 
