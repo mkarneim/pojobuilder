@@ -6,29 +6,6 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 
-import net.karneim.pojobuilder.codegen.ArgumentTM;
-import net.karneim.pojobuilder.codegen.AssignmentTM;
-import net.karneim.pojobuilder.codegen.BuildMethodTM;
-import net.karneim.pojobuilder.codegen.BuilderClassTM;
-import net.karneim.pojobuilder.codegen.ButMethodTM;
-import net.karneim.pojobuilder.codegen.CloneMethodTM;
-import net.karneim.pojobuilder.codegen.ConstructorCallTM;
-import net.karneim.pojobuilder.codegen.ConstructorTM;
-import net.karneim.pojobuilder.codegen.CopyMethodTM;
-import net.karneim.pojobuilder.codegen.FactoryCallTM;
-import net.karneim.pojobuilder.codegen.FieldAccessorTM;
-import net.karneim.pojobuilder.codegen.FieldTM;
-import net.karneim.pojobuilder.codegen.GeneratedTM;
-import net.karneim.pojobuilder.codegen.ImportTM;
-import net.karneim.pojobuilder.codegen.InterfaceTM;
-import net.karneim.pojobuilder.codegen.MethodAccessorTM;
-import net.karneim.pojobuilder.codegen.PackageTM;
-import net.karneim.pojobuilder.codegen.PojoBuilderCodeGenerator;
-import net.karneim.pojobuilder.codegen.SelfFieldTM;
-import net.karneim.pojobuilder.codegen.SetterCallTM;
-import net.karneim.pojobuilder.codegen.SetterTM;
-import net.karneim.pojobuilder.codegen.SuperclassTM;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -49,7 +26,7 @@ public class PojoBuilderCodeGeneratorTest {
     @Test
     public void testGenerateWithName() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder");
+        builderClassTM.setName("MyPojoBuilder");
 
         // When:
         Writer writer = new StringWriter();
@@ -57,19 +34,20 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
+        
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder {"+"\n"
-                +"}");
+            "public class MyPojoBuilder {"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithSelfField() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder");
-        builderClassTM.setSelfField(new SelfFieldTM("PojoBuilder"));
+        builderClassTM.setName("MyPojoBuilder");
+        builderClassTM.setSelfField(new SelfFieldTM("MyPojoBuilder"));
 
         // When:
         Writer writer = new StringWriter();
@@ -77,12 +55,12 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder {"+"\n"
-                + "    protected PojoBuilder self;"+"\n"
-                +"}");
+            "public class MyPojoBuilder {"+"\n"
+            + "    protected MyPojoBuilder self;"+"\n"
+            +"}");
         //@formatter:on
     }
 
@@ -98,20 +76,20 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "@Generated(\"PojoBuilder\")"+"\n"
-                +"public class MyBuilder {"+"\n"
-                +"}");
+            "@Generated(\"PojoBuilder\")"+"\n"
+            +"public class MyBuilder {"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithPackage() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder");
-        builderClassTM.setPackage(new PackageTM("net.karneim.scribble"));
+        builderClassTM.setName("MyPojoBuilder");
+        builderClassTM.setPackage(new PackageTM("com.example"));
 
         // When:
         Writer writer = new StringWriter();
@@ -119,23 +97,23 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "package net.karneim.scribble;"+"\n"
-                +"\n"
-                +"public class PojoBuilder {"+"\n"
-                +"}");
+            "package com.example;"+"\n"
+            +"\n"
+            +"public class MyPojoBuilder {"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithConstructor() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder<T>");
+        builderClassTM.setName("MyPojoBuilder<T>");
         ConstructorTM constr = new ConstructorTM();
-        constr.setName("PojoBuilder");
-        constr.setSelfCast("PojoBuilder<T>");
+        constr.setName("MyPojoBuilder");
+        constr.setSelfCast("MyPojoBuilder<T>");
         builderClassTM.setConstructor(constr);
 
         // When:
@@ -144,25 +122,25 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder<T> {"+"\n"
-                +"\n"
-                +"    public PojoBuilder() {"+"\n"
-                +"        self = (PojoBuilder<T>)this;"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "public class MyPojoBuilder<T> {"+"\n"
+            +"\n"
+            +"    public MyPojoBuilder() {"+"\n"
+            +"        self = (MyPojoBuilder<T>)this;"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithBuilderFactory() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder");
+        builderClassTM.setName("MyPojoBuilder");
         BuilderFactoryMethodTM builderFactory = new BuilderFactoryMethodTM();
-        builderFactory.setName("$Pojo");
-        builderFactory.setReturnType("PojoBuilder");
+        builderFactory.setName("$MyPojo");
+        builderFactory.setReturnType("MyPojoBuilder");
         builderClassTM.setBuilderFactoryMethod(builderFactory);
         // When:
         Writer writer = new StringWriter();
@@ -170,25 +148,25 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder {"+"\n"
-                +"\n"
-                +"    public static PojoBuilder $Pojo() {"+"\n"
-                +"        return new PojoBuilder();"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "public class MyPojoBuilder {"+"\n"
+            +"\n"
+            +"    public static MyPojoBuilder $MyPojo() {"+"\n"
+            +"        return new MyPojoBuilder();"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithGenericBuilderFactory() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder<T extends Number>");
+        builderClassTM.setName("MyPojoBuilder<T extends Number>");
         BuilderFactoryMethodTM builderFactory = new BuilderFactoryMethodTM();
-        builderFactory.setName("$Pojo");
-        builderFactory.setReturnType("PojoBuilder<T>");
+        builderFactory.setName("$MyPojo");
+        builderFactory.setReturnType("MyPojoBuilder<T>");
         builderFactory.getGenerics().add("T extends Number");
         builderClassTM.setBuilderFactoryMethod(builderFactory);
         // When:
@@ -197,25 +175,25 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder<T extends Number> {"+"\n"
-                +"\n"
-                +"    public static <T extends Number> PojoBuilder<T> $Pojo() {"+"\n"
-                +"        return new PojoBuilder<T>();"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "public class MyPojoBuilder<T extends Number> {"+"\n"
+            +"\n"
+            +"    public static <T extends Number> MyPojoBuilder<T> $MyPojo() {"+"\n"
+            +"        return new MyPojoBuilder<T>();"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithGenericBuilderFactoryHavingMoreGenerics() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder<T extends Number, L extends List<T>>");
+        builderClassTM.setName("MyPojoBuilder<T extends Number, L extends List<T>>");
         BuilderFactoryMethodTM builderFactory = new BuilderFactoryMethodTM();
-        builderFactory.setName("$Pojo");
-        builderFactory.setReturnType("PojoBuilder<T,L>");
+        builderFactory.setName("$MyPojo");
+        builderFactory.setReturnType("MyPojoBuilder<T,L>");
         builderFactory.getGenerics().add("T extends Number");
         builderFactory.getGenerics().add("L extends List<T>");
         builderClassTM.setBuilderFactoryMethod(builderFactory);
@@ -225,26 +203,26 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder<T extends Number, L extends List<T>> {"+"\n"
-                +"\n"
-                +"    public static <T extends Number, L extends List<T>> PojoBuilder<T,L> $Pojo() {"+"\n"
-                +"        return new PojoBuilder<T,L>();"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "public class MyPojoBuilder<T extends Number, L extends List<T>> {"+"\n"
+            +"\n"
+            +"    public static <T extends Number, L extends List<T>> MyPojoBuilder<T,L> $MyPojo() {"+"\n"
+            +"        return new MyPojoBuilder<T,L>();"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithBuildHelper() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder");
+        builderClassTM.setName("MyPojoBuilder");
         BuildHelperMethodTM buildHelper = new BuildHelperMethodTM();
         buildHelper.setName("some");
-        buildHelper.setReturnType("Pojo");
-        buildHelper.setParameterType("PojoBuilder");
+        buildHelper.setReturnType("MyPojo");
+        buildHelper.setParameterType("MyPojoBuilder");
 
         builderClassTM.setBuildHelperMethod(buildHelper);
 
@@ -254,26 +232,26 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder {"+"\n"
-                +"\n"
-                +"    public static Pojo some(PojoBuilder builder) {"+"\n"
-                +"        return builder.build();"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "public class MyPojoBuilder {"+"\n"
+            +"\n"
+            +"    public static MyPojo some(MyPojoBuilder builder) {"+"\n"
+            +"        return builder.build();"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithBuildHelperHavingGeneric() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder<T extends Number>");
+        builderClassTM.setName("MyPojoBuilder<T extends Number>");
         BuildHelperMethodTM buildHelper = new BuildHelperMethodTM();
         buildHelper.setName("some");
-        buildHelper.setReturnType("Pojo<T>");
-        buildHelper.setParameterType("PojoBuilder<T>");
+        buildHelper.setReturnType("MyPojo<T>");
+        buildHelper.setParameterType("MyPojoBuilder<T>");
         buildHelper.getGenerics().add("T extends Number");
         builderClassTM.setBuildHelperMethod(buildHelper);
 
@@ -283,26 +261,26 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder<T extends Number> {"+"\n"
-                +"\n"
-                +"    public static <T extends Number> Pojo<T> some(PojoBuilder<T> builder) {"+"\n"
-                +"        return builder.build();"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "public class MyPojoBuilder<T extends Number> {"+"\n"
+            +"\n"
+            +"    public static <T extends Number> MyPojo<T> some(MyPojoBuilder<T> builder) {"+"\n"
+            +"        return builder.build();"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithBuildHelperHavingMoreGenerics() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder<T extends Number, X extends Comparable>");
+        builderClassTM.setName("MyPojoBuilder<T extends Number, X extends Comparable>");
         BuildHelperMethodTM buildHelper = new BuildHelperMethodTM();
         buildHelper.setName("some");
-        buildHelper.setReturnType("Pojo<T,X>");
-        buildHelper.setParameterType("PojoBuilder<T,X>");
+        buildHelper.setReturnType("MyPojo<T,X>");
+        buildHelper.setParameterType("MyPojoBuilder<T,X>");
         buildHelper.getGenerics().add("T extends Number");
         buildHelper.getGenerics().add("X extends Comparable");
         builderClassTM.setBuildHelperMethod(buildHelper);
@@ -313,22 +291,22 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder<T extends Number, X extends Comparable> {"+"\n"
-                +"\n"
-                +"    public static <T extends Number, X extends Comparable> Pojo<T,X> some(PojoBuilder<T,X> builder) {"+"\n"
-                +"        return builder.build();"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "public class MyPojoBuilder<T extends Number, X extends Comparable> {"+"\n"
+            +"\n"
+            +"    public static <T extends Number, X extends Comparable> MyPojo<T,X> some(MyPojoBuilder<T,X> builder) {"+"\n"
+            +"        return builder.build();"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithSingleField() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder");
+        builderClassTM.setName("MyPojoBuilder");
         FieldTM field1 = new FieldTM();
         field1.setName("dummy");
         field1.setType("List<String>");
@@ -340,21 +318,21 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder {"+"\n"
-                +"\n"
-                +"    private List<String> value$dummy;"+"\n"
-                +"    private boolean isSet$dummy = false;"+"\n"
-                +"}");
+            "public class MyPojoBuilder {"+"\n"
+            +"\n"
+            +"    private List<String> value$dummy;"+"\n"
+            +"    private boolean isSet$dummy = false;"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithSingleMandatoryField() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder");
+        builderClassTM.setName("MyPojoBuilder");
         FieldTM field1 = new FieldTM();
         field1.setName("dummy");
         field1.setType("List<String>");
@@ -367,21 +345,21 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder {"+"\n"
-                +"\n"
-                +"    private List<String> value$dummy; // mandatory construction parameter"+"\n"
-                +"    private boolean isSet$dummy = false;"+"\n"
-                +"}");
+            "public class MyPojoBuilder {"+"\n"
+            +"\n"
+            +"    private List<String> value$dummy; // mandatory construction parameter"+"\n"
+            +"    private boolean isSet$dummy = false;"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithMultipleFields() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder");
+        builderClassTM.setName("MyPojoBuilder");
         FieldTM field1 = new FieldTM();
         field1.setName("dummy");
         field1.setType("List<String>");
@@ -397,24 +375,24 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder {"+"\n"
-                +"\n"
-                +"    private List<String> value$dummy;"+"\n"
-                +"    private boolean isSet$dummy = false;"+"\n"
-                +"\n"
-                +"    private long value$foo;"+"\n"
-                +"    private boolean isSet$foo = false;"+"\n"                
-                +"}");
+            "public class MyPojoBuilder {"+"\n"
+            +"\n"
+            +"    private List<String> value$dummy;"+"\n"
+            +"    private boolean isSet$dummy = false;"+"\n"
+            +"\n"
+            +"    private long value$foo;"+"\n"
+            +"    private boolean isSet$foo = false;"+"\n"                
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithSuperclass() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder");
+        builderClassTM.setName("MyPojoBuilder");
         SuperclassTM superclass = new SuperclassTM();
         superclass.setName("AbstractBuilder");
         builderClassTM.setSuperclass(superclass);
@@ -425,18 +403,18 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder extends AbstractBuilder {"+"\n"
-                +"}");
+            "public class MyPojoBuilder extends AbstractBuilder {"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithInterface() throws IOException {
         // Given:
-        builderClassTM.setName("Pojo");
+        builderClassTM.setName("MyPojo");
         builderClassTM.getInterfaces().add(new InterfaceTM("Cloneable"));
 
         // When:
@@ -445,18 +423,18 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class Pojo implements Cloneable {"+"\n"
-                +"}");
+            "public class MyPojo implements Cloneable {"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithMultipleInterfaces() throws IOException {
         // Given:
-        builderClassTM.setName("Pojo");
+        builderClassTM.setName("MyPojo");
         builderClassTM.getInterfaces().add(new InterfaceTM("Cloneable"));
         builderClassTM.getInterfaces().add(new InterfaceTM("Serializable"));
 
@@ -466,18 +444,18 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class Pojo implements Cloneable, Serializable {"+"\n"
-                +"}");
+            "public class MyPojo implements Cloneable, Serializable {"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithImport() throws IOException {
         // Given:
-        builderClassTM.setName("Pojo");
+        builderClassTM.setName("MyPojo");
         builderClassTM.getImports().add(new ImportTM("java.util.List"));
 
         // When:
@@ -486,20 +464,20 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                 "import java.util.List;"+"\n"
-                +"\n"
-                +"public class Pojo {"+"\n"
-                +"}");
+             "import java.util.List;"+"\n"
+            +"\n"
+            +"public class MyPojo {"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithImports() throws IOException {
         // Given:
-        builderClassTM.setName("Pojo");
+        builderClassTM.setName("MyPojo");
         builderClassTM.getImports().add(new ImportTM("java.util.List"));
         builderClassTM.getImports().add(new ImportTM("java.util.ArrayList"));
 
@@ -509,14 +487,14 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                 "import java.util.List;"+"\n"
-                +"import java.util.ArrayList;"+"\n"
-                +"\n"
-                +"public class Pojo {"+"\n"
-                +"}");
+             "import java.util.List;"+"\n"
+            +"import java.util.ArrayList;"+"\n"
+            +"\n"
+            +"public class MyPojo {"+"\n"
+            +"}");
         //@formatter:on
     }
 
@@ -536,17 +514,17 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class DummyBuilder {"+"\n"
-                +"\n"
-                +"    public DummyBuilder withName(String aValue) {"+"\n"
-                +"        value$name = aValue;"+"\n"
-                +"        isSet$name = true;"+"\n"
-                +"        return self;"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "public class DummyBuilder {"+"\n"
+            +"\n"
+            +"    public DummyBuilder withName(String aValue) {"+"\n"
+            +"        value$name = aValue;"+"\n"
+            +"        isSet$name = true;"+"\n"
+            +"        return self;"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
     }
 
@@ -573,24 +551,24 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class ContactBuilder {"+"\n"
-                +"    protected ContactBuilder self;"+"\n"
-                +"\n"
-                +"    public ContactBuilder withName(String aValue) {"+"\n"
-                +"        value$name = aValue;"+"\n"
-                +"        isSet$name = true;"+"\n"
-                +"        return self;"+"\n"
-                +"    }"+"\n"
-                +"\n"
-                +"    public ContactBuilder withDateOfBirth(Date aValue) {"+"\n"
-                +"        value$dateOfBirth = aValue;"+"\n"
-                +"        isSet$dateOfBirth = true;"+"\n"
-                +"        return self;"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "public class ContactBuilder {"+"\n"
+            +"    protected ContactBuilder self;"+"\n"
+            +"\n"
+            +"    public ContactBuilder withName(String aValue) {"+"\n"
+            +"        value$name = aValue;"+"\n"
+            +"        isSet$name = true;"+"\n"
+            +"        return self;"+"\n"
+            +"    }"+"\n"
+            +"\n"
+            +"    public ContactBuilder withDateOfBirth(Date aValue) {"+"\n"
+            +"        value$dateOfBirth = aValue;"+"\n"
+            +"        isSet$dateOfBirth = true;"+"\n"
+            +"        return self;"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
 
     }
@@ -598,8 +576,8 @@ public class PojoBuilderCodeGeneratorTest {
     @Test
     public void testGenerateWithClone() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder");
-        builderClassTM.setCloneMethod(new CloneMethodTM("PojoBuilder"));
+        builderClassTM.setName("MyPojoBuilder");
+        builderClassTM.setCloneMethod(new CloneMethodTM("MyPojoBuilder"));
 
         // When:
         Writer writer = new StringWriter();
@@ -607,31 +585,31 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder {"+"\n"
-                +"\n"
-                +"    @Override"+"\n"
-                +"    public Object clone() {"+"\n"
-                +"        try {"+"\n"
-                +"            @SuppressWarnings(\"unchecked\")"+"\n"
-                +"            PojoBuilder result = (PojoBuilder)super.clone();"+"\n"
-                +"            result.self = result;"+"\n"
-                +"            return result;"+"\n"
-                +"        } catch (CloneNotSupportedException e) {"+"\n"
-                +"            throw new InternalError(e.getMessage());"+"\n"
-                +"        }"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "public class MyPojoBuilder {"+"\n"
+            +"\n"
+            +"    @Override"+"\n"
+            +"    public Object clone() {"+"\n"
+            +"        try {"+"\n"
+            +"            @SuppressWarnings(\"unchecked\")"+"\n"
+            +"            MyPojoBuilder result = (MyPojoBuilder)super.clone();"+"\n"
+            +"            result.self = result;"+"\n"
+            +"            return result;"+"\n"
+            +"        } catch (CloneNotSupportedException e) {"+"\n"
+            +"            throw new InternalError(e.getMessage());"+"\n"
+            +"        }"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithButMethod() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder");
-        builderClassTM.setButMethod(new ButMethodTM("PojoBuilder"));
+        builderClassTM.setName("MyPojoBuilder");
+        builderClassTM.setButMethod(new ButMethodTM("MyPojoBuilder"));
 
         // When:
         Writer writer = new StringWriter();
@@ -639,26 +617,26 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder {"+"\n"
-                +"\n"
-                +"    @SuppressWarnings(\"unchecked\")"+"\n"
-                +"    public PojoBuilder but() {"+"\n"
-                +"        return (PojoBuilder)clone();"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "public class MyPojoBuilder {"+"\n"
+            +"\n"
+            +"    @SuppressWarnings(\"unchecked\")"+"\n"
+            +"    public MyPojoBuilder but() {"+"\n"
+            +"        return (MyPojoBuilder)clone();"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithCopyMethodHavingOneAssignmentWithFieldAccessor() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder<T>");
+        builderClassTM.setName("MyPojoBuilder<T>");
         CopyMethodTM copyMethod = new CopyMethodTM();
-        copyMethod.setPojoType("Pojo<T>");
-        copyMethod.setReturnType("PojoBuilder<T>");
+        copyMethod.setPojoType("MyPojo<T>");
+        copyMethod.setReturnType("MyPojoBuilder<T>");
         AssignmentTM assignment = new AssignmentTM();
         assignment.setSetter("withName");
         assignment.setAccessor(new FieldAccessorTM("name"));
@@ -671,26 +649,26 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder<T> {"+"\n"
-                +"\n"
-                +"    public PojoBuilder<T> copy(Pojo<T> original) {"+"\n"
-                +"        withName(original.name);"+"\n"
-                +"        return self;"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "public class MyPojoBuilder<T> {"+"\n"
+            +"\n"
+            +"    public MyPojoBuilder<T> copy(MyPojo<T> original) {"+"\n"
+            +"        withName(original.name);"+"\n"
+            +"        return self;"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithCopyMethodHavingMoreAssignmentsWithFieldAccessor() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder<T>");
+        builderClassTM.setName("MyPojoBuilder<T>");
         CopyMethodTM copyMethod = new CopyMethodTM();
-        copyMethod.setPojoType("Pojo<T>");
-        copyMethod.setReturnType("PojoBuilder<T>");
+        copyMethod.setPojoType("MyPojo<T>");
+        copyMethod.setReturnType("MyPojoBuilder<T>");
         AssignmentTM assignment1 = new AssignmentTM();
         assignment1.setSetter("withName");
         assignment1.setAccessor(new FieldAccessorTM("name"));
@@ -707,27 +685,27 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder<T> {"+"\n"
-                +"\n"
-                +"    public PojoBuilder<T> copy(Pojo<T> original) {"+"\n"
-                +"        withName(original.name);"+"\n"
-                +"        withDate(original.date);"+"\n"
-                +"        return self;"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "public class MyPojoBuilder<T> {"+"\n"
+            +"\n"
+            +"    public MyPojoBuilder<T> copy(MyPojo<T> original) {"+"\n"
+            +"        withName(original.name);"+"\n"
+            +"        withDate(original.date);"+"\n"
+            +"        return self;"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithCopyMethodHavingOneAssignmentWithMethodAccessor() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder<T>");
+        builderClassTM.setName("MyPojoBuilder<T>");
         CopyMethodTM copyMethod = new CopyMethodTM();
-        copyMethod.setPojoType("Pojo<T>");
-        copyMethod.setReturnType("PojoBuilder<T>");
+        copyMethod.setPojoType("MyPojo<T>");
+        copyMethod.setReturnType("MyPojoBuilder<T>");
         AssignmentTM assignment = new AssignmentTM();
         assignment.setSetter("withName");
         assignment.setAccessor(new MethodAccessorTM("getName"));
@@ -740,26 +718,26 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder<T> {"+"\n"
-                +"\n"
-                +"    public PojoBuilder<T> copy(Pojo<T> original) {"+"\n"
-                +"        withName(original.getName());"+"\n"
-                +"        return self;"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "public class MyPojoBuilder<T> {"+"\n"
+            +"\n"
+            +"    public MyPojoBuilder<T> copy(MyPojo<T> original) {"+"\n"
+            +"        withName(original.getName());"+"\n"
+            +"        return self;"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithCopyMethodHavingMoreAssignmentsWithMethodAccessor() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder<T>");
+        builderClassTM.setName("MyPojoBuilder<T>");
         CopyMethodTM copyMethod = new CopyMethodTM();
-        copyMethod.setPojoType("Pojo<T>");
-        copyMethod.setReturnType("PojoBuilder<T>");
+        copyMethod.setPojoType("MyPojo<T>");
+        copyMethod.setReturnType("MyPojoBuilder<T>");
         AssignmentTM assignment1 = new AssignmentTM();
         assignment1.setSetter("withName");
         assignment1.setAccessor(new MethodAccessorTM("getName"));
@@ -777,27 +755,27 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder<T> {"+"\n"
-                +"\n"
-                +"    public PojoBuilder<T> copy(Pojo<T> original) {"+"\n"
-                +"        withName(original.getName());"+"\n"
-                +"        withDate(original.getDate());"+"\n"
-                +"        return self;"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "public class MyPojoBuilder<T> {"+"\n"
+            +"\n"
+            +"    public MyPojoBuilder<T> copy(MyPojo<T> original) {"+"\n"
+            +"        withName(original.getName());"+"\n"
+            +"        withDate(original.getDate());"+"\n"
+            +"        return self;"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithCopyMethodHavingMoreAssignmentsWithMixedAccessors() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder<T>");
+        builderClassTM.setName("MyPojoBuilder<T>");
         CopyMethodTM copyMethod = new CopyMethodTM();
-        copyMethod.setPojoType("Pojo<T>");
-        copyMethod.setReturnType("PojoBuilder<T>");
+        copyMethod.setPojoType("MyPojo<T>");
+        copyMethod.setReturnType("MyPojoBuilder<T>");
         AssignmentTM assignment1 = new AssignmentTM();
         assignment1.setSetter("withName");
         assignment1.setAccessor(new FieldAccessorTM("name"));
@@ -815,28 +793,28 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder<T> {"+"\n"
-                +"\n"
-                +"    public PojoBuilder<T> copy(Pojo<T> original) {"+"\n"
-                +"        withName(original.name);"+"\n"
-                +"        withDate(original.getDate());"+"\n"
-                +"        return self;"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "public class MyPojoBuilder<T> {"+"\n"
+            +"\n"
+            +"    public MyPojoBuilder<T> copy(MyPojo<T> original) {"+"\n"
+            +"        withName(original.name);"+"\n"
+            +"        withDate(original.getDate());"+"\n"
+            +"        return self;"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithBuildMethodCallingPojoConstructor() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder");
+        builderClassTM.setName("MyPojoBuilder");
         BuildMethodTM buildMethod = new BuildMethodTM();
-        buildMethod.setReturnType("Pojo");
+        buildMethod.setReturnType("MyPojo");
         ConstructorCallTM construction = new ConstructorCallTM();
-        construction.setMethodName("Pojo");
+        construction.setMethodName("MyPojo");
         buildMethod.setConstruction(construction);
         builderClassTM.setBuildMethod(buildMethod);
 
@@ -846,28 +824,28 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder {"+"\n"
-                +"\n"
-                +"    public Pojo build() {"+"\n"
-                +"        Pojo result = new Pojo();"+"\n"
-                +"        return result;"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "public class MyPojoBuilder {"+"\n"
+            +"\n"
+            +"    public MyPojo build() {"+"\n"
+            +"        MyPojo result = new MyPojo();"+"\n"
+            +"        return result;"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithBuildMethodWithOverrideAnnotation() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder");
+        builderClassTM.setName("MyPojoBuilder");
         BuildMethodTM buildMethod = new BuildMethodTM();
-        buildMethod.setReturnType("Pojo");
+        buildMethod.setReturnType("MyPojo");
         buildMethod.setOverride(true);
         ConstructorCallTM construction = new ConstructorCallTM();
-        construction.setMethodName("Pojo");
+        construction.setMethodName("MyPojo");
         buildMethod.setConstruction(construction);
         builderClassTM.setBuildMethod(buildMethod);
 
@@ -877,28 +855,28 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder {"+"\n"
-                +"\n"
-                +"    @Override"+"\n"
-                +"    public Pojo build() {"+"\n"
-                +"        Pojo result = new Pojo();"+"\n"
-                +"        return result;"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "public class MyPojoBuilder {"+"\n"
+            +"\n"
+            +"    @Override"+"\n"
+            +"    public MyPojo build() {"+"\n"
+            +"        MyPojo result = new MyPojo();"+"\n"
+            +"        return result;"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithBuildMethodCallingPojoConstructorWithArguments() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder");
+        builderClassTM.setName("MyPojoBuilder");
         BuildMethodTM buildMethod = new BuildMethodTM();
-        buildMethod.setReturnType("Pojo");
+        buildMethod.setReturnType("MyPojo");
         ConstructorCallTM construction = new ConstructorCallTM();
-        construction.setMethodName("Pojo");
+        construction.setMethodName("MyPojo");
         ArgumentTM arg = new ArgumentTM();
         arg.setName("name");
         construction.getArguments().add(arg);
@@ -911,27 +889,27 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder {"+"\n"
-                +"\n"
-                +"    public Pojo build() {"+"\n"
-                +"        Pojo result = new Pojo(value$name);"+"\n"
-                +"        return result;"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "public class MyPojoBuilder {"+"\n"
+            +"\n"
+            +"    public MyPojo build() {"+"\n"
+            +"        MyPojo result = new MyPojo(value$name);"+"\n"
+            +"        return result;"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithBuildMethodCallingPojoConstructorWithMoreArguments() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder");
+        builderClassTM.setName("MyPojoBuilder");
         BuildMethodTM buildMethod = new BuildMethodTM();
-        buildMethod.setReturnType("Pojo");
+        buildMethod.setReturnType("MyPojo");
         ConstructorCallTM construction = new ConstructorCallTM();
-        construction.setMethodName("Pojo");
+        construction.setMethodName("MyPojo");
         ArgumentTM arg1 = new ArgumentTM();
         arg1.setName("name");
         construction.getArguments().add(arg1);
@@ -947,27 +925,27 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder {"+"\n"
-                +"\n"
-                +"    public Pojo build() {"+"\n"
-                +"        Pojo result = new Pojo(value$name, value$date);"+"\n"
-                +"        return result;"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "public class MyPojoBuilder {"+"\n"
+            +"\n"
+            +"    public MyPojo build() {"+"\n"
+            +"        MyPojo result = new MyPojo(value$name, value$date);"+"\n"
+            +"        return result;"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithBuildMethodCallingPojoConstructorWithSetterCall() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder");
+        builderClassTM.setName("MyPojoBuilder");
         BuildMethodTM buildMethod = new BuildMethodTM();
-        buildMethod.setReturnType("Pojo");
+        buildMethod.setReturnType("MyPojo");
         ConstructorCallTM construction = new ConstructorCallTM();
-        construction.setMethodName("Pojo");
+        construction.setMethodName("MyPojo");
         buildMethod.setConstruction(construction);
         SetterCallTM setterCall = new SetterCallTM();
         setterCall.setMethodName("setName");
@@ -981,30 +959,30 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder {"+"\n"
-                +"\n"
-                +"    public Pojo build() {"+"\n"
-                +"        Pojo result = new Pojo();"+"\n"
-                +"        if (isSet$name) {"+"\n"
-                +"            result.setName(value$name);"+"\n"
-                +"        }"+"\n"
-                +"        return result;"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "public class MyPojoBuilder {"+"\n"
+            +"\n"
+            +"    public MyPojo build() {"+"\n"
+            +"        MyPojo result = new MyPojo();"+"\n"
+            +"        if (isSet$name) {"+"\n"
+            +"            result.setName(value$name);"+"\n"
+            +"        }"+"\n"
+            +"        return result;"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithBuildMethodCallingPojoConstructorWithMultipleSetterCalls() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder");
+        builderClassTM.setName("MyPojoBuilder");
         BuildMethodTM buildMethod = new BuildMethodTM();
-        buildMethod.setReturnType("Pojo");
+        buildMethod.setReturnType("MyPojo");
         ConstructorCallTM construction = new ConstructorCallTM();
-        construction.setMethodName("Pojo");
+        construction.setMethodName("MyPojo");
         buildMethod.setConstruction(construction);
         SetterCallTM setterCall1 = new SetterCallTM();
         setterCall1.setMethodName("setName");
@@ -1022,33 +1000,33 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder {"+"\n"
-                +"\n"
-                +"    public Pojo build() {"+"\n"
-                +"        Pojo result = new Pojo();"+"\n"
-                +"        if (isSet$name) {"+"\n"
-                +"            result.setName(value$name);"+"\n"
-                +"        }"+"\n"
-                +"        if (isSet$date) {"+"\n"
-                +"            result.setDate(value$date);"+"\n"
-                +"        }"+"\n"
-                +"        return result;"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "public class MyPojoBuilder {"+"\n"
+            +"\n"
+            +"    public MyPojo build() {"+"\n"
+            +"        MyPojo result = new MyPojo();"+"\n"
+            +"        if (isSet$name) {"+"\n"
+            +"            result.setName(value$name);"+"\n"
+            +"        }"+"\n"
+            +"        if (isSet$date) {"+"\n"
+            +"            result.setDate(value$date);"+"\n"
+            +"        }"+"\n"
+            +"        return result;"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithBuildMethodCallingPojoFactory() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder");
+        builderClassTM.setName("MyPojoBuilder");
         BuildMethodTM buildMethod = new BuildMethodTM();
-        buildMethod.setReturnType("Pojo");
+        buildMethod.setReturnType("MyPojo");
         FactoryCallTM construction = new FactoryCallTM();
-        construction.setMethodName("PojoFactory.createPojo");
+        construction.setMethodName("MyPojoFactory.createMyPojo");
         buildMethod.setConstruction(construction);
         builderClassTM.setBuildMethod(buildMethod);
 
@@ -1058,27 +1036,27 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder {"+"\n"
-                +"\n"
-                +"    public Pojo build() {"+"\n"
-                +"        Pojo result = PojoFactory.createPojo();"+"\n"
-                +"        return result;"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "public class MyPojoBuilder {"+"\n"
+            +"\n"
+            +"    public MyPojo build() {"+"\n"
+            +"        MyPojo result = MyPojoFactory.createMyPojo();"+"\n"
+            +"        return result;"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithBuildMethodCallingPojoFactoryWithArgument() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder");
+        builderClassTM.setName("MyPojoBuilder");
         BuildMethodTM buildMethod = new BuildMethodTM();
-        buildMethod.setReturnType("Pojo");
+        buildMethod.setReturnType("MyPojo");
         FactoryCallTM construction = new FactoryCallTM();
-        construction.setMethodName("PojoFactory.createPojo");
+        construction.setMethodName("MyPojoFactory.createMyPojo");
         ArgumentTM arg = new ArgumentTM();
         arg.setName("name");
         construction.getArguments().add(arg);
@@ -1091,27 +1069,27 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder {"+"\n"
-                +"\n"
-                +"    public Pojo build() {"+"\n"
-                +"        Pojo result = PojoFactory.createPojo(value$name);"+"\n"
-                +"        return result;"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "public class MyPojoBuilder {"+"\n"
+            +"\n"
+            +"    public MyPojo build() {"+"\n"
+            +"        MyPojo result = MyPojoFactory.createMyPojo(value$name);"+"\n"
+            +"        return result;"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithBuildMethodCallingPojoFactoryWithMoreArguments() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder");
+        builderClassTM.setName("MyPojoBuilder");
         BuildMethodTM buildMethod = new BuildMethodTM();
-        buildMethod.setReturnType("Pojo");
+        buildMethod.setReturnType("MyPojo");
         FactoryCallTM construction = new FactoryCallTM();
-        construction.setMethodName("PojoFactory.createPojo");
+        construction.setMethodName("MyPojoFactory.createMyPojo");
         ArgumentTM arg1 = new ArgumentTM();
         arg1.setName("name");
         construction.getArguments().add(arg1);
@@ -1127,27 +1105,27 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder {"+"\n"
-                +"\n"
-                +"    public Pojo build() {"+"\n"
-                +"        Pojo result = PojoFactory.createPojo(value$name, value$date);"+"\n"
-                +"        return result;"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "public class MyPojoBuilder {"+"\n"
+            +"\n"
+            +"    public MyPojo build() {"+"\n"
+            +"        MyPojo result = MyPojoFactory.createMyPojo(value$name, value$date);"+"\n"
+            +"        return result;"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithBuildMethodCallingPojoFactoryWithSetterCall() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder");
+        builderClassTM.setName("MyPojoBuilder");
         BuildMethodTM buildMethod = new BuildMethodTM();
-        buildMethod.setReturnType("Pojo");
+        buildMethod.setReturnType("MyPojo");
         FactoryCallTM construction = new FactoryCallTM();
-        construction.setMethodName("PojoFactory.createPojo");
+        construction.setMethodName("MyPojoFactory.createMyPojo");
         buildMethod.setConstruction(construction);
         SetterCallTM setterCall = new SetterCallTM();
         setterCall.setFieldname("name");
@@ -1161,30 +1139,30 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder {"+"\n"
-                +"\n"
-                +"    public Pojo build() {"+"\n"
-                +"        Pojo result = PojoFactory.createPojo();"+"\n"
-                +"        if (isSet$name) {"+"\n"
-                +"            result.setName(value$name);"+"\n"
-                +"        }"+"\n"
-                +"        return result;"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "public class MyPojoBuilder {"+"\n"
+            +"\n"
+            +"    public MyPojo build() {"+"\n"
+            +"        MyPojo result = MyPojoFactory.createMyPojo();"+"\n"
+            +"        if (isSet$name) {"+"\n"
+            +"            result.setName(value$name);"+"\n"
+            +"        }"+"\n"
+            +"        return result;"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
     }
 
     @Test
     public void testGenerateWithBuildMethodCallingPojoFactoryWithMultipleSetterCalls() throws IOException {
         // Given:
-        builderClassTM.setName("PojoBuilder");
+        builderClassTM.setName("MyPojoBuilder");
         BuildMethodTM buildMethod = new BuildMethodTM();
-        buildMethod.setReturnType("Pojo");
+        buildMethod.setReturnType("MyPojo");
         FactoryCallTM construction = new FactoryCallTM();
-        construction.setMethodName("PojoFactory.createPojo");
+        construction.setMethodName("MyPojoFactory.createMyPojo");
         buildMethod.setConstruction(construction);
         SetterCallTM setterCall1 = new SetterCallTM();
         setterCall1.setFieldname("name");
@@ -1202,22 +1180,22 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "public class PojoBuilder {"+"\n"
-                +"\n"
-                +"    public Pojo build() {"+"\n"
-                +"        Pojo result = PojoFactory.createPojo();"+"\n"
-                +"        if (isSet$name) {"+"\n"
-                +"            result.setName(value$name);"+"\n"
-                +"        }"+"\n"
-                +"        if (isSet$date) {"+"\n"
-                +"            result.setDate(value$date);"+"\n"
-                +"        }"+"\n"
-                +"        return result;"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "public class MyPojoBuilder {"+"\n"
+            +"\n"
+            +"    public MyPojo build() {"+"\n"
+            +"        MyPojo result = MyPojoFactory.createMyPojo();"+"\n"
+            +"        if (isSet$name) {"+"\n"
+            +"            result.setName(value$name);"+"\n"
+            +"        }"+"\n"
+            +"        if (isSet$date) {"+"\n"
+            +"            result.setDate(value$date);"+"\n"
+            +"        }"+"\n"
+            +"        return result;"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
     }
 
@@ -1238,8 +1216,8 @@ public class PojoBuilderCodeGeneratorTest {
         String field3Name = "date$java$util$Date";
         String field3Type = "Date";
 
-        builderClassTM.setPackage(new PackageTM("net.karneim.scribble"));
-        builderClassTM.getImports().add(new ImportTM("net.karneim.base.AbstractBuilder"));
+        builderClassTM.setPackage(new PackageTM("com.example"));
+        builderClassTM.getImports().add(new ImportTM("com.example.base.AbstractBuilder"));
         builderClassTM.getImports().add(new ImportTM("java.util.Date"));
         builderClassTM.getImports().add(new ImportTM("java.util.List"));
         builderClassTM.getImports().add(new ImportTM("javax.annotation.Generated"));
@@ -1276,91 +1254,91 @@ public class PojoBuilderCodeGeneratorTest {
 
         // Then:
         //@formatter:off
-        String generatedCode = writer.toString();
+        String generatedCode = writer.toString().replace("\r", "");
         log(generatedCode);
         assertThat(generatedCode).isEqualTo(
-                "package net.karneim.scribble;"+"\n"
-                +"\n"
-                +"import net.karneim.base.AbstractBuilder;"+"\n"
-                +"import java.util.Date;"+"\n"
-                +"import java.util.List;"+"\n"
-                +"import javax.annotation.Generated;"+"\n"
-                +"\n"
-                +"@Generated(\"PojoBuilder\")"+"\n"
-                +"public class DataBuilder<T extends Number> extends AbstractBuilder implements Cloneable {"+"\n"
-                +"    protected DataBuilder<T> self;"+"\n"
-                +"\n"
-                +"    private List<T> value$list$java$util$List; // mandatory construction parameter"+"\n"
-                +"    private boolean isSet$list$java$util$List = false;"+"\n"
-                +"\n"
-                +"    private String value$name$java$lang$String; // mandatory construction parameter"+"\n"
-                +"    private boolean isSet$name$java$lang$String = false;"+"\n"
-                +"\n"
-                +"    private Date value$date$java$util$Date;"+"\n"
-                +"    private boolean isSet$date$java$util$Date = false;"+"\n"
-                +"\n"
-                +"    public DataBuilder() {"+"\n"
-                +"        self = (DataBuilder<T>)this;"+"\n"
-                +"    }"+"\n"
-                +"\n"
-                +"    public DataBuilder<T> withName(String aValue) {"+"\n"
-                +"        value$name$java$lang$String = aValue;"+"\n"
-                +"        isSet$name$java$lang$String = true;"+"\n"
-                +"        return self;"+"\n"
-                +"    }"+"\n"
-                +"\n"
-                +"    public DataBuilder<T> withList(List<T> aValue) {"+"\n"
-                +"        value$list$java$util$List = aValue;"+"\n"
-                +"        isSet$list$java$util$List = true;"+"\n"
-                +"        return self;"+"\n"
-                +"    }"+"\n"
-                +"\n"
-                +"    public DataBuilder<T> withDate(Date aValue) {"+"\n"
-                +"        value$date$java$util$Date = aValue;"+"\n"
-                +"        isSet$date$java$util$Date = true;"+"\n"
-                +"        return self;"+"\n"
-                +"    }"+"\n"
-                +"\n"
-                +"    @Override"+"\n"
-                +"    public Object clone() {"+"\n"
-                +"        try {"+"\n"
-                +"            @SuppressWarnings(\"unchecked\")"+"\n"
-                +"            DataBuilder<T> result = (DataBuilder<T>)super.clone();"+"\n"
-                +"            result.self = result;"+"\n"
-                +"            return result;"+"\n"
-                +"        } catch (CloneNotSupportedException e) {"+"\n"
-                +"            throw new InternalError(e.getMessage());"+"\n"
-                +"        }"+"\n"
-                +"    }"+"\n"
-                +"\n"
-                +"    @SuppressWarnings(\"unchecked\")"+"\n"
-                +"    public DataBuilder<T> but() {"+"\n"
-                +"        return (DataBuilder<T>)clone();"+"\n"
-                +"    }"+"\n"
-                +"\n"
-                +"    public DataBuilder<T> copy(Data<T> original) {"+"\n"
-                +"        withName(original.name);"+"\n"
-                +"        withList(original.getList());"+"\n"
-                +"        withDate(original.date);"+"\n"
-                +"        return self;"+"\n"
-                +"    }"+"\n"
-                +"\n"
-                +"    public Data<T> build() {"+"\n"
-                +"        Data<T> result = new Data(value$list$java$util$List, value$name$java$lang$String);"+"\n"
-                +"        if (isSet$date$java$util$Date) {"+"\n"
-                +"            result.setDate(value$date$java$util$Date);"+"\n"
-                +"        }"+"\n"
-                +"        return result;"+"\n"
-                +"    }"+"\n"
-                +"\n"
-                +"    public static <T extends Number> DataBuilder<T> $Data() {"+"\n"
-                +"        return new DataBuilder<T>();"+"\n"
-                +"    }"+"\n"
-                +"\n"
-                +"    public static <T extends Number> Data<T> some(DataBuilder<T> builder) {"+"\n"
-                +"        return builder.build();"+"\n"
-                +"    }"+"\n"
-                +"}");
+            "package com.example;"+"\n"
+            +"\n"
+            +"import com.example.base.AbstractBuilder;"+"\n"
+            +"import java.util.Date;"+"\n"
+            +"import java.util.List;"+"\n"
+            +"import javax.annotation.Generated;"+"\n"
+            +"\n"
+            +"@Generated(\"PojoBuilder\")"+"\n"
+            +"public class DataBuilder<T extends Number> extends AbstractBuilder implements Cloneable {"+"\n"
+            +"    protected DataBuilder<T> self;"+"\n"
+            +"\n"
+            +"    private List<T> value$list$java$util$List; // mandatory construction parameter"+"\n"
+            +"    private boolean isSet$list$java$util$List = false;"+"\n"
+            +"\n"
+            +"    private String value$name$java$lang$String; // mandatory construction parameter"+"\n"
+            +"    private boolean isSet$name$java$lang$String = false;"+"\n"
+            +"\n"
+            +"    private Date value$date$java$util$Date;"+"\n"
+            +"    private boolean isSet$date$java$util$Date = false;"+"\n"
+            +"\n"
+            +"    public DataBuilder() {"+"\n"
+            +"        self = (DataBuilder<T>)this;"+"\n"
+            +"    }"+"\n"
+            +"\n"
+            +"    public DataBuilder<T> withName(String aValue) {"+"\n"
+            +"        value$name$java$lang$String = aValue;"+"\n"
+            +"        isSet$name$java$lang$String = true;"+"\n"
+            +"        return self;"+"\n"
+            +"    }"+"\n"
+            +"\n"
+            +"    public DataBuilder<T> withList(List<T> aValue) {"+"\n"
+            +"        value$list$java$util$List = aValue;"+"\n"
+            +"        isSet$list$java$util$List = true;"+"\n"
+            +"        return self;"+"\n"
+            +"    }"+"\n"
+            +"\n"
+            +"    public DataBuilder<T> withDate(Date aValue) {"+"\n"
+            +"        value$date$java$util$Date = aValue;"+"\n"
+            +"        isSet$date$java$util$Date = true;"+"\n"
+            +"        return self;"+"\n"
+            +"    }"+"\n"
+            +"\n"
+            +"    @Override"+"\n"
+            +"    public Object clone() {"+"\n"
+            +"        try {"+"\n"
+            +"            @SuppressWarnings(\"unchecked\")"+"\n"
+            +"            DataBuilder<T> result = (DataBuilder<T>)super.clone();"+"\n"
+            +"            result.self = result;"+"\n"
+            +"            return result;"+"\n"
+            +"        } catch (CloneNotSupportedException e) {"+"\n"
+            +"            throw new InternalError(e.getMessage());"+"\n"
+            +"        }"+"\n"
+            +"    }"+"\n"
+            +"\n"
+            +"    @SuppressWarnings(\"unchecked\")"+"\n"
+            +"    public DataBuilder<T> but() {"+"\n"
+            +"        return (DataBuilder<T>)clone();"+"\n"
+            +"    }"+"\n"
+            +"\n"
+            +"    public DataBuilder<T> copy(Data<T> original) {"+"\n"
+            +"        withName(original.name);"+"\n"
+            +"        withList(original.getList());"+"\n"
+            +"        withDate(original.date);"+"\n"
+            +"        return self;"+"\n"
+            +"    }"+"\n"
+            +"\n"
+            +"    public Data<T> build() {"+"\n"
+            +"        Data<T> result = new Data(value$list$java$util$List, value$name$java$lang$String);"+"\n"
+            +"        if (isSet$date$java$util$Date) {"+"\n"
+            +"            result.setDate(value$date$java$util$Date);"+"\n"
+            +"        }"+"\n"
+            +"        return result;"+"\n"
+            +"    }"+"\n"
+            +"\n"
+            +"    public static <T extends Number> DataBuilder<T> $Data() {"+"\n"
+            +"        return new DataBuilder<T>();"+"\n"
+            +"    }"+"\n"
+            +"\n"
+            +"    public static <T extends Number> Data<T> some(DataBuilder<T> builder) {"+"\n"
+            +"        return builder.build();"+"\n"
+            +"    }"+"\n"
+            +"}");
         //@formatter:on
     }
 
