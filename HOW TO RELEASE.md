@@ -28,6 +28,7 @@ For details see http://maven.apache.org/maven-release/maven-release-plugin/usage
 * Check for failures, review output and copied POMs.
 * If ok, run ```mvn release:prepare``` 
 * hit [ENTER] for all prompts
+* Run ```mvn release:rollback```
 * Run ```mvn release:perform```
 
 ## Release it 
