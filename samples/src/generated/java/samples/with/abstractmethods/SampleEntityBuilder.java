@@ -36,6 +36,7 @@ public class SampleEntityBuilder implements Cloneable {
 
 	/**
 	 * Sets the default value for the {@link SampleEntity#id} property.
+	DO STUFF
 	 * @param value the default value
 	 * @return this builder
 	 */
@@ -46,6 +47,7 @@ public class SampleEntityBuilder implements Cloneable {
 	}
 	/**
 	 * Sets the default value for the {@link SampleEntity#key} property.
+	DO STUFF
 	 * @param value the default value
 	 * @return this builder
 	 */
@@ -56,6 +58,7 @@ public class SampleEntityBuilder implements Cloneable {
 	}
 	/**
 	 * Sets the default value for the {@link SampleEntity#name} property.
+	DO STUFF
 	 * @param value the default value
 	 * @return this builder
 	 */
