@@ -225,22 +225,53 @@ public class BuilderModelProducer {
         }
     }
 
+    @SuppressWarnings("deprecation")
     private void addPropertyModelsForFactoryMethodParameters(ExecutableElement factoryMethodEl, BuilderM builderModel) {
         if (factoryMethodEl.getParameters().isEmpty()) {
             return;
         }
+
+        // This method can be simplified when we only have one annotation to handle in future
         PropertyNames propertyNamesAnno = factoryMethodEl.getAnnotation(PropertyNames.class);
-        if (propertyNamesAnno == null) {
-            throw new BuildException(Diagnostic.Kind.ERROR, String.format(
-                    "Missing annotation %s on factory method %s of class %s!", PropertyNames.class.getSimpleName(),
-                    factoryMethodEl.toString(), factoryMethodEl.getEnclosingElement().getSimpleName()), factoryMethodEl);
+        FactoryProperties factoryPropertiesAnno = factoryMethodEl.getAnnotation(FactoryProperties.class);
+        if (propertyNamesAnno == null && factoryPropertiesAnno == null) {
+            // ... add some kind of NamingStrategy and extract commonality
+            addPropertyModelsForImplicitMethodParameters(factoryMethodEl,builderModel);
+            return;
         }
-        String[] propertyNames = propertyNamesAnno.value();
+
+        if (propertyNamesAnno != null && factoryPropertiesAnno != null) {
+            throw new BuildException(
+                    Diagnostic.Kind.ERROR,
+                    String.format(
+                            "Cannot specify both %s and %s on factory method %s of class %s!",
+                            FactoryProperties.class.getSimpleName(),
+                            PropertyNames.class.getSimpleName(),
+                            factoryMethodEl.toString(),
+                            factoryMethodEl.getEnclosingElement().getSimpleName()),
+                    factoryMethodEl);
+        }
+
+        String[] propertyNames;
+        String annotationName;
+        if (factoryPropertiesAnno != null) {
+            propertyNames = factoryPropertiesAnno.value();
+            annotationName = FactoryProperties.class.getSimpleName();
+        } else {
+            propertyNames = propertyNamesAnno.value();
+            annotationName = PropertyNames.class.getSimpleName();
+        }
+
         if (propertyNames.length != factoryMethodEl.getParameters().size()) {
-            throw new BuildException(Diagnostic.Kind.ERROR, String.format(
-                    "Incorrect number of values in annotation %s on method %s! " + "Expected %d, but was %d.",
-                    PropertyNames.class.getSimpleName(), factoryMethodEl, factoryMethodEl.getParameters().size(),
-                    propertyNames.length), factoryMethodEl);
+            throw new BuildException(
+                    Diagnostic.Kind.ERROR,
+                    String.format(
+                            "Incorrect number of values in annotation %s on method %s! Expected %d, but was %d.",
+                            annotationName,
+                            factoryMethodEl,
+                            factoryMethodEl.getParameters().size(),
+                            propertyNames.length),
+                    factoryMethodEl);
         }
         // loop over all method parameters
         for (int i = 0; i < propertyNames.length; ++i) {
@@ -250,6 +281,18 @@ public class BuilderModelProducer {
 
             PropertyM propM = builderModel.getOrCreateProperty(propertyName, propertyTypeM);
             propM.setParameterPos(i);
+        }
+    }
+
+    private void addPropertyModelsForImplicitMethodParameters( ExecutableElement factoryMethod, BuilderM builderModel ) {
+        // loop over all method parameters
+        int i = 0;
+        for (VariableElement param : factoryMethod.getParameters()) {
+            String propertyName = param.getSimpleName().toString();
+            TypeMirror propertyType = param.asType();
+            TypeM propertyTypeM = typeMUtils.getTypeM(propertyType);
+            PropertyM propM = builderModel.getOrCreateProperty(propertyName, propertyTypeM);
+            propM.setParameterPos(i++);
         }
     }
 

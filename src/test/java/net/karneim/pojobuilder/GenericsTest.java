@@ -1,17 +1,17 @@
 package net.karneim.pojobuilder;
 
-import javax.annotation.processing.ProcessingEnvironment;
-import javax.lang.model.element.TypeElement;
-
 import net.karneim.pojobuilder.model.BuilderM;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import testdata.generics.NumberGrid;
 import testenv.AddToSourceTree;
 import testenv.ProcessingEnvironmentRunner;
+
+import javax.annotation.processing.ProcessingEnvironment;
+import javax.lang.model.element.TypeElement;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(ProcessingEnvironmentRunner.class)
 @AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
@@ -31,7 +31,7 @@ public class GenericsTest extends TestBase {
 	@Test
 	public void testProduceModelReturnsModelWithTypeParameters() {
 		// Given:
-		String pojoClassname = NumberGrid.class.getName();
+		String pojoClassname = NumberGrid.class.getCanonicalName();
 		TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(pojoClassname);
 
 		// When:

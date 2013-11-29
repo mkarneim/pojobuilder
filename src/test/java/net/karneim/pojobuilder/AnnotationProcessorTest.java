@@ -1,14 +1,15 @@
 package net.karneim.pojobuilder;
 
-import java.lang.reflect.Modifier;
-
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
 import testenv.JavaProject;
 import testenv.Util;
+
+import java.lang.reflect.Modifier;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * The {@link AnnotationProcessorTest} is a simple acceptance test for running
@@ -39,9 +40,9 @@ public class AnnotationProcessorTest {
 		boolean success = prj.compile();
 
 		// Then: the class file is generated
-		Assert.assertEquals("success", true, success);
+		assertEquals("success", true, success);
 		Class<?> pojoClass = prj.findClass("testdata.EmptyPojo");
-		Assert.assertNotNull("pojoClass", pojoClass);
+		assertNotNull("pojoClass", pojoClass);
 	}
 
 	@Test
@@ -53,9 +54,9 @@ public class AnnotationProcessorTest {
 		boolean success = prj.compile();
 
 		// Then: a new builder class is generated with a matching name
-		Assert.assertEquals("success", true, success);
+		assertEquals("success", true, success);
 		Class<?> newClass = prj.findClass("testdata.SimpleAnnotatedPojoBuilder");
-		Assert.assertNotNull("newClass", newClass);
+		assertNotNull("newClass", newClass);
 	}
 
 	@Test
@@ -67,9 +68,9 @@ public class AnnotationProcessorTest {
 		boolean success = prj.compile();
 
 		// Then: a new builder class is generated with a matching name
-		Assert.assertEquals("success", true, success);
+		assertEquals("success", true, success);
 		Class<?> newClass = prj.findClass("testdata.ContactBuilder");
-		Assert.assertNotNull("newClass", newClass);
+		assertNotNull("newClass", newClass);
 	}
 
 	@Test
@@ -82,9 +83,9 @@ public class AnnotationProcessorTest {
 		boolean success = prj.compile();
 
 		// Then: a new builder class is generated into target directory
-		Assert.assertEquals("success", true, success);
+		assertEquals("success", true, success);
 		Class<?> newClass = prj.findClass("testdata.intoPackage.target.ContactBuilder");
-		Assert.assertNotNull("newClass", newClass);
+		assertNotNull("newClass", newClass);
 	}
 
 	@Test
@@ -98,15 +99,15 @@ public class AnnotationProcessorTest {
 
 		// Then: two new classes are generated, one abstract and the other
 		// concrete
-		Assert.assertEquals("success", true, success);
+		assertEquals("success", true, success);
 		Class<?> newClass = prj.findClass("testdata.generationgap.ContactBuilder");
-		Assert.assertNotNull("newClass", newClass);
+		assertNotNull("newClass", newClass);
 		Class<?> newAbstractClass = prj.findClass("testdata.generationgap.AbstractContactBuilder");
-		Assert.assertNotNull("newAbstractClass", newAbstractClass);
-		Assert.assertEquals("abstract", true, Modifier.isAbstract(newAbstractClass.getModifiers()));
-		Assert.assertEquals("abstract", false, Modifier.isAbstract(newClass.getModifiers()));
-		Assert.assertEquals("superclass", newAbstractClass.getCanonicalName(), newClass.getSuperclass()
-				.getCanonicalName());
+		assertNotNull("newAbstractClass", newAbstractClass);
+		assertEquals("abstract", true, Modifier.isAbstract(newAbstractClass.getModifiers()));
+		assertEquals("abstract", false, Modifier.isAbstract(newClass.getModifiers()));
+		assertEquals("superclass", newAbstractClass.getCanonicalName(), newClass.getSuperclass()
+                .getCanonicalName());
 	}
 
 }

@@ -1,6 +1,10 @@
 package study;
 
-import java.util.List;
+import net.karneim.pojobuilder.TestBase;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import testenv.ProcessingEnvironmentRunner;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.Element;
@@ -12,14 +16,9 @@ import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.type.TypeVariable;
 import javax.lang.model.util.ElementFilter;
+import java.util.List;
 
-import net.karneim.pojobuilder.TestBase;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import testenv.ProcessingEnvironmentRunner;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(ProcessingEnvironmentRunner.class)
 public class ParameterizedClassTest extends TestBase {

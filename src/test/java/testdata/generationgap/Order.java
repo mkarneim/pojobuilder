@@ -1,8 +1,8 @@
 package testdata.generationgap;
 
-import java.util.List;
-
 import net.karneim.pojobuilder.GeneratePojoBuilder;
+
+import java.util.List;
 
 @GeneratePojoBuilder(withGenerationGap = true)
 public class Order<T> {

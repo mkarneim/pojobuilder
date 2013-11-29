@@ -1,8 +1,8 @@
 package testdata.copy;
 
-import java.beans.ConstructorProperties;
-
 import net.karneim.pojobuilder.GeneratePojoBuilder;
+
+import java.beans.ConstructorProperties;
 
 @GeneratePojoBuilder(withCopyMethod=true)
 public class AddressDTO { 
