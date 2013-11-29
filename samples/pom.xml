@@ -14,9 +14,9 @@
 		<dependency>
 			<groupId>net.karneim</groupId>
 			<artifactId>pojobuilder</artifactId>
-			<version>LATEST</version>
+			<version>${pojobuilder.version}</version>
             <scope>system</scope>
-            <systemPath>${basedir}/../target/pojobuilder-2.3.5-SNAPSHOT-jar-with-dependencies.jar</systemPath>
+            <systemPath>${basedir}/../target/pojobuilder-${pojobuilder.version}-jar-with-dependencies.jar</systemPath>
 		</dependency>
 	</dependencies>
 
