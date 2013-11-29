@@ -11,67 +11,67 @@ import java.util.Map;
 
 class ProcessingEnvironmentAdaptor implements ProcessingEnvironment {
 
-	private final ThreadLocal<ProcessingEnvironment> delegate = new ThreadLocal<ProcessingEnvironment>();
+    private final ThreadLocal<ProcessingEnvironment> delegate = new ThreadLocal<ProcessingEnvironment>();
 
-	public ProcessingEnvironmentAdaptor() {
-		super();
-	}
+    public ProcessingEnvironmentAdaptor() {
+        super();
+    }
 
-	public ProcessingEnvironment getDelegate() {
-		return delegate.get();
-	}
+    public ProcessingEnvironment getDelegate() {
+        return delegate.get();
+    }
 
-	public void setDelegate(ProcessingEnvironment delegate) {
-		this.delegate.set(delegate);
-	}
+    public void setDelegate(ProcessingEnvironment delegate) {
+        this.delegate.set(delegate);
+    }
 
-	@Override
-	public Map<String, String> getOptions() {
-		checkDelegateNotNull();
-		return getDelegate().getOptions();
-	}
+    @Override
+    public Map<String, String> getOptions() {
+        checkDelegateNotNull();
+        return getDelegate().getOptions();
+    }
 
-	@Override
-	public Messager getMessager() {
-		checkDelegateNotNull();
-		return getDelegate().getMessager();
-	}
+    @Override
+    public Messager getMessager() {
+        checkDelegateNotNull();
+        return getDelegate().getMessager();
+    }
 
-	@Override
-	public Filer getFiler() {
-		checkDelegateNotNull();
-		return getDelegate().getFiler();
-	}
+    @Override
+    public Filer getFiler() {
+        checkDelegateNotNull();
+        return getDelegate().getFiler();
+    }
 
-	@Override
-	public Elements getElementUtils() {
-		checkDelegateNotNull();
-		return getDelegate().getElementUtils();
-	}
+    @Override
+    public Elements getElementUtils() {
+        checkDelegateNotNull();
+        return getDelegate().getElementUtils();
+    }
 
-	@Override
-	public Types getTypeUtils() {
-		checkDelegateNotNull();
-		return getDelegate().getTypeUtils();
-	}
+    @Override
+    public Types getTypeUtils() {
+        checkDelegateNotNull();
+        return getDelegate().getTypeUtils();
+    }
 
-	@Override
-	public SourceVersion getSourceVersion() {
-		checkDelegateNotNull();
-		return getDelegate().getSourceVersion();
-	}
+    @Override
+    public SourceVersion getSourceVersion() {
+        checkDelegateNotNull();
+        return getDelegate().getSourceVersion();
+    }
 
-	@Override
-	public Locale getLocale() {
-		checkDelegateNotNull();
-		return getDelegate().getLocale();
-	}
+    @Override
+    public Locale getLocale() {
+        checkDelegateNotNull();
+        return getDelegate().getLocale();
+    }
 
-	private void checkDelegateNotNull() {
-		if (delegate.get() == null) {
-			throw new IllegalStateException(
-					"Calling methods on ProcessingEnvironment is only supported inside test methods!");
-		}
-	}
+    private void checkDelegateNotNull() {
+        if (delegate.get() == null) {
+            throw new IllegalStateException(
+                    "Calling methods on ProcessingEnvironment is only supported inside test methods!");
+        }
+    }
 
 }

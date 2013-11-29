@@ -18,10 +18,11 @@ import samples.with.generationgap.AbstractOrderBuilder;
 @Generated("PojoBuilder")
 public class OrderBuilder<T extends Object> extends AbstractOrderBuilder<T> implements Cloneable {
 
-	/**
-	 * Creates a new {@link OrderBuilder}.
-	 */
-	public OrderBuilder() {
-	}
+    /**
+     * Creates a new {@link OrderBuilder}.
+     */
+    public OrderBuilder() {
+    }
+
 
 }

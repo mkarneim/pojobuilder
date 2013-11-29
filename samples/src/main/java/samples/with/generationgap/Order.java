@@ -6,23 +6,23 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 @GeneratePojoBuilder(withGenerationGap = true)
 public class Order<T> {
-	private String customer;
-	private List<T> items;
+    private String customer;
+    private List<T> items;
 
-	public String getCustomer() {
-		return customer;
-	}
+    public String getCustomer() {
+        return customer;
+    }
 
-	public void setCustomer(String customer) {
-		this.customer = customer;
-	}
+    public void setCustomer(String customer) {
+        this.customer = customer;
+    }
 
-	public List<T> getItems() {
-		return items;
-	}
+    public List<T> getItems() {
+        return items;
+    }
 
-	public void setItems(List<T> items) {
-		this.items = items;
-	}
+    public void setItems(List<T> items) {
+        this.items = items;
+    }
 
 }

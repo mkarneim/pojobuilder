@@ -16,67 +16,66 @@ import javax.annotation.Generated;
  */
 @Generated("PojoBuilder")
 public class NoteBuilder implements Cloneable {
-	protected NoteBuilder self;
-	protected String value$text$java$lang$String; 
-	protected boolean isSet$text$java$lang$String = false; 
+    protected NoteBuilder self;
+    protected String value$text$java$lang$String; 
+    protected boolean isSet$text$java$lang$String = false;
 
 
 
-	/**
-	 * Creates a new {@link NoteBuilder}.
-	 */
-	public NoteBuilder() {
-		self = (NoteBuilder)this;
-	}
+    /**
+     * Creates a new {@link NoteBuilder}.
+     */
+    public NoteBuilder() {
+        self = (NoteBuilder)this;
+    }
 
-	/**
-	 * Sets the default value for the {@link Note#text} property.
-	DO STUFF
-	 * @param value the default value
-	 * @return this builder
-	 */
-	public NoteBuilder withText( String value) {
-		this.value$text$java$lang$String = value;
-		this.isSet$text$java$lang$String = true;
-		return self;
-	}
+    /**
+     * Sets the default value for the {@link Note#text} property.
+     * @param value the default value
+     * @return this builder
+     */
+    public NoteBuilder withText( String value) {
+        this.value$text$java$lang$String = value;
+        this.isSet$text$java$lang$String = true;
+        return self;
+    }
 
 
-	/**
-	 * Returns a clone of this builder.
-	 * @return the clone
-	 */
-	@Override	
-	public Object clone() {
-		try {
-			NoteBuilder result = (NoteBuilder)super.clone();
-			result.self = result;
-			return result;
-		} catch (CloneNotSupportedException e) {
-			throw new InternalError(e.getMessage());
-		}        
-	}
+    /**
+     * Returns a clone of this builder.
+     * @return the clone
+     */
+    @Override    
+    public Object clone() {
+        try {
+            NoteBuilder result = (NoteBuilder)super.clone();
+            result.self = result;
+            return result;
+        } catch (CloneNotSupportedException e) {
+            throw new InternalError(e.getMessage());
+        }
+    }
 
-	/**
-	 * Returns a clone of this builder.
-	 * @return the clone
-	 */
-	public NoteBuilder but() {
-		return (NoteBuilder)clone();
-	}
+    /**
+     * Returns a clone of this builder.
+     * @return the clone
+     */
+    public NoteBuilder but() {
+        return (NoteBuilder)clone();
+    }
 
-	/**
-	 * Creates a new {@link Note} based on this builder's settings.
-	 * @return the created Note
-	 */
-	public Note build() {
-		Note result = PojoFactory.createNote( );
+    /**
+     * Creates a new {@link Note} based on this builder's settings.
+     * @return the created Note
+     */
+    public Note build() {
+        Note result = PojoFactory.createNote( );
 
-		if ( this.isSet$text$java$lang$String) { 
-			result.text = this.value$text$java$lang$String;	
-		}
+        if ( this.isSet$text$java$lang$String) { 
+            result.text = this.value$text$java$lang$String;    
+        }
 
-		return result;
-	}
+        return result;
+    }
 
 }

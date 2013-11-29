@@ -6,17 +6,17 @@ package net.karneim.pojobuilder.codegen;
  */
 public class MethodAccessorTM extends AccessorTM {
 
-	public MethodAccessorTM() {
-		super();
-	}
+    public MethodAccessorTM() {
+        super();
+    }
 
-	public MethodAccessorTM(String name) {
-		super(name);
-	}
+    public MethodAccessorTM(String name) {
+        super(name);
+    }
 
-	@Override
-	public boolean isMethod() {
-		return true;
-	}
+    @Override
+    public boolean isMethod() {
+        return true;
+    }
 
 }

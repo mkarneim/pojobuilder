@@ -4,6 +4,6 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 @GeneratePojoBuilder
 public class Item {
-	public String name;
-	public int amount;
+    public String name;
+    public int amount;
 }

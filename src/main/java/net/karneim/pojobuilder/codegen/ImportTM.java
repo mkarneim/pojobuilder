@@ -5,18 +5,18 @@ package net.karneim.pojobuilder.codegen;
  * @author karneim
  */
 public class ImportTM {
-	private String text;
+    private String text;
 
-	public ImportTM() {
-	}
+    public ImportTM() {
+    }
 
-	public ImportTM(String aText) {
-		this.text = aText;
-	}
+    public ImportTM(String aText) {
+        this.text = aText;
+    }
 
-	@Override
-	public String toString() {
-		return text;
-	}
+    @Override
+    public String toString() {
+        return text;
+    }
 
 }

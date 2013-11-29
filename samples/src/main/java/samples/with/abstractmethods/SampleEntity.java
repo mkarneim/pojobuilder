@@ -19,7 +19,7 @@ public class SampleEntity extends Entity<Long> implements Serializable {
     public Long getKey() {
         return id;
     }
-    
+
     @Override
     public void setKey(Long key) {
         this.id = key;

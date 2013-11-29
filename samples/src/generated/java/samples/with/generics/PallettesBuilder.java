@@ -18,67 +18,66 @@ import javax.annotation.Generated;
  */
 @Generated("PojoBuilder")
 public class PallettesBuilder implements Cloneable {
-	protected PallettesBuilder self;
-	protected List<Set<Color>> value$elements$java$util$List; 
-	protected boolean isSet$elements$java$util$List = false; 
+    protected PallettesBuilder self;
+    protected List<Set<Color>> value$elements$java$util$List; 
+    protected boolean isSet$elements$java$util$List = false;
 
 
 
-	/**
-	 * Creates a new {@link PallettesBuilder}.
-	 */
-	public PallettesBuilder() {
-		self = (PallettesBuilder)this;
-	}
+    /**
+     * Creates a new {@link PallettesBuilder}.
+     */
+    public PallettesBuilder() {
+        self = (PallettesBuilder)this;
+    }
 
-	/**
-	 * Sets the default value for the {@link Pallettes#elements} property.
-	DO STUFF
-	 * @param value the default value
-	 * @return this builder
-	 */
-	public PallettesBuilder withElements( List<Set<Color>> value) {
-		this.value$elements$java$util$List = value;
-		this.isSet$elements$java$util$List = true;
-		return self;
-	}
+    /**
+     * Sets the default value for the {@link Pallettes#elements} property.
+     * @param value the default value
+     * @return this builder
+     */
+    public PallettesBuilder withElements( List<Set<Color>> value) {
+        this.value$elements$java$util$List = value;
+        this.isSet$elements$java$util$List = true;
+        return self;
+    }
 
 
-	/**
-	 * Returns a clone of this builder.
-	 * @return the clone
-	 */
-	@Override	
-	public Object clone() {
-		try {
-			PallettesBuilder result = (PallettesBuilder)super.clone();
-			result.self = result;
-			return result;
-		} catch (CloneNotSupportedException e) {
-			throw new InternalError(e.getMessage());
-		}        
-	}
+    /**
+     * Returns a clone of this builder.
+     * @return the clone
+     */
+    @Override    
+    public Object clone() {
+        try {
+            PallettesBuilder result = (PallettesBuilder)super.clone();
+            result.self = result;
+            return result;
+        } catch (CloneNotSupportedException e) {
+            throw new InternalError(e.getMessage());
+        }
+    }
 
-	/**
-	 * Returns a clone of this builder.
-	 * @return the clone
-	 */
-	public PallettesBuilder but() {
-		return (PallettesBuilder)clone();
-	}
+    /**
+     * Returns a clone of this builder.
+     * @return the clone
+     */
+    public PallettesBuilder but() {
+        return (PallettesBuilder)clone();
+    }
 
-	/**
-	 * Creates a new {@link Pallettes} based on this builder's settings.
-	 * @return the created Pallettes
-	 */
-	public Pallettes build() {
-		Pallettes result = new Pallettes( );
+    /**
+     * Creates a new {@link Pallettes} based on this builder's settings.
+     * @return the created Pallettes
+     */
+    public Pallettes build() {
+        Pallettes result = new Pallettes( );
 
-		if ( this.isSet$elements$java$util$List) {    
-			result.setElements( this.value$elements$java$util$List);		
-		}
+        if ( this.isSet$elements$java$util$List) {    
+            result.setElements( this.value$elements$java$util$List);        
+        }
 
-		return result;
-	}
+        return result;
+    }
 
 }

@@ -5,21 +5,21 @@ package net.karneim.pojobuilder.codegen;
  * @author karneim
  */
 public class CloneMethodTM {
-	private String selfType;
+    private String selfType;
 
-	public CloneMethodTM() {
-	}
+    public CloneMethodTM() {
+    }
 
-	public CloneMethodTM(String selfType) {
-		this.selfType = selfType;
-	}
+    public CloneMethodTM(String selfType) {
+        this.selfType = selfType;
+    }
 
-	public String getSelfType() {
-		return selfType;
-	}
+    public String getSelfType() {
+        return selfType;
+    }
 
-	public void setSelfType(String selfType) {
-		this.selfType = selfType;
-	}
+    public void setSelfType(String selfType) {
+        this.selfType = selfType;
+    }
 
 }

@@ -23,22 +23,22 @@ import static org.junit.Assert.*;
 @AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
 public class FactoryMethodWithParametersTest extends TestBase {
 
-	private static String FACTORY_CLASSNAME = PojoFactory.class.getCanonicalName();
-	private static String CONTACT_CLASSNAME = Contact.class.getCanonicalName();
+    private static String FACTORY_CLASSNAME = PojoFactory.class.getCanonicalName();
+    private static String CONTACT_CLASSNAME = Contact.class.getCanonicalName();
 
-	private Elements elements;
+    private Elements elements;
 
-	private BuilderModelProducer underTest;
+    private BuilderModelProducer underTest;
 
-	@Before
-	public void setup() {
-		ProcessingEnvironment env = ProcessingEnvironmentRunner.getProcessingEnvironment();
-		elements = env.getElementUtils();
-		TypeMUtils typeMUtils = new TypeMUtils();
-		underTest = new BuilderModelProducer(env, typeMUtils);
-	}
+    @Before
+    public void setup() {
+        ProcessingEnvironment env = ProcessingEnvironmentRunner.getProcessingEnvironment();
+        elements = env.getElementUtils();
+        TypeMUtils typeMUtils = new TypeMUtils();
+        underTest = new BuilderModelProducer(env, typeMUtils);
+    }
 
-	@Test
+    @Test
     public void testFactoryMethodParameterPositionsWithParameterNames( ) {
         testFactoryMethodParameterPositions( "createContact" );
     }
@@ -58,26 +58,26 @@ public class FactoryMethodWithParametersTest extends TestBase {
         testFactoryMethodParameterPositions( "createContactImplicit" );
     }
 
-	private void testFactoryMethodParameterPositions( String factoryMethodName ) {
-		// Given:
-		TypeElement factoryTypeElement = elements.getTypeElement(FACTORY_CLASSNAME);
-		List<ExecutableElement> methods = ElementFilter.methodsIn(elements.getAllMembers(factoryTypeElement));
-		ExecutableElement factoryMetod = getFirstMethodByName(factoryMethodName, methods);
-		TypeElement pojoTypeElement = elements.getTypeElement(CONTACT_CLASSNAME);
+    private void testFactoryMethodParameterPositions( String factoryMethodName ) {
+        // Given:
+        TypeElement factoryTypeElement = elements.getTypeElement(FACTORY_CLASSNAME);
+        List<ExecutableElement> methods = ElementFilter.methodsIn(elements.getAllMembers(factoryTypeElement));
+        ExecutableElement factoryMetod = getFirstMethodByName(factoryMethodName, methods);
+        TypeElement pojoTypeElement = elements.getTypeElement(CONTACT_CLASSNAME);
 
-		// When:
-		Output output = underTest.produce(new Input(pojoTypeElement, factoryMetod));
-		BuilderM builder = output.getBuilder();
+        // When:
+        Output output = underTest.produce(new Input(pojoTypeElement, factoryMetod));
+        BuilderM builder = output.getBuilder();
 
-		// Then:
-		assertEquals("builder classname", "ContactBuilder", builder.getType().getSimpleName());
-		assertNotNull("factory", builder.getFactory());
-		assertEquals("factory method name", factoryMethodName, builder.getFactory().getMethodName());
-		assertThat(builder.getProperties(), containsOnly(
+        // Then:
+        assertEquals("builder classname", "ContactBuilder", builder.getType().getSimpleName());
+        assertNotNull("factory", builder.getFactory());
+        assertEquals("factory method name", factoryMethodName, builder.getFactory().getMethodName());
+        assertThat(builder.getProperties(), containsOnly(
                 propertyM(named("firstname"), withPosition(0)),
                 propertyM(named("surname"), withPosition(1)),
                 propertyM(named("email"))
         ));
-	}
+    }
 
 }

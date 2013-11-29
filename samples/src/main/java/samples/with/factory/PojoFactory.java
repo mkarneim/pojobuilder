@@ -11,11 +11,11 @@ public class PojoFactory {
     }
 
     @GeneratePojoBuilder
-	public static Contact createContact(String firstname, String surname) {
-		return new Contact(surname, firstname);
-	}
+    public static Contact createContact(String firstname, String surname) {
+        return new Contact(surname, firstname);
+    }
 
-    @GeneratePojoBuilder(withName="*Monteur")
+    @GeneratePojoBuilder(withName = "*Monteur")
     @FactoryProperties({ "firstname", "surname" })
     public static Contact construireContact(String prenom, String nomDeFamille) {
         return new Contact(prenom, nomDeFamille);

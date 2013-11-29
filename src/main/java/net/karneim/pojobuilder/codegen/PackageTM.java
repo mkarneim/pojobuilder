@@ -5,16 +5,16 @@ package net.karneim.pojobuilder.codegen;
  * @author karneim
  */
 public class PackageTM {
-	private String text;
+    private String text;
 
-	public PackageTM(String text) {
-		super();
-		this.text = text;
-	}
+    public PackageTM(String text) {
+        super();
+        this.text = text;
+    }
 
-	@Override
-	public String toString() {
-		return text;
-	}
+    @Override
+    public String toString() {
+        return text;
+    }
 
 }

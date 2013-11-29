@@ -16,77 +16,75 @@ import javax.annotation.Generated;
  */
 @Generated("PojoBuilder")
 public class DataBuilder implements Cloneable {
-	protected DataBuilder self;
-	protected Date value$end$java$util$Date; // mandatory constructor parameter
-	protected boolean isSet$end$java$util$Date = false; 
+    protected DataBuilder self;
+    protected Date value$end$java$util$Date; // mandatory constructor parameter
+    protected boolean isSet$end$java$util$Date = false;
 
-	protected Date value$start$java$util$Date; // mandatory constructor parameter
-	protected boolean isSet$start$java$util$Date = false; 
-
-
-
-	/**
-	 * Creates a new {@link DataBuilder}.
-	 */
-	public DataBuilder() {
-		self = (DataBuilder)this;
-	}
-
-	/**
-	 * Sets the default value for the {@link Data#end} property.
-	DO STUFF
-	 * @param value the default value
-	 * @return this builder
-	 */
-	public DataBuilder withEnd( Date value) {
-		this.value$end$java$util$Date = value;
-		this.isSet$end$java$util$Date = true;
-		return self;
-	}
-	/**
-	 * Sets the default value for the {@link Data#start} property.
-	DO STUFF
-	 * @param value the default value
-	 * @return this builder
-	 */
-	public DataBuilder withStart( Date value) {
-		this.value$start$java$util$Date = value;
-		this.isSet$start$java$util$Date = true;
-		return self;
-	}
+    protected Date value$start$java$util$Date; // mandatory constructor parameter
+    protected boolean isSet$start$java$util$Date = false;
 
 
-	/**
-	 * Returns a clone of this builder.
-	 * @return the clone
-	 */
-	@Override	
-	public Object clone() {
-		try {
-			DataBuilder result = (DataBuilder)super.clone();
-			result.self = result;
-			return result;
-		} catch (CloneNotSupportedException e) {
-			throw new InternalError(e.getMessage());
-		}        
-	}
 
-	/**
-	 * Returns a clone of this builder.
-	 * @return the clone
-	 */
-	public DataBuilder but() {
-		return (DataBuilder)clone();
-	}
+    /**
+     * Creates a new {@link DataBuilder}.
+     */
+    public DataBuilder() {
+        self = (DataBuilder)this;
+    }
 
-	/**
-	 * Creates a new {@link Data} based on this builder's settings.
-	 * @return the created Data
-	 */
-	public Data build() {
-		Data result = new Data( this.value$start$java$util$Date ,this.value$end$java$util$Date );
+    /**
+     * Sets the default value for the {@link Data#end} property.
+     * @param value the default value
+     * @return this builder
+     */
+    public DataBuilder withEnd( Date value) {
+        this.value$end$java$util$Date = value;
+        this.isSet$end$java$util$Date = true;
+        return self;
+    }
+    /**
+     * Sets the default value for the {@link Data#start} property.
+     * @param value the default value
+     * @return this builder
+     */
+    public DataBuilder withStart( Date value) {
+        this.value$start$java$util$Date = value;
+        this.isSet$start$java$util$Date = true;
+        return self;
+    }
 
-		return result;
-	}
+
+    /**
+     * Returns a clone of this builder.
+     * @return the clone
+     */
+    @Override    
+    public Object clone() {
+        try {
+            DataBuilder result = (DataBuilder)super.clone();
+            result.self = result;
+            return result;
+        } catch (CloneNotSupportedException e) {
+            throw new InternalError(e.getMessage());
+        }
+    }
+
+    /**
+     * Returns a clone of this builder.
+     * @return the clone
+     */
+    public DataBuilder but() {
+        return (DataBuilder)clone();
+    }
+
+    /**
+     * Creates a new {@link Data} based on this builder's settings.
+     * @return the created Data
+     */
+    public Data build() {
+        Data result = new Data( this.value$start$java$util$Date ,this.value$end$java$util$Date );
+
+        return result;
+    }
 
 }

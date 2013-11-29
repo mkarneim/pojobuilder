@@ -5,21 +5,21 @@ package net.karneim.pojobuilder.codegen;
  * @author karneim
  */
 public class SuperclassTM {
-	private String name;
+    private String name;
 
-	public SuperclassTM() {
-	}
+    public SuperclassTM() {
+    }
 
-	public SuperclassTM(String aName) {
-		this.name = aName;
-	}
+    public SuperclassTM(String aName) {
+        this.name = aName;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
 }

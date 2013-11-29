@@ -13,45 +13,45 @@ import java.util.Set;
 
 public class ProcessingInterceptor extends AbstractProcessor {
 
-	private ProcessorListener listener;
-	private ProcessingEnvironment processingEnv;
+    private ProcessorListener listener;
+    private ProcessingEnvironment processingEnv;
 
-	public ProcessingInterceptor() {
-	}
+    public ProcessingInterceptor() {
+    }
 
-	public void setListener(ProcessorListener aListener) {
-		this.listener = aListener;
-	}
+    public void setListener(ProcessorListener aListener) {
+        this.listener = aListener;
+    }
 
-	@Override
-	public synchronized void init(ProcessingEnvironment processingEnv) {
-		this.processingEnv = processingEnv;
-		super.init(processingEnv);
-	}
+    @Override
+    public synchronized void init(ProcessingEnvironment processingEnv) {
+        this.processingEnv = processingEnv;
+        super.init(processingEnv);
+    }
 
-	public ProcessingEnvironment getProcessingEnv() {
-		return processingEnv;
-	}
+    public ProcessingEnvironment getProcessingEnv() {
+        return processingEnv;
+    }
 
-	@Override
-	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-		if (roundEnv.processingOver()) {
-			return false;
-		}
-		if (listener != null) {
-			listener.onInvoke(getProcessingEnv(), roundEnv);
-		}
-		return true;
-	}
+    @Override
+    public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+        if (roundEnv.processingOver()) {
+            return false;
+        }
+        if (listener != null) {
+            listener.onInvoke(getProcessingEnv(), roundEnv);
+        }
+        return true;
+    }
 
-	@Override
-	public Set<String> getSupportedAnnotationTypes() {
-		return new HashSet<String>(Arrays.asList(RunWith.class.getCanonicalName()));
-	}
+    @Override
+    public Set<String> getSupportedAnnotationTypes() {
+        return new HashSet<String>(Arrays.asList(RunWith.class.getCanonicalName()));
+    }
 
-	@Override
-	public SourceVersion getSupportedSourceVersion() {
-		return SourceVersion.latest();
-	}
+    @Override
+    public SourceVersion getSupportedSourceVersion() {
+        return SourceVersion.latest();
+    }
 
 }

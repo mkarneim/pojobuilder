@@ -3,8 +3,9 @@ package samples.with.abstractmethods;
 public abstract class Entity<K> {
 
     public abstract K getKey();
+
     public abstract void setKey(K key);
-   
+
     @Override
     public final int hashCode() {
         final int prime = 37;
@@ -25,7 +26,7 @@ public abstract class Entity<K> {
             return false;
         }
         @SuppressWarnings("unchecked")
-        Entity<K> other = (Entity<K>)obj;
+        Entity<K> other = (Entity<K>) obj;
         if (getKey() == null) {
             if (other.getKey() != null) {
                 return false;

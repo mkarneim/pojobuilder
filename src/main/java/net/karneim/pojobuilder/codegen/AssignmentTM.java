@@ -6,31 +6,31 @@ package net.karneim.pojobuilder.codegen;
  */
 public class AssignmentTM {
 
-	private String setter;
-	private AccessorTM accessor;
+    private String setter;
+    private AccessorTM accessor;
 
-	public AssignmentTM() {
-	}
+    public AssignmentTM() {
+    }
 
-	public AssignmentTM(String setter, AccessorTM accessor) {
-		this.setter = setter;
-		this.accessor = accessor;
-	}
+    public AssignmentTM(String setter, AccessorTM accessor) {
+        this.setter = setter;
+        this.accessor = accessor;
+    }
 
-	public void setSetter(String setter) {
-		this.setter = setter;
-	}
+    public void setSetter(String setter) {
+        this.setter = setter;
+    }
 
-	public String getSetter() {
-		return setter;
-	}
+    public String getSetter() {
+        return setter;
+    }
 
-	public void setAccessor(AccessorTM readAccess) {
-		this.accessor = readAccess;
-	}
+    public void setAccessor(AccessorTM readAccess) {
+        this.accessor = readAccess;
+    }
 
-	public AccessorTM getAccessor() {
-		return accessor;
-	}
+    public AccessorTM getAccessor() {
+        return accessor;
+    }
 
 }

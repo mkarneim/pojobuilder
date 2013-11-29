@@ -17,30 +17,30 @@ import static org.junit.Assert.assertEquals;
 @RunWith(ProcessingEnvironmentRunner.class)
 @AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
 public class IntoPackageTest extends TestBase {
-	private static String ADDRESS_DTO_CLASSNAME = AddressDTO.class.getCanonicalName();
+    private static String ADDRESS_DTO_CLASSNAME = AddressDTO.class.getCanonicalName();
 
-	private ProcessingEnvironment env;
+    private ProcessingEnvironment env;
 
-	private BuilderModelProducer underTest;
+    private BuilderModelProducer underTest;
 
-	@Before
-	public void setup() {
-		env = ProcessingEnvironmentRunner.getProcessingEnvironment();
-		TypeMUtils typeMUtils = new TypeMUtils();
-		underTest = new BuilderModelProducer(env, typeMUtils);
-	}
+    @Before
+    public void setup() {
+        env = ProcessingEnvironmentRunner.getProcessingEnvironment();
+        TypeMUtils typeMUtils = new TypeMUtils();
+        underTest = new BuilderModelProducer(env, typeMUtils);
+    }
 
-	@Test
-	public void testBuilderPackage() {
-		// Given:
-		TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(ADDRESS_DTO_CLASSNAME);
+    @Test
+    public void testBuilderPackage() {
+        // Given:
+        TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(ADDRESS_DTO_CLASSNAME);
 
-		// When:
-		Output output = underTest.produce(new Input(pojoTypeElement));
-		BuilderM builder = output.getBuilder();
+        // When:
+        Output output = underTest.produce(new Input(pojoTypeElement));
+        BuilderM builder = output.getBuilder();
 
-		// Then:
-		assertEquals("builder classname", "AddressDTOBuilder", builder.getType().getSimpleName());
-		assertEquals("package", "testdata.builder", builder.getType().getPackage());
-	}
+        // Then:
+        assertEquals("builder classname", "AddressDTOBuilder", builder.getType().getSimpleName());
+        assertEquals("package", "testdata.builder", builder.getType().getPackage());
+    }
 }

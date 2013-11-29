@@ -11,29 +11,29 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 @GeneratePojoBuilder
 public class Resource2 {
 
-	private final URL url;
-	private final File file;
-	private String mimeType;
+    private final URL url;
+    private final File file;
+    private String mimeType;
 
-	@ConstructorProperties({ "urlString", "filepath" })
-	public Resource2(String urlString, String filepath) throws MalformedURLException, FileNotFoundException {
-		url = new URL(urlString);
-		file = new File(filepath);
-		if (file.exists() == false) {
-			throw new FileNotFoundException(filepath);
-		}
-	}
+    @ConstructorProperties({ "urlString", "filepath" })
+    public Resource2(String urlString, String filepath) throws MalformedURLException, FileNotFoundException {
+        url = new URL(urlString);
+        file = new File(filepath);
+        if (file.exists() == false) {
+            throw new FileNotFoundException(filepath);
+        }
+    }
 
-	public URL getUrl() {
-		return url;
-	}
+    public URL getUrl() {
+        return url;
+    }
 
-	public String getMimeType() {
-		return mimeType;
-	}
+    public String getMimeType() {
+        return mimeType;
+    }
 
-	public void setMimeType(String mimeType) {
-		this.mimeType = mimeType;
-	}
+    public void setMimeType(String mimeType) {
+        this.mimeType = mimeType;
+    }
 
 }

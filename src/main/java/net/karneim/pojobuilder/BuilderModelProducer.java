@@ -36,9 +36,9 @@ import net.karneim.pojobuilder.model.TypeM;
 public class BuilderModelProducer {
 
     private static final String IS = "is";
-	private static final String GET = "get";
-	private static final String SET = "set";
-	private final ProcessingEnvironment env;
+    private static final String GET = "get";
+    private static final String SET = "set";
+    private final ProcessingEnvironment env;
     private final TypeMUtils typeMUtils;
 
     public BuilderModelProducer(ProcessingEnvironment env, TypeMUtils typeMUtils) {
@@ -96,11 +96,10 @@ public class BuilderModelProducer {
     private FactoryM computeFactoryModel(Input input) {
         ExecutableElement factoryMethodEl = input.getFactoryMethod();
         if (!(factoryMethodEl.getEnclosingElement() instanceof TypeElement)) {
-            throw new BuildException(ERROR, String.format(
-                    "Unexpected owner of method %s! Expected class but was %s.", factoryMethodEl,
-                    factoryMethodEl.getEnclosingElement()), factoryMethodEl);
+            throw new BuildException(ERROR, String.format("Unexpected owner of method %s! Expected class but was %s.",
+                    factoryMethodEl, factoryMethodEl.getEnclosingElement()), factoryMethodEl);
         }
-        TypeElement ownerEl = (TypeElement)factoryMethodEl.getEnclosingElement();
+        TypeElement ownerEl = (TypeElement) factoryMethodEl.getEnclosingElement();
 
         TypeM ownerTypeM = typeMUtils.getTypeM(ownerEl);
         FactoryM result = new FactoryM(ownerTypeM, factoryMethodEl.getSimpleName().toString());
@@ -118,7 +117,7 @@ public class BuilderModelProducer {
     }
 
     private TypeM getAnnotationClassAttributeValue(Element annotatedEl, final String annotationName,
-        final String attributeName) {
+            final String attributeName) {
         for (AnnotationMirror annoType : annotatedEl.getAnnotationMirrors()) {
             if (annotationName.equals(annoType.getAnnotationType().toString())) {
                 Map<? extends ExecutableElement, ? extends AnnotationValue> valueMap = env.getElementUtils()
@@ -220,8 +219,7 @@ public class BuilderModelProducer {
         } else {
             throw new BuildException(Diagnostic.Kind.ERROR, String.format(
                     "Missing default constructor OR constructor annotated with %s in class %s!",
-                    ConstructorProperties.class.getCanonicalName(), pojoClassEl.getQualifiedName()),
-                    pojoClassEl);
+                    ConstructorProperties.class.getCanonicalName(), pojoClassEl.getQualifiedName()), pojoClassEl);
         }
     }
 
@@ -231,25 +229,21 @@ public class BuilderModelProducer {
             return;
         }
 
-        // This method can be simplified when we only have one annotation to handle in future
+        // This method can be simplified when we only have one annotation to
+        // handle in future
         PropertyNames propertyNamesAnno = factoryMethodEl.getAnnotation(PropertyNames.class);
         FactoryProperties factoryPropertiesAnno = factoryMethodEl.getAnnotation(FactoryProperties.class);
         if (propertyNamesAnno == null && factoryPropertiesAnno == null) {
             // ... add some kind of NamingStrategy and extract commonality
-            addPropertyModelsForImplicitMethodParameters(factoryMethodEl,builderModel);
+            addPropertyModelsForImplicitMethodParameters(factoryMethodEl, builderModel);
             return;
         }
 
         if (propertyNamesAnno != null && factoryPropertiesAnno != null) {
-            throw new BuildException(
-                    Diagnostic.Kind.ERROR,
-                    String.format(
-                            "Cannot specify both %s and %s on factory method %s of class %s!",
-                            FactoryProperties.class.getSimpleName(),
-                            PropertyNames.class.getSimpleName(),
-                            factoryMethodEl.toString(),
-                            factoryMethodEl.getEnclosingElement().getSimpleName()),
-                    factoryMethodEl);
+            throw new BuildException(Diagnostic.Kind.ERROR, String.format(
+                    "Cannot specify both %s and %s on factory method %s of class %s!",
+                    FactoryProperties.class.getSimpleName(), PropertyNames.class.getSimpleName(),
+                    factoryMethodEl.toString(), factoryMethodEl.getEnclosingElement().getSimpleName()), factoryMethodEl);
         }
 
         String[] propertyNames;
@@ -263,14 +257,9 @@ public class BuilderModelProducer {
         }
 
         if (propertyNames.length != factoryMethodEl.getParameters().size()) {
-            throw new BuildException(
-                    Diagnostic.Kind.ERROR,
-                    String.format(
-                            "Incorrect number of values in annotation %s on method %s! Expected %d, but was %d.",
-                            annotationName,
-                            factoryMethodEl,
-                            factoryMethodEl.getParameters().size(),
-                            propertyNames.length),
+            throw new BuildException(Diagnostic.Kind.ERROR, String.format(
+                    "Incorrect number of values in annotation %s on method %s! Expected %d, but was %d.",
+                    annotationName, factoryMethodEl, factoryMethodEl.getParameters().size(), propertyNames.length),
                     factoryMethodEl);
         }
         // loop over all method parameters
@@ -284,7 +273,7 @@ public class BuilderModelProducer {
         }
     }
 
-    private void addPropertyModelsForImplicitMethodParameters( ExecutableElement factoryMethod, BuilderM builderModel ) {
+    private void addPropertyModelsForImplicitMethodParameters(ExecutableElement factoryMethod, BuilderM builderModel) {
         // loop over all method parameters
         int i = 0;
         for (VariableElement param : factoryMethod.getParameters()) {
@@ -297,7 +286,7 @@ public class BuilderModelProducer {
     }
 
     private void addPropertyModelsForSetterMethods(TypeElement pojoClassEl, BuilderM builderModel) {
-        DeclaredType declType = (DeclaredType)pojoClassEl.asType();
+        DeclaredType declType = (DeclaredType) pojoClassEl.asType();
         List<? extends Element> memberEls = env.getElementUtils().getAllMembers(pojoClassEl);
         // loop over all setter methods
         List<ExecutableElement> methodEls = ElementFilter.methodsIn(memberEls);
@@ -305,7 +294,7 @@ public class BuilderModelProducer {
             if (!isStatic(methodEl) && isSetterMethod(methodEl) && !isDeclaredInObject(methodEl)
                     && isAccessibleForBuilder(methodEl, builderModel.getType())) {
                 String propertyName = getPropertyName(methodEl);
-                ExecutableType execType = (ExecutableType)env.getTypeUtils().asMemberOf(declType, methodEl);
+                ExecutableType execType = (ExecutableType) env.getTypeUtils().asMemberOf(declType, methodEl);
                 TypeMirror propertyType = execType.getParameterTypes().get(0);
 
                 TypeM propertyTypeM = typeMUtils.getTypeM(propertyType);
@@ -318,7 +307,7 @@ public class BuilderModelProducer {
     }
 
     private void addPropertyModelsForGetterMethods(TypeElement pojoClassEl, BuilderM builderModel) {
-        DeclaredType pojoClassType = (DeclaredType)pojoClassEl.asType();
+        DeclaredType pojoClassType = (DeclaredType) pojoClassEl.asType();
         List<? extends Element> memberEls = env.getElementUtils().getAllMembers(pojoClassEl);
         // loop over all setter methods
         List<ExecutableElement> methodsEls = ElementFilter.methodsIn(memberEls);
@@ -328,7 +317,7 @@ public class BuilderModelProducer {
                 String propertyName = getPropertyName(methodEl);
                 ExecutableType execType;
                 try {
-                    execType = (ExecutableType)env.getTypeUtils().asMemberOf(pojoClassType, methodEl);
+                    execType = (ExecutableType) env.getTypeUtils().asMemberOf(pojoClassType, methodEl);
                 } catch (IllegalArgumentException e) {
                     String errorMessage = String.format("%s.%nElement=%s, pojoClassType=%s, pojoClassElement=%s",
                             e.getMessage(), methodEl, pojoClassType, pojoClassEl);
@@ -350,7 +339,7 @@ public class BuilderModelProducer {
     private boolean isDeclaredInObject(Element el) {
         Element ownerEl = el.getEnclosingElement();
         if (ownerEl.getKind() == CLASS) {
-            TypeElement typeEl = (TypeElement)ownerEl;
+            TypeElement typeEl = (TypeElement) ownerEl;
             return typeEl.getQualifiedName().toString().equals(Object.class.getName());
         }
         return false;
@@ -363,7 +352,7 @@ public class BuilderModelProducer {
         for (VariableElement fieldEl : fieldEls) {
             if (!isStatic(fieldEl) && !isDeclaredInObject(fieldEl)
                     && isAccessibleForBuilder(fieldEl, builderModel.getType())) {
-                DeclaredType declType = (DeclaredType)pojoClassEl.asType();
+                DeclaredType declType = (DeclaredType) pojoClassEl.asType();
                 TypeMirror propertyType = env.getTypeUtils().asMemberOf(declType, fieldEl);
                 TypeM propertyTypeM = typeMUtils.getTypeM(propertyType);
 
@@ -379,7 +368,7 @@ public class BuilderModelProducer {
     }
 
     private ExecutableElement findFirstAnnotatedConstructor(List<ExecutableElement> constructorEls,
-        Class<ConstructorProperties> annoType) {
+            Class<ConstructorProperties> annoType) {
         for (ExecutableElement constrEl : constructorEls) {
             if (constrEl.getAnnotation(annoType) != null) {
                 return constrEl;
@@ -430,8 +419,8 @@ public class BuilderModelProducer {
     private boolean isSetterMethod(ExecutableElement el) {
         String methodName = el.getSimpleName().toString();
         TypeMirror retType = el.getReturnType();
-        return methodName.startsWith(SET) && methodName.length() > SET.length()
-                && retType.getKind() == VOID && el.getParameters().size() == 1;
+        return methodName.startsWith(SET) && methodName.length() > SET.length() && retType.getKind() == VOID
+                && el.getParameters().size() == 1;
     }
 
     private boolean isGetterMethod(ExecutableElement el) {
@@ -469,7 +458,7 @@ public class BuilderModelProducer {
     }
 
     private TypeM deriveTypeM(TypeElement originalTypeElement, String derivedTypeNamePattern,
-        String derivedPackageNamePattern) {
+            String derivedPackageNamePattern) {
         String derivedTypeName = derivedTypeNamePattern.replace("*", originalTypeElement.getSimpleName());
         PackageElement packageElement = env.getElementUtils().getPackageOf(originalTypeElement);
         if (!packageElement.isUnnamed()) {

@@ -20,79 +20,79 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(ProcessingEnvironmentRunner.class)
 public class SimpleClassTest extends TestBase {
-	public static class SampleClass {
-		@SuppressWarnings("unused")
-		private String name;
-	}
+    public static class SampleClass {
+        @SuppressWarnings("unused")
+        private String name;
+    }
 
-	private Elements underTest;
+    private Elements underTest;
 
-	@Before
-	public void setupEnv() {
-		ProcessingEnvironment env = ProcessingEnvironmentRunner.getProcessingEnvironment();
-		underTest = env.getElementUtils();
-	}
+    @Before
+    public void setupEnv() {
+        ProcessingEnvironment env = ProcessingEnvironmentRunner.getProcessingEnvironment();
+        underTest = env.getElementUtils();
+    }
 
-	@Test
-	public void testGetTypeElementShouldReturnClass() {
-		// Given:
-		Class<?> aClass = SampleClass.class;
+    @Test
+    public void testGetTypeElementShouldReturnClass() {
+        // Given:
+        Class<?> aClass = SampleClass.class;
 
-		// When:
-		TypeElement el = underTest.getTypeElement(aClass.getCanonicalName());
+        // When:
+        TypeElement el = underTest.getTypeElement(aClass.getCanonicalName());
 
-		// Then:
-		assertEquals("kind", ElementKind.CLASS, el.getKind());
-		assertEquals("simpleName", aClass.getSimpleName(), el.getSimpleName().toString());
-	}
+        // Then:
+        assertEquals("kind", ElementKind.CLASS, el.getKind());
+        assertEquals("simpleName", aClass.getSimpleName(), el.getSimpleName().toString());
+    }
 
-	@Test
-	public void testGetAllMembersShouldReturnAllAccesibleFields() {
-		// Given:
-		Class<?> aClass = SampleClass.class;
-		TypeElement el = underTest.getTypeElement(aClass.getCanonicalName());
+    @Test
+    public void testGetAllMembersShouldReturnAllAccesibleFields() {
+        // Given:
+        Class<?> aClass = SampleClass.class;
+        TypeElement el = underTest.getTypeElement(aClass.getCanonicalName());
 
-		// When:
-		// note: getAllMembers returns the members as they are accessible from
-		// inside the given class
-		List<? extends Element> members = underTest.getAllMembers(el);
-		List<VariableElement> fields = ElementFilter.fieldsIn(members);
+        // When:
+        // note: getAllMembers returns the members as they are accessible from
+        // inside the given class
+        List<? extends Element> members = underTest.getAllMembers(el);
+        List<VariableElement> fields = ElementFilter.fieldsIn(members);
 
-		// Then:
-		assertEquals("size", 1, fields.size());
-	}
+        // Then:
+        assertEquals("size", 1, fields.size());
+    }
 
-	@Test
-	public void testGetSimpleNameShouldReturnNameOfField() {
-		// Given:
-		Class<?> aClass = SampleClass.class;
-		TypeElement el = underTest.getTypeElement(aClass.getCanonicalName());
-		List<? extends Element> members = underTest.getAllMembers(el);
-		List<VariableElement> fields = ElementFilter.fieldsIn(members);
-		VariableElement field = fields.get(0);
+    @Test
+    public void testGetSimpleNameShouldReturnNameOfField() {
+        // Given:
+        Class<?> aClass = SampleClass.class;
+        TypeElement el = underTest.getTypeElement(aClass.getCanonicalName());
+        List<? extends Element> members = underTest.getAllMembers(el);
+        List<VariableElement> fields = ElementFilter.fieldsIn(members);
+        VariableElement field = fields.get(0);
 
-		// When:
-		Name name = field.getSimpleName();
+        // When:
+        Name name = field.getSimpleName();
 
-		// Then:
-		assertTrue(name.toString().equals("name"));
-	}
+        // Then:
+        assertTrue(name.toString().equals("name"));
+    }
 
-	@Test
-	public void testAsTypeShouldReturnDeclaredType() {
-		// Given:
-		Class<?> aClass = SampleClass.class;
-		TypeElement el = underTest.getTypeElement(aClass.getCanonicalName());
-		List<? extends Element> members = underTest.getAllMembers(el);
-		List<VariableElement> fields = ElementFilter.fieldsIn(members);
-		VariableElement field = fields.get(0);
+    @Test
+    public void testAsTypeShouldReturnDeclaredType() {
+        // Given:
+        Class<?> aClass = SampleClass.class;
+        TypeElement el = underTest.getTypeElement(aClass.getCanonicalName());
+        List<? extends Element> members = underTest.getAllMembers(el);
+        List<VariableElement> fields = ElementFilter.fieldsIn(members);
+        VariableElement field = fields.get(0);
 
-		// When:
-		TypeMirror fieldType = field.asType();
+        // When:
+        TypeMirror fieldType = field.asType();
 
-		// Then:
-		assertTrue(fieldType.getKind() == TypeKind.DECLARED);
-		DeclaredType decType = (DeclaredType) fieldType;
-		assertTrue(decType.asElement().getSimpleName().toString().equals(String.class.getSimpleName()));
-	}
+        // Then:
+        assertTrue(fieldType.getKind() == TypeKind.DECLARED);
+        DeclaredType decType = (DeclaredType) fieldType;
+        assertTrue(decType.asElement().getSimpleName().toString().equals(String.class.getSimpleName()));
+    }
 }

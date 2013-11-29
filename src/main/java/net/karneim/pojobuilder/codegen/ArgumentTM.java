@@ -6,21 +6,21 @@ package net.karneim.pojobuilder.codegen;
  */
 public class ArgumentTM {
 
-	private String name;
+    private String name;
 
-	public ArgumentTM() {
-	}
+    public ArgumentTM() {
+    }
 
-	public ArgumentTM(String name) {
-		this.name = name;
-	}
+    public ArgumentTM(String name) {
+        this.name = name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
 }

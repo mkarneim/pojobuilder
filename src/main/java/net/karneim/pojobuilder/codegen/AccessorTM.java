@@ -5,23 +5,23 @@ package net.karneim.pojobuilder.codegen;
  * @author karneim
  */
 public abstract class AccessorTM {
-	private String name;
+    private String name;
 
-	public AccessorTM() {
-	}
+    public AccessorTM() {
+    }
 
-	public AccessorTM(String name) {
-		super();
-		this.name = name;
-	}
+    public AccessorTM(String name) {
+        super();
+        this.name = name;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public abstract boolean isMethod();
+    public abstract boolean isMethod();
 }

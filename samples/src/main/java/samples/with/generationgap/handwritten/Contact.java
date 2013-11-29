@@ -8,28 +8,28 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 @GeneratePojoBuilder(withGenerationGap = true)
 public class Contact {
-	private final String name;
-	private List<String> emailAddresses;
+    private final String name;
+    private List<String> emailAddresses;
 
-	@ConstructorProperties({ "name" })
-	public Contact(String aName) {
-		this.name = aName;
-	}
+    @ConstructorProperties({ "name" })
+    public Contact(String aName) {
+        this.name = aName;
+    }
 
-	public List<String> getEmailAddresses() {
-		return emailAddresses;
-	}
+    public List<String> getEmailAddresses() {
+        return emailAddresses;
+    }
 
-	public void setEmailAddresses(List<String> emailAddresses) {
-		this.emailAddresses = emailAddresses;
-	}
+    public void setEmailAddresses(List<String> emailAddresses) {
+        this.emailAddresses = emailAddresses;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String toString() {
-		return "Contact: name=" + name + ", emailAddresses="
-				+ (emailAddresses == null ? null : Arrays.toString(emailAddresses.toArray()));
-	}
+    public String toString() {
+        return "Contact: name=" + name + ", emailAddresses="
+                + (emailAddresses == null ? null : Arrays.toString(emailAddresses.toArray()));
+    }
 }

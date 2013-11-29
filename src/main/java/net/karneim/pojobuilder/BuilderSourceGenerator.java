@@ -1,11 +1,11 @@
 package net.karneim.pojobuilder;
 
-import org.stringtemplate.v4.ST;
-import org.stringtemplate.v4.STGroup;
-
 import java.io.IOException;
 import java.io.Writer;
 import java.util.logging.Logger;
+
+import org.stringtemplate.v4.ST;
+import org.stringtemplate.v4.STGroup;
 
 public class BuilderSourceGenerator {
     private static final Logger LOG = Logger.getLogger(BuilderSourceGenerator.class.getName());

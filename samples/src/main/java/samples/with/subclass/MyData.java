@@ -4,11 +4,12 @@ import java.beans.ConstructorProperties;
 import java.util.Date;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
+
 @GeneratePojoBuilder
 public class MyData extends Data {
     private String name;
 
-    @ConstructorProperties({"start","end"})
+    @ConstructorProperties({ "start", "end" })
     public MyData(Date start, Date end) {
         super(start, end);
     }
@@ -21,5 +22,4 @@ public class MyData extends Data {
         this.name = name;
     }
 
-    
 }

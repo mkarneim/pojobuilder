@@ -19,29 +19,29 @@ import static org.junit.Assert.assertEquals;
 @AddToSourceTree({ TestBase.SRC_TESTDATA_DIR })
 public class WithBaseclassTest extends TestBase {
 
-	private ProcessingEnvironment env;
+    private ProcessingEnvironment env;
 
-	private BuilderModelProducer underTest;
+    private BuilderModelProducer underTest;
 
-	@Before
-	public void setup() {
-		env = ProcessingEnvironmentRunner.getProcessingEnvironment();
-		TypeMUtils typeMUtils = new TypeMUtils();
-		underTest = new BuilderModelProducer(env, typeMUtils);
-	}
+    @Before
+    public void setup() {
+        env = ProcessingEnvironmentRunner.getProcessingEnvironment();
+        TypeMUtils typeMUtils = new TypeMUtils();
+        underTest = new BuilderModelProducer(env, typeMUtils);
+    }
 
-	@Test
-	public void testProduceReturnsModelWithSpecifiedSuperType() {
-		// Given:
-		String pojoClassname = Contact.class.getCanonicalName();
-		TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(pojoClassname);
+    @Test
+    public void testProduceReturnsModelWithSpecifiedSuperType() {
+        // Given:
+        String pojoClassname = Contact.class.getCanonicalName();
+        TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(pojoClassname);
 
-		// When:
-		Output output = underTest.produce(new Input(pojoTypeElement));
-		BuilderM builder = output.getBuilder();
+        // When:
+        Output output = underTest.produce(new Input(pojoTypeElement));
+        BuilderM builder = output.getBuilder();
 
-		// Then:
-		assertEquals("superType", TypeM.get(BaseBuilder.class.getCanonicalName()), builder.getSuperType());
-	}
+        // Then:
+        assertEquals("superType", TypeM.get(BaseBuilder.class.getCanonicalName()), builder.getSuperType());
+    }
 
 }

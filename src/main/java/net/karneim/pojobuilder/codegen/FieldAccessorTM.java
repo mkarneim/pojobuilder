@@ -6,16 +6,16 @@ package net.karneim.pojobuilder.codegen;
  */
 public class FieldAccessorTM extends AccessorTM {
 
-	public FieldAccessorTM() {
-	}
+    public FieldAccessorTM() {
+    }
 
-	public FieldAccessorTM(String fieldname) {
-		super(fieldname);
-	}
+    public FieldAccessorTM(String fieldname) {
+        super(fieldname);
+    }
 
-	@Override
-	public boolean isMethod() {
-		return false;
-	}
+    @Override
+    public boolean isMethod() {
+        return false;
+    }
 
 }

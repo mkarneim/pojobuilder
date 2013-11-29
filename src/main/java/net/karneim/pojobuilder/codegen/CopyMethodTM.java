@@ -9,37 +9,37 @@ import java.util.List;
  */
 public class CopyMethodTM {
 
-	private String returnType;
-	private String pojoType;
-	private List<AssignmentTM> assignments = new ArrayList<AssignmentTM>();
+    private String returnType;
+    private String pojoType;
+    private List<AssignmentTM> assignments = new ArrayList<AssignmentTM>();
 
-	public CopyMethodTM() {
-		super();
-	}
+    public CopyMethodTM() {
+        super();
+    }
 
-	public CopyMethodTM(String returnType, String pojoType) {
-		this.returnType = returnType;
-		this.pojoType = pojoType;
-	}
+    public CopyMethodTM(String returnType, String pojoType) {
+        this.returnType = returnType;
+        this.pojoType = pojoType;
+    }
 
-	public void setPojoType(String pojoType) {
-		this.pojoType = pojoType;
-	}
+    public void setPojoType(String pojoType) {
+        this.pojoType = pojoType;
+    }
 
-	public String getPojoType() {
-		return pojoType;
-	}
+    public String getPojoType() {
+        return pojoType;
+    }
 
-	public void setReturnType(String returnType) {
-		this.returnType = returnType;
-	}
+    public void setReturnType(String returnType) {
+        this.returnType = returnType;
+    }
 
-	public String getReturnType() {
-		return returnType;
-	}
+    public String getReturnType() {
+        return returnType;
+    }
 
-	public List<AssignmentTM> getAssignments() {
-		return assignments;
-	}
+    public List<AssignmentTM> getAssignments() {
+        return assignments;
+    }
 
 }

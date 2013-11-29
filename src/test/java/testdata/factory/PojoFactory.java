@@ -11,11 +11,11 @@ public class PojoFactory {
      * Test factory method with deprecated property-naming annotation
      */
     @GeneratePojoBuilder
-	@PropertyNames({ "firstname", "surname" })
-	public static Contact createContact(String aFirstname, String aSurname) {
-		Contact result = new Contact(aSurname, aFirstname);
-		return result;
-	}
+    @PropertyNames({ "firstname", "surname" })
+    public static Contact createContact(String aFirstname, String aSurname) {
+        Contact result = new Contact(aSurname, aFirstname);
+        return result;
+    }
 
     /**
      * Test factory method with property-naming annotation
@@ -50,8 +50,8 @@ public class PojoFactory {
     /**
      * Test factory method with no properties
      */
-	@GeneratePojoBuilder
-	public static Note createNote() {
-		return new Note();
-	}
+    @GeneratePojoBuilder
+    public static Note createNote() {
+        return new Note();
+    }
 }

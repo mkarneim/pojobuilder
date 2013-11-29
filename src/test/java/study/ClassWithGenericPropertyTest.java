@@ -22,57 +22,57 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(ProcessingEnvironmentRunner.class)
 public class ClassWithGenericPropertyTest extends TestBase {
-	public static class SampleClass {
-		@SuppressWarnings("unused")
-		private List<String> names;
-	}
+    public static class SampleClass {
+        @SuppressWarnings("unused")
+        private List<String> names;
+    }
 
-	private Elements underTest;
+    private Elements underTest;
 
-	@Before
-	public void setupEnv() {
-		ProcessingEnvironment env = ProcessingEnvironmentRunner.getProcessingEnvironment();
-		underTest = env.getElementUtils();
-	}
+    @Before
+    public void setupEnv() {
+        ProcessingEnvironment env = ProcessingEnvironmentRunner.getProcessingEnvironment();
+        underTest = env.getElementUtils();
+    }
 
-	@Test
-	public void testAsTypeOnVariableElementShouldReturnCorrectTypeMirror() {
-		// Given:
-		Class<?> aClass = SampleClass.class;
+    @Test
+    public void testAsTypeOnVariableElementShouldReturnCorrectTypeMirror() {
+        // Given:
+        Class<?> aClass = SampleClass.class;
 
-		// When:
-		TypeElement el = underTest.getTypeElement(aClass.getCanonicalName());
-		List<? extends Element> members = underTest.getAllMembers(el);
-		List<VariableElement> fields = ElementFilter.fieldsIn(members);
-		VariableElement field = fields.get(0);
-		TypeMirror fieldType = field.asType();
+        // When:
+        TypeElement el = underTest.getTypeElement(aClass.getCanonicalName());
+        List<? extends Element> members = underTest.getAllMembers(el);
+        List<VariableElement> fields = ElementFilter.fieldsIn(members);
+        VariableElement field = fields.get(0);
+        TypeMirror fieldType = field.asType();
 
-		// Then:
-		assertTrue(fieldType.getKind() == TypeKind.DECLARED);
-		DeclaredType decType = (DeclaredType) fieldType;
-		assertTrue(decType.asElement().getSimpleName().toString().equals(List.class.getSimpleName()));
-	}
+        // Then:
+        assertTrue(fieldType.getKind() == TypeKind.DECLARED);
+        DeclaredType decType = (DeclaredType) fieldType;
+        assertTrue(decType.asElement().getSimpleName().toString().equals(List.class.getSimpleName()));
+    }
 
-	@Test
-	public void testGetTypeArgumentsOnDeclaredTypeShouldReturnCorrectListOfTypeMirrors() {
-		// Given:
-		Class<?> aClass = SampleClass.class;
+    @Test
+    public void testGetTypeArgumentsOnDeclaredTypeShouldReturnCorrectListOfTypeMirrors() {
+        // Given:
+        Class<?> aClass = SampleClass.class;
 
-		// When:
-		TypeElement el = underTest.getTypeElement(aClass.getCanonicalName());
-		List<? extends Element> members = underTest.getAllMembers(el);
-		List<VariableElement> fields = ElementFilter.fieldsIn(members);
-		VariableElement field = fields.get(0);
-		TypeMirror fieldType = field.asType();
-		DeclaredType declaredFieldType = (DeclaredType) fieldType;
-		List<? extends TypeMirror> paramTypes = declaredFieldType.getTypeArguments();
+        // When:
+        TypeElement el = underTest.getTypeElement(aClass.getCanonicalName());
+        List<? extends Element> members = underTest.getAllMembers(el);
+        List<VariableElement> fields = ElementFilter.fieldsIn(members);
+        VariableElement field = fields.get(0);
+        TypeMirror fieldType = field.asType();
+        DeclaredType declaredFieldType = (DeclaredType) fieldType;
+        List<? extends TypeMirror> paramTypes = declaredFieldType.getTypeArguments();
 
-		// Then:
-		assertTrue(paramTypes.size() == 1);
-		TypeMirror param0Type = paramTypes.get(0);
-		assertEquals("kind", TypeKind.DECLARED, param0Type.getKind());
-		DeclaredType declaredParam0Type = (DeclaredType) param0Type;
-		assertEquals("simpleName", String.class.getSimpleName(), declaredParam0Type.asElement().getSimpleName()
-				.toString());
-	}
+        // Then:
+        assertTrue(paramTypes.size() == 1);
+        TypeMirror param0Type = paramTypes.get(0);
+        assertEquals("kind", TypeKind.DECLARED, param0Type.getKind());
+        DeclaredType declaredParam0Type = (DeclaredType) param0Type;
+        assertEquals("simpleName", String.class.getSimpleName(), declaredParam0Type.asElement().getSimpleName()
+                .toString());
+    }
 }

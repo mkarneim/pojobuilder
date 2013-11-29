@@ -6,27 +6,27 @@ import java.beans.ConstructorProperties;
 
 @GeneratePojoBuilder(withCopyMethod=true)
 public class AddressDTO { 
-	public final String name;
-	public final String street;
-	public final String city;
-	public final String postCode;
-	public final boolean forSale;
-	
-	/**
-	 * @param name
-	 * @param street
-	 * @param city
-	 * @param postCode
-	 */
-	@ConstructorProperties({"name","street","city","postCode", "forSale"})
-	public AddressDTO(String name, String street, String city, String postCode, boolean forSale) {
-		super();
-		this.name = name;
-		this.street = street;
-		this.city = city;
-		this.postCode = postCode;
-		this.forSale = forSale;
-	}
+    public final String name;
+    public final String street;
+    public final String city;
+    public final String postCode;
+    public final boolean forSale;
+    
+    /**
+     * @param name
+     * @param street
+     * @param city
+     * @param postCode
+     */
+    @ConstructorProperties({"name","street","city","postCode", "forSale"})
+    public AddressDTO(String name, String street, String city, String postCode, boolean forSale) {
+        super();
+        this.name = name;
+        this.street = street;
+        this.city = city;
+        this.postCode = postCode;
+        this.forSale = forSale;
+    }
 
     /**
      * @return the name

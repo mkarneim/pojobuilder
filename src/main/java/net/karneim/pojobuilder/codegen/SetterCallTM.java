@@ -6,32 +6,32 @@ package net.karneim.pojobuilder.codegen;
  */
 public class SetterCallTM {
 
-	private String fieldname;
-	private String methodName;
+    private String fieldname;
+    private String methodName;
 
-	public SetterCallTM() {
-		super();
-	}
+    public SetterCallTM() {
+        super();
+    }
 
-	public SetterCallTM(String methodname, String fieldname) {
-		this.methodName = methodname;
-		this.fieldname = fieldname;
-	}
+    public SetterCallTM(String methodname, String fieldname) {
+        this.methodName = methodname;
+        this.fieldname = fieldname;
+    }
 
-	public void setFieldname(String fieldname) {
-		this.fieldname = fieldname;
-	}
+    public void setFieldname(String fieldname) {
+        this.fieldname = fieldname;
+    }
 
-	public String getFieldname() {
-		return fieldname;
-	}
+    public String getFieldname() {
+        return fieldname;
+    }
 
-	public void setMethodName(String methodName) {
-		this.methodName = methodName;
-	}
+    public void setMethodName(String methodName) {
+        this.methodName = methodName;
+    }
 
-	public String getMethodName() {
-		return methodName;
-	}
+    public String getMethodName() {
+        return methodName;
+    }
 
 }

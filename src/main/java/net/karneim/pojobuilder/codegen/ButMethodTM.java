@@ -6,22 +6,22 @@ package net.karneim.pojobuilder.codegen;
  */
 public class ButMethodTM {
 
-	private String returnType;
+    private String returnType;
 
-	public ButMethodTM() {
-		super();
-	}
+    public ButMethodTM() {
+        super();
+    }
 
-	public ButMethodTM(String returnType) {
-		this.returnType = returnType;
-	}
+    public ButMethodTM(String returnType) {
+        this.returnType = returnType;
+    }
 
-	public String getReturnType() {
-		return returnType;
-	}
+    public String getReturnType() {
+        return returnType;
+    }
 
-	public void setReturnType(String returnType) {
-		this.returnType = returnType;
-	}
+    public void setReturnType(String returnType) {
+        this.returnType = returnType;
+    }
 
 }

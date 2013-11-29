@@ -39,10 +39,10 @@ public class AnnotationProcessor extends AbstractProcessor {
                     Set<? extends Element> annotatedElements = roundEnv.getElementsAnnotatedWith(currAnno);
                     for (Element elem : annotatedElements) {
                         if (elem.getKind() == ElementKind.CLASS) {
-                            TypeElement typeElem = (TypeElement)elem;
+                            TypeElement typeElem = (TypeElement) elem;
                             generatePojoBuilderProcessor.process(typeElem);
                         } else if (elem.getKind() == ElementKind.METHOD) {
-                            ExecutableElement execElem = (ExecutableElement)elem;
+                            ExecutableElement execElem = (ExecutableElement) elem;
                             generatePojoBuilderProcessor.process(execElem);
                         }
                     }

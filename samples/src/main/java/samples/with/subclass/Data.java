@@ -4,6 +4,7 @@ import java.beans.ConstructorProperties;
 import java.util.Date;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
+
 @GeneratePojoBuilder
 public class Data {
     private Date start;

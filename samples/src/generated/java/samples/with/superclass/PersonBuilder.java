@@ -15,95 +15,92 @@ import javax.annotation.Generated;
  */
 @Generated("PojoBuilder")
 public class PersonBuilder implements Cloneable {
-	protected PersonBuilder self;
-	protected boolean value$artificial$boolean; // mandatory constructor parameter
-	protected boolean isSet$artificial$boolean = false; 
+    protected PersonBuilder self;
+    protected boolean value$artificial$boolean; // mandatory constructor parameter
+    protected boolean isSet$artificial$boolean = false;
 
-	protected Long value$id$java$lang$Long; // mandatory constructor parameter
-	protected boolean isSet$id$java$lang$Long = false; 
+    protected Long value$id$java$lang$Long; // mandatory constructor parameter
+    protected boolean isSet$id$java$lang$Long = false;
 
-	protected String value$name$java$lang$String; 
-	protected boolean isSet$name$java$lang$String = false; 
-
-
-
-	/**
-	 * Creates a new {@link PersonBuilder}.
-	 */
-	public PersonBuilder() {
-		self = (PersonBuilder)this;
-	}
-
-	/**
-	 * Sets the default value for the {@link Person#artificial} property.
-	DO STUFF
-	 * @param value the default value
-	 * @return this builder
-	 */
-	public PersonBuilder withArtificial( boolean value) {
-		this.value$artificial$boolean = value;
-		this.isSet$artificial$boolean = true;
-		return self;
-	}
-	/**
-	 * Sets the default value for the {@link Person#id} property.
-	DO STUFF
-	 * @param value the default value
-	 * @return this builder
-	 */
-	public PersonBuilder withId( Long value) {
-		this.value$id$java$lang$Long = value;
-		this.isSet$id$java$lang$Long = true;
-		return self;
-	}
-	/**
-	 * Sets the default value for the {@link Person#name} property.
-	DO STUFF
-	 * @param value the default value
-	 * @return this builder
-	 */
-	public PersonBuilder withName( String value) {
-		this.value$name$java$lang$String = value;
-		this.isSet$name$java$lang$String = true;
-		return self;
-	}
+    protected String value$name$java$lang$String; 
+    protected boolean isSet$name$java$lang$String = false;
 
 
-	/**
-	 * Returns a clone of this builder.
-	 * @return the clone
-	 */
-	@Override	
-	public Object clone() {
-		try {
-			PersonBuilder result = (PersonBuilder)super.clone();
-			result.self = result;
-			return result;
-		} catch (CloneNotSupportedException e) {
-			throw new InternalError(e.getMessage());
-		}        
-	}
 
-	/**
-	 * Returns a clone of this builder.
-	 * @return the clone
-	 */
-	public PersonBuilder but() {
-		return (PersonBuilder)clone();
-	}
+    /**
+     * Creates a new {@link PersonBuilder}.
+     */
+    public PersonBuilder() {
+        self = (PersonBuilder)this;
+    }
 
-	/**
-	 * Creates a new {@link Person} based on this builder's settings.
-	 * @return the created Person
-	 */
-	public Person build() {
-		Person result = new Person( this.value$id$java$lang$Long ,this.value$artificial$boolean );
+    /**
+     * Sets the default value for the {@link Person#artificial} property.
+     * @param value the default value
+     * @return this builder
+     */
+    public PersonBuilder withArtificial( boolean value) {
+        this.value$artificial$boolean = value;
+        this.isSet$artificial$boolean = true;
+        return self;
+    }
+    /**
+     * Sets the default value for the {@link Person#id} property.
+     * @param value the default value
+     * @return this builder
+     */
+    public PersonBuilder withId( Long value) {
+        this.value$id$java$lang$Long = value;
+        this.isSet$id$java$lang$Long = true;
+        return self;
+    }
+    /**
+     * Sets the default value for the {@link Person#name} property.
+     * @param value the default value
+     * @return this builder
+     */
+    public PersonBuilder withName( String value) {
+        this.value$name$java$lang$String = value;
+        this.isSet$name$java$lang$String = true;
+        return self;
+    }
 
-		if ( this.isSet$name$java$lang$String) {    
-			result.setName( this.value$name$java$lang$String);		
-		}
 
-		return result;
-	}
+    /**
+     * Returns a clone of this builder.
+     * @return the clone
+     */
+    @Override    
+    public Object clone() {
+        try {
+            PersonBuilder result = (PersonBuilder)super.clone();
+            result.self = result;
+            return result;
+        } catch (CloneNotSupportedException e) {
+            throw new InternalError(e.getMessage());
+        }
+    }
+
+    /**
+     * Returns a clone of this builder.
+     * @return the clone
+     */
+    public PersonBuilder but() {
+        return (PersonBuilder)clone();
+    }
+
+    /**
+     * Creates a new {@link Person} based on this builder's settings.
+     * @return the created Person
+     */
+    public Person build() {
+        Person result = new Person( this.value$id$java$lang$Long ,this.value$artificial$boolean );
+
+        if ( this.isSet$name$java$lang$String) {    
+            result.setName( this.value$name$java$lang$String);        
+        }
+
+        return result;
+    }
 
 }

@@ -17,68 +17,67 @@ import javax.annotation.Generated;
  */
 @Generated("PojoBuilder")
 public class ContainerBuilder<T extends Item & Serializable> implements Cloneable {
-	protected ContainerBuilder<T> self;
-	protected T value$element$T; 
-	protected boolean isSet$element$T = false; 
+    protected ContainerBuilder<T> self;
+    protected T value$element$T; 
+    protected boolean isSet$element$T = false;
 
 
 
-	/**
-	 * Creates a new {@link ContainerBuilder}.
-	 */
-	public ContainerBuilder() {
-		self = (ContainerBuilder<T>)this;
-	}
+    /**
+     * Creates a new {@link ContainerBuilder}.
+     */
+    public ContainerBuilder() {
+        self = (ContainerBuilder<T>)this;
+    }
 
-	/**
-	 * Sets the default value for the {@link Container#element} property.
-	DO STUFF
-	 * @param value the default value
-	 * @return this builder
-	 */
-	public ContainerBuilder<T> withElement( T value) {
-		this.value$element$T = value;
-		this.isSet$element$T = true;
-		return self;
-	}
+    /**
+     * Sets the default value for the {@link Container#element} property.
+     * @param value the default value
+     * @return this builder
+     */
+    public ContainerBuilder<T> withElement( T value) {
+        this.value$element$T = value;
+        this.isSet$element$T = true;
+        return self;
+    }
 
 
-	/**
-	 * Returns a clone of this builder.
-	 * @return the clone
-	 */
-	@Override	
-	public Object clone() {
-		try {
-			ContainerBuilder<T> result = (ContainerBuilder<T>)super.clone();
-			result.self = result;
-			return result;
-		} catch (CloneNotSupportedException e) {
-			throw new InternalError(e.getMessage());
-		}        
-	}
+    /**
+     * Returns a clone of this builder.
+     * @return the clone
+     */
+    @Override    
+    public Object clone() {
+        try {
+            ContainerBuilder<T> result = (ContainerBuilder<T>)super.clone();
+            result.self = result;
+            return result;
+        } catch (CloneNotSupportedException e) {
+            throw new InternalError(e.getMessage());
+        }
+    }
 
-	/**
-	 * Returns a clone of this builder.
-	 * @return the clone
-	 */
-	@SuppressWarnings("unchecked")
-	public ContainerBuilder<T> but() {
-		return (ContainerBuilder<T>)clone();
-	}
+    /**
+     * Returns a clone of this builder.
+     * @return the clone
+     */
+    @SuppressWarnings("unchecked")
+    public ContainerBuilder<T> but() {
+        return (ContainerBuilder<T>)clone();
+    }
 
-	/**
-	 * Creates a new {@link Container} based on this builder's settings.
-	 * @return the created Container
-	 */
-	public Container<T> build() {
-		Container<T> result = new Container<T>( );
+    /**
+     * Creates a new {@link Container} based on this builder's settings.
+     * @return the created Container
+     */
+    public Container<T> build() {
+        Container<T> result = new Container<T>( );
 
-		if ( this.isSet$element$T) {    
-			result.setElement( this.value$element$T);		
-		}
+        if ( this.isSet$element$T) {    
+            result.setElement( this.value$element$T);        
+        }
 
-		return result;
-	}
+        return result;
+    }
 
 }

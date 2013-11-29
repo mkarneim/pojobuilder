@@ -18,10 +18,11 @@ import javax.annotation.Generated;
 @Generated("PojoBuilder")
 public class ContactBuilder extends AbstractContactBuilder implements Cloneable {
 
-	/**
-	 * Creates a new {@link ContactBuilder}.
-	 */
-	public ContactBuilder() {
-	}
+    /**
+     * Creates a new {@link ContactBuilder}.
+     */
+    public ContactBuilder() {
+    }
+
 
 }

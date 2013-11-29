@@ -2,14 +2,14 @@ package samples.with.generics;
 
 public class AbstractEntity<K> {
 
-	private K key;
+    private K key;
 
-	public K getKey() {
-		return key;
-	}
+    public K getKey() {
+        return key;
+    }
 
-	public void setKey(K key) {
-		this.key = key;
-	}
+    public void setKey(K key) {
+        this.key = key;
+    }
 
 }

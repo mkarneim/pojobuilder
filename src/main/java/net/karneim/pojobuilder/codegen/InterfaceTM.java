@@ -5,18 +5,18 @@ package net.karneim.pojobuilder.codegen;
  * @author karneim
  */
 public class InterfaceTM {
-	private String text;
+    private String text;
 
-	public InterfaceTM() {
-	}
+    public InterfaceTM() {
+    }
 
-	public InterfaceTM(String text) {
-		this.text = text;
-	}
+    public InterfaceTM(String text) {
+        this.text = text;
+    }
 
-	@Override
-	public String toString() {
-		return text;
-	}
+    @Override
+    public String toString() {
+        return text;
+    }
 
 }

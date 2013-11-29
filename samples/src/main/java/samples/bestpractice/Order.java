@@ -7,13 +7,13 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 @GeneratePojoBuilder
 public class Order {
-	public Date date;
-	public long id;
-	public List<Item> items;
+    public Date date;
+    public long id;
+    public List<Item> items;
 
-	@Override
-	public String toString() {
-		return "Order [date=" + date + ", id=" + id + ", items=" + items + "]";
-	}
+    @Override
+    public String toString() {
+        return "Order [date=" + date + ", id=" + id + ", items=" + items + "]";
+    }
 
 }

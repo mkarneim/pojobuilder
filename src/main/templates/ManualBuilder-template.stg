@@ -19,12 +19,12 @@ builderClass(model) ::= <<
 @Generated("PojoBuilder")
 public class <model.type.genericTypeSimpleNameWithBounds> <if(!model.superType.object)>extends <model.superType.genericTypeSimpleName> <endif>implements Cloneable {
 
-	/**
-	 * Creates a new {@link <model.type.simpleName>}.
-	 */
-	public <model.type.simpleName>() {
-	}
-	
+    /**
+     * Creates a new {@link <model.type.simpleName>}.
+     */
+    public <model.type.simpleName>() {
+    }
+
 
 }
 >>
@@ -33,5 +33,4 @@ importStatement(importName) ::= <<
 import <importName>;
 
 >>
-
 

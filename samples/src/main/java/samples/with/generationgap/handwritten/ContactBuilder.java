@@ -14,16 +14,16 @@ import java.util.List;
  */
 public class ContactBuilder extends AbstractContactBuilder implements Cloneable {
 
-	/**
-	 * Creates a new {@link ContactBuilder}.
-	 */
-	public ContactBuilder() {
-	}
+    /**
+     * Creates a new {@link ContactBuilder}.
+     */
+    public ContactBuilder() {
+    }
 
-	public ContactBuilder withEmailAddress(String aValue) {
-		List<String> list = new ArrayList<String>();
-		list.add(aValue);
-		return this.withEmailAddresses(list);
-	}
+    public ContactBuilder withEmailAddress(String aValue) {
+        List<String> list = new ArrayList<String>();
+        list.add(aValue);
+        return this.withEmailAddresses(list);
+    }
 
 }

@@ -16,67 +16,66 @@ import javax.annotation.Generated;
  */
 @Generated("PojoBuilder")
 public class SettingsBuilder implements Cloneable {
-	protected SettingsBuilder self;
-	protected Map<String, Object> value$entries$java$util$Map; 
-	protected boolean isSet$entries$java$util$Map = false; 
+    protected SettingsBuilder self;
+    protected Map<String, Object> value$entries$java$util$Map; 
+    protected boolean isSet$entries$java$util$Map = false;
 
 
 
-	/**
-	 * Creates a new {@link SettingsBuilder}.
-	 */
-	public SettingsBuilder() {
-		self = (SettingsBuilder)this;
-	}
+    /**
+     * Creates a new {@link SettingsBuilder}.
+     */
+    public SettingsBuilder() {
+        self = (SettingsBuilder)this;
+    }
 
-	/**
-	 * Sets the default value for the {@link Settings#entries} property.
-	DO STUFF
-	 * @param value the default value
-	 * @return this builder
-	 */
-	public SettingsBuilder withEntries( Map<String, Object> value) {
-		this.value$entries$java$util$Map = value;
-		this.isSet$entries$java$util$Map = true;
-		return self;
-	}
+    /**
+     * Sets the default value for the {@link Settings#entries} property.
+     * @param value the default value
+     * @return this builder
+     */
+    public SettingsBuilder withEntries( Map<String, Object> value) {
+        this.value$entries$java$util$Map = value;
+        this.isSet$entries$java$util$Map = true;
+        return self;
+    }
 
 
-	/**
-	 * Returns a clone of this builder.
-	 * @return the clone
-	 */
-	@Override	
-	public Object clone() {
-		try {
-			SettingsBuilder result = (SettingsBuilder)super.clone();
-			result.self = result;
-			return result;
-		} catch (CloneNotSupportedException e) {
-			throw new InternalError(e.getMessage());
-		}        
-	}
+    /**
+     * Returns a clone of this builder.
+     * @return the clone
+     */
+    @Override    
+    public Object clone() {
+        try {
+            SettingsBuilder result = (SettingsBuilder)super.clone();
+            result.self = result;
+            return result;
+        } catch (CloneNotSupportedException e) {
+            throw new InternalError(e.getMessage());
+        }
+    }
 
-	/**
-	 * Returns a clone of this builder.
-	 * @return the clone
-	 */
-	public SettingsBuilder but() {
-		return (SettingsBuilder)clone();
-	}
+    /**
+     * Returns a clone of this builder.
+     * @return the clone
+     */
+    public SettingsBuilder but() {
+        return (SettingsBuilder)clone();
+    }
 
-	/**
-	 * Creates a new {@link Settings} based on this builder's settings.
-	 * @return the created Settings
-	 */
-	public Settings build() {
-		Settings result = new Settings( );
+    /**
+     * Creates a new {@link Settings} based on this builder's settings.
+     * @return the created Settings
+     */
+    public Settings build() {
+        Settings result = new Settings( );
 
-		if ( this.isSet$entries$java$util$Map) { 
-			result.entries = this.value$entries$java$util$Map;	
-		}
+        if ( this.isSet$entries$java$util$Map) { 
+            result.entries = this.value$entries$java$util$Map;    
+        }
 
-		return result;
-	}
+        return result;
+    }
 
 }

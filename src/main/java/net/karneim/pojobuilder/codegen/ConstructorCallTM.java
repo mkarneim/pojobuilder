@@ -6,16 +6,16 @@ package net.karneim.pojobuilder.codegen;
  */
 public class ConstructorCallTM extends ConstructionTM {
 
-	public ConstructorCallTM() {
-	}
+    public ConstructorCallTM() {
+    }
 
-	public ConstructorCallTM(String methodName, ArgumentTM... arguments) {
-		super(methodName, arguments);
-	}
+    public ConstructorCallTM(String methodName, ArgumentTM... arguments) {
+        super(methodName, arguments);
+    }
 
-	@Override
-	public boolean isConstructorCall() {
-		return true;
-	}
+    @Override
+    public boolean isConstructorCall() {
+        return true;
+    }
 
 }

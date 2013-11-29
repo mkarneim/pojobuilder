@@ -6,9 +6,9 @@ package net.karneim.pojobuilder.codegen;
  */
 public class FactoryCallTM extends ConstructionTM {
 
-	@Override
-	public boolean isConstructorCall() {
-		return false;
-	}
+    @Override
+    public boolean isConstructorCall() {
+        return false;
+    }
 
 }

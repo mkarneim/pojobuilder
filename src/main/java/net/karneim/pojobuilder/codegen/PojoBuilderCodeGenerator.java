@@ -12,18 +12,18 @@ import org.stringtemplate.v4.STGroupFile;
  */
 public class PojoBuilderCodeGenerator {
 
-	private final BuilderClassTM model;
+    private final BuilderClassTM model;
 
-	public PojoBuilderCodeGenerator(BuilderClassTM model) {
-		super();
-		this.model = model;
-	}
+    public PojoBuilderCodeGenerator(BuilderClassTM model) {
+        super();
+        this.model = model;
+    }
 
-	public void generate(Writer writer) throws IOException {
-		STGroupFile templateFile = new STGroupFile("net/karneim/pojobuilder/codegen/PojoBuilder.stg");
-		ST template = templateFile.getInstanceOf("classTemplate");
-		template.add("builderClassTM", model);
-		String text = template.render();
-		writer.append(text);
-	}
+    public void generate(Writer writer) throws IOException {
+        STGroupFile templateFile = new STGroupFile("net/karneim/pojobuilder/codegen/PojoBuilder.stg");
+        ST template = templateFile.getInstanceOf("classTemplate");
+        template.add("builderClassTM", model);
+        String text = template.render();
+        writer.append(text);
+    }
 }
