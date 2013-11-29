@@ -126,7 +126,17 @@ you can annotate a factory method:
 ```
 Please note that the factory method must be *public* and *static*. 
 
-The optional [@FactoryProperties] annotation specifies the mapping from the factory-method-parameter-names to the corresponding bean-property-names on the pojo if they differ.
+An optional [@FactoryProperties] annotation can be used to specify the mapping from the factory-method-parameter-names
+to the corresponding bean-property-names on the pojo if they differ.
+```java
+	public class PojoFactory {
+		@GeneratePojoBuilder
+		@FactoryProperties({"surname", "firstname"})
+		public static Contact createContact(String arg1, String arg2) {
+			return new Contact(arg1, arg2);
+		}
+	}
+```
 
 Have a look at ["samples/src/generated/java/samples/with/factory/ContactBuilder.java"] to see the generated source code.
 
