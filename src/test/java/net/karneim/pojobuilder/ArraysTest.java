@@ -1,21 +1,26 @@
 package net.karneim.pojobuilder;
 
-import net.karneim.pojobuilder.model.BuilderM;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import testdata.array.Order;
-import testenv.AddToSourceTree;
-import testenv.ProcessingEnvironmentRunner;
+import static net.karneim.pojobuilder.matchers.PBMatchers.named;
+import static net.karneim.pojobuilder.matchers.PBMatchers.propertyM;
+import static net.karneim.pojobuilder.matchers.PBMatchers.withSetter;
+import static net.karneim.pojobuilder.matchers.PBMatchers.withType;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.TypeElement;
 
-import static net.karneim.pojobuilder.matchers.PBMatchers.*;
-import static org.hamcrest.Matchers.hasItem;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import net.karneim.pojobuilder.model.BuilderM;
+import net.karneim.pojobuilder.model.PropertyM;
 
+import org.hamcrest.Matchers;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import testdata.array.Order;
+import testenv.AddToSourceTree;
+import testenv.ProcessingEnvironmentRunner;
 
 @RunWith(ProcessingEnvironmentRunner.class)
 @AddToSourceTree(TestBase.SRC_TESTDATA_DIR)
@@ -60,6 +65,7 @@ public class ArraysTest extends TestBase {
         assertEquals("number of properties", 2, builder.getProperties().size());
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testItemsProperty() {
         // Given:
@@ -71,8 +77,8 @@ public class ArraysTest extends TestBase {
         BuilderM builder = output.getBuilder();
 
         // Then:
-        assertThat(builder.getProperties(), hasItem(
-                propertyM(named("items"), withType("testdata.array.Item[]"), withSetter("setItems"))
-        ));
+        assertThat(builder.getProperties(), Matchers.<PropertyM>hasItem(propertyM(named("items"),
+                withType("testdata.array.Item[]"), withSetter("setItems"))));
+
     }
 }
