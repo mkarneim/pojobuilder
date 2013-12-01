@@ -37,6 +37,11 @@ License
 The source code located in the "src" and "samples" directory is in the PUBLIC DOMAIN. 
 Read the [COPYING] file.
 
+Change Log
+---------------
+
+You can find the change log at the [PojoBuilder's release history page]. 
+
 Download
 --------
 
@@ -261,6 +266,7 @@ How To Build
 ------------
 If you want to compile this project's sources yourself you can use Maven (see [pom.xml]). 
 
+[PojoBuilder's release history page]: http://github.com/mkarneim/pojobuilder/releases
 [Maven Central]: http://search.maven.org/#search|ga|1|a%3A%22pojobuilder%22
 [Sonatype OSS Maven Repository]: https://oss.sonatype.org/content/repositories/releases/net/karneim/pojobuilder
 [@GeneratePojoBuilder]: http://github.com/mkarneim/pojobuilder/blob/master/src/main/java/net/karneim/pojobuilder/GeneratePojoBuilder.java
