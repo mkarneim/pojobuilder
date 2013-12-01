@@ -47,7 +47,7 @@ Download
 
 PojoBuilder is available for download at [Maven Central] and [Sonatype OSS Maven Repository].
 
-If you don't use any build automation tool that supports maven repos you might want to download the [pojobuilder-*-jar-with-dependencies.jar] from the [release history page] to get the library complete with all dependent libraries included.
+If you don't use any build automation tool that supports maven repos, you might want to download the [pojobuilder-*-jar-with-dependencies.jar] from the [release history page] to get the library complete with all dependent libraries included.
 
 Dependencies
 ------------
