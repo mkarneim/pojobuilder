@@ -51,6 +51,9 @@ If you don't use any build automation tool that supports maven repos, you might 
 
 Dependencies
 ------------
+PojoBuilder is a pure code generator. It does not add any runtime dependencies to your project.
+
+Anyway, it has the following compile-time dependencies:
 
 * [Java] 6 
 * [ANTLR Parser Generator] 3.5 [(download)](http://search.maven.org/#search|ga|1|g%3A%22org.antlr%22%20AND%20a%3A%22antlr%22)
