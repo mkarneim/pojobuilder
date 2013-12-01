@@ -40,14 +40,14 @@ Read the [COPYING] file.
 Change Log
 ---------------
 
-You can find the change log at the [PojoBuilder's release history page]. 
+You can find the change log at PojoBuilder's [release history page]. 
 
 Download
 --------
 
 PojoBuilder is available for download at [Maven Central] and [Sonatype OSS Maven Repository].
 
-You might want to download the ```pojobuilder-*-jar-with-dependencies.jar``` which includes the dependent libraries.
+You might want to download the ```[pojobuilder-*-jar-with-dependencies.jar]``` from the [release history page], which includes the dependent libraries.
 
 Dependencies
 ------------
@@ -266,7 +266,9 @@ How To Build
 ------------
 If you want to compile this project's sources yourself you can use Maven (see [pom.xml]). 
 
-[PojoBuilder's release history page]: http://github.com/mkarneim/pojobuilder/releases
+
+[release history page]: http://github.com/mkarneim/pojobuilder/releases
+[pojobuilder-*-jar-with-dependencies.jar]: https://github.com/mkarneim/pojobuilder/releases/latest
 [Maven Central]: http://search.maven.org/#search|ga|1|a%3A%22pojobuilder%22
 [Sonatype OSS Maven Repository]: https://oss.sonatype.org/content/repositories/releases/net/karneim/pojobuilder
 [@GeneratePojoBuilder]: http://github.com/mkarneim/pojobuilder/blob/master/src/main/java/net/karneim/pojobuilder/GeneratePojoBuilder.java
