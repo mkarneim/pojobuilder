@@ -32,7 +32,7 @@ public class IntoPackageTest extends TestBase {
 	@Test
     public void testBuilderPackage() {
 		// Given:
-        TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(ADDRESS_DTO_CLASSNAME);
+        TypeElement pojoType = env.getElementUtils().getTypeElement(ADDRESS_DTO_CLASSNAME);
 
 		// When:
         Output output = underTest.testProcess(pojoType);

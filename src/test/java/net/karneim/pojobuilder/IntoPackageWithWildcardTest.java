@@ -1,6 +1,7 @@
 package net.karneim.pojobuilder;
 
 import net.karneim.pojobuilder.model.BuilderM;
+import net.karneim.pojobuilder.modelproducers.BuilderModelProducer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,22 +20,21 @@ public class IntoPackageWithWildcardTest extends TestBase {
 
     private ProcessingEnvironment env;
 
-    private BuilderModelProducer underTest;
+    private GeneratePojoBuilderProcessor underTest;
 
     @Before
     public void setup() {
         env = ProcessingEnvironmentRunner.getProcessingEnvironment();
-        TypeMUtils typeMUtils = new TypeMUtils();
-        underTest = new BuilderModelProducer(env, typeMUtils);
+        underTest = new GeneratePojoBuilderProcessor(env);
     }
 
     @Test
     public void testBuilderPackage() {
         // Given:
-        TypeElement pojoTypeElement = env.getElementUtils().getTypeElement(CONTACT_CLASSNAME);
+        TypeElement pojoType = env.getElementUtils().getTypeElement(CONTACT_CLASSNAME);
 
         // When:
-        Output output = underTest.produce(new Input(pojoTypeElement));
+        Output output = underTest.testProcess(pojoType);
         BuilderM builder = output.getBuilder();
 
         // Then:

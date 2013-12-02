@@ -24,18 +24,16 @@ import static org.junit.Assert.*;
 public class FactoryMethodWithParametersTest extends TestBase {
 
     private static String FACTORY_CLASSNAME = PojoFactory.class.getCanonicalName();
-    private static String CONTACT_CLASSNAME = Contact.class.getCanonicalName();
 
     private Elements elements;
 
-    private BuilderModelProducer underTest;
+    private GeneratePojoBuilderProcessor underTest;
 
     @Before
     public void setup() {
         ProcessingEnvironment env = ProcessingEnvironmentRunner.getProcessingEnvironment();
         elements = env.getElementUtils();
-        TypeMUtils typeMUtils = new TypeMUtils();
-        underTest = new BuilderModelProducer(env, typeMUtils);
+        underTest = new GeneratePojoBuilderProcessor(env);
     }
 
     @Test

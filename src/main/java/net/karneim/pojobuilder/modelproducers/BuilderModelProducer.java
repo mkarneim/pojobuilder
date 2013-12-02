@@ -90,9 +90,9 @@ public class BuilderModelProducer implements ModelProducer<BuilderM> {
         return builderModel;
     }
 
-    private TypeM computeBuilderType(TypeElement pojoTypeElement, GeneratePojoBuilder annotation) {
-        String typeName = nameStrategy.getName(annotation, pojoTypeElement);
-        String packageName = packageStrategy.getPackage(annotation, pojoTypeElement);
+    private TypeM computeBuilderType(TypeElement pojoClassEl, GeneratePojoBuilder annotation) {
+        String typeName = nameStrategy.getName(annotation, pojoClassEl);
+        String packageName = packageStrategy.getPackage(annotation, pojoClassEl);
         TypeM result = deriveTypeM(packageName, typeName);
         result.getTypeParameters().addAll(typeMUtils.getTypeParameters(pojoClassEl));
         return result;

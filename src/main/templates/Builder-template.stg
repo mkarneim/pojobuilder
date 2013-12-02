@@ -58,7 +58,7 @@ public <if(model.abstract)>abstract <endif>class <model.type.genericTypeSimpleNa
 	 * @return the created <model.pojoType.simpleName>
 	 */
 	public <model.pojoType.genericTypeSimpleName> build() <if(!model.buildExceptions.empty)>throws <model.buildExceptions:throwsElements(); separator=","><endif>{
-		<model:productContructorCall()>
+		<model:productConstructorCall()>
 		<model.propertiesForSetters:propertySetterCall()>
 		<model.propertiesForAssignment:propertyAssignment()>
 		return result;
