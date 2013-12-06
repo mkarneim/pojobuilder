@@ -178,15 +178,15 @@ The following attributes of the @GeneratePojoBuilder annotation can be used to i
 Execution
 ---------
 
-To execute the annotation processor you either can
-
-* [use the javac tool](#using-javac)
-* [use the maven-compiler-plugin](#using-maven)
-* [use Ant's javac task](#using-ant)
-* or [use Eclipse](#using-eclipse).
-
-In any case make sure that the required libraries are included in your project's classpath during compile time.
+To execute the PojoBuilder annotation processor you just need to put it into the compile-time classpath.
 During runtime no libraries are required since the retention policy of PojoBuilder's annotations is SOURCE.
+
+Here is a list of brief descriptions about how to run PojoBuilder with
+* [the javac tool](#using-javac)
+* [Maven](#using-maven)
+* [Gradle](#using-gradle)
+* [Ant's javac task](#using-ant)
+* [Eclipse](#using-eclipse).
 
 ### Using Javac
 The `javac` compiler will auto-detect the presence of PojoBuilder if pojobuilder-*.jar is included in the classpath.
@@ -217,6 +217,31 @@ Notes:
 * If you need to keep the generated sources in a specific directory outside of the 'target' directory, 
 then configure the 'generatedSourcesDirectory' of the 'maven-compiler-plugin'. See ["samples/pom.xml"] for an example.
 * Eclipse users might want to install [m2e-apt](https://github.com/jbosstools/m2e-apt) to have integrated support for APT-generated sources.
+
+### Using Gradle
+This is a small build script that shows how to run the PojoBuilder annotation processor with Gradle.
+```groovy
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    codeGeneration
+}
+
+dependencies {
+    codeGeneration group: 'net.karneim', name: 'pojobuilder', version: '2.4.0'
+}
+compileJava.classpath += configurations.codeGeneration
+``` 
+The generated sources will be placed into the standard 'build/classes' directory.
+
+If you want to put them somewhere else, just specify the destination like this:
+```groovy
+compileJava.options.compilerArgs += ['-s', 'src/generated/java']
+```
 
 ### Using Ant
 
