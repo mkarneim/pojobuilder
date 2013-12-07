@@ -124,6 +124,7 @@ you can annotate a factory method:
 	}
 ```
 Please note that the factory method must be *public* and *static*. 
+The method parameter names must match the names of the pojo's properties exactly.
 
 An optional [@FactoryProperties] annotation can be used to specify the mapping from the factory-method-parameter-names
 to the corresponding bean-property-names on the pojo if they differ.
