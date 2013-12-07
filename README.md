@@ -35,19 +35,16 @@ License
 -------
 
 The source code located in the "src" and "samples" directory is in the PUBLIC DOMAIN. 
-Read the [COPYING] file.
-
-Change Log
----------------
-
-You can find the change log at PojoBuilder's [release history page]. 
+For more information please read the [COPYING] file.
 
 Download
 --------
+PojoBuilder is Open Source. The *source code* is available at http://github.com/mkarneim/pojobuilder.
+For older versions and a *change log* please see the [release history page].
 
-PojoBuilder is available for download at [Maven Central] and [Sonatype OSS Maven Repository].
+PojoBuilder *binaries* are available for download at [Sonatype OSS Maven Repository] and [Maven Central].
 
-If you don't use any build automation tool that supports maven repos, you might want to download the [pojobuilder-*-jar-with-dependencies.jar] from the [release history page] to get the library complete with all dependent libraries included.
+If you don't use any build automation tool that supports maven repos, you might want to download the "pojobuilder-*-jar-with-dependencies.jar" to get PojoBuilder complete with all dependent libraries included.
 
 Dependencies
 ------------
@@ -59,12 +56,6 @@ Anyway, it has the following compile-time dependencies:
 * [ANTLR Parser Generator] 3.5 [(download)](http://search.maven.org/#search|ga|1|g%3A%22org.antlr%22%20AND%20a%3A%22antlr%22)
 * [StringTemplate Template Engine] 4.0.7 [(download)](http://search.maven.org/#search|ga|1|g%3A%22org.antlr%22%20AND%20a%3A%22ST4%22)
 
-
-Examples
---------
-The wiki provides some [best practices] about how you could use the PojoBuilder Generator.
-
-For some complete code examples please have a look into the [samples] directory.
 
 How To Use
 ----------
@@ -175,6 +166,13 @@ The following attributes of the @GeneratePojoBuilder annotation can be used to i
 	For an example please see ["samples/src/generated/java/samples/with/copy/AddressDTOBuilder.java"].
 	Default is `false`.
 	
+Examples
+--------
+The [PojoBuilder wiki] provides some [best practices] about how you could use the PojoBuilder Generator.
+
+For some complete code examples please have a look into the [samples] project.
+
+
 Execution
 ---------
 
@@ -296,13 +294,13 @@ If you want to compile this project's sources yourself you can use Maven (see [p
 
 
 [release history page]: http://github.com/mkarneim/pojobuilder/releases
-[pojobuilder-*-jar-with-dependencies.jar]: https://github.com/mkarneim/pojobuilder/releases/latest
 [Maven Central]: http://search.maven.org/#search|ga|1|a%3A%22pojobuilder%22
 [Sonatype OSS Maven Repository]: https://oss.sonatype.org/content/repositories/releases/net/karneim/pojobuilder
 [@GeneratePojoBuilder]: http://github.com/mkarneim/pojobuilder/blob/master/src/main/java/net/karneim/pojobuilder/GeneratePojoBuilder.java
 [@FactoryProperties]: http://github.com/mkarneim/pojobuilder/blob/master/src/main/java/net/karneim/pojobuilder/FactoryProperties.java
 [@ConstructorProperties]: http://docs.oracle.com/javase/6/docs/api/java/beans/ConstructorProperties.html
 [samples]: http://github.com/mkarneim/pojobuilder/blob/master/samples
+[PojoBuilder wiki]: http://github.com/mkarneim/pojobuilder/wiki
 [best practices]: http://github.com/mkarneim/pojobuilder/wiki/Best-practices
 [COPYING]: http://github.com/mkarneim/pojobuilder/blob/master/COPYING
 [pom.xml]: http://github.com/mkarneim/pojobuilder/blob/master/pom.xml
