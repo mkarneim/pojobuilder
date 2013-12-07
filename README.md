@@ -61,7 +61,7 @@ How To Use
 ----------
 
 The PojoBuilder Generator uses an annotation processor to generate pojo builders for you.
-You have two options to activate it:
+You have the following options to activate it:
 
 * by [annotating the pojo class](#annotating-the-pojo)
 * by [annotating a factory method](#annotating-a-factory-method)
