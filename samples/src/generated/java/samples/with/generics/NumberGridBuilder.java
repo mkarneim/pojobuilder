@@ -71,13 +71,19 @@ public class NumberGridBuilder<E extends Number> implements Cloneable {
      * @return the created NumberGrid
      */
     public NumberGrid<E> build() {
-        NumberGrid<E> result = new NumberGrid<E>( );
+        try {
+            NumberGrid<E> result = new NumberGrid<E>( );
 
-        if ( this.isSet$elements$java$util$List) {    
-            result.setElements( this.value$elements$java$util$List);        
-        }
+            if ( this.isSet$elements$java$util$List) {    
+                result.setElements( this.value$elements$java$util$List);        
+            }
 
-        return result;
+            return result;
+        } catch (RuntimeException ex) {
+            throw ex;
+        } catch (Throwable t) {
+            throw new java.lang.reflect.UndeclaredThrowableException(t);
+        }        
     }
 
 }

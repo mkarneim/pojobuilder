@@ -108,19 +108,25 @@ public class ContactBuilder implements Cloneable {
      * @return the created Contact
      */
     public Contact build() {
-        Contact result = new Contact( this.value$surname$java$lang$String );
+        try {
+            Contact result = new Contact( this.value$surname$java$lang$String );
 
-        if ( this.isSet$birthdate$java$util$Date) { 
-            result.birthdate = this.value$birthdate$java$util$Date;    
-        }
-        if ( this.isSet$firstname$java$lang$String) { 
-            result.firstname = this.value$firstname$java$lang$String;    
-        }
-        if ( this.isSet$email$java$lang$String) { 
-            result.email = this.value$email$java$lang$String;    
-        }
+            if ( this.isSet$birthdate$java$util$Date) { 
+                result.birthdate = this.value$birthdate$java$util$Date;    
+            }
+            if ( this.isSet$firstname$java$lang$String) { 
+                result.firstname = this.value$firstname$java$lang$String;    
+            }
+            if ( this.isSet$email$java$lang$String) { 
+                result.email = this.value$email$java$lang$String;    
+            }
 
-        return result;
+            return result;
+        } catch (RuntimeException ex) {
+            throw ex;
+        } catch (Throwable t) {
+            throw new java.lang.reflect.UndeclaredThrowableException(t);
+        }        
     }
 
     /**

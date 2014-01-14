@@ -81,16 +81,22 @@ public class ItemBuilder implements Cloneable {
      * @return the created Item
      */
     public Item build() {
-        Item result = new Item( );
+        try {
+            Item result = new Item( );
 
-        if ( this.isSet$amount$int) { 
-            result.amount = this.value$amount$int;    
-        }
-        if ( this.isSet$name$java$lang$String) { 
-            result.name = this.value$name$java$lang$String;    
-        }
+            if ( this.isSet$amount$int) { 
+                result.amount = this.value$amount$int;    
+            }
+            if ( this.isSet$name$java$lang$String) { 
+                result.name = this.value$name$java$lang$String;    
+            }
 
-        return result;
+            return result;
+        } catch (RuntimeException ex) {
+            throw ex;
+        } catch (Throwable t) {
+            throw new java.lang.reflect.UndeclaredThrowableException(t);
+        }        
     }
 
 }

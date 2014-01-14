@@ -82,13 +82,19 @@ public class ResourceBuilder implements Cloneable {
      * @return the created Resource
      */
     public Resource build() throws MalformedURLException {
-        Resource result = new Resource( this.value$urlString$java$lang$String );
+        try {
+            Resource result = new Resource( this.value$urlString$java$lang$String );
 
-        if ( this.isSet$mimeType$java$lang$String) {    
-            result.setMimeType( this.value$mimeType$java$lang$String);        
-        }
+            if ( this.isSet$mimeType$java$lang$String) {    
+                result.setMimeType( this.value$mimeType$java$lang$String);        
+            }
 
-        return result;
+            return result;
+        } catch (RuntimeException ex) {
+            throw ex;
+        } catch (Throwable t) {
+            throw new java.lang.reflect.UndeclaredThrowableException(t);
+        }        
     }
 
 }

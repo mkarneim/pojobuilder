@@ -83,16 +83,22 @@ public abstract class AbstractOrderBuilder<T extends Object> implements Cloneabl
      * @return the created Order
      */
     public Order<T> build() {
-        Order<T> result = new Order<T>( );
+        try {
+            Order<T> result = new Order<T>( );
 
-        if ( this.isSet$customer$java$lang$String) {    
-            result.setCustomer( this.value$customer$java$lang$String);        
-        }
-        if ( this.isSet$items$java$util$List) {    
-            result.setItems( this.value$items$java$util$List);        
-        }
+            if ( this.isSet$customer$java$lang$String) {    
+                result.setCustomer( this.value$customer$java$lang$String);        
+            }
+            if ( this.isSet$items$java$util$List) {    
+                result.setItems( this.value$items$java$util$List);        
+            }
 
-        return result;
+            return result;
+        } catch (RuntimeException ex) {
+            throw ex;
+        } catch (Throwable t) {
+            throw new java.lang.reflect.UndeclaredThrowableException(t);
+        }        
     }
 
 }

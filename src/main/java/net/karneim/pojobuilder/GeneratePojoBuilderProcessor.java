@@ -10,6 +10,7 @@ import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
+import javax.tools.Diagnostic.Kind;
 
 import net.karneim.pojobuilder.model.BaseBuilderM;
 import net.karneim.pojobuilder.model.TypeM;
@@ -29,8 +30,14 @@ public class GeneratePojoBuilderProcessor {
     public GeneratePojoBuilderProcessor(ProcessingEnvironment env) {
         super();
         this.env = env;
-        this.builderGenerator = new BuilderSourceGenerator(new STGroupFile("Builder-template.stg"));
-        this.manualBuilderGenerator = new BuilderSourceGenerator(new STGroupFile("ManualBuilder-template.stg"));
+        this.builderGenerator = new BuilderSourceGenerator(getTemplate("Builder-template.stg"));
+        this.manualBuilderGenerator = new BuilderSourceGenerator(getTemplate("ManualBuilder-template.stg"));
+    }
+
+    private STGroupFile getTemplate(String name) {
+        STGroupFile groupFile = new STGroupFile(name);
+        env.getMessager().printMessage(Kind.NOTE, String.format("PojoBuilder: using template %s.", groupFile.getFileName()));
+        return groupFile;
     }
 
     public void process(TypeElement productTypeElem) {
@@ -71,11 +78,11 @@ public class GeneratePojoBuilderProcessor {
                 writer.close();
 
                 env.getMessager().printMessage(Diagnostic.Kind.NOTE,
-                        String.format("Generated class %s", builderClassname));
+                        String.format("PojoBuilder: Generated class %s", builderClassname));
                 LOG.fine(String.format("Generated %s", jobj.toUri()));
             }
         } catch (IOException e) {
-            env.getMessager().printMessage(Diagnostic.Kind.ERROR, String.format("Error while processing: %s", e));
+            env.getMessager().printMessage(Diagnostic.Kind.ERROR, String.format("PojoBuilder: Error while processing: %s", e));
             throw new UndeclaredThrowableException(e);
         }
     }

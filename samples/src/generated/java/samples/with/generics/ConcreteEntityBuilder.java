@@ -81,16 +81,22 @@ public class ConcreteEntityBuilder implements Cloneable {
      * @return the created ConcreteEntity
      */
     public ConcreteEntity build() {
-        ConcreteEntity result = new ConcreteEntity( );
+        try {
+            ConcreteEntity result = new ConcreteEntity( );
 
-        if ( this.isSet$key$java$lang$Long) {    
-            result.setKey( this.value$key$java$lang$Long);        
-        }
-        if ( this.isSet$name$java$lang$String) {    
-            result.setName( this.value$name$java$lang$String);        
-        }
+            if ( this.isSet$key$java$lang$Long) {    
+                result.setKey( this.value$key$java$lang$Long);        
+            }
+            if ( this.isSet$name$java$lang$String) {    
+                result.setName( this.value$name$java$lang$String);        
+            }
 
-        return result;
+            return result;
+        } catch (RuntimeException ex) {
+            throw ex;
+        } catch (Throwable t) {
+            throw new java.lang.reflect.UndeclaredThrowableException(t);
+        }        
     }
 
 }

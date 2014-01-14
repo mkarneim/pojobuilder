@@ -82,16 +82,22 @@ public class PairBuilder<A extends Comparable<A>, B extends Number> implements C
      * @return the created Pair
      */
     public Pair<A, B> build() {
-        Pair<A, B> result = new Pair<A, B>( );
+        try {
+            Pair<A, B> result = new Pair<A, B>( );
 
-        if ( this.isSet$valueA$A) {    
-            result.setValueA( this.value$valueA$A);        
-        }
-        if ( this.isSet$valueB$B) {    
-            result.setValueB( this.value$valueB$B);        
-        }
+            if ( this.isSet$valueA$A) {    
+                result.setValueA( this.value$valueA$A);        
+            }
+            if ( this.isSet$valueB$B) {    
+                result.setValueB( this.value$valueB$B);        
+            }
 
-        return result;
+            return result;
+        } catch (RuntimeException ex) {
+            throw ex;
+        } catch (Throwable t) {
+            throw new java.lang.reflect.UndeclaredThrowableException(t);
+        }        
     }
 
 }

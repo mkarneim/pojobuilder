@@ -94,16 +94,22 @@ public class DeveloperBuilder implements Cloneable {
      * @return the created Developer
      */
     public Developer build() {
-        Developer result = new Developer( this.value$id$java$lang$Long );
+        try {
+            Developer result = new Developer( this.value$id$java$lang$Long );
 
-        if ( this.isSet$languages$java$lang$String$) {    
-            result.setLanguages( this.value$languages$java$lang$String$);        
-        }
-        if ( this.isSet$name$java$lang$String) {    
-            result.setName( this.value$name$java$lang$String);        
-        }
+            if ( this.isSet$languages$java$lang$String$) {    
+                result.setLanguages( this.value$languages$java$lang$String$);        
+            }
+            if ( this.isSet$name$java$lang$String) {    
+                result.setName( this.value$name$java$lang$String);        
+            }
 
-        return result;
+            return result;
+        } catch (RuntimeException ex) {
+            throw ex;
+        } catch (Throwable t) {
+            throw new java.lang.reflect.UndeclaredThrowableException(t);
+        }        
     }
 
 }

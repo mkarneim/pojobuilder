@@ -95,9 +95,15 @@ public class ContactBuilder implements Cloneable {
      * @return the created Contact
      */
     public Contact build() {
-        Contact result = new Contact( this.value$firstname$java$lang$String ,this.value$surname$java$lang$String ,this.value$dateOfBirth$java$util$Date );
+        try {
+            Contact result = new Contact( this.value$firstname$java$lang$String ,this.value$surname$java$lang$String ,this.value$dateOfBirth$java$util$Date );
 
-        return result;
+            return result;
+        } catch (RuntimeException ex) {
+            throw ex;
+        } catch (Throwable t) {
+            throw new java.lang.reflect.UndeclaredThrowableException(t);
+        }        
     }
 
 }

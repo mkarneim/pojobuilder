@@ -68,13 +68,19 @@ public class OrderBuilder implements Cloneable {
      * @return the created Order
      */
     public Order build() {
-        Order result = new Order( );
+        try {
+            Order result = new Order( );
 
-        if ( this.isSet$customer$java$lang$String) {    
-            result.setCustomer( this.value$customer$java$lang$String);        
-        }
+            if ( this.isSet$customer$java$lang$String) {    
+                result.setCustomer( this.value$customer$java$lang$String);        
+            }
 
-        return result;
+            return result;
+        } catch (RuntimeException ex) {
+            throw ex;
+        } catch (Throwable t) {
+            throw new java.lang.reflect.UndeclaredThrowableException(t);
+        }        
     }
 
 }

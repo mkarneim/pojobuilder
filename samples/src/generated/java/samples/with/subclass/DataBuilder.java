@@ -82,9 +82,15 @@ public class DataBuilder implements Cloneable {
      * @return the created Data
      */
     public Data build() {
-        Data result = new Data( this.value$start$java$util$Date ,this.value$end$java$util$Date );
+        try {
+            Data result = new Data( this.value$start$java$util$Date ,this.value$end$java$util$Date );
 
-        return result;
+            return result;
+        } catch (RuntimeException ex) {
+            throw ex;
+        } catch (Throwable t) {
+            throw new java.lang.reflect.UndeclaredThrowableException(t);
+        }        
     }
 
 }

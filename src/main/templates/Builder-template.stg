@@ -58,10 +58,16 @@ public <if(model.abstractClass)>abstract <endif>class <model.type.genericTypeSim
      * @return the created <model.productType.simpleName>
      */
     public <model.productType.genericTypeSimpleName> build() <if(!model.buildExceptions.empty)>throws <model.buildExceptions:throwsElements(); separator=","><endif>{
-        <model:productConstructorCall()>
-        <model.propertiesForSetters:propertySetterCall()>
-        <model.propertiesForAssignment:propertyAssignment()>
-        return result;
+        try {
+            <model:productConstructorCall()>
+            <model.propertiesForSetters:propertySetterCall()>
+            <model.propertiesForAssignment:propertyAssignment()>
+            return result;
+        } catch (RuntimeException ex) {
+            throw ex;
+        } catch (Throwable t) {
+            throw new java.lang.reflect.UndeclaredThrowableException(t);
+        }        
     }
 
     <if(model.implementingCopyMethod)>

@@ -96,13 +96,19 @@ public class Resource2Builder implements Cloneable {
      * @return the created Resource2
      */
     public Resource2 build() throws MalformedURLException ,FileNotFoundException {
-        Resource2 result = new Resource2( this.value$urlString$java$lang$String ,this.value$filepath$java$lang$String );
+        try {
+            Resource2 result = new Resource2( this.value$urlString$java$lang$String ,this.value$filepath$java$lang$String );
 
-        if ( this.isSet$mimeType$java$lang$String) {    
-            result.setMimeType( this.value$mimeType$java$lang$String);        
-        }
+            if ( this.isSet$mimeType$java$lang$String) {    
+                result.setMimeType( this.value$mimeType$java$lang$String);        
+            }
 
-        return result;
+            return result;
+        } catch (RuntimeException ex) {
+            throw ex;
+        } catch (Throwable t) {
+            throw new java.lang.reflect.UndeclaredThrowableException(t);
+        }        
     }
 
 }

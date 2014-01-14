@@ -69,13 +69,19 @@ public class SettingsBuilder implements Cloneable {
      * @return the created Settings
      */
     public Settings build() {
-        Settings result = new Settings( );
+        try {
+            Settings result = new Settings( );
 
-        if ( this.isSet$entries$java$util$Map) { 
-            result.entries = this.value$entries$java$util$Map;    
-        }
+            if ( this.isSet$entries$java$util$Map) { 
+                result.entries = this.value$entries$java$util$Map;    
+            }
 
-        return result;
+            return result;
+        } catch (RuntimeException ex) {
+            throw ex;
+        } catch (Throwable t) {
+            throw new java.lang.reflect.UndeclaredThrowableException(t);
+        }        
     }
 
 }

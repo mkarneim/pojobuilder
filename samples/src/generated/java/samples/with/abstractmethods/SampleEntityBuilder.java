@@ -94,19 +94,25 @@ public class SampleEntityBuilder implements Cloneable {
      * @return the created SampleEntity
      */
     public SampleEntity build() {
-        SampleEntity result = new SampleEntity( );
+        try {
+            SampleEntity result = new SampleEntity( );
 
-        if ( this.isSet$id$java$lang$Long) {    
-            result.setId( this.value$id$java$lang$Long);        
-        }
-        if ( this.isSet$key$java$lang$Long) {    
-            result.setKey( this.value$key$java$lang$Long);        
-        }
-        if ( this.isSet$name$java$lang$String) {    
-            result.setName( this.value$name$java$lang$String);        
-        }
+            if ( this.isSet$id$java$lang$Long) {    
+                result.setId( this.value$id$java$lang$Long);        
+            }
+            if ( this.isSet$key$java$lang$Long) {    
+                result.setKey( this.value$key$java$lang$Long);        
+            }
+            if ( this.isSet$name$java$lang$String) {    
+                result.setName( this.value$name$java$lang$String);        
+            }
 
-        return result;
+            return result;
+        } catch (RuntimeException ex) {
+            throw ex;
+        } catch (Throwable t) {
+            throw new java.lang.reflect.UndeclaredThrowableException(t);
+        }        
     }
 
 }

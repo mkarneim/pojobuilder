@@ -85,16 +85,22 @@ public class Order2Builder<T extends Item & Serializable> implements Cloneable {
      * @return the created Order2
      */
     public Order2<T> build() {
-        Order2<T> result = new Order2<T>( );
+        try {
+            Order2<T> result = new Order2<T>( );
 
-        if ( this.isSet$customer$java$lang$String) {    
-            result.setCustomer( this.value$customer$java$lang$String);        
-        }
-        if ( this.isSet$items$java$util$List) {    
-            result.setItems( this.value$items$java$util$List);        
-        }
+            if ( this.isSet$customer$java$lang$String) {    
+                result.setCustomer( this.value$customer$java$lang$String);        
+            }
+            if ( this.isSet$items$java$util$List) {    
+                result.setItems( this.value$items$java$util$List);        
+            }
 
-        return result;
+            return result;
+        } catch (RuntimeException ex) {
+            throw ex;
+        } catch (Throwable t) {
+            throw new java.lang.reflect.UndeclaredThrowableException(t);
+        }        
     }
 
 }

@@ -71,13 +71,19 @@ public class ContainerBuilder<T extends Item & Serializable> implements Cloneabl
      * @return the created Container
      */
     public Container<T> build() {
-        Container<T> result = new Container<T>( );
+        try {
+            Container<T> result = new Container<T>( );
 
-        if ( this.isSet$element$T) {    
-            result.setElement( this.value$element$T);        
-        }
+            if ( this.isSet$element$T) {    
+                result.setElement( this.value$element$T);        
+            }
 
-        return result;
+            return result;
+        } catch (RuntimeException ex) {
+            throw ex;
+        } catch (Throwable t) {
+            throw new java.lang.reflect.UndeclaredThrowableException(t);
+        }        
     }
 
 }

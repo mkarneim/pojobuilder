@@ -26,6 +26,7 @@ import javax.lang.model.type.ExecutableType;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 import javax.tools.Diagnostic;
+import javax.tools.Diagnostic.Kind;
 
 import net.karneim.pojobuilder.model.BuilderM;
 import net.karneim.pojobuilder.model.FactoryM;
@@ -49,8 +50,8 @@ public class BuilderModelProducer {
 
     public Output produce(Input input) {
         Output result = new Output();
-
         TypeElement pojoClassEl = checkNotNull(input.getPojoType(), "input.getPojoType()==null");
+        env.getMessager().printMessage(Kind.NOTE, String.format("PojoBuilder: Processing %s.", input.getPojoType()));
 
         GeneratePojoBuilder annotation = input.getGeneratePojoBuilderAnnotation();
         if (annotation == null) {
@@ -286,7 +287,7 @@ public class BuilderModelProducer {
     }
 
     private void addPropertyModelsForSetterMethods(TypeElement pojoClassEl, BuilderM builderModel) {
-        DeclaredType declType = (DeclaredType) pojoClassEl.asType();
+        DeclaredType pojoClassType = (DeclaredType) pojoClassEl.asType();
         List<? extends Element> memberEls = env.getElementUtils().getAllMembers(pojoClassEl);
         // loop over all setter methods
         List<ExecutableElement> methodEls = ElementFilter.methodsIn(memberEls);
@@ -294,7 +295,7 @@ public class BuilderModelProducer {
             if (!isStatic(methodEl) && isSetterMethod(methodEl) && !isDeclaredInObject(methodEl)
                     && isAccessibleForBuilder(methodEl, builderModel.getType())) {
                 String propertyName = getPropertyName(methodEl);
-                ExecutableType execType = (ExecutableType) env.getTypeUtils().asMemberOf(declType, methodEl);
+                ExecutableType execType = getType(pojoClassType, methodEl);
                 TypeMirror propertyType = execType.getParameterTypes().get(0);
 
                 TypeM propertyTypeM = typeMUtils.getTypeM(propertyType);
@@ -315,16 +316,8 @@ public class BuilderModelProducer {
             if (!isStatic(methodEl) && isGetterMethod(methodEl) && !isDeclaredInObject(methodEl)
                     && isAccessibleForBuilder(methodEl, builderModel.getType())) {
                 String propertyName = getPropertyName(methodEl);
-                ExecutableType execType;
-                try {
-                    execType = (ExecutableType) env.getTypeUtils().asMemberOf(pojoClassType, methodEl);
-                } catch (IllegalArgumentException e) {
-                    String errorMessage = String.format("%s.%nElement=%s, pojoClassType=%s, pojoClassElement=%s",
-                            e.getMessage(), methodEl, pojoClassType, pojoClassEl);
-                    throw new BuildException(ERROR, errorMessage, pojoClassEl);
-                }
+                ExecutableType execType = getType(pojoClassType, methodEl);
                 TypeMirror propertyType = execType.getReturnType();
-
                 TypeM propertyTypeM = typeMUtils.getTypeM(propertyType);
 
                 PropertyM propM = builderModel.getProperty(propertyName, propertyTypeM);// resultMap.get(fieldName);
@@ -333,7 +326,19 @@ public class BuilderModelProducer {
                 }
             }
         }
+    }
 
+    @SuppressWarnings("unchecked")
+    private <T extends TypeMirror> T getType(DeclaredType pojoClassType, Element element) {
+        T execType = (T)element.asType();
+        try {
+            execType = (T) env.getTypeUtils().asMemberOf(pojoClassType, element);
+        } catch (IllegalArgumentException e) {
+            String errorMessage = String.format("PojoBuilder: %s.%nElement=%s, pojoClassType=%s",
+                    e.getMessage(), element, pojoClassType);
+            env.getMessager().printMessage(Kind.WARNING, errorMessage, element);
+        }
+        return execType;
     }
 
     private boolean isDeclaredInObject(Element el) {
@@ -353,7 +358,8 @@ public class BuilderModelProducer {
             if (!isStatic(fieldEl) && !isDeclaredInObject(fieldEl)
                     && isAccessibleForBuilder(fieldEl, builderModel.getType())) {
                 DeclaredType declType = (DeclaredType) pojoClassEl.asType();
-                TypeMirror propertyType = env.getTypeUtils().asMemberOf(declType, fieldEl);
+                TypeMirror propertyType = getType(declType, fieldEl);
+                
                 TypeM propertyTypeM = typeMUtils.getTypeM(propertyType);
 
                 String propertyName = fieldEl.getSimpleName().toString();
