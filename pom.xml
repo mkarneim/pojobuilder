@@ -78,6 +78,26 @@
                 </configuration>
             </plugin>
             <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>annotations</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>annotations</classifier>
+                            <includes>
+                                <include>net/karneim/pojobuilder/GeneratePojoBuilder.class</include>
+                                <include>net/karneim/pojobuilder/FactoryProperties.class</include>
+                                <include>net/karneim/pojobuilder/PropertyNames.class</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.4</version>
                 <configuration>
