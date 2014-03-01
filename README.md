@@ -242,6 +242,66 @@ If you want to put them somewhere else, just specify the destination like this:
 compileJava.options.compilerArgs += ['-s', 'src/generated/java']
 ```
 
+This further example completely distinguish between code generation tasks as well as its produced ```*Builder.(java|class)``` files 
+and other sources and/or classes. Furthermore it sets up dependencies between ```main```, ```pojobuilder```and ```test``` ```SourceSets```: 
+
+```groovy
+apply plugin: 'java'
+
+ext.srcGenDir = file("${projectDir}/src-gen")
+
+configurations {
+    codeGeneration
+}
+
+sourceSets {
+    pojobuilder {
+        java {
+            srcDirs = [ "${srcGenDir}/${owner.name}/java" ]
+        }
+        resources {
+            srcDirs = [ "${srcGenDir}/${owner.name}/resources" ]
+        }
+        compileClasspath += main.compileClasspath + main.output
+    }
+    test {
+        compileClasspath += pojobuilder.output
+        runtimeClasspath += pojobuilder.output
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    codeGeneration 'net.karneim:pojobuilder:2.4.1'
+
+    compile 'net.karneim:pojobuilder:2.4.1:annotations'
+    testCompile 'junit:junit:4.11'
+}
+
+clean << {
+    srcGenDir.deleteDir()
+}
+
+task generatePojobuilder(type: JavaCompile, group: 'build', description: 'Generates all pojobuilder types') {
+    ext.srcDestinationDir = sourceSets.pojobuilder.java.srcDirs.iterator()[0]
+    source = sourceSets.main.java
+    destinationDir = temporaryDir
+    classpath = configurations.compile + configurations.codeGeneration
+    options.compilerArgs = [
+            '-proc:only',
+            '-Xmaxerrs', '0',
+            '-s', srcDestinationDir
+        ]
+    doFirst {
+        srcDestinationDir.exists() || srcDestinationDir.mkdirs()
+    }
+}
+compilePojobuilderJava.dependsOn generatePojobuilder
+compileTestJava.dependsOn pojobuilderClasses
+```
 ### Using Ant
 
 Here is a code snippet of an ANT build script that runs the PojoBuilder annotation processor within the javac task. 
