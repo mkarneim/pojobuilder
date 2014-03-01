@@ -102,13 +102,6 @@
                             <goal>jar</goal>
                         </goals>
                         <configuration>
-                            <archive>
-                                <index>true</index>
-                                <manifest>
-                                    <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                                </manifest>
-                            </archive>
-
                             <classifier>annotations</classifier>
                             <includes>
                                 <include>net/karneim/pojobuilder/GeneratePojoBuilder.class</include>
