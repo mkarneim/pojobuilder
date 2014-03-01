@@ -192,7 +192,7 @@ The `javac` compiler will auto-detect the presence of PojoBuilder if pojobuilder
 
 For example:
     
-    javac -cp pojobuilder-2.4.0-jar-with-dependencies.jar Contact.java
+    javac -cp pojobuilder-2.4.1-jar-with-dependencies.jar Contact.java
    
 will generate a ContactBuilder if Contact is annotated with @GeneratePojoBuilder.
 
@@ -205,7 +205,7 @@ Add the following to your project's pom.xml to configure the PojoBuilder annotat
 	<dependency>
 		<groupId>net.karneim</groupId>
 		<artifactId>pojobuilder</artifactId>
-		<version>2.4.0</version>
+		<version>2.4.1</version>
 		<!-- 'provided' scope because this is only needed during compilation -->
 		<scope>provided</scope>
 	</dependency>
@@ -231,7 +231,7 @@ configurations {
 }
 
 dependencies {
-    codeGeneration group: 'net.karneim', name: 'pojobuilder', version: '2.4.0'
+    codeGeneration group: 'net.karneim', name: 'pojobuilder', version: '2.4.1'
 }
 compileJava.classpath += configurations.codeGeneration
 ``` 
