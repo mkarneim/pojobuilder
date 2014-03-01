@@ -12,7 +12,8 @@ import org.junit.Test;
 public class PojoBuilderCodeGeneratorTest {
 
     private void log(String message) {
-        System.out.println(message);
+        // uncomment this to view the log messages during test execution
+        //System.out.println(message);
     }
 
     PojoBuilderCodeGenerator underTest;
