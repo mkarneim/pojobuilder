@@ -302,6 +302,41 @@ task generatePojobuilder(type: JavaCompile, group: 'build', description: 'Genera
 compilePojobuilderJava.dependsOn generatePojobuilder
 compileTestJava.dependsOn pojobuilderClasses
 ```
+
+And if one needs to generate pojobuilders for multiple sources once at a time, this can be done by using this class:
+```groovy
+task generatePojobuilder(type: GeneratePojobuilder)
+
+class GeneratePojobuilder extends JavaCompile {
+
+    @Input
+    def srcDestinationDir = project.file('src-gen/pojobuilder/java')
+
+    def GeneratePojobuilder() {
+        group = 'generate'
+        description = '''Generates all pojobuilders or 'main' sources'''
+
+        source = project.sourceSets.main.java
+        destinationDir = temporaryDir
+
+        classpath = project.configurations.codeGeneration + project.configurations.compile
+
+        options.compilerArgs = [
+                '-proc:only',
+                '-Xmaxerrs', '0',
+                '-s', srcDestinationDir
+            ]
+    }
+
+    @Override
+    void compile() {
+        srcDestinationDir.exists() || srcDestinationDir.mkdirs()
+        super.compile()
+    }
+}
+```
+
+
 ### Using Ant
 
 Here is a code snippet of an ANT build script that runs the PojoBuilder annotation processor within the javac task. 
