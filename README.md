@@ -250,10 +250,6 @@ apply plugin: 'java'
 
 ext.srcGenDir = file("${projectDir}/src-gen")
 
-configurations {
-    codeGeneration
-}
-
 sourceSets {
     pojobuilder {
         java {
@@ -262,12 +258,18 @@ sourceSets {
         resources {
             srcDirs = [ "${srcGenDir}/${owner.name}/resources" ]
         }
-        compileClasspath += main.compileClasspath + main.output
+        compileClasspath += main.output
     }
     test {
         compileClasspath += pojobuilder.output
         runtimeClasspath += pojobuilder.output
     }
+}
+
+configurations {
+    codeGeneration
+    pojobuilderCompile.extendsFrom runtime
+    testCompile.extendsFrom pojobuilderRuntime
 }
 
 repositories {
@@ -300,7 +302,6 @@ task generatePojobuilder(type: JavaCompile, group: 'build', description: 'Genera
     }
 }
 compilePojobuilderJava.dependsOn generatePojobuilder
-compileTestJava.dependsOn pojobuilderClasses
 ```
 
 And if one needs to generate pojobuilders for multiple sources once at a time, this can be done by using this class:
