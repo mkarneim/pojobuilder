@@ -242,101 +242,7 @@ If you want to put them somewhere else, just specify the destination like this:
 compileJava.options.compilerArgs += ['-s', 'src/generated/java']
 ```
 
-This further example completely distinguish between code generation tasks as well as its produced ```*Builder.(java|class)``` files 
-and other sources and/or classes. Furthermore it sets up dependencies between ```main```, ```pojobuilder```and ```test``` ```SourceSets```: 
-
-```groovy
-apply plugin: 'java'
-
-ext.srcGenDir = file("${projectDir}/src-gen")
-
-sourceSets {
-    pojobuilder {
-        java {
-            srcDirs = [ "${srcGenDir}/${owner.name}/java" ]
-        }
-        resources {
-            srcDirs = [ "${srcGenDir}/${owner.name}/resources" ]
-        }
-        compileClasspath += main.output
-    }
-    test {
-        compileClasspath += pojobuilder.output
-        runtimeClasspath += pojobuilder.output
-    }
-}
-
-configurations {
-    codeGeneration
-    pojobuilderCompile.extendsFrom runtime
-    testCompile.extendsFrom pojobuilderRuntime
-}
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    codeGeneration 'net.karneim:pojobuilder:2.4.1'
-
-    compile 'net.karneim:pojobuilder:2.4.1:annotations'
-    testCompile 'junit:junit:4.11'
-}
-
-clean << {
-    srcGenDir.deleteDir()
-}
-
-task generatePojobuilder(type: JavaCompile, group: 'build', description: 'Generates all pojobuilder types') {
-    ext.srcDestinationDir = sourceSets.pojobuilder.java.srcDirs.iterator()[0]
-    source = sourceSets.main.java
-    destinationDir = temporaryDir
-    classpath = configurations.compile + configurations.codeGeneration
-    options.compilerArgs = [
-            '-proc:only',
-            '-Xmaxerrs', '0',
-            '-s', srcDestinationDir
-        ]
-    doFirst {
-        srcDestinationDir.exists() || srcDestinationDir.mkdirs()
-    }
-}
-compilePojobuilderJava.dependsOn generatePojobuilder
-```
-
-And if one needs to generate pojobuilders for multiple sources once at a time, this can be done by using this class:
-```groovy
-task generatePojobuilder(type: GeneratePojobuilder)
-
-class GeneratePojobuilder extends JavaCompile {
-
-    @Input
-    def srcDestinationDir = project.file('src-gen/pojobuilder/java')
-
-    def GeneratePojobuilder() {
-        group = 'generate'
-        description = '''Generates all pojobuilders or 'main' sources'''
-
-        source = project.sourceSets.main.java
-        destinationDir = temporaryDir
-
-        classpath = project.configurations.codeGeneration + project.configurations.compile
-
-        options.compilerArgs = [
-                '-proc:only',
-                '-Xmaxerrs', '0',
-                '-s', srcDestinationDir
-            ]
-    }
-
-    @Override
-    void compile() {
-        srcDestinationDir.exists() || srcDestinationDir.mkdirs()
-        super.compile()
-    }
-}
-```
-
+The wiki contains an [extended Gradle script] that distinguishes completely between code generation and compilation tasks.
 
 ### Using Ant
 
@@ -399,6 +305,7 @@ If you want to compile this project's sources yourself you can use Maven (see [p
 [samples]: http://github.com/mkarneim/pojobuilder/blob/master/samples
 [PojoBuilder wiki]: http://github.com/mkarneim/pojobuilder/wiki
 [best practices]: http://github.com/mkarneim/pojobuilder/wiki/Best-practices
+[extended Gradle script]: https://github.com/mkarneim/pojobuilder/wiki/Extended-Gradle-Build-Script
 [COPYING]: http://github.com/mkarneim/pojobuilder/blob/master/COPYING
 [pom.xml]: http://github.com/mkarneim/pojobuilder/blob/master/pom.xml
 ["samples/build.xml"]: http://github.com/mkarneim/pojobuilder/blob/master/samples/build.xml
@@ -413,4 +320,3 @@ If you want to compile this project's sources yourself you can use Maven (see [p
 [Java]: http://www.oracle.com/technetwork/java/
 [ANTLR Parser Generator]: http://www.antlr.org/
 [StringTemplate Template Engine]: http://www.stringtemplate.org/
-
