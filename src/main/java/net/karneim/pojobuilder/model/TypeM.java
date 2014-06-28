@@ -1,6 +1,7 @@
 package net.karneim.pojobuilder.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -102,6 +103,10 @@ public class TypeM {
         return this.equals(OBJECT);
     }
 
+    public boolean isList() {
+    	return List.class.getName().equals(getQualifiedName());
+    }
+
     public void addToImportTypes(Set<String> result) {
         String importName = getImportName();
         if (importName != null) {
@@ -111,6 +116,11 @@ public class TypeM {
             for (TypeParameterM typeParam : getTypeParameters()) {
                 typeParam.addToImportTypes(result);
             }
+        }
+        if (isList()) {
+        	result.add(List.class.getName());
+        	result.add(ArrayList.class.getName());
+        	result.add(Arrays.class.getName());
         }
     }
 

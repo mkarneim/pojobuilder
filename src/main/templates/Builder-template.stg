@@ -111,6 +111,19 @@ public <model.selfType.genericTypeSimpleName> with<property.nameUC>( <property.t
     return self;
 }
 
+<if(property.type.list)>
+/**
+ * Sets the content of the default value for the {@link List} {@link <model.productType.simpleName>#<property.name>} property.
+ * The values are added to an {@link ArrayList}.
+ * @param values the default values
+ * @return this builder
+ */
+public <model.selfType.genericTypeSimpleName> with<property.nameUC>( <first(property.type.typeParameters).name>... values) {
+    return with<property.nameUC>(new ArrayList\<<first(property.type.typeParameters).name>\>(Arrays.asList(values)));
+}
+
+<endif>
+
 >>
 
 propertySetterCall(property) ::= <<
