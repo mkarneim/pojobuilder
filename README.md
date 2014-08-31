@@ -460,6 +460,8 @@ If you want to compile this project's sources yourself you can use Gradle (see [
 ["src/testdata/java/samples/AbstractPlayerBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/AbstractPlayerBuilder.java
 ["src/testdata/java/samples/Address.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/Address.java
 ["src/testdata/java/samples/AddressBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/AddressBuilder.java
+["src/testdata/java/samples/Invoice.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/Invoice.java
+["src/testdata/java/samples/InvoiceBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/InvoiceBuilder.java
 ["src/testdata/java/samples/Builder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/Builder.java
 ["src/testdata/java/samples/Recipient.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/Recipient.java
 ["src/testdata/java/samples/RecipientBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/RecipientBuilder.java
