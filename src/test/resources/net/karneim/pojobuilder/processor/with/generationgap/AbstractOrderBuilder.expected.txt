@@ -1,0 +1,109 @@
+﻿package net.karneim.pojobuilder.processor.with.generationgap;
+
+import java.util.List;
+import javax.annotation.Generated;
+
+@Generated("PojoBuilder")
+public abstract class AbstractOrderBuilder
+    implements Cloneable {
+  protected OrderBuilder self;
+  protected long value$customerNo$long;
+  protected boolean isSet$customerNo$long;
+  protected long value$orderNo$long;
+  protected boolean isSet$orderNo$long;
+  protected List<Order.Item> value$items$java$util$List;
+  protected boolean isSet$items$java$util$List;
+
+  /**
+   * Creates a new {@link AbstractOrderBuilder}.
+   */
+  public AbstractOrderBuilder() {
+    self = (OrderBuilder)this;
+  }
+
+  /**
+   * Sets the default value for the {@link Order#customerNo} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public OrderBuilder withCustomerNo(long value) {
+    this.value$customerNo$long = value;
+    this.isSet$customerNo$long = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link Order#orderNo} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public OrderBuilder withOrderNo(long value) {
+    this.value$orderNo$long = value;
+    this.isSet$orderNo$long = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link Order#items} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public OrderBuilder withItems(List<Order.Item> value) {
+    this.value$items$java$util$List = value;
+    this.isSet$items$java$util$List = true;
+    return self;
+  }
+
+  /**
+   * Returns a clone of this builder.
+   *
+   * @return the clone
+   */
+  @Override
+  public Object clone() {
+    try {
+      OrderBuilder result = (OrderBuilder)super.clone();
+      result.self = result;
+      return result;
+    } catch (CloneNotSupportedException e) {
+      throw new InternalError(e.getMessage());
+    }
+  }
+
+  /**
+   * Returns a clone of this builder.
+   *
+   * @return the clone
+   */
+  public OrderBuilder but() {
+    return (OrderBuilder)clone();
+  }
+
+  /**
+   * Creates a new {@link Order} based on this builder's settings.
+   *
+   * @return the created Order
+   */
+  public Order build() {
+    try {
+      Order result = new Order();
+      if (isSet$customerNo$long) {
+        result.setCustomerNo(value$customerNo$long);
+      }
+      if (isSet$orderNo$long) {
+        result.setOrderNo(value$orderNo$long);
+      }
+      if (isSet$items$java$util$List) {
+        result.setItems(value$items$java$util$List);
+      }
+      return result;
+    } catch (RuntimeException ex) {
+      throw ex;
+    } catch (Throwable t) {
+      throw new java.lang.reflect.UndeclaredThrowableException(t);
+    }
+  }
+}

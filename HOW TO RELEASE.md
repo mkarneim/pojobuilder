@@ -1,37 +1,25 @@
-# How to release
+# How to Release
 This document describes the steps that I will follow in order to release
 a new version of this project's artifacts to the Maven Central repository.
 
+For more information please see http://central.sonatype.org/pages/gradle.html
+
 ## One-time Preparation
-Edit .m2/settings.xml and add server URLs:
+Edit ```<home>/.gradle/gradle.properties``` and provide GPG key path, id and passphrase, and Sonatype credentials:
+```
+signing.keyId=YourKeyId
+signing.password=YourPublicKeyPassword
+signing.secretKeyRingFile=PathToYourKeyRingFile
+ossrhUsername=your-jira-id
+ossrhPassword=your-jira-password
+```
 
-    <servers>
-      <server>
-        <id>sonatype-nexus-snapshots</id>
-        <username>mkarneim</username>
-        <password>*****</password>
-      </server>
-      <server>
-        <id>sonatype-nexus-staging</id>
-        <username>mkarneim</username>
-        <password>*****</password>
-      </server>  
-    </servers>
+## To Build and Upload a Release 
+* Make sure that the artifact version in ```build.gradle``` is a SNAPSHOT, e.g. 3.0.0-SNAPSHOT.
+* Commit changes to GitHub master
+* Run ```./gradlew clean build uploadArchives```
 
-Replace the '*****' with Sonatype Nexus password.
-  
-## To make a release 
-For details see http://maven.apache.org/maven-release/maven-release-plugin/usage.html
-* Make sure that the artifact version in pom.xml is a SNAPSHOT, e.g. 2.3.2-SNAPSHOT.
-* Commit changes to scm
-* Run ```mvn release:prepare -DdryRun=true```
-* Check for failures, review output and copied POMs.
-* If ok, run ```mvn release:prepare``` 
-* hit [ENTER] for all prompts
-* Run ```mvn release:rollback```
-* Run ```mvn release:perform```
-
-## Release it 
+## To Release It 
 For details see https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
 * Login to the Nexus UI at https://oss.sonatype.org/
 * Go to Staging Repositories page.
@@ -39,3 +27,4 @@ For details see https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+
 * Click the Close button.
 * Do some last checks (e.g. download the artifacts).
 * Click on the Release button.
+

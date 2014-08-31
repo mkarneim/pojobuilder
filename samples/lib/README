@@ -1,7 +1,0 @@
-For building this project with ANT please add the required library 
-
-  pojobuilder-*-jar-with-dependencies.jar
-
-here.
-
-You can find it at http://search.maven.org/#search|ga|1|a%3A%22pojobuilder%22.

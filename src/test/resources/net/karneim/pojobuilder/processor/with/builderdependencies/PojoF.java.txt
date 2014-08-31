@@ -1,0 +1,6 @@
+package net.karneim.pojobuilder.processor.with.builderdependencies;
+
+public class PojoF {
+  public String name;
+  public PojoEBuilder pojoEBuilder;
+}

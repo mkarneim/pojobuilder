@@ -1,0 +1,77 @@
+﻿package com.example.output;
+
+import java.util.Map;
+import javax.annotation.Generated;
+
+@Generated("PojoBuilder")
+public class SampleBuilder<K, V extends Number>
+    implements Cloneable {
+  protected SampleBuilder<K, V> self;
+  protected Map<K, V> value$someMap$java$util$Map;
+  protected boolean isSet$someMap$java$util$Map;
+
+  /**
+   * Creates a new {@link SampleBuilder}.
+   */
+  public SampleBuilder() {
+    self = (SampleBuilder<K, V>)this;
+  }
+
+  /**
+   * Sets the default value for the {@link Sample#someMap} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public SampleBuilder<K, V> withSomeMap(Map<K, V> value) {
+    this.value$someMap$java$util$Map = value;
+    this.isSet$someMap$java$util$Map = true;
+    return self;
+  }
+
+  /**
+   * Returns a clone of this builder.
+   *
+   * @return the clone
+   */
+  @Override
+  public Object clone() {
+    try {
+      @SuppressWarnings("unchecked")
+      SampleBuilder<K, V> result = (SampleBuilder<K, V>)super.clone();
+      result.self = result;
+      return result;
+    } catch (CloneNotSupportedException e) {
+      throw new InternalError(e.getMessage());
+    }
+  }
+
+  /**
+   * Returns a clone of this builder.
+   *
+   * @return the clone
+   */
+  @SuppressWarnings("unchecked")
+  public SampleBuilder<K, V> but() {
+    return (SampleBuilder<K, V>)clone();
+  }
+
+  /**
+   * Creates a new {@link Sample} based on this builder's settings.
+   *
+   * @return the created Sample
+   */
+  public Sample<K, V> build() {
+    try {
+      Sample<K, V> result = new Sample<K, V>();
+      if (isSet$someMap$java$util$Map) {
+        result.someMap = value$someMap$java$util$Map;
+      }
+      return result;
+    } catch (RuntimeException ex) {
+      throw ex;
+    } catch (Throwable t) {
+      throw new java.lang.reflect.UndeclaredThrowableException(t);
+    }
+  }
+}

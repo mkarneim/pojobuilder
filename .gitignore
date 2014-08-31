@@ -1,17 +1,6 @@
-# ignore osx temp files
-.DS_Store/
-
-# ignore ant output
-build/
-bin/
-
-# ignore maven output
-target/
-
-# ignore eclipse project files
 .classpath
-.project
+.gradle
 .settings
-
-# ignore intellij
-*.iml
+bin
+build
+.project

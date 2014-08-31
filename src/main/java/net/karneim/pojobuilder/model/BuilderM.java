@@ -1,189 +1,112 @@
 package net.karneim.pojobuilder.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+public class BuilderM {
+  private TypeM type;
+  private boolean isAbstract;
+  private TypeM selfType;
+  private TypeM baseType;
+  private TypeM pojoType;
+  private PropertyListM properties = new PropertyListM();
+  private FactoryMethodM factoryMethod;
+  private CopyMethodM copyMethod;
+  private BuildMethodM buildMethod;
+  private TypeM interfaceType;
+  private boolean hasBuilderProperties;
 
-public class BuilderM extends BaseBuilderM {
-    private TypeM selfType;
-    private FactoryM factory;
-    private final Map<String, PropertyM> properties = new HashMap<String, PropertyM>();
-    private boolean isImplementingCopyMethod;
+  public TypeM getType() {
+    return type;
+  }
 
-    public void setSelfType(TypeM selfType) {
-        this.selfType = selfType;
-    }
+  public void setType(TypeM type) {
+    this.type = type;
+  }
 
-    public FactoryM getFactory() {
-        return factory;
-    }
+  public boolean isAbstract() {
+    return isAbstract;
+  }
 
-    public void setFactory(FactoryM factory) {
-        this.factory = factory;
-    }
+  public void setAbstract(boolean isAbstract) {
+    this.isAbstract = isAbstract;
+  }
 
-    public boolean isUsingFactory() {
-        return factory != null;
-    }
+  public TypeM getSelfType() {
+    return selfType;
+  }
 
-    public void setIsImplementingCopyMethod(boolean isImplementingCopyMethod) {
-        this.isImplementingCopyMethod = isImplementingCopyMethod;
-    }
+  public void setSelfType(TypeM selfType) {
+    this.selfType = selfType;
+  }
 
-    public boolean isImplementingCopyMethod() {
-        return isImplementingCopyMethod;
-    }
+  public TypeM getBaseType() {
+    return baseType;
+  }
 
-    public List<PropertyM> getProperties() {
-        return new ArrayList<PropertyM>(properties.values());
-    }
+  public void setBaseType(TypeM baseType) {
+    this.baseType = baseType;
+  }
 
-    public TypeM getSelfType() {
-        return selfType;
-    }
+  public TypeM getPojoType() {
+    return pojoType;
+  }
 
-    public PropertyM getOrCreateProperty(String propertyName, TypeM propertyType) {
-        String fieldname = computeBuilderFieldname(propertyName, propertyType.getQualifiedName());
-        PropertyM result = properties.get(fieldname);
-        if (result == null) {
-            result = new PropertyM(propertyName, fieldname, propertyType);
-            properties.put(fieldname, result);
-        }
-        return result;
-    }
+  public void setPojoType(TypeM pojoType) {
+    this.pojoType = pojoType;
+  }
 
-    public PropertyM getProperty(String propertyName, TypeM propertyType) {
-        String fieldname = computeBuilderFieldname(propertyName, propertyType.getQualifiedName());
-        PropertyM result = properties.get(fieldname);
-        return result;
-    }
+  public PropertyListM getProperties() {
+    return properties;
+  }
 
-    private static String computeBuilderFieldname(String propertyName, String propertyType) {
-        String typeString = propertyType.replaceAll("\\.", "\\$");
-        typeString = typeString.replaceAll("\\[\\]", "\\$");
-        return propertyName + "$" + typeString;
-    }
+  public void setProperties(PropertyListM properties) {
+    this.properties = properties;
+  }
 
-    @Override
-    public void addToImportTypes(Set<String> result) {
-        super.addToImportTypes(result);
-        for (PropertyM prop : properties.values()) {
-            prop.getType().addToImportTypes(result);
-        }
-        if (factory != null) {
-            factory.addToImportTypes(result);
-        }
-    }
+  public FactoryMethodM getFactoryMethod() {
+    return factoryMethod;
+  }
 
-    public Collection<PropertyM> getPropertiesForConstructor() {
-        List<PropertyM> result = getProperties();
-        // Remove properties that have no parameter position
-        Iterator<PropertyM> it = result.iterator();
-        while (it.hasNext()) {
-            if (it.next().getParameterPos() == null) {
-                it.remove();
-            }
-        }
-        // sort result by parameter pos
-        Collections.sort(result, new Comparator<PropertyM>() {
+  public void setFactoryMethod(FactoryMethodM factoryMethod) {
+    this.factoryMethod = factoryMethod;
+  }
 
-            @Override
-            public int compare(PropertyM o1, PropertyM o2) {
-                return o1.getParameterPos().compareTo(o2.getParameterPos());
-            }
+  public CopyMethodM getCopyMethod() {
+    return copyMethod;
+  }
 
-        });
-        return result;
-    }
+  public void setCopyMethod(CopyMethodM copyMethod) {
+    this.copyMethod = copyMethod;
+  }
 
-    public Collection<PropertyM> getPropertiesForSetters() {
-        List<PropertyM> result = getProperties();
-        // Remove properties that have a parameter position
-        Iterator<PropertyM> it = result.iterator();
-        while (it.hasNext()) {
-            PropertyM p = it.next();
-            if (p.getParameterPos() != null || p.isHasSetter() == false) {
-                it.remove();
-            }
-        }
-        return result;
-    }
+  public BuildMethodM getBuildMethod() {
+    return buildMethod;
+  }
 
-    public Collection<PropertyM> getPropertiesForAssignment() {
-        List<PropertyM> result = getProperties();
-        // Remove properties that have a parameter position and have setters
-        Iterator<PropertyM> it = result.iterator();
-        while (it.hasNext()) {
-            PropertyM p = it.next();
-            if (!p.isAccessible() || !p.isWritable()) {
-                it.remove();
-            } else if (p.getParameterPos() != null || p.isHasSetter()) {
-                it.remove();
-            }
-        }
-        return result;
-    }
+  public void setBuildMethod(BuildMethodM buildMethod) {
+    this.buildMethod = buildMethod;
+  }
 
-    public Collection<PropertyM> getPropertiesForWith() {
-        List<PropertyM> result = getProperties();
-        // Remove properties that are not writable, have no setters, and can't
-        // be set by constructor
-        Iterator<PropertyM> it = result.iterator();
-        while (it.hasNext()) {
-            PropertyM p = it.next();
-            if (!p.isWritable() && !p.isHasSetter() && !p.isConstructorParameter()) {
-                it.remove();
-            }
-        }
-        return result;
-    }
+  public TypeM getInterfaceType() {
+    return interfaceType;
+  }
 
-    public Collection<PropertyM> getPropertiesForCopy() {
-        Collection<PropertyM> result = getPropertiesForWith();
-        // Remove properties that are not readable or have no getters
-        Iterator<PropertyM> it = result.iterator();
-        while (it.hasNext()) {
-            PropertyM p = it.next();
+  public void setInterfaceType(TypeM interfaceType) {
+    this.interfaceType = interfaceType;
+  }
 
-            if (!p.isReadable() && !p.isHasGetter()) {
-                it.remove();
-            }
-        }
-        return result;
-    }
+  public boolean hasBuilderProperties() {
+    return hasBuilderProperties;
+  }
 
-    public Collection<PropertyM> getPropertiesForCopyByGetter() {
-        Collection<PropertyM> result = getPropertiesForCopy();
-        // Remove properties that have no getters
-        Iterator<PropertyM> it = result.iterator();
-        while (it.hasNext()) {
-            PropertyM p = it.next();
-            if (!p.isHasGetter()) {
-                it.remove();
-            }
-        }
-        return result;
-    }
+  public void setHasBuilderProperties(boolean hasBuilderProperties) {
+    this.hasBuilderProperties = hasBuilderProperties;
+  }
 
-    public Collection<PropertyM> getPropertiesForCopyByFieldAccess() {
-        Collection<PropertyM> result = getPropertiesForCopy();
-        // Remove properties that are not readable
-        Iterator<PropertyM> it = result.iterator();
-        while (it.hasNext()) {
-            PropertyM p = it.next();
-            if (p.isHasGetter()) {
-                it.remove();
-            } else if (!p.isReadable()) {
-                it.remove();
-            }
-        }
-        return result;
-    }
+  @Override
+  public String toString() {
+    return "BuilderM [type=" + type + ", isAbstract=" + isAbstract + ", selfType=" + selfType + ", baseType="
+        + baseType + ", pojoType=" + pojoType + ", properties=" + properties + ", factoryMethod=" + factoryMethod
+        + ", copyMethod=" + copyMethod + ", buildMethod=" + buildMethod + ", interfaceType=" + interfaceType
+        + ", hasBuilderProperties=" + hasBuilderProperties + "]";
+  }
 
 }

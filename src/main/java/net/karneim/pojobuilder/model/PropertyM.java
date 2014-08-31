@@ -1,109 +1,175 @@
 package net.karneim.pojobuilder.model;
 
 public class PropertyM {
+  private TypeM propertyType;
+  private String propertyName;
+  private ConstructorParameterM writableViaConstructorParameter;
+  private SetterMethodM writableViaSetterMethod;
+  private MethodM readableViaGetterMethod;
+  private FactoryMethodParameterM writableViaFactoryMethodParameter;
+  private FieldAccessM fieldAccess;
 
-    private final String name;
-    private final String fieldname;
-    private final TypeM type;
-    private String setter;
-    private String getter;
-    private boolean accessible;
-    private Integer parameterPos;
-    private boolean readable;
-    private boolean writable;
+  public PropertyM(String propertyName, TypeM propertyType) {
+    this.propertyType = propertyType;
+    this.propertyName = propertyName;
+  }
 
-    public PropertyM(String name, String fieldname, TypeM type) {
-        super();
-        this.name = name;
-        this.fieldname = fieldname;
-        this.type = type;
+  public TypeM getPropertyType() {
+    return propertyType;
+  }
+
+  public String getPropertyName() {
+    return propertyName;
+  }
+
+  public TypeM getParameterizedBuilderInterfaceType(TypeM interfaceType) {
+    if (propertyType.isPrimitive()) {
+      PrimitiveTypeM primType = (PrimitiveTypeM) propertyType;
+      TypeM result =
+          new TypeM(interfaceType.getPackageName(), interfaceType.getSimpleName()).withTypeParameter(primType
+              .getBoxClass());
+      return result;
+    } else {
+      TypeM result =
+          new TypeM(interfaceType.getPackageName(), interfaceType.getSimpleName()).withTypeParameter(propertyType);
+      return result;
     }
+  }
 
-    public boolean isAccessible() {
-        return accessible;
-    }
+  public ConstructorParameterM getConstructorParameter() {
+    return writableViaConstructorParameter;
+  }
 
-    public void setAccessible(boolean accessible) {
-        this.accessible = accessible;
-    }
+  public PropertyM writableVia(ConstructorParameterM constructorParameter) {
+    this.writableViaConstructorParameter = constructorParameter;
+    return this;
+  }
 
-    public boolean isReadable() {
-        return readable;
-    }
+  public boolean isWritableViaConstructor() {
+    // TODO add method isWritableViaConstructorBy( TypeM accessingClass)
+    return getConstructorParameter() != null;
+  }
 
-    public void setReadable(boolean readable) {
-        this.readable = readable;
-    }
+  public PropertyM writableVia(SetterMethodM setterMethod) {
+    this.writableViaSetterMethod = setterMethod;
+    return this;
+  }
 
-    public boolean isWritable() {
-        return writable;
-    }
+  public SetterMethodM getSetterMethod() {
+    return writableViaSetterMethod;
+  }
 
-    public void setWritable(boolean writable) {
-        this.writable = writable;
-    }
+  public boolean isWritableViaSetterMethod() {
+    return writableViaSetterMethod != null;
+  }
 
-    public Integer getParameterPos() {
-        return parameterPos;
-    }
+  public PropertyM readableVia(MethodM getterMethod) {
+    this.readableViaGetterMethod = getterMethod;
+    return this;
+  }
 
-    public void setParameterPos(Integer parameterPos) {
-        this.parameterPos = parameterPos;
-    }
+  public MethodM getGetterMethod() {
+    return readableViaGetterMethod;
+  }
 
-    public String getSetter() {
-        return setter;
-    }
+  public boolean isReadableViaGetterMethod() {
+    return readableViaGetterMethod != null;
+  }
 
-    public void setSetter(String setter) {
-        this.setter = setter;
-    }
+  public PropertyM accessibleVia(FieldAccessM fieldAccess) {
+    this.fieldAccess = fieldAccess;
+    return this;
+  }
 
-    public boolean isHasSetter() {
-        return setter != null;
-    }
+  public FieldAccessM getFieldAccess() {
+    return fieldAccess;
+  }
 
-    public String getGetter() {
-        return getter;
-    }
+  public boolean isAccessibleViaFieldAccess() {
+    return fieldAccess != null;
+  }
 
-    public boolean isHasGetter() {
-        return getter != null;
-    }
+  public FactoryMethodParameterM getFactoryMethodParameter() {
+    return writableViaFactoryMethodParameter;
+  }
 
-    public void setGetter(String getter) {
-        this.getter = getter;
-    }
+  public PropertyM writableVia(FactoryMethodParameterM param) {
+    this.writableViaFactoryMethodParameter = param;
+    return this;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public boolean isWritableViaFactoryMethod() {
+    // TODO add method isWritableViaFactoryMethodBy( TypeM accessingClass)
+    return this.writableViaFactoryMethodParameter != null;
+  }
 
-    public String getFieldname() {
-        return fieldname;
-    }
+  public boolean isWritableViaSetterMethodBy(TypeM accessingClass) {
+    return isWritableViaSetterMethod() && getSetterMethod().isAccessibleFor(accessingClass);
+  }
 
-    public String getNameUC() {
-        if (name.length() <= 1) {
-            return name.toUpperCase();
-        } else {
-            return name.toUpperCase().substring(0, 1) + name.substring(1);
-        }
-    }
+  public boolean isWritableViaFieldAccessBy(TypeM accessingClass) {
+    return isAccessibleViaFieldAccess() && getFieldAccess().isWritableFor(accessingClass);
+  }
 
-    public TypeM getType() {
-        return type;
-    }
+  public boolean isWritableBy(TypeM accessingClass) {
+    return isWritableViaFieldAccessBy(accessingClass) || isWritableViaSetterMethodBy(accessingClass)
+        || isWritableViaConstructor() || isWritableViaFactoryMethod();
+  }
 
-    public boolean isConstructorParameter() {
-        return getParameterPos() != null;
-    }
+  public boolean isReadableViaGetterMethodBy(TypeM accessingClass) {
+    return isReadableViaGetterMethod() && getGetterMethod().isAccessibleFor(accessingClass);
+  }
 
-    @Override
-    public String toString() {
-        return "PropertyM [name=" + name + ", fieldname=" + fieldname + ", type=" + type + ", setter=" + setter
-                + ", getter=" + getter + ", accessible=" + accessible + ", parameterPos=" + parameterPos
-                + ", readable=" + readable + ", writable=" + writable + "]";
+  public boolean isReadableViaFieldAccessBy(TypeM accessingClass) {
+    return isAccessibleViaFieldAccess() && getFieldAccess().isReadableFor(accessingClass);
+  }
+
+  public String getValueFieldName() {
+    String typeIdentifier = getTypeIdentifierForFieldName();
+    return String.format("value$%s$%s", getPropertyName(), typeIdentifier);
+  }
+
+  public String getIsSetFieldName() {
+    String typeIdentifier = getTypeIdentifierForFieldName();
+    return String.format("isSet$%s$%s", getPropertyName(), typeIdentifier);
+  }
+
+  public String getBuilderFieldName() {
+    String typeIdentifier = getTypeIdentifierForFieldName();
+    return String.format("builder$%s$%s", getPropertyName(), typeIdentifier);
+  }
+
+  private String getTypeIdentifierForFieldName() {
+    return getPropertyType().getName().replaceAll("\\.", "\\$").replaceAll("\\[\\]", "\\$L");
+  }
+
+  public String getWithMethodName() {
+    return String.format("with%s", fcUpperCase(getPropertyName()));
+  }
+
+  private String fcUpperCase(String text) {
+    if (text == null) {
+      return null;
     }
+    return text.substring(0, 1).toUpperCase().concat(text.substring(1));
+  }
+
+  public WriteAccess getPreferredWriteAccessFor(TypeM accessingClass) {
+    if (isWritableViaConstructor()) {
+      return getConstructorParameter();
+    }
+    if (isWritableViaFactoryMethod()) {
+      return getFactoryMethodParameter();
+    }
+    if (isWritableViaSetterMethodBy(accessingClass)) {
+      return getSetterMethod();
+    }
+    if (isWritableViaFieldAccessBy(accessingClass)) {
+      return getFieldAccess();
+    }
+    return null;
+  }
+
+
 
 }

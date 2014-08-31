@@ -1,11 +1,33 @@
 package net.karneim.pojobuilder.model;
 
-public class ManualBuilderM extends BaseBuilderM {
+public class ManualBuilderM {
 
-    @Override
-    public String toString() {
-        return "ManualBuilderM [getProductType()=" + getProductType() + ", getType()=" + getType()
-                + ", getSuperType()=" + getSuperType() + ", isAbstractClass()=" + isAbstractClass() + "]";
-    }
+  private TypeM pojoType;
+  private TypeM type;
+  private TypeM baseType;
+
+  public TypeM getPojoType() {
+    return pojoType;
+  }
+
+  public void setPojoType(TypeM pojoType) {
+    this.pojoType = pojoType;
+  }
+
+  public TypeM getType() {
+    return type;
+  }
+
+  public void setType(TypeM type) {
+    this.type = type;
+  }
+
+  public TypeM getBaseType() {
+    return baseType;
+  }
+
+  public void setBaseType(TypeM baseType) {
+    this.baseType = baseType;
+  }
 
 }

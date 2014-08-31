@@ -1,0 +1,11 @@
+package net.karneim.pojobuilder.processor.with.builderdependencies;
+
+import net.karneim.pojobuilder.GeneratePojoBuilder;
+
+public class PojoFFactory {
+
+  @GeneratePojoBuilder
+  public static PojoF createPojoF() {
+    return new PojoF();
+  }
+}

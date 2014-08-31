@@ -1,0 +1,93 @@
+﻿package com.example.output;
+
+import java.util.List;
+import java.util.Map;
+import javax.annotation.Generated;
+
+@Generated("PojoBuilder")
+public class SampleBuilder
+    implements Cloneable {
+  protected SampleBuilder self;
+  protected List<String> value$someStringList$java$util$List;
+  protected boolean isSet$someStringList$java$util$List;
+  protected Map<String, Integer> value$someMap$java$util$Map;
+  protected boolean isSet$someMap$java$util$Map;
+
+  /**
+   * Creates a new {@link SampleBuilder}.
+   */
+  public SampleBuilder() {
+    self = (SampleBuilder)this;
+  }
+
+  /**
+   * Sets the default value for the {@link Sample#someStringList} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public SampleBuilder withSomeStringList(List<String> value) {
+    this.value$someStringList$java$util$List = value;
+    this.isSet$someStringList$java$util$List = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link Sample#someMap} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public SampleBuilder withSomeMap(Map<String, Integer> value) {
+    this.value$someMap$java$util$Map = value;
+    this.isSet$someMap$java$util$Map = true;
+    return self;
+  }
+
+  /**
+   * Returns a clone of this builder.
+   *
+   * @return the clone
+   */
+  @Override
+  public Object clone() {
+    try {
+      SampleBuilder result = (SampleBuilder)super.clone();
+      result.self = result;
+      return result;
+    } catch (CloneNotSupportedException e) {
+      throw new InternalError(e.getMessage());
+    }
+  }
+
+  /**
+   * Returns a clone of this builder.
+   *
+   * @return the clone
+   */
+  public SampleBuilder but() {
+    return (SampleBuilder)clone();
+  }
+
+  /**
+   * Creates a new {@link Sample} based on this builder's settings.
+   *
+   * @return the created Sample
+   */
+  public Sample build() {
+    try {
+      Sample result = new Sample();
+      if (isSet$someStringList$java$util$List) {
+        result.someStringList = value$someStringList$java$util$List;
+      }
+      if (isSet$someMap$java$util$Map) {
+        result.someMap = value$someMap$java$util$Map;
+      }
+      return result;
+    } catch (RuntimeException ex) {
+      throw ex;
+    } catch (Throwable t) {
+      throw new java.lang.reflect.UndeclaredThrowableException(t);
+    }
+  }
+}

@@ -1,0 +1,193 @@
+﻿package com.example.output;
+
+import javax.annotation.Generated;
+
+@Generated("PojoBuilder")
+public class SampleBuilder
+    implements Cloneable {
+  protected SampleBuilder self;
+  protected boolean value$someBoolean$boolean;
+  protected boolean isSet$someBoolean$boolean;
+  protected char value$someChar$char;
+  protected boolean isSet$someChar$char;
+  protected byte value$someByte$byte;
+  protected boolean isSet$someByte$byte;
+  protected short value$someShort$short;
+  protected boolean isSet$someShort$short;
+  protected int value$someInt$int;
+  protected boolean isSet$someInt$int;
+  protected long value$someLong$long;
+  protected boolean isSet$someLong$long;
+  protected float value$someFloat$float;
+  protected boolean isSet$someFloat$float;
+  protected double value$someDouble$double;
+  protected boolean isSet$someDouble$double;
+
+  /**
+   * Creates a new {@link SampleBuilder}.
+   */
+  public SampleBuilder() {
+    self = (SampleBuilder)this;
+  }
+
+  /**
+   * Sets the default value for the {@link Sample#someBoolean} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public SampleBuilder withSomeBoolean(boolean value) {
+    this.value$someBoolean$boolean = value;
+    this.isSet$someBoolean$boolean = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link Sample#someChar} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public SampleBuilder withSomeChar(char value) {
+    this.value$someChar$char = value;
+    this.isSet$someChar$char = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link Sample#someByte} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public SampleBuilder withSomeByte(byte value) {
+    this.value$someByte$byte = value;
+    this.isSet$someByte$byte = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link Sample#someShort} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public SampleBuilder withSomeShort(short value) {
+    this.value$someShort$short = value;
+    this.isSet$someShort$short = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link Sample#someInt} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public SampleBuilder withSomeInt(int value) {
+    this.value$someInt$int = value;
+    this.isSet$someInt$int = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link Sample#someLong} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public SampleBuilder withSomeLong(long value) {
+    this.value$someLong$long = value;
+    this.isSet$someLong$long = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link Sample#someFloat} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public SampleBuilder withSomeFloat(float value) {
+    this.value$someFloat$float = value;
+    this.isSet$someFloat$float = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link Sample#someDouble} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public SampleBuilder withSomeDouble(double value) {
+    this.value$someDouble$double = value;
+    this.isSet$someDouble$double = true;
+    return self;
+  }
+
+  /**
+   * Returns a clone of this builder.
+   *
+   * @return the clone
+   */
+  @Override
+  public Object clone() {
+    try {
+      SampleBuilder result = (SampleBuilder)super.clone();
+      result.self = result;
+      return result;
+    } catch (CloneNotSupportedException e) {
+      throw new InternalError(e.getMessage());
+    }
+  }
+
+  /**
+   * Returns a clone of this builder.
+   *
+   * @return the clone
+   */
+  public SampleBuilder but() {
+    return (SampleBuilder)clone();
+  }
+
+  /**
+   * Creates a new {@link Sample} based on this builder's settings.
+   *
+   * @return the created Sample
+   */
+  public Sample build() {
+    try {
+      Sample result = new Sample();
+      if (isSet$someBoolean$boolean) {
+        result.someBoolean = value$someBoolean$boolean;
+      }
+      if (isSet$someChar$char) {
+        result.someChar = value$someChar$char;
+      }
+      if (isSet$someByte$byte) {
+        result.someByte = value$someByte$byte;
+      }
+      if (isSet$someShort$short) {
+        result.someShort = value$someShort$short;
+      }
+      if (isSet$someInt$int) {
+        result.someInt = value$someInt$int;
+      }
+      if (isSet$someLong$long) {
+        result.someLong = value$someLong$long;
+      }
+      if (isSet$someFloat$float) {
+        result.someFloat = value$someFloat$float;
+      }
+      if (isSet$someDouble$double) {
+        result.someDouble = value$someDouble$double;
+      }
+      return result;
+    } catch (RuntimeException ex) {
+      throw ex;
+    } catch (Throwable t) {
+      throw new java.lang.reflect.UndeclaredThrowableException(t);
+    }
+  }
+}

@@ -1,0 +1,127 @@
+﻿package com.example.output;
+
+import java.io.File;
+import java.math.BigDecimal;
+import javax.annotation.Generated;
+
+@Generated("PojoBuilder")
+public class SampleBuilder
+    implements Cloneable {
+  protected SampleBuilder self;
+  protected String value$someString$java$lang$String;
+  protected boolean isSet$someString$java$lang$String;
+  protected File value$someFile$java$io$File;
+  protected boolean isSet$someFile$java$io$File;
+  protected Integer value$someInteger$java$lang$Integer;
+  protected boolean isSet$someInteger$java$lang$Integer;
+  protected BigDecimal value$someBigDecimal$java$math$BigDecimal;
+  protected boolean isSet$someBigDecimal$java$math$BigDecimal;
+
+  /**
+   * Creates a new {@link SampleBuilder}.
+   */
+  public SampleBuilder() {
+    self = (SampleBuilder)this;
+  }
+
+  /**
+   * Sets the default value for the {@link Sample#someString} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public SampleBuilder withSomeString(String value) {
+    this.value$someString$java$lang$String = value;
+    this.isSet$someString$java$lang$String = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link Sample#someFile} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public SampleBuilder withSomeFile(File value) {
+    this.value$someFile$java$io$File = value;
+    this.isSet$someFile$java$io$File = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link Sample#someInteger} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public SampleBuilder withSomeInteger(Integer value) {
+    this.value$someInteger$java$lang$Integer = value;
+    this.isSet$someInteger$java$lang$Integer = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link Sample#someBigDecimal} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public SampleBuilder withSomeBigDecimal(BigDecimal value) {
+    this.value$someBigDecimal$java$math$BigDecimal = value;
+    this.isSet$someBigDecimal$java$math$BigDecimal = true;
+    return self;
+  }
+
+  /**
+   * Returns a clone of this builder.
+   *
+   * @return the clone
+   */
+  @Override
+  public Object clone() {
+    try {
+      SampleBuilder result = (SampleBuilder)super.clone();
+      result.self = result;
+      return result;
+    } catch (CloneNotSupportedException e) {
+      throw new InternalError(e.getMessage());
+    }
+  }
+
+  /**
+   * Returns a clone of this builder.
+   *
+   * @return the clone
+   */
+  public SampleBuilder but() {
+    return (SampleBuilder)clone();
+  }
+
+  /**
+   * Creates a new {@link Sample} based on this builder's settings.
+   *
+   * @return the created Sample
+   */
+  public Sample build() {
+    try {
+      Sample result = new Sample();
+      if (isSet$someString$java$lang$String) {
+        result.someString = value$someString$java$lang$String;
+      }
+      if (isSet$someFile$java$io$File) {
+        result.someFile = value$someFile$java$io$File;
+      }
+      if (isSet$someInteger$java$lang$Integer) {
+        result.someInteger = value$someInteger$java$lang$Integer;
+      }
+      if (isSet$someBigDecimal$java$math$BigDecimal) {
+        result.someBigDecimal = value$someBigDecimal$java$math$BigDecimal;
+      }
+      return result;
+    } catch (RuntimeException ex) {
+      throw ex;
+    } catch (Throwable t) {
+      throw new java.lang.reflect.UndeclaredThrowableException(t);
+    }
+  }
+}

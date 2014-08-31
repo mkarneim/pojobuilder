@@ -1,12 +1,13 @@
 IMPORTANT LICENSING INFORMATION
 
-The source code located in the "src" and "samples" directory is in the 
+The source code located in the "src" directory is in the 
 PUBLIC DOMAIN.
 You are not entering into a contract with us or anyone else when you
 use this source code.
 
 3rd party libraries may have their own licenses that may give you less rights. 
-Please refer to their license files for more information.
+Please refer to their license files located in the "license" directory for 
+more information.
 
 This software package is licensed free of charge. Therefore, the authors 
 provide absolutely no warranty of any kind in any case. The authors provide

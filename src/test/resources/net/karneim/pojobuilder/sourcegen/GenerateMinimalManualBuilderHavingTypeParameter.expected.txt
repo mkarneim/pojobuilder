@@ -1,0 +1,24 @@
+﻿package com.example.output;
+
+import javax.annotation.Generated;
+
+/**
+ * The {@link SampleBuilder} is a Builder for {@link Sample} objects.
+ * <p> ATTENTION:
+ *     This class has been generated.
+ *     If you want to ADD HANDWRITTEN CODE,
+ *     please MOVE THIS FILE out of the generated-sources folder
+ *     in order to prevent it from being overwritten by the
+ *     PojoBuilder generator!
+ * </p>
+ */
+@Generated("PojoBuilder")
+public class SampleBuilder<T extends Number> extends AbstractSampleBuilder<T>
+    implements Cloneable {
+
+  /**
+   * Creates a new {@link SampleBuilder}.
+   */
+  public SampleBuilder() {
+  }
+}
