@@ -255,14 +255,12 @@ Let's have a look at the following example:
 public @interface MyDefaultDirectives {
 }
 ```
-@MyDefaultDirectives is annotated by @GeneratePojoBuilder, which declares it as an default configuration annotation
-for @GeneratePojoBuilder.
-In this case a value for the element 'withName' is specified, which overrides the default name pattern.
+@MyDefaultDirectives is annotated by @GeneratePojoBuilder.
+This declares it as an default configuration annotation for @GeneratePojoBuilder.
+In this case a value for the element 'withName' is specified.
+It overrides the default name pattern.
 
-Please note that your alias annotation *must be part of the source tree* where your annotated pojos exists.
-Otherwise the PojoBuilder Generator will not use it for configuring the code generation.
-
-In order to use your default configuration annotation you have to place it on any Java element
+In order to use your default configuration annotation, you have to place it on any Java element
 next to the standard annotation @GeneratePojoBuilder:
 ```java
 @MyDefaultDirectives
@@ -297,7 +295,7 @@ public class Contact {
 Please note that *the order of these multiple annotations is relevant*,
 since the element values are applied in top-down order.
 
-In this example this means, that the values specified in @MyFirstDefaults are read first,
+Here this means, that the values specified in @MyFirstDefaults are read first,
 then overridden by values specified in @MySecondDefaults,
 and last overridden by values specified in @GeneratePojoBuilder.
 
