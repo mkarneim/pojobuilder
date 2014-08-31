@@ -354,17 +354,17 @@ This is a small build script that shows how to run the PojoBuilder annotation pr
 apply plugin: 'java'
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 configurations {
-    codeGeneration
+  codeGeneration
 }
 
 dependencies {
-    codeGeneration group: 'net.karneim', name: 'pojobuilder', version: '3.0.0'
+  codeGeneration 'net.karneim:pojobuilder:3.0.0'
+  compile configurations.codeGeneration
 }
-compileJava.classpath += configurations.codeGeneration
 ``` 
 The generated sources will be placed into the standard 'build/classes' directory.
 
@@ -374,6 +374,8 @@ compileJava.options.compilerArgs += ['-s', 'src/generated/java']
 ```
 
 The wiki contains an [extended Gradle script] that distinguishes completely between code generation and compilation tasks.
+
+There is [another Gradle script] that enables PojoBuilder for Eclipse IDE.
 
 ### Using Ant
 
@@ -438,6 +440,7 @@ If you want to compile this project's sources yourself you can use Gradle (see [
 [PojoBuilder wiki]: http://github.com/mkarneim/pojobuilder/wiki
 [best practices]: http://github.com/mkarneim/pojobuilder/wiki/Best-practices
 [extended Gradle script]: https://github.com/mkarneim/pojobuilder/wiki/Extended-Gradle-Build-Script
+[another Gradle script]: https://github.com/mkarneim/pojobuilder/wiki/Enabling-PojoBuilder-for-Eclipse-Using-Gradle
 
 [COPYING]: http://github.com/mkarneim/pojobuilder/blob/master/COPYING
 [build.gradle]: http://github.com/mkarneim/pojobuilder/blob/master/build.gradle
