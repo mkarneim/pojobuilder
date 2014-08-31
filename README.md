@@ -226,7 +226,7 @@ The following elements of @GeneratePojoBuilder can be used to configure the outp
 	Default is `Void.class`, which means, that no interface should be implemented.
 * `withBuilderProperties=<boolean>`
     specifies whether the generated builder should define builder-based with-methods using the builder interface (see above).
-	For an example please see ["src/testdata/java/samples/Invoice.java"], ["src/testdata/java/samples/Builder.java"] and ["src/testdata/java/samples/InvoiceBuilder.java"].
+	For an example please see ["src/testdata/java/samples/Recipient.java"], ["src/testdata/java/samples/Builder.java"] and ["src/testdata/java/samples/RecipientBuilder.java"].
 	Default is `false`.	
 * `withGenerationGap=<boolean>`
     specifies whether the [generation gap pattern] is used. If enabled, this
@@ -460,8 +460,8 @@ If you want to compile this project's sources yourself you can use Gradle (see [
 ["src/testdata/java/samples/AbstractPlayerBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/AbstractPlayerBuilder.java
 ["src/testdata/java/samples/Address.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/Address.java
 ["src/testdata/java/samples/AddressBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/AddressBuilder.java
-["src/testdata/java/samples/Invoice.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/Invoice.java
-["src/testdata/java/samples/InvoiceBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/InvoiceBuilder.java
+["src/testdata/java/samples/Recipient.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/Recipient.java
+["src/testdata/java/samples/RecipientBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/RecipientBuilder.java
 ["src/testdata/java/samples/Builder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/Builder.java
 ["src/testdata/java/samples/Recipient.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/Recipient.java
 ["src/testdata/java/samples/RecipientBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/RecipientBuilder.java
