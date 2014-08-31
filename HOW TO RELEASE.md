@@ -16,7 +16,6 @@ ossrhPassword=your-jira-password
 
 ## To Build and Upload a Release 
 * Make sure that the artifact version in ```build.gradle``` is NOT a SNAPSHOT.
-* Commit changes to GitHub master
 * Run ```./gradlew clean build uploadArchives```
 
 ## To Release It 
@@ -29,7 +28,7 @@ For details see https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+
 * Click on the Release button.
 
 ## Post Actions
-* Create release label on GitHub master
-* Make sure that the artifact version in ```build.gradle``` is a SNAPSHOT, e.g. 3.0.0-SNAPSHOT.
 * Commit changes to GitHub master
-
+* Create release label on GitHub master
+* Change the artifact version in ```build.gradle``` to a SNAPSHOT, e.g. 3.0.0-SNAPSHOT.
+* Commit changes to GitHub master
