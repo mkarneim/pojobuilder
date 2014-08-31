@@ -34,7 +34,7 @@ For more information on
 License
 -------
 
-The source code located in the "src" and "samples" directory is in the PUBLIC DOMAIN. 
+The source code located in the "src" directory is in the PUBLIC DOMAIN. 
 For more information please read the [COPYING] file.
 
 Download
@@ -45,21 +45,20 @@ For older versions and a *change log* please see the [release history page].
 PojoBuilder *binaries* are available for download at [Sonatype OSS Maven Repository] and [Maven Central].
 
 If you don't use any build automation tool that supports maven repos,
-you might want to download the "pojobuilder-*-jar-with-dependencies.jar" to get PojoBuilder complete with all dependent libraries included.
+you might want to download the `pojobuilder-*-jar-with-dependencies.jar` to get PojoBuilder complete with all dependent libraries included.
 
 Dependencies
 ------------
 PojoBuilder is a pure code generator. It does not add any runtime dependencies to your project.
 
-However, PojoBuilder adds the following *compile-time* dependencies to your project:
+However, PojoBuilder adds the following *compile-time* dependency to your project:
 
-* [Java] 6 
 * [JavaWriter] 2.5.0 
 
 How To Use
 ----------
 
-The PojoBuilder Generator uses an annotation processor to generate pojo builders for you.
+The PojoBuilder generator uses an annotation processor to generate pojo builders for you.
 You have the following options to trigger the code generation:
 
 * by [annotating a pojo's constructor](#annotating-a-constructor)
@@ -68,7 +67,7 @@ You have the following options to trigger the code generation:
 
 ### Annotating a Constructor ###
 
-To generate a builder class for a pojo you can annotate *one of its constructors* with @GeneratePojoBuilder.
+To generate a builder class for a pojo you can annotate *one of its constructors* with `@GeneratePojoBuilder`.
 
 Let's have a look at the following example pojo:
 ```java	
@@ -101,7 +100,7 @@ public class Contact {
 }
 ```
 The [@GeneratePojoBuilder] annotation tells the annotation processor to create a new Java source file with 
-the name "ContactBuilder". Have a look at ["src/testdata/java/samples/ContactBuilder.java"] to see the generated source code.
+the name `ContactBuilder`. Have a look at [`ContactBuilder.java`] to see the generated source code.
 
 Please note that the constructor must be *public* or otherwise accessible for the generated builder,
 e.g. if it's *protected* the generated builder must reside in the same package.
@@ -143,7 +142,7 @@ public class Contact {
 
 ### Annotating the Pojo ###
 
-If your Pojo has no constructor (or a public default constructor), you can annotate its *class* with @GeneratePojoBuilder.
+If your pojo has no constructor (or a public default constructor), you can annotate its *class* with `@GeneratePojoBuilder`.
 
 Let's have a look at the following example pojo:
 ```java
@@ -170,7 +169,7 @@ public class User {
 }
 ```
 
-Have a look at ["src/testdata/java/samples/UserBuilder.java"] to see the generated source code.
+Have a look at [`UserBuilder.java`] to see the generated source code.
 
 ### Annotating a Factory Method ###
 
@@ -187,7 +186,7 @@ public class UrlFactory {
   }
 }
 ```
-Have a look at ["src/testdata/java/samples/UrlBuilder.java"] to see the generated source code.
+Have a look at [`UrlBuilder.java`] to see the generated source code.
 
 Please note that the factory method must be *public* and *static*. 
 The method parameter names must match the names of the pojo's properties exactly.
@@ -204,46 +203,46 @@ public class FileFactory {
   }
 }
 ```
-Have a look at ["src/testdata/java/samples/FileBuilder.java"] to see the generated source code.
+Have a look at [`FileBuilder.java`] to see the generated source code.
 
 ### Directives ###
-The following elements of @GeneratePojoBuilder can be used to configure the output of the code generation process.
+The following elements of `@GeneratePojoBuilder` can be used to configure the output of the code generation process.
 
 * `withName=<String>`
     specifies the pattern of the builder's name. Any asterisk will be
-	replaced with the pojos simple name. For example, the result of the pattern "Fluent*Builder" will become 
-        "FluentContactBuilder" if the pojo's name is "Contact". The default pattern is `"*Builder"`.
+	replaced with the pojos simple name. For example, the result of the pattern `Fluent*Builder` will become 
+        `FluentContactBuilder` if the pojo's name is `Contact`. The default pattern is `*Builder`.
 * `intoPackage=<String>`
     specifies the package of the generated builder. Any asterisk will be
-	replaced with the pojos package. For example, the result of the pattern "*.util" will become
-        "com.example.util" if the pojo's package is "com.example". The default pattern is `"*"`.
+	replaced with the pojos package. For example, the result of the pattern `*.util` will become
+        `com.example.util` if the pojo's package is `com.example`. The default pattern is `*`.
 * `withBaseclass=<Class>`
     specifies the base class of the generated builder. The default class is `Object.class`.
 * `withBuilderInterface=<Class>`
     specifies the interface of the generated builder. The interface must declare exactly one type parameter
     and a build method with this type as return type.    
-	For an example please see ["src/testdata/java/samples/Address.java"], ["src/testdata/java/samples/Builder.java"] and ["src/testdata/java/samples/AddressBuilder.java"].
+	For an example please see [`Address.java`], [`Builder.java`] and [`AddressBuilder.java`].
 	Default is `Void.class`, which means, that no interface should be implemented.
 * `withBuilderProperties=<boolean>`
     specifies whether the generated builder should define builder-based with-methods using the builder interface (see above).
-	For an example please see ["src/testdata/java/samples/Recipient.java"], ["src/testdata/java/samples/Builder.java"] and ["src/testdata/java/samples/RecipientBuilder.java"].
+	For an example please see [`Recipient.java`], [`Builder.java`] and [`RecipientBuilder.java`].
 	Default is `false`.	
 * `withGenerationGap=<boolean>`
     specifies whether the [generation gap pattern] is used. If enabled, this
 	will generate two classes (instead of one), of which one contains the
 	ordinary builder code, whereas the other class extends the first one and is an empty template for handwritten code. 
         Please move it out of the generated-sources folder to prevent it from being overwritten. 
- 	For examples please see ["src/testdata/java/samples/Player.java"], ["src/testdata/java/samples/PlayerBuilder.java"], and ["src/testdata/java/samples/AbstractPlayerBuilder.java"].
+ 	For examples please see [`Player.java`], [`PlayerBuilder.java`], and [`AbstractPlayerBuilder.java`].
         Default is `false`.
 * `withCopyMethod=<boolean>`
     specifies whether a copy method should be generated. Use the copy
 	method to initialize the builder's values from a given pojo instance.
-	For an example please see ["src/testdata/java/samples/TextEmail.java"] and ["src/testdata/java/samples/TextEmailBuilder.java"].
+	For an example please see [`TextEmail.java`] and [`TextEmailBuilder.java`].
 	Default is `false`.	
 
 
 ### Default Configuration Annotation ###
-Beginning with version 3 the PojoBuilder Generator supports *default configuration annotations*.
+Beginning with version 3 the PojoBuilder generator supports *default configuration annotations*.
 
 A default configuration annotation is a custom annotation used to define common code generation directives at one single place.
 It must be part of your source tree and be annotated with [@GeneratePojoBuilder].
@@ -255,13 +254,13 @@ Let's have a look at the following example:
 public @interface MyDefaultDirectives {
 }
 ```
-@MyDefaultDirectives is annotated by @GeneratePojoBuilder.
-This declares it as an default configuration annotation for @GeneratePojoBuilder.
+`@MyDefaultDirectives` is annotated by `@GeneratePojoBuilder`.
+This declares it as an default configuration annotation for `@GeneratePojoBuilder`.
 In this case a value for the element 'withName' is specified.
 It overrides the default name pattern.
 
 In order to use your default configuration annotation, you have to place it on any Java element
-next to the standard annotation @GeneratePojoBuilder:
+next to the standard annotation `@GeneratePojoBuilder`:
 ```java
 @MyDefaultDirectives
 @GeneratePojoBuilder
@@ -269,11 +268,11 @@ public class Contact {
   public String name;
 }
 ```
-When the PojoBuilder Generator reads the pojo above, it will generate a builder class with the name "FluentContactBuilder",
-because the default name pattern has been overridden in @MyDefaultDirectives.
+When the PojoBuilder generator reads the pojo above, it will generate a builder class with the name `FluentContactBuilder`,
+because the default name pattern has been overridden in `@MyDefaultDirectives`.
 
-Of course you also can amend or override any of the defaults defined by the @MyDefaultDirectives elements, 
-by defining element values in @GeneratePojoBuilder:
+Of course you also can amend or override any of the defaults defined by the `@MyDefaultDirectives` elements, 
+by defining element values in `@GeneratePojoBuilder`:
 ```java
 @MyDefaultDirectives
 @GeneratePojoBuilder(intoPackage = "builder")
@@ -281,7 +280,7 @@ public class Contact {
   public String name;
 }
 ```
-This will generate a builder class with the name "FluentContactBuilder" into the package "builder".
+This will generate a builder class with the name `FluentContactBuilder` into the package `builder`.
 
 You even can use a combination of multiple default configuration annotations:
 ```java
@@ -295,9 +294,9 @@ public class Contact {
 Please note that *the order of these multiple annotations is relevant*,
 since the element values are applied in top-down order.
 
-Here this means, that the values specified in @MyFirstDefaults are read first,
-then overridden by values specified in @MySecondDefaults,
-and last overridden by values specified in @GeneratePojoBuilder.
+Here this means, that the values specified in `@MyFirstDefaults` are read first,
+then overridden by values specified in `@MySecondDefaults`,
+and last overridden by values specified in `@GeneratePojoBuilder`.
 
 Examples
 --------
@@ -310,7 +309,7 @@ Execution
 ---------
  
 To execute the PojoBuilder annotation processor you just need to put it into the compile-time classpath.
-During runtime no libraries are required since the retention policy of PojoBuilder's annotations is CLASS.
+During runtime no libraries are required since the retention policy of PojoBuilder's annotations is `CLASS`.
 
 Here is a list of brief descriptions about how to run PojoBuilder with
 * [the javac tool](#using-javac)
@@ -320,19 +319,19 @@ Here is a list of brief descriptions about how to run PojoBuilder with
 * [Eclipse](#using-eclipse).
 
 ### Using Javac
-The `javac` compiler will auto-detect the presence of PojoBuilder if pojobuilder-*.jar is included in the classpath.
+The `javac` compiler will auto-detect the presence of PojoBuilder if `pojobuilder-*.jar` is included in the classpath.
 
 For example:
     
     javac -cp pojobuilder-3.0.0-jar-with-dependencies.jar Contact.java
    
-will generate a ContactBuilder if Contact is annotated with @GeneratePojoBuilder.
+will generate a `ContactBuilder` if `Contact` is annotated with `@GeneratePojoBuilder`.
 
 For more information see the [javac documentation].
 
 ### Using Maven
 
-Add the following to your project's pom.xml to configure the PojoBuilder annotation processor.
+Add the following to your project's `pom.xml` to configure the PojoBuilder annotation processor.
 
 	<dependency>
 		<groupId>net.karneim</groupId>
@@ -344,8 +343,8 @@ Add the following to your project's pom.xml to configure the PojoBuilder annotat
 
 Notes:
 * The compile phase will automatically detect and activate PojoBuilder.
-* Generated sources will appear in the standard location: ${project.build.directory}/generated-sources/annotations.
-* If you need to keep the generated sources in a specific directory outside of the 'target' directory, then configure the 'generatedSourcesDirectory' of the 'maven-compiler-plugin'. See ["docs/example_maven_pom.xml"] for an example.
+* Generated sources will appear in the standard location: `${project.build.directory}/generated-sources/annotations`.
+* If you need to keep the generated sources in a specific directory outside of the `target` directory, then configure the `generatedSourcesDirectory` of the `maven-compiler-plugin`. See ["docs/example_maven_pom.xml"] for an example.
 * Eclipse users might want to install [m2e-apt](https://github.com/jbosstools/m2e-apt) to have integrated support for APT-generated sources.
 
 ### Using Gradle
@@ -366,7 +365,7 @@ dependencies {
   compile configurations.codeGeneration
 }
 ``` 
-The generated sources will be placed into the standard 'build/classes' directory.
+The generated sources will be placed into the standard `build/classes` directory.
 
 If you want to put them somewhere else, just specify the destination like this:
 ```groovy
@@ -379,7 +378,7 @@ There is [another Gradle script] that enables PojoBuilder for Eclipse IDE.
 
 ### Using Ant
 
-Here is a code snippet of an ANT build script that runs the PojoBuilder annotation processor within the javac task. 
+Here is a code snippet of an ANT build script that runs the PojoBuilder annotation processor within the `javac` task. 
 ```xml
     <!-- Add the required libraries into this directory. -->
     <fileset id="libs.fileset" dir="${basedir}/lib">
@@ -404,11 +403,11 @@ You find a complete sample build script at ["docs/example_ant_build.xml"].
 
 ### Using Eclipse
 You could also configure Eclipse to run the PojoBuilder annotation processor during the build cycle.
-It will be invoked whenever you save files that contain sources annotated with @GeneratePojoBuilder.
+It will be invoked whenever you save files that contain sources annotated with `@GeneratePojoBuilder`.
 
 Do the following to enable PojoBuilder for your Eclipse project:
 
-* Place the PojoBuilder library and the dependencies (e.g. pojobuilder-*-jar-with-dependencies.jar) into your project library directory 
+* Place the PojoBuilder library and the dependencies (e.g. `pojobuilder-*-jar-with-dependencies.jar`) into your project library directory 
 * Open your project's properties dialog
 * Navigate to "Java Build Path" tree node
 * Open the "Libraries" tab
@@ -421,7 +420,7 @@ Do the following to enable PojoBuilder for your Eclipse project:
 * Navigate to "Java Compiler / Annotation Processing / Factory Path" tree node
 * Check "Enable project specific settings"
 * Click "Add JARs..."
-* Add pojobuiler-*-jar-with-dependencies.jar
+* Add `pojobuiler-*-jar-with-dependencies.jar`
 * Click "OK"
 
 How To Build
@@ -452,19 +451,19 @@ If you want to compile this project's sources yourself you can use Gradle (see [
 
 [samples]: http://github.com/mkarneim/pojobuilder/tree/master/samples
 [src/testdata/java/samples]: http://github.com/mkarneim/pojobuilder/tree/master/src/testdata/java/samples
-["src/testdata/java/samples/ContactBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/ContactBuilder.java
-["src/testdata/java/samples/UserBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/UserBuilder.java
-["src/testdata/java/samples/UrlBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/UrlBuilder.java
-["src/testdata/java/samples/FileBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/FileBuilder.java
-["src/testdata/java/samples/Player.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/Player.java
-["src/testdata/java/samples/PlayerBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/PlayerBuilder.java
-["src/testdata/java/samples/AbstractPlayerBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/AbstractPlayerBuilder.java
-["src/testdata/java/samples/Address.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/Address.java
-["src/testdata/java/samples/AddressBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/AddressBuilder.java
-["src/testdata/java/samples/Recipient.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/Recipient.java
-["src/testdata/java/samples/RecipientBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/RecipientBuilder.java
-["src/testdata/java/samples/Builder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/Builder.java
-["src/testdata/java/samples/Recipient.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/Recipient.java
-["src/testdata/java/samples/RecipientBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/RecipientBuilder.java
-["src/testdata/java/samples/TextEmail.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/TextEmail.java
-["src/testdata/java/samples/TextEmailBuilder.java"]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/TextEmailBuilder.java
+[`ContactBuilder.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/ContactBuilder.java
+[`UserBuilder.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/UserBuilder.java
+[`UrlBuilder.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/UrlBuilder.java
+[`FileBuilder.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/FileBuilder.java
+[`Player.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/Player.java
+[`PlayerBuilder.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/PlayerBuilder.java
+[`AbstractPlayerBuilder.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/AbstractPlayerBuilder.java
+[`Address.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/Address.java
+[`AddressBuilder.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/AddressBuilder.java
+[`Recipient.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/Recipient.java
+[`RecipientBuilder.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/RecipientBuilder.java
+[`Builder.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/Builder.java
+[`Recipient.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/Recipient.java
+[`RecipientBuilder.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/RecipientBuilder.java
+[`TextEmail.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/TextEmail.java
+[`TextEmailBuilder.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/TextEmailBuilder.java
