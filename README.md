@@ -241,62 +241,44 @@ The following elements of `@GeneratePojoBuilder` can be used to configure the ou
 	Default is `false`.	
 
 
-### Default Configuration Annotation ###
-Beginning with version 3 the PojoBuilder generator supports *default configuration annotations*.
+### Default Configuration and Meta-Annotations ###
+Beginning with version 3, PojoBuilder supports *meta-annotations*. That is, you can place [@GeneratePojoBuilder] onto
+another annotation and it will be inherited.
 
-A default configuration annotation is a custom annotation used to define common code generation directives at one single place.
-It must be part of your source tree and be annotated with [@GeneratePojoBuilder].
+Advantages are:
+* Common PojoBuilder directives can be shared in one place
+* The annotation can also hold directives for other libraries, binding them all up into one meaningful annotation for use
+in your application.
 
-Let's have a look at the following example:
+The following example defines `@AppPojo` which can applied at a class level and encapsulates the annotations from three
+different sources ([Pojobuilder], Lombok and JSR-305 .
 ```java
 @GeneratePojoBuilder(withName = "Fluent*Builder")
-@Target({ElementType.TYPE, ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.ANNOTATION_TYPE})
-public @interface MyDefaultDirectives {
+@lombok.experimental.Value // class-level annotation from Lombok
+@javax.annotation.concurrent.Immutable // class-level annotation from JSR-305
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+public @interface AppPojo {
 }
 ```
-`@MyDefaultDirectives` is annotated by `@GeneratePojoBuilder`.
-This declares it as an default configuration annotation for `@GeneratePojoBuilder`.
-In this case a value for the element 'withName' is specified.
-It overrides the default name pattern.
 
-In order to use your default configuration annotation, you have to place it on any Java element
-next to the standard annotation `@GeneratePojoBuilder`:
+This can be placed onto each of your pojos:
 ```java
-@MyDefaultDirectives
-@GeneratePojoBuilder
+@AppPojo
 public class Contact {
   public String name;
 }
 ```
-When the PojoBuilder generator reads the pojo above, it will generate a builder class with the name `FluentContactBuilder`,
-because the default name pattern has been overridden in `@MyDefaultDirectives`.
+PojoBuilder will generate `FluentContactBuilder` based on the directives inherited from the `@AppPojo` annotation.
 
-Of course you also can amend or override any of the defaults defined by the `@MyDefaultDirectives` elements, 
-by defining element values in `@GeneratePojoBuilder`:
+Defaults inherited from meta-annotations can be overriden by more 'local' `@GeneratePojoBuilder` annotations:
 ```java
-@MyDefaultDirectives
+@AppPojo
 @GeneratePojoBuilder(intoPackage = "builder")
 public class Contact {
   public String name;
 }
 ```
-This will generate a builder class with the name `FluentContactBuilder` into the package `builder`.
-
-You even can use a combination of multiple default configuration annotations:
-```java
-@MyFirstDefaults
-@MySecondDefaults
-@GeneratePojoBuilder
-public class Contact {
-  public String name;
-}
-```
-Please note that *the order of these multiple annotations is relevant*,
-since the element values are applied in top-down order.
-
-Here this means, that the values specified in `@MyFirstDefaults` are read first,
-then overridden by values specified in `@MySecondDefaults`,
-and last overridden by values specified in `@GeneratePojoBuilder`.
+This will generate `FluentContactBuilder` as before but into the package `builder`.
 
 Examples
 --------
