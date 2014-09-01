@@ -3,11 +3,7 @@
 *  ./gradlew cleanEclipse eclipse
 *
 * To build the PojoBuilder: 
-* ensure the following two settings are present in ~/.gradle/gradle.properties
-*  ossrhUsername=
-*  ossrhPassword=
-* Then execute
-* ./gradlew build
+*  ./gradlew build
 *
 * To publish a new release of PojoBuilder to Sonatype OSS Maven Repo:
 *  ./gradlew clean build uploadArchives
