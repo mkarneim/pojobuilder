@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -83,43 +82,24 @@ public class AnnotationProcessor extends AbstractProcessor {
     return SourceVersion.latestSupported();
   }
 
-
-    /**
-     * Whether this processor claims all processed annotations exclusively or not.
-     */
-    private static final boolean ANNOTATIONS_CLAIMED_EXCLUSIVELY = false;
-
-    /**
-     * Supports meta-annotations by recursing through any ANNOTATION_TYPEs
-     */
-    private static Set<Element> getAllElementsAnnotatedWith(TypeElement annotationType, RoundEnvironment aRoundEnv) {
-      Set<? extends Element> elements = aRoundEnv.getElementsAnnotatedWith(annotationType);
-      Set<Element> filtered = new HashSet<Element>();
-      for (Element e : elements) {
-        switch (e.getKind()) {
-          case CLASS:
-          case CONSTRUCTOR:
-          case METHOD:
-            filtered.add(e);
-            break;
-          case ANNOTATION_TYPE:
-          filtered.addAll(getAllElementsAnnotatedWith((TypeElement)e,aRoundEnv));
-        }
-      }
-      return filtered;
-    }
-
   @Override
   public boolean process(Set<? extends TypeElement> aAnnotations, RoundEnvironment aRoundEnv) {
-    // per javadoc: A Processor must gracefully handle an empty set of annotations
-    if ( aAnnotations.isEmpty() ) {
-      return ANNOTATIONS_CLAIMED_EXCLUSIVELY;
-    }
     try {
       if (!aRoundEnv.processingOver()) {
         failedElementsMap.clear();
+        Set<Element> annotatedElements = new HashSet<Element>();
+        Set<? extends Element> elements = aRoundEnv.getElementsAnnotatedWith(GeneratePojoBuilder.class);
+        for (Element e : elements) {
+          switch (e.getKind()) {
+            case CLASS:
+            case CONSTRUCTOR:
+            case METHOD:
+              annotatedElements.add(e);
+              break;
+            default:
+          }
+        }
 
-        Set<Element> annotatedElements = getAllElementsAnnotatedWith(aAnnotations.iterator().next(), aRoundEnv);
         List<Element> elementsToProcess = new ArrayList<Element>(annotatedElements);
         elementsToProcess.addAll(javaModelAnalyzerUtil.findAnnotatedElements(getTypeElements(failedTypeNames),
             GeneratePojoBuilder.class));
@@ -156,7 +136,7 @@ public class AnnotationProcessor extends AbstractProcessor {
     } catch (Throwable t) {
       processingEnv.getMessager().printMessage(Kind.ERROR, toString(t));
     }
-    return ANNOTATIONS_CLAIMED_EXCLUSIVELY;
+    return false;
   }
 
 
