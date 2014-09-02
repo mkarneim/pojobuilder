@@ -251,7 +251,7 @@ Advantages are:
 binding them all up into one meaningful annotation for use in your application.
 
 The following example defines `@AppPojo` which can applied at a class level and encapsulates the annotations from three
-different sources ([Pojobuilder], Lombok and JSR-305 .
+different sources (PojoBuilder, Lombok and JSR-305).
 ```java
 @GeneratePojoBuilder(withName = "Fluent*Builder")
 @lombok.experimental.Value // class-level annotation from Lombok
