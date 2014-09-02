@@ -4,3 +4,8 @@
 bin
 build
 .project
+*.iml
+*.ipr
+*.iws
+.idea
+
