@@ -247,8 +247,8 @@ another annotation and it will be inherited.
 
 Advantages are:
 * Common PojoBuilder directives can be shared in one place
-* The annotation can also hold directives for other libraries, binding them all up into one meaningful annotation for use
-in your application.
+* The annotation can also hold directives for other libraries that support meta annotations,
+binding them all up into one meaningful annotation for use in your application.
 
 The following example defines `@AppPojo` which can applied at a class level and encapsulates the annotations from three
 different sources ([Pojobuilder], Lombok and JSR-305 .
