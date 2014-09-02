@@ -338,16 +338,32 @@ repositories {
   mavenCentral()
 }
 
+dependencies {
+  compile 'net.karneim:pojobuilder:3.1.0'
+}
+``` 
+Please note that this not only adds the PojoBuilder and its dependencies to your compile-time class path but also to your run-time class path.
+
+Alternatively you can use the following script to add PojoBuilder only to the compile-time class path:  
+```groovy
+apply plugin: 'java'
+
+repositories {
+  mavenCentral()
+}
+
 configurations {
   codeGeneration
 }
 
 dependencies {
-  codeGeneration 'net.karneim:pojobuilder:3.1.0'
-  compile configurations.codeGeneration
+  codeGeneration 'net.karneim:pojobuilder:3.0.0'
 }
-``` 
-The generated sources will be placed into the standard `build/classes` directory.
+compileJava.classpath += configurations.codeGeneration
+compileTestJava.classpath += configurations.codeGeneration
+```
+
+In both cases the generated sources will be placed into the standard `build/classes` directory.
 
 If you want to put them somewhere else, just specify the destination like this:
 ```groovy
