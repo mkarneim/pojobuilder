@@ -180,7 +180,8 @@ you can annotate a factory method:
 public class UrlFactory {
 
   @GeneratePojoBuilder(withName="UrlBuilder", intoPackage = "samples")
-  public static URL createUrl(String protocol, String host, int port, String file, URLStreamHandler handler)
+  public static URL createUrl(
+    String protocol, String host, int port, String file, URLStreamHandler handler)
       throws MalformedURLException {
     return new URL(protocol, host, port, file, handler);
   }
@@ -387,7 +388,8 @@ Here is a code snippet of an ANT build script that runs the PojoBuilder annotati
         <fileset refid="libs.fileset" />
     </path>
     
-    <target name="compile" depends="init" description="Compile java sources and run annotation processor">
+    <target name="compile" depends="init" 
+            description="Compile java sources and run annotation processor">
     	<mkdir dir="${src.gen.java.dir}" />
     	<mkdir dir="${build.classes.dir}" />
     	<javac classpathref="class.path" destdir="${build.classes.dir}">
