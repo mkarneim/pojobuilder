@@ -45,9 +45,9 @@ public class AnnotationProcessor_FactoryMethodAnnotation_Test extends TestBase {
     boolean success = prj.compile();
 
     // Then:
-    assertThat(success).isTrue();
     String actual = getContent(prj.findGeneratedSource(builderClassname));
     logDebug(actual);
+    assertThat(success).isTrue();
 
     String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
     assertThat(actual).isEqualTo(expected);

@@ -1,5 +1,6 @@
 package net.karneim.pojobuilder.analysis;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -33,24 +34,38 @@ public class DirectivesFactory {
   }
 
   /**
-   * Scans the given element AND all annotations of the given element for the presence of a
-   * {@link GeneratePojoBuilder} annotation (recursively) and returns a {@link Directives} object
-   * populated with the effective annotation element values.
+   * Scans the annotation hierarchy of all annotations on the given (annotated) element for the
+   * presence of a {@link GeneratePojoBuilder} annotation and returns a {@link Directives} object
+   * populated with the aggregation of the specified {@link GeneratePojoBuilder} element values.
    * <p>
-   * Element values can be overridden top-down. This means, that element values that appear further
-   * up in the source code will be overridden by element values further down.
+   * Please note that element values can be overridden top-down. This means, that element values
+   * that appear further up in the source code will be overridden by element values further down.
    * 
    * @param annotatedEl
-   * @param orginatingElements this out parameter contains all elements that have contributed to the
-   *        {@link Directives} throughout the scan process.
+   * @param orginatingElements this out parameter will be filled with all elements that have (or
+   *        could have) contributed to the {@link Directives} throughout the scan process.
    * @return a {@link Directives} object populated with the effective annotation element values
    */
   public Directives getDirectives(Element annotatedEl, Set<Element> orginatingElements) {
     List<HierarchyElement> hierarchy = findAnnotationHierarchy(annotatedEl);
-    Map<String, Object> valueMap = getValueMap(hierarchy);
+    List<HierarchyElement> relevantHierarchy = filterByType(hierarchy, GeneratePojoBuilder.class);
+    Map<String, Object> valueMap = getValueMap(relevantHierarchy);
     fillOrginatingElements(orginatingElements, hierarchy);
     Directives result = new Directives(valueMap);
     validate(annotatedEl, result);
+    return result;
+  }
+
+  private List<HierarchyElement> filterByType(List<HierarchyElement> hierarchy,
+      Class<GeneratePojoBuilder> class1) {
+    TypeMirror generatePojoBuilderAnno =
+        elements.getTypeElement(GeneratePojoBuilder.class.getName()).asType();
+    List<HierarchyElement> result = new ArrayList<HierarchyElement>();
+    for (HierarchyElement el : hierarchy) {
+      if (types.isSameType(el.annotation.getAnnotationType(), generatePojoBuilderAnno)) {
+        result.add(el);
+      }
+    }
     return result;
   }
 
@@ -127,40 +142,15 @@ public class DirectivesFactory {
   private void findAnnotationHierarchy(Element annotatedEl, List<HierarchyElement> result,
       Set<Element> visitedElements) {
     if (!visitedElements.add(annotatedEl)) {
-      String message =
-          String.format("%s does not support recursive annotation hierarchies!",
-              GeneratePojoBuilder.class.getSimpleName());
-      throw new InvalidElementException(message, annotatedEl);
+      return;
     }
     List<? extends AnnotationMirror> annos = annotatedEl.getAnnotationMirrors();
-    boolean foundAnnotation = false;
     for (AnnotationMirror anno : annos) {
       Element el = anno.getAnnotationType().asElement();
-      if (isGeneratePojoBuilderAnnotation(anno)) {
-        HierarchyElement hElem = new HierarchyElement(annotatedEl, anno);
-        result.add(hElem);
-        foundAnnotation = true;
-      } else if (isAnnotatedWithGeneratePojoBuilder(el)) {
-        findAnnotationHierarchy(el, result, visitedElements);
-        HierarchyElement hElem = new HierarchyElement(annotatedEl, anno);
-        result.add(hElem);
-        foundAnnotation = true;
-      }
+      findAnnotationHierarchy(el, result, visitedElements);
+      HierarchyElement hElem = new HierarchyElement(annotatedEl, anno);
+      result.add(hElem);
     }
-    if (foundAnnotation == false) {
-      throw new IllegalArgumentException(String.format(
-          "Element %s is not annotated with a PojoBuilder annotation!", annotatedEl));
-    }
-  }
-
-  private boolean isAnnotatedWithGeneratePojoBuilder(Element annotatedEl) {
-    List<? extends AnnotationMirror> annos = annotatedEl.getAnnotationMirrors();
-    for (AnnotationMirror anno : annos) {
-      if (isGeneratePojoBuilderAnnotation(anno)) {
-        return true;
-      }
-    }
-    return false;
   }
 
   private boolean isGeneratePojoBuilderAnnotation(AnnotationMirror anno) {
