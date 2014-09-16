@@ -56,5 +56,12 @@ public class ArrayTypeM extends TypeM {
     return true;
   }
 
+  @Override
+  public String toString() {
+    return "ArrayTypeM [componentType=" + componentType + ", getGenericType()=" + getGenericType() + "]";
+  }
+
+  
+
 
 }

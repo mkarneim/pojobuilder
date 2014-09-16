@@ -170,6 +170,14 @@ public class PropertyM {
     return null;
   }
 
+  @Override
+  public String toString() {
+    return "PropertyM [propertyType=" + propertyType + ", propertyName=" + propertyName
+        + ", writableViaConstructorParameter=" + writableViaConstructorParameter + ", writableViaSetterMethod="
+        + writableViaSetterMethod + ", readableViaGetterMethod=" + readableViaGetterMethod
+        + ", writableViaFactoryMethodParameter=" + writableViaFactoryMethodParameter + ", fieldAccess=" + fieldAccess
+        + "]";
+  }
 
 
 }

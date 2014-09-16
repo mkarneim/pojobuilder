@@ -38,4 +38,9 @@ public class ConstructorParameterM implements WriteAccess, Positional {
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "ConstructorParameterM [pos=" + pos + ", varArgs=" + varArgs + ", name=" + name + "]";
+  }
+
 }

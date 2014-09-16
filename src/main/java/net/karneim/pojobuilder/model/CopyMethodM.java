@@ -12,4 +12,9 @@ public class CopyMethodM {
     return name;
   }
 
+  @Override
+  public String toString() {
+    return "CopyMethodM [name=" + name + "]";
+  }
+
 }

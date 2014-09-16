@@ -56,6 +56,11 @@ public class MethodM {
     return accessingClass.isInPackage(declaringClass.getPackageName());
   }
 
+  @Override
+  public String toString() {
+    return "MethodM [name=" + name + ", modifier=" + modifier + ", declaringClass=" + declaringClass + "]";
+  }
+
 
 
 }

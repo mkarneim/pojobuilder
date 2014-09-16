@@ -156,6 +156,10 @@ public class PropertyListM implements Iterable<PropertyM> {
     return result;
   }
 
+  @Override
+  public String toString() {
+    return "PropertyListM [elements=" + elements + "]";
+  }
 
   public static class Key {
     String propertyName;

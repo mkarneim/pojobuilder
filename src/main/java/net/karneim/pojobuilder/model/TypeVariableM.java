@@ -68,4 +68,9 @@ public class TypeVariableM extends TypeM {
     return true;
   }
 
+  @Override
+  public String toString() {
+    return "TypeVariableM [getGenericType()=" + getGenericType() + "]";
+  }
+
 }

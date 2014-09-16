@@ -38,4 +38,9 @@ public class FactoryMethodParameterM implements WriteAccess, Positional {
     return this;
   }
 
+  @Override
+  public String toString() {
+    return "FactoryMethodParameterM [pos=" + pos + ", varArgs=" + varArgs + ", name=" + name + "]";
+  }
+
 }

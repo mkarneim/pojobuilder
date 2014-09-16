@@ -30,4 +30,9 @@ public class ManualBuilderM {
     this.baseType = baseType;
   }
 
+  @Override
+  public String toString() {
+    return "ManualBuilderM [pojoType=" + pojoType + ", type=" + type + ", baseType=" + baseType + "]";
+  }
+
 }

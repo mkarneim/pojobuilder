@@ -70,4 +70,9 @@ public class FieldAccessM implements WriteAccess {
     return accessingClass.isInPackage(declaringClass.getPackageName());
   }
 
+  @Override
+  public String toString() {
+    return "FieldAccessM [modifier=" + modifier + ", declaringClass=" + declaringClass + "]";
+  }
+
 }
