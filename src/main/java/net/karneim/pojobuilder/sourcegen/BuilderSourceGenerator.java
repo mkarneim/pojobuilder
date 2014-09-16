@@ -272,6 +272,7 @@ public class BuilderSourceGenerator {
   private void emitWithMethodUsingBuilderInterface(TypeM builderType, TypeM selfType, TypeM interfaceType,
       TypeM pojoType, PropertyM prop) throws IOException {
     String builderFieldName = prop.getBuilderFieldName();
+    String isSetFieldName = prop.getIsSetFieldName();
     String withMethodName = prop.getWithMethodName();
     String pojoTypeStr = writer.compressType(pojoType.getName());
     String parameterTypeStr = prop.getParameterizedBuilderInterfaceType(interfaceType).getGenericTypeDeclaration();
@@ -286,6 +287,7 @@ public class BuilderSourceGenerator {
         , pojoTypeStr, prop.getPropertyName())
       .beginMethod(selfType.getGenericTypeDeclaration(), withMethodName, EnumSet.of(PUBLIC), parameterTypeStr, "builder")
         .emitStatement("this.%s = builder", builderFieldName)
+        .emitStatement("this.%s = false", isSetFieldName)
         .emitStatement("return self")
       .endMethod();
     // @formatter:on

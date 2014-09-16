@@ -44,6 +44,7 @@ public class PojoBuilder
    */
   public PojoBuilder withFile(Builder<File> builder) {
     this.builder$file$java$io$File = builder;
+    this.isSet$file$java$io$File = false;
     return self;
   }
 
@@ -67,6 +68,7 @@ public class PojoBuilder
    */
   public PojoBuilder withName(Builder<String> builder) {
     this.builder$name$java$lang$String = builder;
+    this.isSet$name$java$lang$String = false;
     return self;
   }
 
@@ -90,6 +92,7 @@ public class PojoBuilder
    */
   public PojoBuilder withAge(Builder<Integer> builder) {
     this.builder$age$int = builder;
+    this.isSet$age$int = false;
     return self;
   }
 

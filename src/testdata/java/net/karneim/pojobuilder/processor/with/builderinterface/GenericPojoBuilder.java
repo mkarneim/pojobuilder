@@ -40,6 +40,7 @@ public class GenericPojoBuilder<P extends Number>
    */
   public GenericPojoBuilder<P> withName(Builder<String> builder) {
     this.builder$name$java$lang$String = builder;
+    this.isSet$name$java$lang$String = false;
     return self;
   }
 
@@ -63,6 +64,7 @@ public class GenericPojoBuilder<P extends Number>
    */
   public GenericPojoBuilder<P> withContent(Builder<P> builder) {
     this.builder$content$P = builder;
+    this.isSet$content$P = false;
     return self;
   }
 

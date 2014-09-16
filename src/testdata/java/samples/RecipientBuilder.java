@@ -40,6 +40,7 @@ public class RecipientBuilder
    */
   public RecipientBuilder withName(Builder<String> builder) {
     this.builder$name$java$lang$String = builder;
+    this.isSet$name$java$lang$String = false;
     return self;
   }
 
@@ -63,6 +64,7 @@ public class RecipientBuilder
    */
   public RecipientBuilder withAddress(Builder<Address> builder) {
     this.builder$address$samples$Address = builder;
+    this.isSet$address$samples$Address = false;
     return self;
   }
 

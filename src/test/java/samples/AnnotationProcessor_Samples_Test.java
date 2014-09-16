@@ -188,7 +188,7 @@ public class AnnotationProcessor_Samples_Test extends TestBase {
     String pojo1Classname = Address.class.getName();
     String pojo2Classname = Recipient.class.getName();
     String builder1Classname = AddressBuilder.class.getName();
-    String builder2Classname = "samples.RecipientBuilder";// RecipientBuilder.class.getName();
+    String builder2Classname = RecipientBuilder.class.getName();
     prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojo1Classname));
     prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojo2Classname));
 
