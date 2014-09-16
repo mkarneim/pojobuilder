@@ -24,7 +24,7 @@ import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 
-import net.karneim.pojobuilder.model.TypeM;
+import net.karneim.pojobuilder.model.BuilderM;
 
 public class JavaModelAnalyzerUtil {
 
@@ -44,7 +44,7 @@ public class JavaModelAnalyzerUtil {
   /**
    * Returns the classname (without any package qualifier) of the given type element.
    * 
-   * @param typeElem
+   * @param typeElem the type element
    * @return the classname of the given type element
    */
   public String getClassname(TypeElement typeElem) {
@@ -60,7 +60,7 @@ public class JavaModelAnalyzerUtil {
   /**
    * Returns the Java package the given type (or it's outer type) belongs to.
    * 
-   * @param type
+   * @param type the type
    * @return the Java package the given type belongs to
    */
   public String getPackage(DeclaredType type) {
@@ -70,7 +70,7 @@ public class JavaModelAnalyzerUtil {
   /**
    * Returns the Java package the given type element (or it's outer type) belongs to.
    * 
-   * @param typeElem
+   * @param typeElem the type element
    * @return the Java package the given type element belongs to
    */
   public String getPackage(TypeElement typeElem) {
@@ -87,7 +87,7 @@ public class JavaModelAnalyzerUtil {
   /**
    * Returns the top-level Java class that contains the given element.
    * 
-   * @param elem
+   * @param elem the element
    * @return the top-level Java class that contains the given element
    */
   public TypeElement getCompilationUnit(Element elem) {
@@ -97,16 +97,23 @@ public class JavaModelAnalyzerUtil {
     return getCompilationUnit(elem.getEnclosingElement());
   }
 
-  // TODO remove that when we know we don't need it
-  private boolean isAccessibleForBuilder(Element el, TypeM accessingType) {
+  /**
+   * Returns true if the given element is accessible for the given builder.
+   * 
+   * @param el the element
+   * @param builderM the builder
+   * @return true if the given element is accessible
+   */
+  public boolean isAccessibleForBuilder(Element el, BuilderM builderM) {
     if (el.getModifiers().contains(PUBLIC)) {
       return true;
     }
     if (el.getModifiers().contains(PRIVATE)) {
       return false;
     }
+    // TODO Check if el is an accessible member for subclasses AND builderM actually is a subclass
     PackageElement fieldPackage = elements.getPackageOf(el);
-    String builderPackge = accessingType.getPackageName();
+    String builderPackge = builderM.getType().getPackageName();
     if (fieldPackage.isUnnamed()) {
       return builderPackge == null;
     } else {
@@ -117,7 +124,7 @@ public class JavaModelAnalyzerUtil {
   /**
    * Returns true if the given element is marked with a 'static' modifier.
    * 
-   * @param el
+   * @param el the element
    * @return true if the given element is marked with a 'static' modifier
    */
   public boolean isStatic(Element el) {
@@ -127,7 +134,7 @@ public class JavaModelAnalyzerUtil {
   /**
    * Returns true if the given element is a Setter-method.
    * 
-   * @param el
+   * @param el the element
    * @return true if the given element is a Setter-method
    */
   public boolean isSetterMethod(ExecutableElement el) {
@@ -140,7 +147,7 @@ public class JavaModelAnalyzerUtil {
   /**
    * Returns true if the given element is a Getter-method.
    * 
-   * @param el
+   * @param el the element
    * @return true if the given element is a Getter-method
    */
   public boolean isGetterMethod(ExecutableElement el) {
@@ -153,7 +160,7 @@ public class JavaModelAnalyzerUtil {
   /**
    * Returns whether the given element is directly declared in {@link Object}.
    * 
-   * @param el
+   * @param el the element
    * @return true if the element is declared in {@link Object}
    */
   public boolean isDeclaredInObject(Element el) {
@@ -168,7 +175,7 @@ public class JavaModelAnalyzerUtil {
   /**
    * Returns the name of the property that is accessed by the given [G|S]etter method.
    * 
-   * @param methodEl
+   * @param methodEl the method element
    * @return the name of the property
    */
   public String getPropertyName(ExecutableElement methodEl) {
@@ -194,7 +201,7 @@ public class JavaModelAnalyzerUtil {
   /**
    * Returns a copy of the given text where the first character is a lower case letter.
    * 
-   * @param text
+   * @param text the text
    * @return a copy of the text with first letter lower case
    */
   private String firstCharToLowerCase(String text) {
@@ -206,15 +213,14 @@ public class JavaModelAnalyzerUtil {
   /**
    * Returns the effective type of the given element when is is viewed as a member of the given owner type.
    * 
-   * @param ownerType
-   * @param element
+   * @param ownerType the owner type
+   * @param element the element
    * @return the effective type of the given element
    */
-  @SuppressWarnings("unchecked")
-  public <T extends TypeMirror> T getType(DeclaredType ownerType, Element element) {
-    T execType = (T) element.asType();
+  public TypeMirror getType(DeclaredType ownerType, Element element) {
+    TypeMirror execType = element.asType();
     try {
-      execType = (T) types.asMemberOf(ownerType, element);
+      execType = types.asMemberOf(ownerType, element);
     } catch (IllegalArgumentException e) {
       // Ignore
     }
@@ -225,8 +231,8 @@ public class JavaModelAnalyzerUtil {
    * Returns true, if the given type element has a method called "build" with no parameters and which has an actual
    * return type that is compatible with the given return type.
    * 
-   * @param typeElement
-   * @param requiredReturnType
+   * @param typeElement the type element
+   * @param requiredReturnType the required return type
    * @return true, if the type element has a build method
    */
   public boolean hasBuildMethod(TypeElement typeElement, TypeMirror requiredReturnType) {
@@ -249,8 +255,8 @@ public class JavaModelAnalyzerUtil {
   /**
    * Returns true if the given typeElement is a subtype of the given type parameter's upper bound.
    * 
-   * @param typeElement
-   * @param typeParamEl
+   * @param typeElement the type element
+   * @param typeParamEl the type parameter element
    * @return true if the given typeElement is a subtype of the given type parameter's upper bound
    */
   public boolean matchesUpperBound(TypeElement typeElement, TypeParameterElement typeParamEl) {
@@ -266,7 +272,7 @@ public class JavaModelAnalyzerUtil {
   /**
    * Returns true if the given type parameter has an upper bound of type {@link Object}.
    * 
-   * @param typeParamEl
+   * @param typeParamEl the type parameter
    * @return true if the given type parameter has an upper bound of type {@link Object}
    */
   public boolean isUpperBoundToObject(TypeParameterElement typeParamEl) {
@@ -283,7 +289,7 @@ public class JavaModelAnalyzerUtil {
   /**
    * Returns <code>true</code> if the given string is a valid Java identifier.
    * 
-   * @param string
+   * @param string the string
    * @return <code>true</code> if the given string is a valid Java identifier
    */
   public boolean isValidJavaIdentifier(String string) {
@@ -304,7 +310,7 @@ public class JavaModelAnalyzerUtil {
    * <p>
    * This does not check if the package exists.
    * 
-   * @param string
+   * @param string the string
    * @return <code>true</code> if the given string is a valid Java package name.
    */
   public boolean isValidJavaPackageName(String string) {

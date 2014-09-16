@@ -41,7 +41,7 @@ public class DirectivesFactory {
    * Please note that element values can be overridden top-down. This means, that element values
    * that appear further up in the source code will be overridden by element values further down.
    * 
-   * @param annotatedEl
+   * @param annotatedEl the annotated element
    * @param orginatingElements this out parameter will be filled with all elements that have (or
    *        could have) contributed to the {@link Directives} throughout the scan process.
    * @return a {@link Directives} object populated with the effective annotation element values

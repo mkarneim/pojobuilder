@@ -28,7 +28,7 @@ public @interface GeneratePojoBuilder {
    * For example:
    * 
    * <pre>
-   *   public interface Builder&lt;T&gt {
+   *   public interface Builder&lt;T&gt; {
    *     T build(); 
    *   }
    * </pre>
@@ -67,12 +67,16 @@ public @interface GeneratePojoBuilder {
    * Specifies whether the generation gap pattern is used. If enabled this will generate two classes (instead of one),
    * of which one contains the generated code. The other class is for handwritten code. To prevent it from being
    * overwritten please move it out of the generated-sources folder. Default is "false".
+   * 
+   * @return <code>true</code> if the generation gap should be used
    */
   boolean withGenerationGap() default false;
 
   /**
    * Specifies whether a copy method should be generated. The copy method will take an instance of the built class and
    * will copy all its fields into the builder. This allows it to easily change one or more fields of immutable objects.
+   * 
+   * @return <code>true</code> if a copy method should be generated
    */
   boolean withCopyMethod() default false;
 }

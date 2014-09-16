@@ -44,10 +44,9 @@ public class PojoPropertiesScanner {
     for (ExecutableElement methodEl : methodEls) {
       if (!javaModelAnalyzerUtil.isStatic(methodEl) && javaModelAnalyzerUtil.isSetterMethod(methodEl)
           && !javaModelAnalyzerUtil.isDeclaredInObject(methodEl)
-      // && isAccessibleForBuilder(methodEl, builderModel.getType())
-      ) {
+          && javaModelAnalyzerUtil.isAccessibleForBuilder(methodEl, output.getBuilderModel())) {
         String propertyName = javaModelAnalyzerUtil.getPropertyName(methodEl);
-        ExecutableType execType = javaModelAnalyzerUtil.getType(pojoClassType, methodEl);
+        ExecutableType execType = (ExecutableType) javaModelAnalyzerUtil.getType(pojoClassType, methodEl);
         TypeMirror propertyTypeMirror = execType.getParameterTypes().get(0);
         TypeM propertyType = typeMFactory.getTypeM(propertyTypeMirror);
         output
@@ -69,8 +68,7 @@ public class PojoPropertiesScanner {
     List<VariableElement> fieldEls = ElementFilter.fieldsIn(memberEls);
     for (VariableElement fieldEl : fieldEls) {
       if (!javaModelAnalyzerUtil.isStatic(fieldEl) && !javaModelAnalyzerUtil.isDeclaredInObject(fieldEl)
-      // && isAccessibleForBuilder(fieldEl, builderModel.getType())
-      ) {
+          && javaModelAnalyzerUtil.isAccessibleForBuilder(fieldEl, output.getBuilderModel())) {
         DeclaredType declType = (DeclaredType) pojoTypeEl.asType();
         TypeM propertyType = typeMFactory.getTypeM(javaModelAnalyzerUtil.getType(declType, fieldEl));
         output
@@ -93,10 +91,9 @@ public class PojoPropertiesScanner {
     for (ExecutableElement methodEl : methodsEls) {
       if (!javaModelAnalyzerUtil.isStatic(methodEl) && javaModelAnalyzerUtil.isGetterMethod(methodEl)
           && !javaModelAnalyzerUtil.isDeclaredInObject(methodEl)
-      // && isAccessibleForBuilder(methodEl, builderModel.getType())
-      ) {
+          && javaModelAnalyzerUtil.isAccessibleForBuilder(methodEl, output.getBuilderModel())) {
         String propertyName = javaModelAnalyzerUtil.getPropertyName(methodEl);
-        ExecutableType execType = javaModelAnalyzerUtil.getType(pojoClassType, methodEl);
+        ExecutableType execType = (ExecutableType) javaModelAnalyzerUtil.getType(pojoClassType, methodEl);
         TypeMirror propertyTypeMirror = execType.getReturnType();
         TypeM propertyType = typeMFactory.getTypeM(propertyTypeMirror);
 
@@ -109,4 +106,6 @@ public class PojoPropertiesScanner {
       }
     }
   }
+
+
 }

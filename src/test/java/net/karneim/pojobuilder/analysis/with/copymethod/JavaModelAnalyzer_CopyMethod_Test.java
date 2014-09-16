@@ -64,8 +64,7 @@ public class JavaModelAnalyzer_CopyMethod_Test {
     assertThat(nameProperty.getFieldAccess().getModifier()).contains(Modifier.PUBLIC);
     PropertyM sizeProperty = output.getBuilderModel().getProperties().get(new Key("size", "int"));
     assertThat(sizeProperty).isNotNull();
-    assertThat(sizeProperty.getFieldAccess()).isNotNull();
-    assertThat(sizeProperty.getFieldAccess().getModifier()).contains(Modifier.PRIVATE);
+    assertThat(sizeProperty.getFieldAccess()).isNull();    
     assertThat(sizeProperty.getSetterMethod()).isNotNull();
     assertThat(sizeProperty.getSetterMethod().getModifier()).contains(Modifier.PUBLIC);
     assertThat(sizeProperty.getGetterMethod()).isNotNull();

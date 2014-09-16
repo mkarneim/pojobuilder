@@ -80,7 +80,7 @@ public class JavaModelAnalyzer_PojoWithSuperclass_Test {
   }
 
   @Test
-  public void testAnalyzeWithPojoExtendsClassWithPField() throws Exception {
+  public void testAnalyzeWithPojoWhichExtendsClassInSamePackage() throws Exception {
     // Given:
     String pojoClassname = SubclassPojo2.class.getCanonicalName();
     TypeElement pojoType = elements.getTypeElement(pojoClassname);
@@ -96,6 +96,45 @@ public class JavaModelAnalyzer_PojoWithSuperclass_Test {
     assertThat(builderType).isNotNull();
     assertThat(builderType.getName())
         .isEqualTo("net.karneim.pojobuilder.analysis.with.superclass.SubclassPojo2Builder");
+    assertThat(output.getBuilderModel().getProperties()).hasSize(3);
+    PropertyM visibleMemberProperty = output.getBuilderModel().getProperties().get(new Key("visibleMember", "int"));
+    assertThat(visibleMemberProperty).isNotNull();
+    assertThat(visibleMemberProperty.getFieldAccess()).isNotNull();
+    assertThat(visibleMemberProperty.getFieldAccess().getModifier()).contains(Modifier.PUBLIC);
+    
+    PropertyM protectedMemberProperty = output.getBuilderModel().getProperties().get(new Key("protectedMember", "float"));
+    assertThat(protectedMemberProperty).isNotNull();
+    assertThat(protectedMemberProperty.getFieldAccess()).isNotNull();
+    assertThat(protectedMemberProperty.getFieldAccess().getModifier()).contains(Modifier.PROTECTED);
+    
+    PropertyM nameMemberProperty = output.getBuilderModel().getProperties().get(new Key("name", "java.lang.String"));
+    assertThat(nameMemberProperty).isNotNull();
+    assertThat(nameMemberProperty.getFieldAccess()).isNull();
+    assertThat(nameMemberProperty.getGetterMethod().getModifier()).contains(Modifier.PROTECTED);
+    assertThat(nameMemberProperty.getSetterMethod().getModifier()).contains(Modifier.PROTECTED);
+    
+    assertThat(output.getBuilderModel().getProperties().get(new Key("hiddenMember", "float"))).isNull();
+    
+
+  }
+  
+  @Test
+  public void testAnalyzeWithPojoWhichExtendsClassInOtherPackage() throws Exception {
+    // Given:
+    String pojoClassname = SubclassPojo3.class.getCanonicalName();
+    TypeElement pojoType = elements.getTypeElement(pojoClassname);
+    Input input = inputFactory.getInput(pojoType);
+
+    // When:
+    Output output = underTest.analyze(input);
+
+    // Then:
+    assertThat(output).isNotNull();
+    assertThat(output.getBuilderModel().getPojoType().getName()).isEqualTo(pojoClassname);
+    TypeM builderType = output.getBuilderModel().getType();
+    assertThat(builderType).isNotNull();
+    assertThat(builderType.getName())
+        .isEqualTo("net.karneim.pojobuilder.analysis.with.superclass.SubclassPojo3Builder");
     assertThat(output.getBuilderModel().getProperties()).hasSize(1);
     PropertyM visibleMemberProperty = output.getBuilderModel().getProperties().get(new Key("visibleMember", "int"));
     assertThat(visibleMemberProperty).isNotNull();

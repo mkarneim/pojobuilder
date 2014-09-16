@@ -22,21 +22,21 @@ public class AnnotationHierarchyUtil {
   }
 
   /**
-   * Filters the given set of annotation elements and returns only those that are 'triggering' the
-   * generation of a pojo builder, including, of course, the {@link GeneratePojoBuilder} annotation
-   * and all custom made meta annotations that are annotated with {@link GeneratePojoBuilder} or
-   * with another meta annotation.
+   * Filters the given set of annotation elements and returns only those that are 'triggering' the generation of a pojo
+   * builder, including, of course, the {@link GeneratePojoBuilder} annotation and all custom made meta annotations that
+   * are annotated with {@link GeneratePojoBuilder} or with another meta annotation.
    * 
-   * @param aAnnotations
-   * @param requiredAnnoEl
+   * @param aAnnotations the set of annotation elements that will be filtered
+   * @param generatePojoBuilderAnnotation the type element representing the {@literal @}{@link GeneratePojoBuilder}
+   *        annotation
    * @return those annotations that are triggering the generation of a pojo builder
    */
   public Set<TypeElement> filterTriggeringAnnotations(Set<? extends TypeElement> aAnnotations,
-      TypeElement requiredAnnoEl) {
+      TypeElement generatePojoBuilderAnnotation) {
     Set<TypeElement> result = new HashSet<TypeElement>();
     for (TypeElement annoEl : aAnnotations) {
       Set<TypeElement> hierarchy = getAnnotationHierarchy(annoEl);
-      if (containsAnnotation(hierarchy, requiredAnnoEl)) {
+      if (containsAnnotation(hierarchy, generatePojoBuilderAnnotation)) {
         result.add(annoEl);
       }
     }

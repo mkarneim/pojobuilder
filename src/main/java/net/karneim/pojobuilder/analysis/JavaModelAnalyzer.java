@@ -43,7 +43,6 @@ public class JavaModelAnalyzer {
     TypeM pojoType = typeMFactory.getTypeM(input.getPojoType());
     result.getBuilderModel().setPojoType(pojoType);
     result.getBuilderModel().setBuildMethod(new BuildMethodM());
-    scanSourceCode(input, result);
 
     if (input.getDirectives().isGenerationGap()) {
       processBaseClass(result);
@@ -71,7 +70,8 @@ public class JavaModelAnalyzer {
               .getTypeParameters().collectDistinctTypeVariablesRecursevly(new TypeListM()).asArray()));
       result.getBuilderModel().setSelfType(result.getBuilderModel().getType());
     }
-
+    
+    scanSourceCode(input, result);
     if (input.getDirectives().isGenerateCopyMethod()) {
       result.getBuilderModel().setCopyMethod(new CopyMethodM(input.getDirectives().getCopyMethodName()));
     }
