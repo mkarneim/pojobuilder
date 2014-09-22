@@ -20,6 +20,7 @@ import net.karneim.pojobuilder.model.ImportTypesM;
 import net.karneim.pojobuilder.model.PropertyListM;
 import net.karneim.pojobuilder.model.PropertyM;
 import net.karneim.pojobuilder.model.TypeM;
+import net.karneim.pojobuilder.model.ValidatorMethodM;
 import net.karneim.pojobuilder.model.WriteAccess.Type;
 
 import com.squareup.javawriter.JavaWriter;
@@ -38,7 +39,7 @@ public class BuilderSourceGenerator {
     checkNotNull(builder.getProperties(), "builder.getProperties() must not be null");
     generateSource(builder.getType(), builder.isAbstract(), builder.getSelfType(), builder.getBaseType(),
         builder.getInterfaceType(), builder.hasBuilderProperties(), builder.getPojoType(), builder.getProperties(),
-        builder.getBuildMethod(), builder.getFactoryMethod(), builder.getCopyMethod());
+        builder.getBuildMethod(), builder.getFactoryMethod(), builder.getCopyMethod(), builder.getValidatorMethod());
   }
 
   private void checkNotNull(Object obj, String errorMessage) {
@@ -49,7 +50,7 @@ public class BuilderSourceGenerator {
 
   private void generateSource(TypeM builderType, boolean isAbstract, TypeM selfType, TypeM baseType,
       TypeM interfaceType, boolean hasBuilderProperties, TypeM pojoType, PropertyListM properties,
-      BuildMethodM buildMethod, FactoryMethodM factoryMethod, CopyMethodM copyMethodM) throws IOException {
+      BuildMethodM buildMethod, FactoryMethodM factoryMethod, CopyMethodM copyMethodM, ValidatorMethodM validatorMethod) throws IOException {
     properties = new PropertyListM(properties);
     properties.filterOutNonWritableProperties(builderType);
 
@@ -112,7 +113,7 @@ public class BuilderSourceGenerator {
     if ( copyMethodM != null) {
       emitCopyMethod(selfType, pojoType, properties, copyMethodM);
     }
-    emitBuildMethod(builderType, pojoType, interfaceType, hasBuilderProperties, properties, factoryMethod, buildMethod);
+    emitBuildMethod(builderType, pojoType, interfaceType, hasBuilderProperties, properties, factoryMethod, buildMethod, validatorMethod);
     writer.endType();
     // @formatter:on
   }
@@ -153,7 +154,7 @@ public class BuilderSourceGenerator {
   }
 
   private void emitBuildMethod(TypeM builderType, TypeM pojoType, TypeM interfaceType, boolean hasBuilderProperties,
-      PropertyListM properties, FactoryMethodM factoryMethod, BuildMethodM buildMethod) throws IOException {
+      PropertyListM properties, FactoryMethodM factoryMethod, BuildMethodM buildMethod, ValidatorMethodM validatorMethod) throws IOException {
     properties = new PropertyListM(properties);
     String pojoTypeDeclaration = writer.compressType(pojoType.getGenericTypeDeclaration());
     String pojoClassname = writer.compressType(pojoType.getName());
@@ -257,6 +258,9 @@ public class BuilderSourceGenerator {
           .endControlFlow();
     }
     //TODO inform user about any properties leftover 
+    
+    if (validatorMethod != null)
+    	writer.emitStatement("%s(result)", validatorMethod.getName());
     
     writer
           .emitStatement("return result")

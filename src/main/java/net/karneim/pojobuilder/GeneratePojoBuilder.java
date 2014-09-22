@@ -79,4 +79,11 @@ public @interface GeneratePojoBuilder {
    * @return <code>true</code> if a copy method should be generated
    */
   boolean withCopyMethod() default false;
+  
+  /**
+   * Specifies a validator method implemented in base class. (withBaseclass must be set)
+   * 
+   * @return the validator method name
+   */
+  String withValidatorMethod() default "";
 }

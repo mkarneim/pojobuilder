@@ -15,6 +15,7 @@ import net.karneim.pojobuilder.model.CopyMethodM;
 import net.karneim.pojobuilder.model.ManualBuilderM;
 import net.karneim.pojobuilder.model.TypeListM;
 import net.karneim.pojobuilder.model.TypeM;
+import net.karneim.pojobuilder.model.ValidatorMethodM;
 
 public class JavaModelAnalyzer {
 
@@ -76,6 +77,11 @@ public class JavaModelAnalyzer {
       result.getBuilderModel().setCopyMethod(new CopyMethodM(input.getDirectives().getCopyMethodName()));
     }
     result.getBuilderModel().setHasBuilderProperties(input.getDirectives().isGenerateBuilderProperties());
+    
+    String validatorMethodName = input.getDirectives().getValidatorMethodName();
+    if (validatorMethodName != null && !validatorMethodName.isEmpty())
+    	result.getBuilderModel().setValidatorMethod(new ValidatorMethodM(input.getDirectives().getValidatorMethodName()));
+    
     return result;
   }
 
