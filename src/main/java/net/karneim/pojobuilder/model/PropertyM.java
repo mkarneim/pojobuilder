@@ -1,5 +1,7 @@
 package net.karneim.pojobuilder.model;
 
+import net.karneim.pojobuilder.configuration.Configuration;
+
 public class PropertyM {
   private TypeM propertyType;
   private String propertyName;
@@ -29,11 +31,10 @@ public class PropertyM {
           new TypeM(interfaceType.getPackageName(), interfaceType.getSimpleName()).withTypeParameter(primType
               .getBoxClass());
       return result;
-    } else {
-      TypeM result =
-          new TypeM(interfaceType.getPackageName(), interfaceType.getSimpleName()).withTypeParameter(propertyType);
-      return result;
     }
+   TypeM result =
+       new TypeM(interfaceType.getPackageName(), interfaceType.getSimpleName()).withTypeParameter(propertyType);
+   return result;
   }
 
   public ConstructorParameterM getConstructorParameter() {
@@ -76,8 +77,8 @@ public class PropertyM {
     return readableViaGetterMethod != null;
   }
 
-  public PropertyM accessibleVia(FieldAccessM fieldAccess) {
-    this.fieldAccess = fieldAccess;
+  public PropertyM accessibleVia(FieldAccessM newFieldAccess) {
+    this.fieldAccess = newFieldAccess;
     return this;
   }
 
@@ -144,10 +145,14 @@ public class PropertyM {
   }
 
   public String getWithMethodName() {
-    return String.format("with%s", fcUpperCase(getPropertyName()));
+    return String.format(methodNamePrefix() + "%s", fcUpperCase(getPropertyName()));
   }
 
-  private String fcUpperCase(String text) {
+  private static String methodNamePrefix() {
+   return Configuration.INSTANCE.getProperty("net.karneim.pojobuilder.methodnameprefix","with");
+  }
+
+  private static String fcUpperCase(String text) {
     if (text == null) {
       return null;
     }

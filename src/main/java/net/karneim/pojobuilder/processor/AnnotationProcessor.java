@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
+import javax.annotation.processing.SupportedOptions;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
@@ -33,13 +34,14 @@ import net.karneim.pojobuilder.analysis.InvalidElementException;
 import net.karneim.pojobuilder.analysis.JavaModelAnalyzer;
 import net.karneim.pojobuilder.analysis.JavaModelAnalyzerUtil;
 import net.karneim.pojobuilder.analysis.Output;
+import net.karneim.pojobuilder.configuration.Configuration;
 import net.karneim.pojobuilder.model.BuilderM;
 import net.karneim.pojobuilder.model.ManualBuilderM;
 import net.karneim.pojobuilder.sourcegen.BuilderSourceGenerator;
 import net.karneim.pojobuilder.sourcegen.ManualBuilderSourceGenerator;
 
 import com.squareup.javawriter.JavaWriter;
-
+@SupportedOptions(value = { "net.karneim.pojobuilder.methodnameprefix" })
 public class AnnotationProcessor extends AbstractProcessor {
   private static final Logger LOG = Logger.getLogger(AnnotationProcessor.class.getName());
   private JavaModelAnalyzer javaModelAnalyzer;
@@ -72,6 +74,7 @@ public class AnnotationProcessor extends AbstractProcessor {
         new InputFactory(env.getTypeUtils(), new DirectivesFactory(env.getElementUtils(),
             env.getTypeUtils(), javaModelAnalyzerUtil));
     this.annotationHierarchyUtil = new AnnotationHierarchyUtil(env.getTypeUtils());
+    Configuration.INSTANCE.loadArguments(processingEnv.getOptions());
   }
 
   private void clearState() {

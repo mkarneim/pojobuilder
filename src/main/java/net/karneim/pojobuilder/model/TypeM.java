@@ -92,7 +92,7 @@ public class TypeM {
   }
 
   public boolean isInPackage(String packageName) {
-    return (packageName == null && this.packageName.isEmpty()) || packageName.equals(this.packageName);
+    return (packageName == null && this.packageName.isEmpty()) || this.packageName.equals(packageName);
   }
 
   @Override
