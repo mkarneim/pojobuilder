@@ -89,5 +89,5 @@ public @interface GeneratePojoBuilder {
    *
    * @return Optional-supplying libraries to support
    */
-  String withOptionals() default "None";
+  OptionalSupport withOptionals() default OptionalSupport.None;
 }

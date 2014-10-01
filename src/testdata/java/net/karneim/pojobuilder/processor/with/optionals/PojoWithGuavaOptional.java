@@ -4,7 +4,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 import static net.karneim.pojobuilder.GeneratePojoBuilder.OptionalSupport.Guava;
 
-@GeneratePojoBuilder(withOptionals = "Guava")
+@GeneratePojoBuilder(withOptionals = Guava)
 public class PojoWithGuavaOptional {
 
   public int primitiveInt;

@@ -4,6 +4,8 @@ import java.util.Map;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
+import static net.karneim.pojobuilder.GeneratePojoBuilder.OptionalSupport.*;
+
 public class Directives {
   private boolean generateCopyMethod = false;
   private String copyMethodName = null;
@@ -29,7 +31,8 @@ public class Directives {
     if (generateCopyMethod) {
       copyMethodName = "copy"; // TODO make configurable in annotation!
     }
-    optionals = GeneratePojoBuilder.OptionalSupport.valueOf((String)valueMap.get("withOptionals"));
+    // TODO - this <unknown>.toString is not acceptable as it exposes us to assumptions on the compiler
+    optionals = valueOf(valueMap.get("withOptionals").toString());
   }
 
   public boolean isGenerateCopyMethod() {
