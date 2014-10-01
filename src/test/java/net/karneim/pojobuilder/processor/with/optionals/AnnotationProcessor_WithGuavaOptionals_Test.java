@@ -62,7 +62,7 @@ public class AnnotationProcessor_WithGuavaOptionals_Test extends TestBase {
   public void testShouldNotGenerateGuavaOptionalsForOptionalMembers() throws Exception {
     // Given:
     String pojoClassname = PojoWithGuavaOptional2.class.getName();
-    String builderClassname = PojoWithGuavaOptionalBuilder.class.getName();
+    String builderClassname = PojoWithGuavaOptional2Builder.class.getName();
     prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
 
     // When:

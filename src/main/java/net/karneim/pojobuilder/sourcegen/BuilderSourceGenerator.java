@@ -3,6 +3,7 @@ package net.karneim.pojobuilder.sourcegen;
 import static javax.lang.model.element.Modifier.ABSTRACT;
 import static javax.lang.model.element.Modifier.PROTECTED;
 import static javax.lang.model.element.Modifier.PUBLIC;
+import static net.karneim.pojobuilder.GeneratePojoBuilder.OptionalSupport;
 
 import java.io.IOException;
 import java.util.EnumSet;
@@ -10,6 +11,7 @@ import java.util.EnumSet;
 import javax.annotation.Generated;
 import javax.lang.model.element.Modifier;
 
+import net.karneim.pojobuilder.GeneratePojoBuilder;
 import net.karneim.pojobuilder.model.ArgumentListM;
 import net.karneim.pojobuilder.model.ArrayTypeM;
 import net.karneim.pojobuilder.model.BuildMethodM;
@@ -38,7 +40,7 @@ public class BuilderSourceGenerator {
     checkNotNull(builder.getProperties(), "builder.getProperties() must not be null");
     generateSource(builder.getType(), builder.isAbstract(), builder.getSelfType(), builder.getBaseType(),
         builder.getInterfaceType(), builder.hasBuilderProperties(), builder.getPojoType(), builder.getProperties(),
-        builder.getBuildMethod(), builder.getFactoryMethod(), builder.getCopyMethod());
+        builder.getBuildMethod(), builder.getFactoryMethod(), builder.getCopyMethod(), builder.getOptionalSupport());
   }
 
   private void checkNotNull(Object obj, String errorMessage) {
@@ -49,7 +51,7 @@ public class BuilderSourceGenerator {
 
   private void generateSource(TypeM builderType, boolean isAbstract, TypeM selfType, TypeM baseType,
       TypeM interfaceType, boolean hasBuilderProperties, TypeM pojoType, PropertyListM properties,
-      BuildMethodM buildMethod, FactoryMethodM factoryMethod, CopyMethodM copyMethodM) throws IOException {
+      BuildMethodM buildMethod, FactoryMethodM factoryMethod, CopyMethodM copyMethodM, OptionalSupport optionalSupport) throws IOException {
     properties = new PropertyListM(properties);
     properties.filterOutNonWritableProperties(builderType);
 
@@ -59,6 +61,10 @@ public class BuilderSourceGenerator {
     }
     properties.getTypes().addToImportTypes(importTypes);
     importTypes.add(Generated.class);
+
+    if ( optionalSupport!=OptionalSupport.None ) {
+      OptionalSupportHelper.SUPPLIER_TYPES.get(optionalSupport).addToImportTypes(importTypes);
+    }
 
     String baseclass;
     if (baseType == null || baseType.getName().equals("java.lang.Object")) {
@@ -103,7 +109,9 @@ public class BuilderSourceGenerator {
     emitConstructor(builderType, selfType);
     for (PropertyM prop : properties) {
       emitWithMethod(builderType, selfType, pojoType, prop);
-      emitWithOptionalMethod(builderType, selfType, pojoType, prop);
+      if ( optionalSupport!=OptionalSupport.None ) {
+        emitWithOptionalMethod(builderType, selfType, pojoType, prop);
+      }
       if ( interfaceType != null && hasBuilderProperties) {
         emitWithMethodUsingBuilderInterface(builderType, selfType, interfaceType, pojoType, prop);
       }
@@ -328,22 +336,15 @@ public class BuilderSourceGenerator {
 
   private void emitWithOptionalMethod(TypeM builderType, TypeM selfType, TypeM pojoType, PropertyM prop) throws IOException {
 
-    final TypeM optionalParameterType = new TypeM("com.google.common.base","Optional");
-    optionalParameterType.withTypeParameter(prop.getPropertyType());
-
-    String withMethodName = prop.getWithMethodName();
-    String pojoTypeStr = writer.compressType(pojoType.getName());
-
-    boolean unsuitable = (prop.getPropertyType().isArrayType() && prop.getPreferredWriteAccessFor(builderType).isVarArgs())
-        || prop.getPropertyType().isPrimitive()
-        || prop.getPropertyType().getName().equals(optionalParameterType.getName());
-
-    if (unsuitable) {
+    TypeM optionalParameterType = prop.getOptionalPropertyType();
+    if (optionalParameterType == null) {
       return;
     }
 
+    String withMethodName = prop.getWithMethodName();
+    String pojoTypeStr = writer.compressType(pojoType.getName());
     String optionalParameterTypeStr = optionalParameterType.getGenericTypeDeclaration();
-    optionalParameterTypeStr  = writer.compressType(optionalParameterTypeStr );
+    optionalParameterTypeStr = writer.compressType(optionalParameterTypeStr);
 
     // @formatter:off
     writer

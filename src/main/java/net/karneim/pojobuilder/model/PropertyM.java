@@ -1,5 +1,8 @@
 package net.karneim.pojobuilder.model;
 
+import net.karneim.pojobuilder.GeneratePojoBuilder;
+import net.karneim.pojobuilder.sourcegen.OptionalSupportHelper;
+
 public class PropertyM {
   private TypeM propertyType;
   private String propertyName;
@@ -34,6 +37,19 @@ public class PropertyM {
           new TypeM(interfaceType.getPackageName(), interfaceType.getSimpleName()).withTypeParameter(propertyType);
       return result;
     }
+  }
+
+  /**
+   * The {@link TypeM} for an optional property supplied by the Guava base type.
+   *
+   * @return null if there is no optional type available for this property
+   */
+  public TypeM getOptionalPropertyType() {
+    final TypeM optionalType = new TypeM(OptionalSupportHelper.SUPPLIER_TYPES.get(GeneratePojoBuilder.OptionalSupport.Guava));
+    optionalType.withTypeParameter(propertyType);
+    // primitive || it's already an Optional (note we don't compare the generic signature)!
+    boolean unsuitable = propertyType.isPrimitive() || propertyType.getName().equals(optionalType.getName());
+    return unsuitable ? null : optionalType;
   }
 
   public ConstructorParameterM getConstructorParameter() {

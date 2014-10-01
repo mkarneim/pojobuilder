@@ -2,6 +2,8 @@ package net.karneim.pojobuilder.model;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
+import static net.karneim.pojobuilder.GeneratePojoBuilder.OptionalSupport;
+
 public class BuilderM {
   private TypeM type;
   private boolean isAbstract;
@@ -14,6 +16,7 @@ public class BuilderM {
   private BuildMethodM buildMethod;
   private TypeM interfaceType;
   private boolean hasBuilderProperties;
+  private OptionalSupport optionalSupport = OptionalSupport.None;
 
   public TypeM getType() {
     return type;
@@ -103,12 +106,20 @@ public class BuilderM {
     this.hasBuilderProperties = hasBuilderProperties;
   }
 
+  public OptionalSupport getOptionalSupport() {
+    return optionalSupport;
+  }
+
+  public void setOptionalSupport(OptionalSupport optionalSupport) {
+    this.optionalSupport = optionalSupport;
+  }
+
   @Override
   public String toString() {
     return "BuilderM [type=" + type + ", isAbstract=" + isAbstract + ", selfType=" + selfType + ", baseType="
         + baseType + ", pojoType=" + pojoType + ", properties=" + properties + ", factoryMethod=" + factoryMethod
         + ", copyMethod=" + copyMethod + ", buildMethod=" + buildMethod + ", interfaceType=" + interfaceType
-        + ", hasBuilderProperties=" + hasBuilderProperties + "]";
+        + ", hasBuilderProperties=" + hasBuilderProperties + ", optionalSupport=" + optionalSupport + "]";
   }
 
 }
