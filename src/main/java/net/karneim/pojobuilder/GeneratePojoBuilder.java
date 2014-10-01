@@ -14,6 +14,10 @@ public @interface GeneratePojoBuilder {
   public final String DEFAULT_NAME = "*Builder";
   public final String DEFAULT_PACKAGE = "*";
 
+    public static enum OptionalSupport {
+        None, Guava
+    }
+
   /**
    * Specifies the base class of the generated builder.
    * 
@@ -79,4 +83,11 @@ public @interface GeneratePojoBuilder {
    * @return <code>true</code> if a copy method should be generated
    */
   boolean withCopyMethod() default false;
+
+  /**
+   * Specifies whether to add additional fluent methods supporting Guava's Optional class.
+   *
+   * @return Optional-supplying libraries to support
+   */
+  String withOptionals() default "None";
 }

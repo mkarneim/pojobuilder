@@ -103,6 +103,7 @@ public class BuilderSourceGenerator {
     emitConstructor(builderType, selfType);
     for (PropertyM prop : properties) {
       emitWithMethod(builderType, selfType, pojoType, prop);
+      emitWithOptionalMethod(builderType, selfType, pojoType, prop);
       if ( interfaceType != null && hasBuilderProperties) {
         emitWithMethodUsingBuilderInterface(builderType, selfType, interfaceType, pojoType, prop);
       }
@@ -322,6 +323,39 @@ public class BuilderSourceGenerator {
         .emitStatement("this.%s = true", isSetFieldName)
         .emitStatement("return self")
       .endMethod();
+    // @formatter:on
+  }
+
+  private void emitWithOptionalMethod(TypeM builderType, TypeM selfType, TypeM pojoType, PropertyM prop) throws IOException {
+
+    final TypeM optionalParameterType = new TypeM("com.google.common.base","Optional");
+    optionalParameterType.withTypeParameter(prop.getPropertyType());
+
+    String withMethodName = prop.getWithMethodName();
+    String pojoTypeStr = writer.compressType(pojoType.getName());
+
+    boolean unsuitable = (prop.getPropertyType().isArrayType() && prop.getPreferredWriteAccessFor(builderType).isVarArgs())
+        || prop.getPropertyType().isPrimitive()
+        || prop.getPropertyType().getName().equals(optionalParameterType.getName());
+
+    if (unsuitable) {
+      return;
+    }
+
+    String optionalParameterTypeStr = optionalParameterType.getGenericTypeDeclaration();
+    optionalParameterTypeStr  = writer.compressType(optionalParameterTypeStr );
+
+    // @formatter:off
+    writer
+        .emitEmptyLine()
+        .emitJavadoc(
+            "Optionally sets the default value for the {@link %s#%s} property.\n\n"
+                + "@param value the default value\n"
+                + "@return this builder"
+            , pojoTypeStr, prop.getPropertyName())
+        .beginMethod(selfType.getGenericTypeDeclaration(), withMethodName, EnumSet.of(PUBLIC), optionalParameterTypeStr, "optionalValue")
+        .emitStatement("return optionalValue.isPresent()?%s(optionalValue.get()):self", withMethodName)
+        .endMethod();
     // @formatter:on
   }
 

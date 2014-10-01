@@ -1,5 +1,7 @@
 package net.karneim.pojobuilder.model;
 
+import net.karneim.pojobuilder.GeneratePojoBuilder;
+
 public class BuilderM {
   private TypeM type;
   private boolean isAbstract;

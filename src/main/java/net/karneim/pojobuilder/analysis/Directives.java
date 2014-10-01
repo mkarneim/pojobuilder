@@ -13,10 +13,11 @@ public class Directives {
   private String builderInterfaceName = Void.class.getName();
   private boolean generateBuilderProperties = false;
   private boolean generationGap = false;
+  private GeneratePojoBuilder.OptionalSupport optionals;
 
   public Directives(Map<String, Object> valueMap) {
     if (valueMap == null) {
-      throw new NullPointerException("valueMap mus not be null!");
+      throw new NullPointerException("valueMap must not be null!");
     }
     baseclassName = (String) valueMap.get("withBaseclass");
     builderInterfaceName = (String) valueMap.get("withBuilderInterface");
@@ -28,6 +29,7 @@ public class Directives {
     if (generateCopyMethod) {
       copyMethodName = "copy"; // TODO make configurable in annotation!
     }
+    optionals = GeneratePojoBuilder.OptionalSupport.valueOf((String)valueMap.get("withOptionals"));
   }
 
   public boolean isGenerateCopyMethod() {
@@ -103,12 +105,20 @@ public class Directives {
     this.builderInterfaceName = builderInterfaceName;
   }
 
+  public GeneratePojoBuilder.OptionalSupport getOptionals() {
+    return optionals;
+  }
+
+  public void setOptionals(GeneratePojoBuilder.OptionalSupport optionals) {
+    this.optionals = optionals;
+  }
+
   @Override
   public String toString() {
     return "Directives [generateCopyMethod=" + generateCopyMethod + ", copyMethodName=" + copyMethodName
         + ", intoPackage=" + intoPackage + ", builderName=" + builderName + ", baseclassName=" + baseclassName
         + ", builderInterfaceName=" + builderInterfaceName + ", generateBuilderProperties=" + generateBuilderProperties
-        + ", generationGap=" + generationGap + "]";
+        + ", generationGap=" + generationGap + ", optionals=" + optionals + "]";
   }
 
 }
