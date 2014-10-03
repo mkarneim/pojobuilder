@@ -1,7 +1,5 @@
 package net.karneim.pojobuilder.model;
 
-import net.karneim.pojobuilder.GeneratePojoBuilder;
-import net.karneim.pojobuilder.sourcegen.OptionalSupportHelper;
 
 public class PropertyM {
   private TypeM propertyType;
@@ -29,27 +27,30 @@ public class PropertyM {
     if (propertyType.isPrimitive()) {
       PrimitiveTypeM primType = (PrimitiveTypeM) propertyType;
       TypeM result =
-          new TypeM(interfaceType.getPackageName(), interfaceType.getSimpleName()).withTypeParameter(primType
-              .getBoxClass());
+          new TypeM(interfaceType.getPackageName(), interfaceType.getSimpleName())
+              .withTypeParameter(primType.getBoxClass());
       return result;
     } else {
       TypeM result =
-          new TypeM(interfaceType.getPackageName(), interfaceType.getSimpleName()).withTypeParameter(propertyType);
+          new TypeM(interfaceType.getPackageName(), interfaceType.getSimpleName())
+              .withTypeParameter(propertyType);
       return result;
     }
   }
 
   /**
-   * The {@link TypeM} for an optional property supplied by the Guava base type.
+   * The {@link TypeM} for an optional property supplied by the given optional type.
    *
    * @return null if there is no optional type available for this property
    */
-  public TypeM getOptionalPropertyType() {
-    final TypeM optionalType = new TypeM(OptionalSupportHelper.SUPPLIER_TYPES.get(GeneratePojoBuilder.OptionalSupport.Guava));
-    optionalType.withTypeParameter(propertyType);
-    // primitive || it's already an Optional (note we don't compare the generic signature)!
-    boolean unsuitable = propertyType.isPrimitive() || propertyType.getName().equals(optionalType.getName());
-    return unsuitable ? null : optionalType;
+  public TypeM getOptionalPropertyType(TypeM optionalType) {
+    if (propertyType.isPrimitive() || propertyType.getName().equals(optionalType.getName())) {
+      return null;
+    }
+    TypeM result =
+        new TypeM(optionalType.getPackageName(), optionalType.getSimpleName())
+            .withTypeParameter(propertyType);
+    return result;
   }
 
   public ConstructorParameterM getConstructorParameter() {
@@ -128,8 +129,9 @@ public class PropertyM {
   }
 
   public boolean isWritableBy(TypeM accessingClass) {
-    return isWritableViaFieldAccessBy(accessingClass) || isWritableViaSetterMethodBy(accessingClass)
-        || isWritableViaConstructor() || isWritableViaFactoryMethod();
+    return isWritableViaFieldAccessBy(accessingClass)
+        || isWritableViaSetterMethodBy(accessingClass) || isWritableViaConstructor()
+        || isWritableViaFactoryMethod();
   }
 
   public boolean isReadableViaGetterMethodBy(TypeM accessingClass) {
@@ -189,10 +191,10 @@ public class PropertyM {
   @Override
   public String toString() {
     return "PropertyM [propertyType=" + propertyType + ", propertyName=" + propertyName
-        + ", writableViaConstructorParameter=" + writableViaConstructorParameter + ", writableViaSetterMethod="
-        + writableViaSetterMethod + ", readableViaGetterMethod=" + readableViaGetterMethod
-        + ", writableViaFactoryMethodParameter=" + writableViaFactoryMethodParameter + ", fieldAccess=" + fieldAccess
-        + "]";
+        + ", writableViaConstructorParameter=" + writableViaConstructorParameter
+        + ", writableViaSetterMethod=" + writableViaSetterMethod + ", readableViaGetterMethod="
+        + readableViaGetterMethod + ", writableViaFactoryMethodParameter="
+        + writableViaFactoryMethodParameter + ", fieldAccess=" + fieldAccess + "]";
   }
 
 

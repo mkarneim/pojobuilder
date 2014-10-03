@@ -2,9 +2,9 @@ package net.karneim.pojobuilder.processor.with.optionals;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
-import static net.karneim.pojobuilder.GeneratePojoBuilder.OptionalSupport.Guava;
+import com.google.common.base.Optional;
 
-@GeneratePojoBuilder(withOptionals = Guava)
+@GeneratePojoBuilder(withOptionalProperties = Optional.class)
 public class PojoWithGuavaOptional {
 
   public int primitiveInt;

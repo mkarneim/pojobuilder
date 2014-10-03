@@ -4,8 +4,6 @@ import java.util.Map;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
-import static net.karneim.pojobuilder.GeneratePojoBuilder.OptionalSupport.*;
-
 public class Directives {
   private boolean generateCopyMethod = false;
   private String copyMethodName = null;
@@ -15,7 +13,7 @@ public class Directives {
   private String builderInterfaceName = Void.class.getName();
   private boolean generateBuilderProperties = false;
   private boolean generationGap = false;
-  private GeneratePojoBuilder.OptionalSupport optionals;
+  private String optionalClassname = Void.class.getName();
 
   public Directives(Map<String, Object> valueMap) {
     if (valueMap == null) {
@@ -31,8 +29,7 @@ public class Directives {
     if (generateCopyMethod) {
       copyMethodName = "copy"; // TODO make configurable in annotation!
     }
-    // TODO - this <unknown>.toString is not acceptable as it exposes us to assumptions on the compiler
-    optionals = valueOf(valueMap.get("withOptionals").toString());
+    optionalClassname = (String) valueMap.get("withOptionalProperties");
   }
 
   public boolean isGenerateCopyMethod() {
@@ -108,20 +105,21 @@ public class Directives {
     this.builderInterfaceName = builderInterfaceName;
   }
 
-  public GeneratePojoBuilder.OptionalSupport getOptionals() {
-    return optionals;
+  public String getOptionalClassname() {
+    return optionalClassname;
   }
 
-  public void setOptionals(GeneratePojoBuilder.OptionalSupport optionals) {
-    this.optionals = optionals;
+  public void setOptionalClassname(String optionalClassname) {
+    this.optionalClassname = optionalClassname;
   }
 
   @Override
   public String toString() {
-    return "Directives [generateCopyMethod=" + generateCopyMethod + ", copyMethodName=" + copyMethodName
-        + ", intoPackage=" + intoPackage + ", builderName=" + builderName + ", baseclassName=" + baseclassName
-        + ", builderInterfaceName=" + builderInterfaceName + ", generateBuilderProperties=" + generateBuilderProperties
-        + ", generationGap=" + generationGap + ", optionals=" + optionals + "]";
+    return "Directives [generateCopyMethod=" + generateCopyMethod + ", copyMethodName="
+        + copyMethodName + ", intoPackage=" + intoPackage + ", builderName=" + builderName
+        + ", baseclassName=" + baseclassName + ", builderInterfaceName=" + builderInterfaceName
+        + ", generateBuilderProperties=" + generateBuilderProperties + ", generationGap="
+        + generationGap + ", optionalClassname=" + optionalClassname + "]";
   }
 
 }

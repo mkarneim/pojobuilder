@@ -7,14 +7,6 @@ public class TypeM {
   private final String name;
   private final TypeListM typeParameters = new TypeListM();
 
-  /*
-   Copy constructor due to mutable class.
-   */
-  public TypeM(TypeM source) {
-    this(source.getName());
-    withTypeParameter(source.getTypeParameters().asArray());
-  }
-
   protected TypeM(String name) {
     this("", name);
   }
