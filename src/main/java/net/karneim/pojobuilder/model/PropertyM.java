@@ -1,5 +1,7 @@
 package net.karneim.pojobuilder.model;
 
+import net.karneim.pojobuilder.GeneratePojoBuilder;
+
 public class PropertyM {
   private TypeM propertyType;
   private String propertyName;
@@ -26,12 +28,13 @@ public class PropertyM {
     if (propertyType.isPrimitive()) {
       PrimitiveTypeM primType = (PrimitiveTypeM) propertyType;
       TypeM result =
-          new TypeM(interfaceType.getPackageName(), interfaceType.getSimpleName()).withTypeParameter(primType
-              .getBoxClass());
+          new TypeM(interfaceType.getPackageName(), interfaceType.getSimpleName())
+              .withTypeParameter(primType.getBoxClass());
       return result;
     } else {
       TypeM result =
-          new TypeM(interfaceType.getPackageName(), interfaceType.getSimpleName()).withTypeParameter(propertyType);
+          new TypeM(interfaceType.getPackageName(), interfaceType.getSimpleName())
+              .withTypeParameter(propertyType);
       return result;
     }
   }
@@ -39,7 +42,7 @@ public class PropertyM {
   public ConstructorParameterM getConstructorParameter() {
     return writableViaConstructorParameter;
   }
-
+  
   public PropertyM writableVia(ConstructorParameterM constructorParameter) {
     this.writableViaConstructorParameter = constructorParameter;
     return this;
@@ -112,8 +115,9 @@ public class PropertyM {
   }
 
   public boolean isWritableBy(TypeM accessingClass) {
-    return isWritableViaFieldAccessBy(accessingClass) || isWritableViaSetterMethodBy(accessingClass)
-        || isWritableViaConstructor() || isWritableViaFactoryMethod();
+    return isWritableViaFieldAccessBy(accessingClass)
+        || isWritableViaSetterMethodBy(accessingClass) || isWritableViaConstructor()
+        || isWritableViaFactoryMethod();
   }
 
   public boolean isReadableViaGetterMethodBy(TypeM accessingClass) {
@@ -143,8 +147,14 @@ public class PropertyM {
     return getPropertyType().getName().replaceAll("\\.", "\\$").replaceAll("\\[\\]", "\\$L");
   }
 
-  public String getWithMethodName() {
-    return String.format("with%s", fcUpperCase(getPropertyName()));
+  public String getWithMethodName(String setterNamePattern) {
+    String propertyName;
+    if (setterNamePattern.startsWith("*")) {
+      propertyName = getPropertyName();
+    } else {
+      propertyName = fcUpperCase(getPropertyName());
+    }
+    return setterNamePattern.replace("*", propertyName);
   }
 
   private String fcUpperCase(String text) {
@@ -173,10 +183,10 @@ public class PropertyM {
   @Override
   public String toString() {
     return "PropertyM [propertyType=" + propertyType + ", propertyName=" + propertyName
-        + ", writableViaConstructorParameter=" + writableViaConstructorParameter + ", writableViaSetterMethod="
-        + writableViaSetterMethod + ", readableViaGetterMethod=" + readableViaGetterMethod
-        + ", writableViaFactoryMethodParameter=" + writableViaFactoryMethodParameter + ", fieldAccess=" + fieldAccess
-        + "]";
+        + ", writableViaConstructorParameter=" + writableViaConstructorParameter
+        + ", writableViaSetterMethod=" + writableViaSetterMethod + ", readableViaGetterMethod="
+        + readableViaGetterMethod + ", writableViaFactoryMethodParameter="
+        + writableViaFactoryMethodParameter + ", fieldAccess=" + fieldAccess + "]";
   }
 
 

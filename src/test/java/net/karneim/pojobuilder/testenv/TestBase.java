@@ -9,7 +9,7 @@ import java.lang.reflect.UndeclaredThrowableException;
 public class TestBase {
   protected final File TESTDATA_DIRECTORY = new File("src/testdata/java");;
 
-  private static final boolean DEBUG_LOG_ENABLED = false;
+  private static final boolean DEBUG_LOG_ENABLED = true;
 
   protected void logDebug(String message) {
     if (DEBUG_LOG_ENABLED) {

@@ -12,6 +12,7 @@ public class BuilderM {
   private BuildMethodM buildMethod;
   private TypeM interfaceType;
   private boolean hasBuilderProperties;
+  private String setterNamePattern;
 
   public TypeM getType() {
     return type;
@@ -101,12 +102,21 @@ public class BuilderM {
     this.hasBuilderProperties = hasBuilderProperties;
   }
 
+  public void setSetterNamePattern(String setterNamePattern) {
+    this.setterNamePattern = setterNamePattern;
+  }
+
+  public String getSetterNamePattern() {
+    return setterNamePattern;
+  }
+
   @Override
   public String toString() {
-    return "BuilderM [type=" + type + ", isAbstract=" + isAbstract + ", selfType=" + selfType + ", baseType="
-        + baseType + ", pojoType=" + pojoType + ", properties=" + properties + ", factoryMethod=" + factoryMethod
-        + ", copyMethod=" + copyMethod + ", buildMethod=" + buildMethod + ", interfaceType=" + interfaceType
-        + ", hasBuilderProperties=" + hasBuilderProperties + "]";
+    return "BuilderM [type=" + type + ", isAbstract=" + isAbstract + ", selfType=" + selfType
+        + ", baseType=" + baseType + ", pojoType=" + pojoType + ", properties=" + properties
+        + ", factoryMethod=" + factoryMethod + ", copyMethod=" + copyMethod + ", buildMethod="
+        + buildMethod + ", interfaceType=" + interfaceType + ", hasBuilderProperties="
+        + hasBuilderProperties + ", setterNamePattern=" + setterNamePattern + "]";
   }
 
 }

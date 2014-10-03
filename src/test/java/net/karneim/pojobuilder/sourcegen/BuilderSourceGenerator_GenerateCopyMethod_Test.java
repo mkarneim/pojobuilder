@@ -59,6 +59,7 @@ public class BuilderSourceGenerator_GenerateCopyMethod_Test extends TestBase {
     builder.setSelfType(builder.getType());
     builder.setCopyMethod(new CopyMethodM("copy"));
     builder.setBuildMethod( new BuildMethodM());
+    builder.setSetterNamePattern("with*");
     
     // Assume: properties are returned in insertion order
     assertThat(builder.getProperties().iterator()).extracting("propertyName").containsExactly("someBoolean","someChar","someString");

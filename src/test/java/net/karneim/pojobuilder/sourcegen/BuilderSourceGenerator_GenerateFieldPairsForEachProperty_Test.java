@@ -69,6 +69,7 @@ public class BuilderSourceGenerator_GenerateFieldPairsForEachProperty_Test exten
     builder.setType(new TypeM("com.example.output","SampleBuilder"));
     builder.setSelfType(builder.getType());
     builder.setBuildMethod( new BuildMethodM());
+    builder.setSetterNamePattern("with*");
     
     // When:
     underTest.generateSource(builder);
@@ -106,6 +107,7 @@ public class BuilderSourceGenerator_GenerateFieldPairsForEachProperty_Test exten
     builder.setType(new TypeM("com.example.output","SampleBuilder"));
     builder.setSelfType(builder.getType());
     builder.setBuildMethod( new BuildMethodM());
+    builder.setSetterNamePattern("with*");
     
     // When:
     underTest.generateSource(builder);
@@ -142,6 +144,7 @@ public class BuilderSourceGenerator_GenerateFieldPairsForEachProperty_Test exten
     builder.setType(new TypeM("com.example.output","SampleBuilder"));
     builder.setSelfType(builder.getType());
     builder.setBuildMethod( new BuildMethodM());
+    builder.setSetterNamePattern("with*");
     
     // When:
     underTest.generateSource(builder);
@@ -176,6 +179,7 @@ public class BuilderSourceGenerator_GenerateFieldPairsForEachProperty_Test exten
     builder.setType(new TypeM("com.example.output","SampleBuilder").withTypeParameter(K, V));
     builder.setSelfType(builder.getType());
     builder.setBuildMethod( new BuildMethodM());
+    builder.setSetterNamePattern("with*");
     
     // When:
     underTest.generateSource(builder);

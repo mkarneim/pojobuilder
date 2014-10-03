@@ -13,6 +13,7 @@ import java.lang.annotation.Target;
 public @interface GeneratePojoBuilder {
   public final String DEFAULT_NAME = "*Builder";
   public final String DEFAULT_PACKAGE = "*";
+  public final String DEFAULT_SETTER_NAME = "with*";
 
   /**
    * Specifies the base class of the generated builder.
@@ -22,15 +23,15 @@ public @interface GeneratePojoBuilder {
   Class<?> withBaseclass() default Object.class;
 
   /**
-   * Specifies the generic builder interface of the generated builder. The interface must declare exactly one type
-   * parameter and a build method with this type as return type.
+   * Specifies the generic builder interface of the generated builder. The interface must declare
+   * exactly one type parameter and a build method with this type as return type.
    * <p>
    * For example:
    * 
    * <pre>
-   *   public interface Builder&lt;T&gt; {
-   *     T build(); 
-   *   }
+   * public interface Builder&lt;T&gt; {
+   *   T build();
+   * }
    * </pre>
    * 
    * @return the generic interface of the generated builder
@@ -38,43 +39,54 @@ public @interface GeneratePojoBuilder {
   Class<?> withBuilderInterface() default Void.class;
 
   /**
-   * Specifies whether the generated builder should define builder-based with-methods using the builder interface.
+   * Specifies whether the generated builder should define builder-based with-methods using the
+   * builder interface.
    * <p>
-   * When set to <code>true</code>, the {@link GeneratePojoBuilder#withBuilderInterface()} must specify a valid
-   * interface.
+   * When set to <code>true</code>, the {@link GeneratePojoBuilder#withBuilderInterface()} must
+   * specify a valid interface.
    * 
    * @return whether the generated builder should define builder-based with-methods
    */
   boolean withBuilderProperties() default false;
 
   /**
-   * Specifies the name of the generated builder. Any asterisk will be replaced with the pojos simple name. Default is
-   * "*Builder".
+   * Specifies the name of the generated builder. An asterisk will be replaced with the pojos simple
+   * name. Default is "*Builder".
    * 
    * @return the name of the generated builder
    */
   String withName() default DEFAULT_NAME;
 
   /**
-   * Specifies the package of the generated builder. Any asterisk will be replaced with the pojos package. Default is
-   * "*".
+   * Specifies the name pattern of the generated setter-methods. An asterisk will be replaced with
+   * the property's original name. Default is "with*".
+   * 
+   * @return the name pattern of the generated setter-methods.
+   */
+  String withSetterNamePattern() default DEFAULT_SETTER_NAME;
+
+  /**
+   * Specifies the package of the generated builder. An asterisk will be replaced with the pojos
+   * package. Default is "*".
    * 
    * @return the package of the generated builder
    */
   String intoPackage() default DEFAULT_PACKAGE;
 
   /**
-   * Specifies whether the generation gap pattern is used. If enabled this will generate two classes (instead of one),
-   * of which one contains the generated code. The other class is for handwritten code. To prevent it from being
-   * overwritten please move it out of the generated-sources folder. Default is "false".
+   * Specifies whether the generation gap pattern is used. If enabled this will generate two classes
+   * (instead of one), of which one contains the generated code. The other class is for handwritten
+   * code. To prevent it from being overwritten please move it out of the generated-sources folder.
+   * Default is "false".
    * 
    * @return <code>true</code> if the generation gap should be used
    */
   boolean withGenerationGap() default false;
 
   /**
-   * Specifies whether a copy method should be generated. The copy method will take an instance of the built class and
-   * will copy all its fields into the builder. This allows it to easily change one or more fields of immutable objects.
+   * Specifies whether a copy method should be generated. The copy method will take an instance of
+   * the built class and will copy all its fields into the builder. This allows it to easily change
+   * one or more fields of immutable objects.
    * 
    * @return <code>true</code> if a copy method should be generated
    */

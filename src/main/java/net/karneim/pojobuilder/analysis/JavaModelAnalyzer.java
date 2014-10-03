@@ -76,6 +76,9 @@ public class JavaModelAnalyzer {
       result.getBuilderModel().setCopyMethod(new CopyMethodM(input.getDirectives().getCopyMethodName()));
     }
     result.getBuilderModel().setHasBuilderProperties(input.getDirectives().isGenerateBuilderProperties());
+   
+    result.getBuilderModel().setSetterNamePattern(input.getDirectives().getSetterNamePattern());
+    
     return result;
   }
 
