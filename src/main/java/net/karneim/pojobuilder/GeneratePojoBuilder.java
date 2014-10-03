@@ -33,7 +33,8 @@ public @interface GeneratePojoBuilder {
    * }
    * </pre>
    * 
-   * @return the generic interface of the generated builder
+   * @return the generic interface of the generated builder or {@link Void}, if no interface is
+   *         specified
    */
   Class<?> withBuilderInterface() default Void.class;
 
@@ -69,7 +70,8 @@ public @interface GeneratePojoBuilder {
    * Examples are Google Guava's {@link com.google.common.base.Optional} and
    * {@link java.util.Optional} introduced with Java 8.
    * 
-   * @return the 'Optional' type used for generating the optional-based setter-methods
+   * @return the 'Optional' type used for generating the optional-based setter-methods, or
+   *         {@link Void} if no optional-based setter-methods should be generated
    */
   Class<?> withOptionalProperties() default Void.class;
 
