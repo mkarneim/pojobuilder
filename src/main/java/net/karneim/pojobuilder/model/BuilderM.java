@@ -10,7 +10,7 @@ public class BuilderM {
   private FactoryMethodM factoryMethod;
   private CopyMethodM copyMethod;
   private BuildMethodM buildMethod;
-  private ValidatorMethodM validatorMethod;
+  private ValidatorM validator;
   private TypeM interfaceType;
   private boolean hasBuilderProperties;
 
@@ -86,15 +86,15 @@ public class BuilderM {
     this.buildMethod = buildMethod;
   }
 
-  public ValidatorMethodM getValidatorMethod() {
-	return validatorMethod;
-}
+  public ValidatorM getValidator() {
+    return validator;
+  }
 
-public void setValidatorMethod(ValidatorMethodM validatorMethod) {
-	this.validatorMethod = validatorMethod;
-}
+  public void setValidator(ValidatorM validator) {
+    this.validator = validator;
+  }
 
- public TypeM getInterfaceType() {
+  public TypeM getInterfaceType() {
     return interfaceType;
   }
 
@@ -112,14 +112,11 @@ public void setValidatorMethod(ValidatorMethodM validatorMethod) {
 
   @Override
   public String toString() {
-	  return "BuilderM [type=" + type + ", isAbstract=" + isAbstract
-			+ ", selfType=" + selfType + ", baseType=" + baseType
-			+ ", pojoType=" + pojoType + ", properties=" + properties
-			+ ", factoryMethod=" + factoryMethod + ", copyMethod=" + copyMethod
-			+ ", buildMethod=" + buildMethod + ", validatorMethod="
-			+ validatorMethod + ", interfaceType=" + interfaceType
-			+ ", hasBuilderProperties=" + hasBuilderProperties + "]";
+    return "BuilderM [type=" + type + ", isAbstract=" + isAbstract + ", selfType=" + selfType
+        + ", baseType=" + baseType + ", pojoType=" + pojoType + ", properties=" + properties
+        + ", factoryMethod=" + factoryMethod + ", copyMethod=" + copyMethod + ", buildMethod="
+        + buildMethod + ", validator=" + validator + ", interfaceType=" + interfaceType
+        + ", hasBuilderProperties=" + hasBuilderProperties + "]";
   }
-
 
 }

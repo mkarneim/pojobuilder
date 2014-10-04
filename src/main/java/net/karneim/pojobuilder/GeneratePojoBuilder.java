@@ -22,15 +22,15 @@ public @interface GeneratePojoBuilder {
   Class<?> withBaseclass() default Object.class;
 
   /**
-   * Specifies the generic builder interface of the generated builder. The interface must declare exactly one type
-   * parameter and a build method with this type as return type.
+   * Specifies the generic builder interface of the generated builder. The interface must declare
+   * exactly one type parameter and a build method with this type as return type.
    * <p>
    * For example:
    * 
    * <pre>
-   *   public interface Builder&lt;T&gt; {
-   *     T build(); 
-   *   }
+   * public interface Builder{@literal <}T{@literal >} {
+   *   T build();
+   * }
    * </pre>
    * 
    * @return the generic interface of the generated builder
@@ -38,52 +38,71 @@ public @interface GeneratePojoBuilder {
   Class<?> withBuilderInterface() default Void.class;
 
   /**
-   * Specifies whether the generated builder should define builder-based with-methods using the builder interface.
+   * Specifies whether the generated builder should define builder-based with-methods using the
+   * builder interface.
    * <p>
-   * When set to <code>true</code>, the {@link GeneratePojoBuilder#withBuilderInterface()} must specify a valid
-   * interface.
+   * When set to <code>true</code>, the {@link GeneratePojoBuilder#withBuilderInterface()} must
+   * specify a valid interface.
    * 
    * @return whether the generated builder should define builder-based with-methods
    */
   boolean withBuilderProperties() default false;
 
   /**
-   * Specifies the name of the generated builder. Any asterisk will be replaced with the pojos simple name. Default is
-   * "*Builder".
+   * Specifies the name of the generated builder. Any asterisk will be replaced with the pojos
+   * simple name. Default is "*Builder".
    * 
    * @return the name of the generated builder
    */
   String withName() default DEFAULT_NAME;
 
   /**
-   * Specifies the package of the generated builder. Any asterisk will be replaced with the pojos package. Default is
-   * "*".
+   * Specifies the package of the generated builder. Any asterisk will be replaced with the pojos
+   * package. Default is "*".
    * 
    * @return the package of the generated builder
    */
   String intoPackage() default DEFAULT_PACKAGE;
 
   /**
-   * Specifies whether the generation gap pattern is used. If enabled this will generate two classes (instead of one),
-   * of which one contains the generated code. The other class is for handwritten code. To prevent it from being
-   * overwritten please move it out of the generated-sources folder. Default is "false".
+   * Specifies whether the generation gap pattern is used. If enabled this will generate two classes
+   * (instead of one), of which one contains the generated code. The other class is for handwritten
+   * code. To prevent it from being overwritten please move it out of the generated-sources folder.
+   * Default is "false".
    * 
    * @return <code>true</code> if the generation gap should be used
    */
   boolean withGenerationGap() default false;
 
   /**
-   * Specifies whether a copy method should be generated. The copy method will take an instance of the built class and
-   * will copy all its fields into the builder. This allows it to easily change one or more fields of immutable objects.
+   * Specifies whether a copy method should be generated. The copy method will take an instance of
+   * the built class and will copy all its fields into the builder. This allows it to easily change
+   * one or more fields of immutable objects.
    * 
    * @return <code>true</code> if a copy method should be generated
    */
   boolean withCopyMethod() default false;
-  
+
   /**
-   * Specifies a validator method implemented in base class. (withBaseclass must be set)
+   * Specifies the validator class that should be used to validate the created pojo. The class must
+   * define a <code>validate</code> method having one parameter that is compatible with the pojo's
+   * type. If the validation fails, the method must throw some runtime exception (or one of its
+   * subclasses).
+   * <p>
+   * This is an example of how a validator could look like:
    * 
-   * @return the validator method name
+   * <pre>
+   * public class MyPojoValidator {
+   *   public void validate(Pojo pojo) {
+   *     if ( - check if pojo is invalid -) {
+   *       throw new RuntimeException(&quot;This pojo is invalid!&quot;);
+   *     }
+   *   }
+   * }
+   * 
+   * </pre>
+   * 
+   * @return the validator's class, or {@link Void}, if no validator should be used.
    */
-  String withValidatorMethod() default "";
+  Class<?> withValidator() default Void.class;
 }

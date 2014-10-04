@@ -7,20 +7,19 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 public class Directives {
   private boolean generateCopyMethod = false;
   private String copyMethodName = null;
-  private String validatorMethodName = null;
   private String intoPackage = GeneratePojoBuilder.DEFAULT_PACKAGE;
   private String builderName = GeneratePojoBuilder.DEFAULT_NAME;
   private String baseclassName = Object.class.getName();
   private String builderInterfaceName = Void.class.getName();
   private boolean generateBuilderProperties = false;
   private boolean generationGap = false;
+  private String validatorClassname = Void.class.getName();
 
   public Directives(Map<String, Object> valueMap) {
     if (valueMap == null) {
       throw new NullPointerException("valueMap mus not be null!");
     }
     baseclassName = (String) valueMap.get("withBaseclass");
-    validatorMethodName = (String) valueMap.get("withValidatorMethod");
     builderInterfaceName = (String) valueMap.get("withBuilderInterface");
     generateBuilderProperties = (Boolean) valueMap.get("withBuilderProperties");
     builderName = (String) valueMap.get("withName");
@@ -30,6 +29,7 @@ public class Directives {
     if (generateCopyMethod) {
       copyMethodName = "copy"; // TODO make configurable in annotation!
     }
+    validatorClassname = (String) valueMap.get("withValidator");
   }
 
   public boolean isGenerateCopyMethod() {
@@ -48,15 +48,15 @@ public class Directives {
     this.copyMethodName = copyMethodName;
   }
 
-  public String getValidatorMethodName() {
-	return validatorMethodName;
-}
+  public String getValidatorClassname() {
+    return validatorClassname;
+  }
 
-public void setValidatorMethodName(String validatorMethodName) {
-	this.validatorMethodName = validatorMethodName;
-}
+  public void setValidatorClassname(String validatorClassname) {
+    this.validatorClassname = validatorClassname;
+  }
 
-public boolean isGenerationGap() {
+  public boolean isGenerationGap() {
     return generationGap;
   }
 
@@ -115,10 +115,11 @@ public boolean isGenerationGap() {
 
   @Override
   public String toString() {
-    return "Directives [generateCopyMethod=" + generateCopyMethod + ", copyMethodName=" + copyMethodName
-        + ", intoPackage=" + intoPackage + ", builderName=" + builderName + ", baseclassName=" + baseclassName
-        + ", builderInterfaceName=" + builderInterfaceName + ", generateBuilderProperties=" + generateBuilderProperties
-        + ", generationGap=" + generationGap + "]";
+    return "Directives [generateCopyMethod=" + generateCopyMethod + ", copyMethodName="
+        + copyMethodName + ", intoPackage=" + intoPackage + ", builderName=" + builderName
+        + ", baseclassName=" + baseclassName + ", builderInterfaceName=" + builderInterfaceName
+        + ", generateBuilderProperties=" + generateBuilderProperties + ", generationGap="
+        + generationGap + ", validatorClassname=" + validatorClassname + "]";
   }
 
 }
