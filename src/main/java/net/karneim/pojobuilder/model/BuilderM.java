@@ -10,6 +10,7 @@ public class BuilderM {
   private FactoryMethodM factoryMethod;
   private CopyMethodM copyMethod;
   private BuildMethodM buildMethod;
+  private ValidatorM validator;
   private TypeM interfaceType;
   private boolean hasBuilderProperties;
   private String setterNamePattern;
@@ -86,6 +87,14 @@ public class BuilderM {
     this.buildMethod = buildMethod;
   }
 
+  public ValidatorM getValidator() {
+    return validator;
+  }
+
+  public void setValidator(ValidatorM validator) {
+    this.validator = validator;
+  }
+
   public TypeM getInterfaceType() {
     return interfaceType;
   }
@@ -115,8 +124,9 @@ public class BuilderM {
     return "BuilderM [type=" + type + ", isAbstract=" + isAbstract + ", selfType=" + selfType
         + ", baseType=" + baseType + ", pojoType=" + pojoType + ", properties=" + properties
         + ", factoryMethod=" + factoryMethod + ", copyMethod=" + copyMethod + ", buildMethod="
-        + buildMethod + ", interfaceType=" + interfaceType + ", hasBuilderProperties="
-        + hasBuilderProperties + ", setterNamePattern=" + setterNamePattern + "]";
+        + buildMethod + ", validator=" + validator + ", interfaceType=" + interfaceType
+        + ", hasBuilderProperties=" + hasBuilderProperties + ", setterNamePattern="
+        + setterNamePattern + "]";
   }
 
 }

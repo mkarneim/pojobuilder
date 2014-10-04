@@ -29,7 +29,7 @@ public @interface GeneratePojoBuilder {
    * For example:
    * 
    * <pre>
-   * public interface Builder&lt;T&gt; {
+   * public interface Builder{@literal <}T{@literal >} {
    *   T build();
    * }
    * </pre>
@@ -91,4 +91,27 @@ public @interface GeneratePojoBuilder {
    * @return <code>true</code> if a copy method should be generated
    */
   boolean withCopyMethod() default false;
+
+  /**
+   * Specifies the validator class that should be used to validate the created pojo. The class must
+   * define a <code>validate</code> method having one parameter that is compatible with the pojo's
+   * type. If the validation fails, the method must throw some runtime exception (or one of its
+   * subclasses).
+   * <p>
+   * This is an example of how a validator could look like:
+   * 
+   * <pre>
+   * public class MyPojoValidator {
+   *   public void validate(Pojo pojo) {
+   *     if ( - check if pojo is invalid -) {
+   *       throw new RuntimeException(&quot;This pojo is invalid!&quot;);
+   *     }
+   *   }
+   * }
+   * 
+   * </pre>
+   * 
+   * @return the validator's class, or {@link Void}, if no validator should be used.
+   */
+  Class<?> withValidator() default Void.class;
 }

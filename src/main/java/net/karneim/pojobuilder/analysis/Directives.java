@@ -14,6 +14,7 @@ public class Directives {
   private boolean generateBuilderProperties = false;
   private boolean generationGap = false;
   private String setterNamePattern = GeneratePojoBuilder.DEFAULT_SETTER_NAME;
+  private String validatorClassname = Void.class.getName();
 
   public Directives(Map<String, Object> valueMap) {
     if (valueMap == null) {
@@ -30,6 +31,7 @@ public class Directives {
       copyMethodName = "copy"; // TODO make configurable in annotation!
     }
     setterNamePattern = (String) valueMap.get("withSetterNamePattern"); 
+    validatorClassname = (String) valueMap.get("withValidator");
   }
 
   public boolean isGenerateCopyMethod() {
@@ -46,6 +48,14 @@ public class Directives {
 
   public void setCopyMethodName(String copyMethodName) {
     this.copyMethodName = copyMethodName;
+  }
+
+  public String getValidatorClassname() {
+    return validatorClassname;
+  }
+
+  public void setValidatorClassname(String validatorClassname) {
+    this.validatorClassname = validatorClassname;
   }
 
   public boolean isGenerationGap() {
@@ -119,7 +129,8 @@ public class Directives {
         + copyMethodName + ", intoPackage=" + intoPackage + ", builderName=" + builderName
         + ", baseclassName=" + baseclassName + ", builderInterfaceName=" + builderInterfaceName
         + ", generateBuilderProperties=" + generateBuilderProperties + ", generationGap="
-        + generationGap + ", setterNamePattern=" + setterNamePattern + "]";
+        + generationGap + ", setterNamePattern=" + setterNamePattern + ", validatorClassname="
+        + validatorClassname + "]";
   }
 
 }
