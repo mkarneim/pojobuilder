@@ -1,5 +1,6 @@
 package net.karneim.pojobuilder.model;
 
+
 public class PropertyM {
   private TypeM propertyType;
   private String propertyName;
@@ -56,6 +57,21 @@ public class PropertyM {
               .withTypeParameter(propertyType);
       return result;
     }
+  }
+
+  /**
+   * The {@link TypeM} for an optional property supplied by the given optional type.
+   *
+   * @return null if there is no optional type available for this property
+   */
+  public TypeM getOptionalPropertyType(TypeM optionalType) {
+    if (propertyType.isPrimitive() || propertyType.getName().equals(optionalType.getName())) {
+      return null;
+    }
+    TypeM result =
+        new TypeM(optionalType.getPackageName(), optionalType.getSimpleName())
+            .withTypeParameter(propertyType);
+    return result;
   }
 
   public ConstructorParameterM getConstructorParameter() {

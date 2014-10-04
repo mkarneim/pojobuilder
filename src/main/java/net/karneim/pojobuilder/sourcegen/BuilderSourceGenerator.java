@@ -40,8 +40,8 @@ public class BuilderSourceGenerator {
     generateSource(builder.getType(), builder.isAbstract(), builder.getSelfType(),
         builder.getBaseType(), builder.getInterfaceType(), builder.hasBuilderProperties(),
         builder.getPojoType(), builder.getProperties(), builder.getBuildMethod(),
-        builder.getFactoryMethod(), builder.getCopyMethod(),
-        builder.getValidator());
+        builder.getFactoryMethod(), builder.getCopyMethod(), builder.getValidator(),
+        builder.getOptionalType());
   }
 
   private void checkNotNull(Object obj, String errorMessage) {
@@ -53,7 +53,7 @@ public class BuilderSourceGenerator {
   private void generateSource(TypeM builderType, boolean isAbstract, TypeM selfType,
       TypeM baseType, TypeM interfaceType, boolean hasBuilderProperties, TypeM pojoType,
       PropertyListM properties, BuildMethodM buildMethod, FactoryMethodM factoryMethod,
-      CopyMethodM copyMethodM, ValidatorM validator) throws IOException {
+      CopyMethodM copyMethodM, ValidatorM validator, TypeM optionalType) throws IOException {
     properties = new PropertyListM(properties);
     properties.filterOutNonWritableProperties(builderType);
 
@@ -63,6 +63,10 @@ public class BuilderSourceGenerator {
     }
     properties.getTypes().addToImportTypes(importTypes);
     importTypes.add(Generated.class);
+
+    if (optionalType != null) {
+      optionalType.addToImportTypes(importTypes);
+    }
 
     String baseclass;
     if (baseType == null || baseType.getName().equals("java.lang.Object")) {
@@ -113,6 +117,9 @@ public class BuilderSourceGenerator {
     emitConstructor(builderType, selfType);
     for (PropertyM prop : properties) {
       emitWithMethod(builderType, selfType, pojoType, prop);
+      if ( optionalType!=null ) {
+        emitWithOptionalMethod(builderType, selfType, pojoType, prop, optionalType);
+      }
       if ( interfaceType != null && hasBuilderProperties) {
         emitWithMethodUsingBuilderInterface(builderType, selfType, interfaceType, pojoType, prop);
       }
@@ -292,8 +299,7 @@ public class BuilderSourceGenerator {
   }
 
   private void emitWithMethodUsingBuilderInterface(TypeM builderType, TypeM selfType,
-      TypeM interfaceType, TypeM pojoType, PropertyM prop)
-      throws IOException {
+      TypeM interfaceType, TypeM pojoType, PropertyM prop) throws IOException {
     String builderFieldName = prop.getBuilderFieldName();
     String isSetFieldName = prop.getIsSetFieldName();
     String withMethodName = prop.getWithMethodName();
@@ -317,7 +323,8 @@ public class BuilderSourceGenerator {
     // @formatter:on
   }
 
-  private void emitWithMethod(TypeM builderType, TypeM selfType, TypeM pojoType, PropertyM prop) throws IOException {
+  private void emitWithMethod(TypeM builderType, TypeM selfType, TypeM pojoType, PropertyM prop)
+      throws IOException {
     String valueFieldName = prop.getValueFieldName();
     String isSetFieldName = prop.getIsSetFieldName();
     String withMethodName = prop.getWithMethodName();
@@ -347,6 +354,33 @@ public class BuilderSourceGenerator {
         .emitStatement("this.%s = true", isSetFieldName)
         .emitStatement("return self")
       .endMethod();
+    // @formatter:on
+  }
+
+  private void emitWithOptionalMethod(TypeM builderType, TypeM selfType, TypeM pojoType,
+      PropertyM prop, TypeM optionalType) throws IOException {
+
+    TypeM optionalParameterType = prop.getOptionalPropertyType(optionalType);
+    if (optionalParameterType == null) {
+      return;
+    }
+
+    String withMethodName = prop.getWithMethodName();
+    String pojoTypeStr = writer.compressType(pojoType.getName());
+    String optionalParameterTypeStr = optionalParameterType.getGenericTypeDeclaration();
+    optionalParameterTypeStr = writer.compressType(optionalParameterTypeStr);
+
+    // @formatter:off
+    writer
+        .emitEmptyLine()
+        .emitJavadoc(
+            "Optionally sets the default value for the {@link %s#%s} property.\n\n"
+                + "@param value the default value\n"
+                + "@return this builder"
+            , pojoTypeStr, prop.getPropertyName())
+        .beginMethod(selfType.getGenericTypeDeclaration(), withMethodName, EnumSet.of(PUBLIC), optionalParameterTypeStr, "optionalValue")
+        .emitStatement("return optionalValue.isPresent()?%s(optionalValue.get()):self", withMethodName)
+        .endMethod();
     // @formatter:on
   }
 

@@ -1,5 +1,6 @@
 package net.karneim.pojobuilder.model;
 
+
 public class BuilderM {
   private TypeM type;
   private boolean isAbstract;
@@ -13,6 +14,7 @@ public class BuilderM {
   private ValidatorM validator;
   private TypeM interfaceType;
   private boolean hasBuilderProperties;
+  private TypeM optionalType;
 
   public TypeM getType() {
     return type;
@@ -110,13 +112,21 @@ public class BuilderM {
     this.hasBuilderProperties = hasBuilderProperties;
   }
 
+  public TypeM getOptionalType() {
+    return optionalType;
+  }
+
+  public void setOptionalType(TypeM optionalType) {
+    this.optionalType = optionalType;
+  }
+
   @Override
   public String toString() {
     return "BuilderM [type=" + type + ", isAbstract=" + isAbstract + ", selfType=" + selfType
         + ", baseType=" + baseType + ", pojoType=" + pojoType + ", properties=" + properties
         + ", factoryMethod=" + factoryMethod + ", copyMethod=" + copyMethod + ", buildMethod="
         + buildMethod + ", validator=" + validator + ", interfaceType=" + interfaceType
-        + ", hasBuilderProperties=" + hasBuilderProperties + "]";
+        + ", hasBuilderProperties=" + hasBuilderProperties + ", optionalType=" + optionalType + "]";
   }
 
 }

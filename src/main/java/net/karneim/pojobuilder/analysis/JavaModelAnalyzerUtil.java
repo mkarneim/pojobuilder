@@ -17,6 +17,7 @@ import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.TypeParameterElement;
 import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.PrimitiveType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.type.TypeVariable;
@@ -39,6 +40,10 @@ public class JavaModelAnalyzerUtil {
   public JavaModelAnalyzerUtil(Elements elements, Types types) {
     this.elements = elements;
     this.types = types;
+  }
+
+  public PrimitiveType getPrimitiveBooleanType() {
+    return types.getPrimitiveType(TypeKind.BOOLEAN);
   }
 
   /**
@@ -140,8 +145,8 @@ public class JavaModelAnalyzerUtil {
   public boolean isSetterMethod(ExecutableElement el) {
     String methodName = el.getSimpleName().toString();
     TypeMirror retType = el.getReturnType();
-    return methodName.startsWith(SET) && methodName.length() > SET.length() && retType.getKind() == VOID
-        && el.getParameters().size() == 1;
+    return methodName.startsWith(SET) && methodName.length() > SET.length()
+        && retType.getKind() == VOID && el.getParameters().size() == 1;
   }
 
   /**
@@ -153,8 +158,10 @@ public class JavaModelAnalyzerUtil {
   public boolean isGetterMethod(ExecutableElement el) {
     String methodName = el.getSimpleName().toString();
     TypeMirror retType = el.getReturnType();
-    return ((methodName.startsWith(GET) && methodName.length() > GET.length()) || (methodName.startsWith(IS) && methodName
-        .length() > IS.length())) && retType.getKind() != VOID && el.getParameters().size() == 0;
+    return ((methodName.startsWith(GET) && methodName.length() > GET.length()) || (methodName
+        .startsWith(IS) && methodName.length() > IS.length()))
+        && retType.getKind() != VOID
+        && el.getParameters().size() == 0;
   }
 
   /**
@@ -194,7 +201,8 @@ public class JavaModelAnalyzerUtil {
       name = firstCharToLowerCase(name);
       return name;
     } else {
-      throw new IllegalArgumentException(String.format("Not a setter or getter method name: %s!", name));
+      throw new IllegalArgumentException(String.format("Not a setter or getter method name: %s!",
+          name));
     }
   }
 
@@ -211,7 +219,8 @@ public class JavaModelAnalyzerUtil {
   }
 
   /**
-   * Returns the effective type of the given element when is is viewed as a member of the given owner type.
+   * Returns the effective type of the given element when is is viewed as a member of the given
+   * owner type.
    * 
    * @param ownerType the owner type
    * @param element the element
@@ -228,23 +237,37 @@ public class JavaModelAnalyzerUtil {
   }
 
   /**
-   * Returns true, if the given type element has a method called "build" with no parameters and which has an actual
-   * return type that is compatible with the given return type.
+   * Returns true, if the given type element has a method called "build" with no parameters and
+   * which has an actual return type that is compatible with the given return type.
    * 
    * @param typeElement the type element
    * @param requiredReturnType the required return type
    * @return true, if the type element has a build method
    */
   public boolean hasBuildMethod(TypeElement typeElement, TypeMirror requiredReturnType) {
+    return hasMethod(typeElement, BUILD_METHOD_NAME, requiredReturnType);
+  }
+
+  /**
+   * Returns true, if the given type element has a method with the given name with no parameters and
+   * which has an actual return type that is compatible with the given return type.
+   * 
+   * @param typeElement the type element
+   * @param name the required name of the method
+   * @param requiredReturnType the required return type
+   * @return true, if the type element has the reqired method
+   */
+  public boolean hasMethod(TypeElement typeElement, String name, TypeMirror requiredReturnType) {
     List<? extends Element> memberEls = elements.getAllMembers(typeElement);
     List<ExecutableElement> methodEls = ElementFilter.methodsIn(memberEls);
     for (ExecutableElement methodEl : methodEls) {
+      String actualName = methodEl.getSimpleName().toString();
       TypeMirror actualReturnType = methodEl.getReturnType();
       if (actualReturnType.getKind() == TypeKind.TYPEVAR) {
         TypeVariable tv = (TypeVariable) actualReturnType;
         actualReturnType = tv.getUpperBound();
       }
-      if (methodEl.getSimpleName().toString().equals(BUILD_METHOD_NAME) && methodEl.getParameters().size() == 0
+      if (actualName.equals(name) && methodEl.getParameters().size() == 0
           && types.isSubtype(requiredReturnType, actualReturnType)) {
         return true;
       }

@@ -23,31 +23,60 @@ public @interface GeneratePojoBuilder {
   Class<?> withBaseclass() default Object.class;
 
   /**
-   * Specifies the generic builder interface of the generated builder. The interface must declare
-   * exactly one type parameter and a build method with this type as return type.
+   * Specifies the generic builder interface of the generated builder. This interface must declare
+   * exactly one type parameter and a <code>build()</code> method having this type as return type.
    * <p>
    * For example:
    * 
    * <pre>
+   * <code>
    * public interface Builder{@literal <}T{@literal >} {
    *   T build();
    * }
+   * </code>
    * </pre>
    * 
-   * @return the generic interface of the generated builder
+   * @return the generic interface of the generated builder or {@link Void}, if no interface is
+   *         specified
    */
   Class<?> withBuilderInterface() default Void.class;
 
   /**
-   * Specifies whether the generated builder should define builder-based with-methods using the
+   * Specifies whether the generated builder should define builder-based setter-methods using the
    * builder interface.
    * <p>
    * When set to <code>true</code>, the {@link GeneratePojoBuilder#withBuilderInterface()} must
    * specify a valid interface.
    * 
-   * @return whether the generated builder should define builder-based with-methods
+   * @return whether the generated builder should define builder-based setter-methods
    */
   boolean withBuilderProperties() default false;
+
+  /**
+   * Specifies whether the generated builder should define optional-based setter-methods using the
+   * specified 'Optional' type.
+   * <p>
+   * The 'Optional' type can have any name but must be interface-compatible with the following
+   * interface:
+   * 
+   * <pre>
+   * <code>
+   * public interface Optional{@literal <}T{@literal >} {
+   *   T get();
+   *   boolean isPresent();
+   * }
+   * </code>
+   * </pre>
+   * 
+   * where T is the generic type parameter matching the property's type.
+   * <p>
+   * Examples are Google Guava's {@link com.google.common.base.Optional} and
+   * {@link java.util.Optional} introduced with Java 8.
+   * 
+   * @return the 'Optional' type used for generating the optional-based setter-methods, or
+   *         {@link Void} if no optional-based setter-methods should be generated
+   */
+  Class<?> withOptionalProperties() default Void.class;
 
   /**
    * Specifies the name of the generated builder. An asterisk will be replaced with the pojos simple
@@ -101,6 +130,7 @@ public @interface GeneratePojoBuilder {
    * This is an example of how a validator could look like:
    * 
    * <pre>
+   * <code>
    * public class MyPojoValidator {
    *   public void validate(Pojo pojo) {
    *     if ( - check if pojo is invalid -) {
@@ -108,7 +138,7 @@ public @interface GeneratePojoBuilder {
    *     }
    *   }
    * }
-   * 
+   * </code>
    * </pre>
    * 
    * @return the validator's class, or {@link Void}, if no validator should be used.

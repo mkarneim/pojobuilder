@@ -7,6 +7,7 @@ import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.TypeParameterElement;
+import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 
@@ -86,8 +87,8 @@ public class JavaModelAnalyzer {
         input.getDirectives().isGenerateBuilderProperties());
 
     processValidator(input, result);
-
     setPropertiesMethodNames(result);
+    processOptional(result);
 
     return result;
   }
@@ -107,6 +108,30 @@ public class JavaModelAnalyzer {
     // TODO check if validatorTypeEl has "validate" method with matching parameter
     TypeM type = typeMFactory.getTypeM(validatorTypeEl);
     result.getBuilderModel().setValidator(new ValidatorM(type, "validate"));
+  }
+
+  private void processOptional(Output output) {
+    String optionalClassname = output.getInput().getDirectives().getOptionalClassname();
+    if (Void.class.getName().equals(optionalClassname)) {
+      return;
+    }
+    TypeElement typeEl = elements.getTypeElement(optionalClassname);
+    TypeMirror booleanType = javaModelAnalyzerUtil.getPrimitiveBooleanType();
+    TypeMirror objectType = elements.getTypeElement("java.lang.Object").asType();
+    boolean hasIsPresent = javaModelAnalyzerUtil.hasMethod(typeEl, "isPresent", booleanType);
+    if (!hasIsPresent) {
+      String message =
+          String.format("Class %s does not declare required method %s!", optionalClassname,
+              "isPresent");
+      throw new InvalidElementException(message, output.getInput().getAnnotatedElement());
+    }
+    boolean hasGet = javaModelAnalyzerUtil.hasMethod(typeEl, "get", objectType);
+    if (!hasGet) {
+      String message =
+          String.format("Class %s does not declare required method %s!", optionalClassname, "get");
+      throw new InvalidElementException(message, output.getInput().getAnnotatedElement());
+    }
+    output.getBuilderModel().setOptionalType(typeMFactory.getTypeM(typeEl));
   }
 
   private void processGenericBuilderInterface(Output output) {
