@@ -1,10 +1,9 @@
 package net.karneim.pojobuilder.model;
 
-import net.karneim.pojobuilder.GeneratePojoBuilder;
-
 public class PropertyM {
   private TypeM propertyType;
   private String propertyName;
+  private String withMethodName;
   private ConstructorParameterM writableViaConstructorParameter;
   private SetterMethodM writableViaSetterMethod;
   private MethodM readableViaGetterMethod;
@@ -22,6 +21,26 @@ public class PropertyM {
 
   public String getPropertyName() {
     return propertyName;
+  }
+
+  public String getWithMethodName() {
+    return withMethodName;
+  }
+
+  public PropertyM withMethodNamePattern(String methodNamePattern) {
+    if (methodNamePattern.startsWith("*")) {
+      withMethodName = methodNamePattern.replace("*", propertyName);
+    } else {
+      withMethodName = methodNamePattern.replace("*", fcUpperCase(propertyName));
+    }
+    return this;
+  }
+
+  private String fcUpperCase(String text) {
+    if (text == null) {
+      return null;
+    }
+    return text.substring(0, 1).toUpperCase().concat(text.substring(1));
   }
 
   public TypeM getParameterizedBuilderInterfaceType(TypeM interfaceType) {
@@ -42,7 +61,7 @@ public class PropertyM {
   public ConstructorParameterM getConstructorParameter() {
     return writableViaConstructorParameter;
   }
-  
+
   public PropertyM writableVia(ConstructorParameterM constructorParameter) {
     this.writableViaConstructorParameter = constructorParameter;
     return this;
@@ -147,23 +166,6 @@ public class PropertyM {
     return getPropertyType().getName().replaceAll("\\.", "\\$").replaceAll("\\[\\]", "\\$L");
   }
 
-  public String getWithMethodName(String setterNamePattern) {
-    String propertyName;
-    if (setterNamePattern.startsWith("*")) {
-      propertyName = getPropertyName();
-    } else {
-      propertyName = fcUpperCase(getPropertyName());
-    }
-    return setterNamePattern.replace("*", propertyName);
-  }
-
-  private String fcUpperCase(String text) {
-    if (text == null) {
-      return null;
-    }
-    return text.substring(0, 1).toUpperCase().concat(text.substring(1));
-  }
-
   public WriteAccess getPreferredWriteAccessFor(TypeM accessingClass) {
     if (isWritableViaConstructor()) {
       return getConstructorParameter();
@@ -183,11 +185,11 @@ public class PropertyM {
   @Override
   public String toString() {
     return "PropertyM [propertyType=" + propertyType + ", propertyName=" + propertyName
-        + ", writableViaConstructorParameter=" + writableViaConstructorParameter
-        + ", writableViaSetterMethod=" + writableViaSetterMethod + ", readableViaGetterMethod="
-        + readableViaGetterMethod + ", writableViaFactoryMethodParameter="
-        + writableViaFactoryMethodParameter + ", fieldAccess=" + fieldAccess + "]";
+        + ", withMethodName=" + withMethodName + ", writableViaConstructorParameter="
+        + writableViaConstructorParameter + ", writableViaSetterMethod=" + writableViaSetterMethod
+        + ", readableViaGetterMethod=" + readableViaGetterMethod
+        + ", writableViaFactoryMethodParameter=" + writableViaFactoryMethodParameter
+        + ", fieldAccess=" + fieldAccess + "]";
   }
-
 
 }

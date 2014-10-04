@@ -49,27 +49,34 @@ public class BuilderSourceGenerator_GenerateFieldPairsForEachProperty_Test exten
     builder.setPojoType(pojoType);
     builder.setProperties( new PropertyListM( 
       new PropertyM("someBoolean", PrimitiveTypeM.BOOLEAN)
-        .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC))),
+        .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC)))
+        .withMethodNamePattern("with*"),
       new PropertyM("someChar", PrimitiveTypeM.CHAR)
-        .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC))),
+        .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC)))
+        .withMethodNamePattern("with*"),
       new PropertyM("someByte", PrimitiveTypeM.BYTE)
-        .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC))),
+        .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC)))
+        .withMethodNamePattern("with*"),
       new PropertyM("someShort", PrimitiveTypeM.SHORT)
-        .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC))),
+        .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC)))
+        .withMethodNamePattern("with*"),
       new PropertyM("someInt", PrimitiveTypeM.INT)
-        .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC))),
+        .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC)))
+        .withMethodNamePattern("with*"),
       new PropertyM("someLong", PrimitiveTypeM.LONG)
-        .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC))),
+        .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC)))
+        .withMethodNamePattern("with*"),
       new PropertyM("someFloat", PrimitiveTypeM.FLOAT)
-        .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC))),
+        .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC)))
+        .withMethodNamePattern("with*"),
       new PropertyM("someDouble", PrimitiveTypeM.DOUBLE)
-        .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC)))      
+        .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC)))
+        .withMethodNamePattern("with*")
     ));    
     
     builder.setType(new TypeM("com.example.output","SampleBuilder"));
     builder.setSelfType(builder.getType());
     builder.setBuildMethod( new BuildMethodM());
-    builder.setSetterNamePattern("with*");
     
     // When:
     underTest.generateSource(builder);
@@ -95,19 +102,22 @@ public class BuilderSourceGenerator_GenerateFieldPairsForEachProperty_Test exten
     builder.setPojoType(pojoType);
     builder.setProperties( new PropertyListM( 
       new PropertyM("someString", new TypeM("java.lang","String"))
-        .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC))),
+        .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC)))
+        .withMethodNamePattern("with*"),
       new PropertyM("someFile", new TypeM("java.io","File"))
-        .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC))),
+        .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC)))
+        .withMethodNamePattern("with*"),
       new PropertyM("someInteger", new TypeM("java.lang","Integer"))
-        .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC))),
+        .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC)))
+        .withMethodNamePattern("with*"),
       new PropertyM("someBigDecimal", new TypeM("java.math","BigDecimal"))
         .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC)))
+        .withMethodNamePattern("with*")
     ));    
     
     builder.setType(new TypeM("com.example.output","SampleBuilder"));
     builder.setSelfType(builder.getType());
     builder.setBuildMethod( new BuildMethodM());
-    builder.setSetterNamePattern("with*");
     
     // When:
     underTest.generateSource(builder);
@@ -135,16 +145,17 @@ public class BuilderSourceGenerator_GenerateFieldPairsForEachProperty_Test exten
     builder.setProperties( new PropertyListM( 
       new PropertyM("someStringList", new TypeM("java.util","List")
         .withTypeParameter(new TypeM("java.lang","String")))
-        .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC))),
+        .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC)))
+        .withMethodNamePattern("with*"),
       new PropertyM("someMap", new TypeM("java.util","Map")
         .withTypeParameter(new TypeM("java.lang","String"),new TypeM("java.lang","Integer")))
         .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC)))
+        .withMethodNamePattern("with*")
     ));    
     
     builder.setType(new TypeM("com.example.output","SampleBuilder"));
     builder.setSelfType(builder.getType());
     builder.setBuildMethod( new BuildMethodM());
-    builder.setSetterNamePattern("with*");
     
     // When:
     underTest.generateSource(builder);
@@ -174,12 +185,12 @@ public class BuilderSourceGenerator_GenerateFieldPairsForEachProperty_Test exten
       new PropertyM("someMap", new TypeM("java.util","Map")
         .withTypeParameter(K, V))
         .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC)))
+        .withMethodNamePattern("with*")
     ));    
     
     builder.setType(new TypeM("com.example.output","SampleBuilder").withTypeParameter(K, V));
     builder.setSelfType(builder.getType());
     builder.setBuildMethod( new BuildMethodM());
-    builder.setSetterNamePattern("with*");
     
     // When:
     underTest.generateSource(builder);

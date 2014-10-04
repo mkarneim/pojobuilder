@@ -13,6 +13,7 @@ import javax.lang.model.util.Types;
 import net.karneim.pojobuilder.model.BuildMethodM;
 import net.karneim.pojobuilder.model.CopyMethodM;
 import net.karneim.pojobuilder.model.ManualBuilderM;
+import net.karneim.pojobuilder.model.PropertyM;
 import net.karneim.pojobuilder.model.TypeListM;
 import net.karneim.pojobuilder.model.TypeM;
 import net.karneim.pojobuilder.model.ValidatorM;
@@ -84,11 +85,17 @@ public class JavaModelAnalyzer {
     result.getBuilderModel().setHasBuilderProperties(
         input.getDirectives().isGenerateBuilderProperties());
 
-    result.getBuilderModel().setSetterNamePattern(input.getDirectives().getSetterNamePattern());
-
     processValidator(input, result);
 
+    setPropertiesMethodNames(result);
+
     return result;
+  }
+
+  private void setPropertiesMethodNames(Output result) {
+    for (PropertyM prop : result.getBuilderModel().getProperties()) {
+      prop.withMethodNamePattern(result.getInput().getDirectives().getSetterNamePattern());
+    }
   }
 
   private void processValidator(Input input, Output result) {

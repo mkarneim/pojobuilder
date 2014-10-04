@@ -45,21 +45,23 @@ public class BuilderSourceGenerator_GenerateCopyMethod_Test extends TestBase {
     builder.setPojoType(pojoType);
     builder.setProperties( new PropertyListM( 
       new PropertyM("someBoolean", PrimitiveTypeM.BOOLEAN)
-        .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC)).declaredIn(pojoType)),
+        .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC)).declaredIn(pojoType))
+        .withMethodNamePattern("with*"),
       new PropertyM("someChar", PrimitiveTypeM.CHAR)
         .accessibleVia(new FieldAccessM(EnumSet.of(PRIVATE)).declaredIn(pojoType))
         .writableVia(new SetterMethodM("setSomeChar", EnumSet.of(PUBLIC)).declaredIn(pojoType))
-        .readableVia(new MethodM("getSomeChar", EnumSet.of(PUBLIC)).declaredIn(pojoType)),
+        .readableVia(new MethodM("getSomeChar", EnumSet.of(PUBLIC)).declaredIn(pojoType))
+        .withMethodNamePattern("with*"),
       new PropertyM("someString", new TypeM("java.lang","String"))
         .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC)))
         .writableVia(new SetterMethodM("setSomeString", EnumSet.of(PUBLIC)).declaredIn(pojoType))
-        .readableVia(new MethodM("getSomeString", EnumSet.of(PUBLIC)).declaredIn(pojoType))            
+        .readableVia(new MethodM("getSomeString", EnumSet.of(PUBLIC)).declaredIn(pojoType))
+        .withMethodNamePattern("with*")
     ));        
     builder.setType(new TypeM("com.example.output","SampleBuilder"));
     builder.setSelfType(builder.getType());
     builder.setCopyMethod(new CopyMethodM("copy"));
     builder.setBuildMethod( new BuildMethodM());
-    builder.setSetterNamePattern("with*");
     
     // Assume: properties are returned in insertion order
     assertThat(builder.getProperties().iterator()).extracting("propertyName").containsExactly("someBoolean","someChar","someString");
