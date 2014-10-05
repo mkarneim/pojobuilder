@@ -17,6 +17,7 @@ import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.TypeParameterElement;
 import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.NoType;
 import javax.lang.model.type.PrimitiveType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
@@ -44,6 +45,10 @@ public class JavaModelAnalyzerUtil {
 
   public PrimitiveType getPrimitiveBooleanType() {
     return types.getPrimitiveType(TypeKind.BOOLEAN);
+  }
+
+  public NoType getVoidType() {
+    return types.getNoType(TypeKind.VOID);
   }
 
   /**
@@ -241,36 +246,59 @@ public class JavaModelAnalyzerUtil {
    * which has an actual return type that is compatible with the given return type.
    * 
    * @param typeElement the type element
-   * @param requiredReturnType the required return type
+   * @param requiredReturnType the required return type (maybe {@link NoType})
    * @return true, if the type element has a build method
    */
   public boolean hasBuildMethod(TypeElement typeElement, TypeMirror requiredReturnType) {
-    return hasMethod(typeElement, BUILD_METHOD_NAME, requiredReturnType);
+    return hasMethod(typeElement, BUILD_METHOD_NAME, requiredReturnType, null);
   }
 
   /**
-   * Returns true, if the given type element has a method with the given name with no parameters and
-   * which has an actual return type that is compatible with the given return type.
+   * Returns true, if the given type element has a method with the given name and has an actual
+   * return type that is compatible with the given return type, and has an actual parameter that is
+   * compatible with the given parameter type.
    * 
    * @param typeElement the type element
    * @param name the required name of the method
-   * @param requiredReturnType the required return type
-   * @return true, if the type element has the reqired method
+   * @param requiredReturnType the required return type (maybe {@link NoType}).
+   * @param requiredParamType the type of the required (first) parameter, or <code>null</code> if no
+   *        parameter is required
+   * @return true, if the type element has the required method
    */
-  public boolean hasMethod(TypeElement typeElement, String name, TypeMirror requiredReturnType) {
+  public boolean hasMethod(TypeElement typeElement, String name, TypeMirror requiredReturnType,
+      TypeMirror requiredParamType) {
     List<? extends Element> memberEls = elements.getAllMembers(typeElement);
     List<ExecutableElement> methodEls = ElementFilter.methodsIn(memberEls);
     for (ExecutableElement methodEl : methodEls) {
       String actualName = methodEl.getSimpleName().toString();
+      if (!actualName.equals(name)) {
+        continue;
+      }
       TypeMirror actualReturnType = methodEl.getReturnType();
       if (actualReturnType.getKind() == TypeKind.TYPEVAR) {
         TypeVariable tv = (TypeVariable) actualReturnType;
         actualReturnType = tv.getUpperBound();
       }
-      if (actualName.equals(name) && methodEl.getParameters().size() == 0
-          && types.isSubtype(requiredReturnType, actualReturnType)) {
-        return true;
+      if (requiredReturnType != null && !types.isSubtype(requiredReturnType, actualReturnType)) {
+        continue;
       }
+      if (requiredParamType == null && methodEl.getParameters().size() > 0) {
+        continue;
+      }
+      if (requiredParamType != null) {
+        if (methodEl.getParameters().size() != 1) {
+          continue;
+        }
+        TypeMirror actParamType = methodEl.getParameters().get(0).asType();
+        if (actParamType.getKind() == TypeKind.TYPEVAR) {
+          TypeVariable tv = (TypeVariable) actualReturnType;
+          actParamType = tv.getUpperBound();
+        }
+        if (!types.isSubtype(requiredParamType, actParamType)) {
+          continue;
+        }
+      }
+      return true;
     }
     return false;
   }
@@ -387,5 +415,7 @@ public class JavaModelAnalyzerUtil {
     TypeElement el = (TypeElement) anno.getAnnotationType().asElement();
     return el.getQualifiedName().toString();
   }
+
+
 
 }

@@ -14,6 +14,8 @@ import org.junit.Test;
 /**
  * @feature We can configure the {@link GeneratePojoBuilder} annotation to generate a call to a
  *          validator (that must be implemented manually be the user).
+ * 
+ * @see GeneratePojoBuilder#withValidator()
  */
 public class AnnotationProcessor_Validator_Test extends TestBase {
 
@@ -31,11 +33,11 @@ public class AnnotationProcessor_Validator_Test extends TestBase {
   }
 
   /**
-   * @scenario a validator class is configured
+   * @scenario a validator class that has a matching 'validate' method is configured
    * @throws Exception
    */
   @Test
-  public void test() throws Exception {
+  public void validatorWithMatchingValidateMethod() throws Exception {
     // Given:
     String pojoClassname = Pojo.class.getName();
     String builderClassname = PojoBuilder.class.getName();
@@ -53,6 +55,23 @@ public class AnnotationProcessor_Validator_Test extends TestBase {
         loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
     assertThat(actual).isEqualTo(expected);
     assertThat(prj.findClass(builderClassname)).isNotNull();
+  }
+
+  /**
+   * @scenario a validator class that has no 'validate' method is configured
+   * @throws Exception
+   */
+  @Test
+  public void validatorWithoutValidateMethod() throws Exception {
+    // Given:
+    String pojoClassname = Pojo2.class.getName();
+    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
+
+    // When:
+    boolean success = prj.compile();
+
+    // Then:
+    assertThat(success).isFalse();
   }
 
 }

@@ -7,6 +7,7 @@ import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.TypeParameterElement;
+import javax.lang.model.type.NoType;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
@@ -86,28 +87,38 @@ public class JavaModelAnalyzer {
     result.getBuilderModel().setHasBuilderProperties(
         input.getDirectives().isGenerateBuilderProperties());
 
-    processValidator(input, result);
+    processValidator(result);
     setPropertiesMethodNames(result);
     processOptional(result);
 
     return result;
   }
 
-  private void setPropertiesMethodNames(Output result) {
-    for (PropertyM prop : result.getBuilderModel().getProperties()) {
-      prop.withMethodNamePattern(result.getInput().getDirectives().getSetterNamePattern());
+  private void setPropertiesMethodNames(Output output) {
+    for (PropertyM prop : output.getBuilderModel().getProperties()) {
+      prop.withMethodNamePattern(output.getInput().getDirectives().getSetterNamePattern());
     }
   }
 
-  private void processValidator(Input input, Output result) {
-    String validatorClassname = input.getDirectives().getValidatorClassname();
+  private void processValidator(Output output) {
+    String validatorClassname = output.getInput().getDirectives().getValidatorClassname();
     if (Void.class.getName().equals(validatorClassname)) {
       return;
     }
     TypeElement validatorTypeEl = elements.getTypeElement(validatorClassname);
-    // TODO check if validatorTypeEl has "validate" method with matching parameter
+    NoType voidType = javaModelAnalyzerUtil.getVoidType();
+    boolean hasValidateMethod =
+        javaModelAnalyzerUtil.hasMethod(validatorTypeEl, "validate", voidType, output.getInput()
+            .getPojoType());
+    if (!hasValidateMethod) {
+      String message =
+          String.format("Class %s does not declare required method validate(%s)!",
+              validatorClassname, output.getBuilderModel().getPojoType()
+                  .getGenericTypeDeclaration());
+      throw new InvalidElementException(message, output.getInput().getAnnotatedElement());
+    }
     TypeM type = typeMFactory.getTypeM(validatorTypeEl);
-    result.getBuilderModel().setValidator(new ValidatorM(type, "validate"));
+    output.getBuilderModel().setValidator(new ValidatorM(type, "validate"));
   }
 
   private void processOptional(Output output) {
@@ -118,14 +129,14 @@ public class JavaModelAnalyzer {
     TypeElement typeEl = elements.getTypeElement(optionalClassname);
     TypeMirror booleanType = javaModelAnalyzerUtil.getPrimitiveBooleanType();
     TypeMirror objectType = elements.getTypeElement("java.lang.Object").asType();
-    boolean hasIsPresent = javaModelAnalyzerUtil.hasMethod(typeEl, "isPresent", booleanType);
+    boolean hasIsPresent = javaModelAnalyzerUtil.hasMethod(typeEl, "isPresent", booleanType, null);
     if (!hasIsPresent) {
       String message =
           String.format("Class %s does not declare required method %s!", optionalClassname,
               "isPresent");
       throw new InvalidElementException(message, output.getInput().getAnnotatedElement());
     }
-    boolean hasGet = javaModelAnalyzerUtil.hasMethod(typeEl, "get", objectType);
+    boolean hasGet = javaModelAnalyzerUtil.hasMethod(typeEl, "get", objectType, null);
     if (!hasGet) {
       String message =
           String.format("Class %s does not declare required method %s!", optionalClassname, "get");

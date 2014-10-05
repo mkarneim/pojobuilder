@@ -91,39 +91,36 @@ public class AnnotationProcessor extends AbstractProcessor {
 
   @Override
   public boolean process(Set<? extends TypeElement> aAnnotations, RoundEnvironment aRoundEnv) {
-    // per javadoc: A Processor must gracefully handle an empty set of annotations
-    if (aAnnotations.isEmpty()) {
-      return ANNOTATIONS_NOT_CLAIMED_EXCLUSIVELY;
-    }
     try {
       initHelpers(processingEnv);
       if (!aRoundEnv.processingOver()) {
+        if (!aAnnotations.isEmpty()) {
+          Set<TypeElement> triggeringAnnotations =
+              annotationHierarchyUtil.filterTriggeringAnnotations(aAnnotations,
+                  getTypeElement(GeneratePojoBuilder.class));
+          List<Element> elementsToProcess = getAnnotatedElements(aRoundEnv, triggeringAnnotations);
+          addElementsThatFailedInLastRound(elementsToProcess);
+          resetFailedElements();
 
-        Set<TypeElement> triggeringAnnotations =
-            annotationHierarchyUtil.filterTriggeringAnnotations(aAnnotations,
-                getTypeElement(GeneratePojoBuilder.class));
-        List<Element> elementsToProcess = getAnnotatedElements(aRoundEnv, triggeringAnnotations);
-        addElementsThatFailedInLastRound(elementsToProcess);
-        resetFailedElements();
-
-        List<Output> outputList = new ArrayList<Output>();
-        for (Element elem : elementsToProcess) {
-          try {
-            // note(String.format("Processing %s", elem), elem);
-            Input input = inputFactory.getInput(elem);
-            Output output = javaModelAnalyzer.analyze(input);
-            outputList.add(output);
-          } catch (Exception ex) {
-            addFailedElement(elem, ex);
+          List<Output> outputList = new ArrayList<Output>();
+          for (Element elem : elementsToProcess) {
+            try {
+              // note(String.format("Processing %s", elem), elem);
+              Input input = inputFactory.getInput(elem);
+              Output output = javaModelAnalyzer.analyze(input);
+              outputList.add(output);
+            } catch (Exception ex) {
+              addFailedElement(elem, ex);
+            }
           }
-        }
 
-        // Generate source files
-        for (Output output : outputList) {
-          try {
-            generateSources(output);
-          } catch (Exception ex) {
-            error(ex, output.getInput().getAnnotatedElement());
+          // Generate source files
+          for (Output output : outputList) {
+            try {
+              generateSources(output);
+            } catch (Exception ex) {
+              error(ex, output.getInput().getAnnotatedElement());
+            }
           }
         }
       } else {
