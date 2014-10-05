@@ -327,8 +327,9 @@ Add the following to your project's `pom.xml` to configure the PojoBuilder annot
 Notes:
 * The compile phase will automatically detect and activate PojoBuilder.
 * Generated sources will appear in the standard location: `${project.build.directory}/generated-sources/annotations`.
-* If you need to keep the generated sources in a specific directory outside of the `target` directory, then configure the `generatedSourcesDirectory` of the `maven-compiler-plugin`. See ["docs/example_maven_pom.xml"] for an example.
+* If you need to keep the generated sources in a specific directory outside of the `target` directory, then configure the `generatedSourcesDirectory` of the `maven-compiler-plugin`. See the [sample Maven pom] for an example.
 * Eclipse users might want to install [m2e-apt](https://github.com/jbosstools/m2e-apt) to have integrated support for APT-generated sources.
+* If you rely on incremental compilation then you might want to [use the maven processor plugin] instead.
 
 ### Using Gradle
 This is a small build script that shows how to run the PojoBuilder annotation processor with Gradle.
@@ -377,7 +378,7 @@ There is [another Gradle script] that enables PojoBuilder for Eclipse IDE.
 
 ### Using Ant
 
-Here is a code snippet of an ANT build script that runs the PojoBuilder annotation processor within the `javac` task. 
+Here is a code snippet of some [sample ANT build script] that runs the PojoBuilder annotation processor within the `javac` task. 
 ```xml
     <!-- Add the required libraries into this directory. -->
     <fileset id="libs.fileset" dir="${basedir}/lib">
@@ -399,7 +400,6 @@ Here is a code snippet of an ANT build script that runs the PojoBuilder annotati
     	</javac>
     </target>
 ```
-You find a complete sample build script at ["docs/example_ant_build.xml"].
 
 ### Using Eclipse
 You could also configure Eclipse to run the PojoBuilder annotation processor during the build cycle.
@@ -443,8 +443,9 @@ If you want to compile this project's sources yourself you can use Gradle (see [
 
 [COPYING]: http://github.com/mkarneim/pojobuilder/blob/master/COPYING
 [build.gradle]: http://github.com/mkarneim/pojobuilder/blob/master/build.gradle
-["docs/example_maven_pom.xml"]: http://github.com/mkarneim/pojobuilder/blob/master/docs/example_maven_pom.xml
-["docs/example_ant_build.xml"]: http://github.com/mkarneim/pojobuilder/blob/master/docs/example_ant_build.xml
+[sample Maven pom]: http://github.com/mkarneim/pojobuilder/wiki/Sample-Maven-Pom
+[use the maven processor plugin]: http://github.com/mkarneim/pojobuilder/wiki/Incremental-Compilation-and-Maven
+[sample ANT build script]: http://github.com/mkarneim/pojobuilder/wiki/Sample-Ant-Script
 
 [@GeneratePojoBuilder]: http://github.com/mkarneim/pojobuilder/blob/master/src/main/java/net/karneim/pojobuilder/GeneratePojoBuilder.java
 [@FactoryProperties]: http://github.com/mkarneim/pojobuilder/blob/master/src/main/java/net/karneim/pojobuilder/FactoryProperties.java
