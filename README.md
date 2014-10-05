@@ -31,11 +31,17 @@ For more information on
 * the builder pattern see http://en.wikipedia.org/wiki/Builder_pattern. 
 * fluent interface see http://www.martinfowler.com/bliki/FluentInterface.html
 
-License
--------
-
+License and Dependencies
+------------------------
 The source code located in the "src" directory is in the PUBLIC DOMAIN. 
 For more information please read the [COPYING] file.
+
+PojoBuilder is a pure code generator. It does not add any runtime dependencies to your project.
+
+However, PojoBuilder adds the following *compile-time* dependency to your project, which has its own license:
+
+* [JavaWriter] 2.5.0 (see [licence](http://github.com/mkarneim/pojobuilder/blob/master/license/javawriter-apache-license.txt))
+
 
 Download
 --------
@@ -46,14 +52,6 @@ PojoBuilder *binaries* are available for download at [Sonatype OSS Maven Reposit
 
 If you don't use any build automation tool that supports maven repos,
 you might want to download the `pojobuilder-*-jar-with-dependencies.jar` to get PojoBuilder complete with all dependent libraries included.
-
-Dependencies
-------------
-PojoBuilder is a pure code generator. It does not add any runtime dependencies to your project.
-
-However, PojoBuilder adds the following *compile-time* dependency to your project:
-
-* [JavaWriter] 2.5.0 
 
 How To Use
 ----------
