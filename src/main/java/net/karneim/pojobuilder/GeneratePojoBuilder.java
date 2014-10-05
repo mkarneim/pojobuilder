@@ -70,8 +70,8 @@ public @interface GeneratePojoBuilder {
    * 
    * where T is the generic type parameter matching the property's type.
    * <p>
-   * Examples are Google Guava's {@link com.google.common.base.Optional} and
-   * {@link java.util.Optional} introduced with Java 8.
+   * Examples are Google Guava's com.google.common.base.Optional and java.util.Optional introduced
+   * with Java 8.
    * 
    * @return the 'Optional' type used for generating the optional-based setter-methods, or
    *         {@link Void} if no optional-based setter-methods should be generated

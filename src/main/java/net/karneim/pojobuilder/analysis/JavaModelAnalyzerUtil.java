@@ -13,6 +13,7 @@ import java.util.List;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.Modifier;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.TypeParameterElement;
@@ -297,6 +298,27 @@ public class JavaModelAnalyzerUtil {
         if (!types.isSubtype(requiredParamType, actParamType)) {
           continue;
         }
+      }
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Returns true if the given type element defines a public no-args constructor.
+   * 
+   * @param typeEl
+   * @return true if the given type element defines a public no-args constructor
+   */
+  public boolean hasPublicNoArgsConstructor(TypeElement typeEl) {
+    List<? extends Element> memberEls = elements.getAllMembers(typeEl);
+    List<ExecutableElement> constrEls = ElementFilter.constructorsIn(memberEls);
+    for (ExecutableElement constrEl : constrEls) {
+      if (!constrEl.getModifiers().contains(Modifier.PUBLIC)) {
+        continue;
+      }
+      if (!constrEl.getParameters().isEmpty()) {
+        continue;
       }
       return true;
     }

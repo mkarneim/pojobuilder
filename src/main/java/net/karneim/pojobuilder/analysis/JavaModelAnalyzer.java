@@ -112,13 +112,18 @@ public class JavaModelAnalyzer {
             .getPojoType());
     if (!hasValidateMethod) {
       String message =
-          String.format("Class %s does not declare required method validate(%s)!",
-              validatorClassname, output.getBuilderModel().getPojoType()
-                  .getGenericTypeDeclaration());
+          String.format("Class %s does not declare required validate method!", validatorClassname);
+      throw new InvalidElementException(message, output.getInput().getAnnotatedElement());
+    }
+    boolean hasPublicNoArgsConstructor = javaModelAnalyzerUtil.hasPublicNoArgsConstructor(validatorTypeEl);
+    if ( !hasPublicNoArgsConstructor) {
+      String message =
+          String.format("Class %s must have a public default constructor!", validatorClassname);
       throw new InvalidElementException(message, output.getInput().getAnnotatedElement());
     }
     TypeM type = typeMFactory.getTypeM(validatorTypeEl);
     output.getBuilderModel().setValidator(new ValidatorM(type, "validate"));
+    output.getInput().getOrginatingElements().add(validatorTypeEl);
   }
 
   private void processOptional(Output output) {
