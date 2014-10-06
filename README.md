@@ -418,11 +418,10 @@ It will be invoked whenever you save files that contain sources annotated with `
 
 Do the following to enable PojoBuilder for your Eclipse project:
 
-* Place the PojoBuilder library and the dependencies (e.g. `pojobuilder-3.2.0-annotations.jar`) into your project library directory 
 * Open your project's properties dialog
 * Navigate to "Java Build Path" tree node
 * Open the "Libraries" tab
-* Add PojoBuilder to your project classpath
+* Add `pojobuilder-3.2.0-annotations.jar` to your project classpath
 * Navigate to "Java Compiler / Annotation Processing" tree node
 * Check "Enable project specific settings"
 * Check "Enable annotation processing"
