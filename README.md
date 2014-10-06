@@ -245,7 +245,7 @@ The following elements of [@GeneratePojoBuilder] can be used to configure the ou
   generated.
 * **`withSetterNamePattern=<String>`**
     specifies the name pattern of the generated setter-methods. An asterisk will be replaced with
-  the property's original name. Default is "with*".
+  the property's original name. Default is ```with*```.
 * **`withValidator=<Class>`**
     specifies the validator class that should be used to validate the created pojo. The class must
   define a ```validate``` method having one parameter that is compatible with the pojo's
