@@ -205,7 +205,7 @@ public class FileFactory {
 Have a look at [`FileBuilder.java`] to see the generated source code.
 
 ### Directives ###
-The following elements of `@GeneratePojoBuilder` can be used to configure the output of the code generation process.
+The following elements of [@GeneratePojoBuilder] can be used to configure the output of the code generation process.
 
 * **`withName=<String>`**
     specifies the pattern of the builder's name. Any asterisk will be
@@ -238,7 +238,19 @@ The following elements of `@GeneratePojoBuilder` can be used to configure the ou
 	method to initialize the builder's values from a given pojo instance.
 	For an example please see [`TextEmail.java`] and [`TextEmailBuilder.java`].
 	Default is `false`.	
-
+* **`withOptionalProperties=<Class>`**
+    specifies whether the generated builder should define optional-based setter-methods using the
+  specified 'Optional' type. Examples are Google Guava's com.google.common.base.Optional and java.util.Optional introduced
+  with Java 8. Default is `Void.class`, which means, that no optional-based setter-methods are
+  generated.
+* **`withSetterNamePattern=<String>`**
+    specifies the name pattern of the generated setter-methods. An asterisk will be replaced with
+  the property's original name. Default is "with*".
+* **`withValidator=<Class>`**
+    specifies the validator class that should be used to validate the created pojo. The class must
+  define a ```validate``` method having one parameter that is compatible with the pojo's
+  type. If the validation fails, the method must throw some runtime exception (or one of its
+  subclasses).
 
 ### Default Configuration and Meta-Annotations ###
 Beginning with version 3, PojoBuilder supports *meta-annotations*. That is, you can place [@GeneratePojoBuilder] onto
@@ -304,7 +316,7 @@ The `javac` compiler will auto-detect the presence of PojoBuilder if `pojobuilde
 
 For example:
     
-    javac -cp pojobuilder-3.1.1-jar-with-dependencies.jar Contact.java
+    javac -cp pojobuilder-3.2.0-jar-with-dependencies.jar Contact.java
    
 will generate a `ContactBuilder` if `Contact` is annotated with `@GeneratePojoBuilder`.
 
@@ -317,7 +329,7 @@ Add the following to your project's `pom.xml` to configure the PojoBuilder annot
 	<dependency>
 		<groupId>net.karneim</groupId>
 		<artifactId>pojobuilder</artifactId>
-		<version>3.1.1</version>
+		<version>3.2.0</version>
 		<!-- 'provided' scope because this is only needed during compilation -->
 		<scope>provided</scope>
 	</dependency>
@@ -339,7 +351,7 @@ repositories {
 }
 
 dependencies {
-  compile 'net.karneim:pojobuilder:3.1.1'
+  compile 'net.karneim:pojobuilder:3.2.0'
 }
 ``` 
 Please note that this not only adds the PojoBuilder and its dependencies to your compile-time class path but also to your run-time class path.
