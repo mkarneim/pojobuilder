@@ -326,8 +326,8 @@ Notes:
 * The compile phase will automatically detect and activate PojoBuilder.
 * Generated sources will appear in the standard location: `${project.build.directory}/generated-sources/annotations`.
 * If you need to keep the generated sources in a specific directory outside of the `target` directory, then configure the `generatedSourcesDirectory` of the `maven-compiler-plugin`. See the [sample Maven pom] for an example.
-* Eclipse users might want to install [m2e-apt](https://github.com/jbosstools/m2e-apt) to have integrated support for APT-generated sources.
 * If you rely on incremental compilation then you might want to [use the maven processor plugin] instead.
+* Eclipse users might want to install [m2e-apt](https://github.com/jbosstools/m2e-apt) to have integrated support for APT-generated sources.
 
 ### Using Gradle
 This is a small build script that shows how to run the PojoBuilder annotation processor with Gradle.
