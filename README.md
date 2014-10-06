@@ -40,7 +40,7 @@ PojoBuilder is a pure code generator. It does not add any runtime dependencies t
 
 However, PojoBuilder adds the following *compile-time* dependency to your project, which has its own license:
 
-* [JavaWriter] 2.5.0 (see [licence](http://github.com/mkarneim/pojobuilder/blob/master/license/javawriter-apache-license.txt))
+* [JavaWriter] 2.5.0 (see [license](http://github.com/mkarneim/pojobuilder/blob/master/license/javawriter-apache-license.txt))
 
 
 Download
