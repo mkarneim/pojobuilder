@@ -251,6 +251,7 @@ The following elements of [@GeneratePojoBuilder] can be used to configure the ou
   define a ```validate``` method having one parameter that is compatible with the pojo's
   type. If the validation fails, the method must throw some runtime exception (or one of its
   subclasses).
+  For an example please see [`Credentials.java`], [`CredentialsValidator.java`] and [`CredentialsBuilder.java`].
 
 ### Default Configuration and Meta-Annotations ###
 Beginning with version 3, PojoBuilder supports *meta-annotations*. That is, you can place [@GeneratePojoBuilder] onto
@@ -478,3 +479,6 @@ If you want to compile this project's sources yourself you can use Gradle (see [
 [`RecipientBuilder.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/RecipientBuilder.java
 [`TextEmail.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/TextEmail.java
 [`TextEmailBuilder.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/TextEmailBuilder.java
+[`Credentials.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/Credentials.java
+[`CredentialsBuilder.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/CredentialsBuilder.java
+[`CredentialsValidator.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/CredentialsValidator.java

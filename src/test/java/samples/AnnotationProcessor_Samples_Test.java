@@ -209,4 +209,28 @@ public class AnnotationProcessor_Samples_Test extends TestBase {
     assertThat(actual2).isEqualTo(expected2);
     assertThat(prj.findClass(builder2Classname)).isNotNull();
   }
+  
+  /**
+   * @scenario Generating a builder with validator.
+   * @throws Exception
+   */
+  @Test
+  public void testShouldGenerateCredentialsBuilder() throws Exception {
+    // Given:
+    String pojoClassname = Credentials.class.getName();
+    String builderClassname = "samples.CredentialsBuilder";//TextEmailBuilder.class.getName();
+    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
+
+    // When:
+    boolean success = prj.compile();
+
+    // Then:
+    assertThat(success).isTrue();
+    String actual = getContent(prj.findGeneratedSource(builderClassname));
+    logDebug(actual);
+
+    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
+    assertThat(actual).isEqualTo(expected);
+    assertThat(prj.findClass(builderClassname)).isNotNull();
+  }
 }
