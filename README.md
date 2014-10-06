@@ -370,7 +370,7 @@ configurations {
 }
 
 dependencies {
-  codeGeneration 'net.karneim:pojobuilder:3.0.0'
+  codeGeneration 'net.karneim:pojobuilder:3.2.0'
 }
 compileJava.classpath += configurations.codeGeneration
 compileTestJava.classpath += configurations.codeGeneration
