@@ -418,7 +418,7 @@ It will be invoked whenever you save files that contain sources annotated with `
 
 Do the following to enable PojoBuilder for your Eclipse project:
 
-* Place the PojoBuilder library and the dependencies (e.g. `pojobuilder-*-jar-with-dependencies.jar`) into your project library directory 
+* Place the PojoBuilder library and the dependencies (e.g. `pojobuilder-3.2.0-annotations.jar`) into your project library directory 
 * Open your project's properties dialog
 * Navigate to "Java Build Path" tree node
 * Open the "Libraries" tab
@@ -431,7 +431,7 @@ Do the following to enable PojoBuilder for your Eclipse project:
 * Navigate to "Java Compiler / Annotation Processing / Factory Path" tree node
 * Check "Enable project specific settings"
 * Click "Add JARs..."
-* Add `pojobuiler-*-jar-with-dependencies.jar`
+* Add `pojobuiler-3.2.0-jar-with-dependencies.jar`
 * Click "OK"
 
 How To Build
