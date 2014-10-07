@@ -14,6 +14,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import samples.dsl.Dsl;
+import samples.dsl.DslBase;
+import samples.dsl.DslTest;
+import samples.dsl.IntegerBuilder;
+import samples.dsl.LongBuilder;
+import samples.dsl.StringBuilder;
+
 /**
  * @feature The {@link AnnotationProcessor} generates builder classes.
  */
@@ -183,14 +190,22 @@ public class AnnotationProcessor_Samples_Test extends TestBase {
    * @throws Exception
    */
   @Test
-  public void testShouldGenerateRecipientBuilderAndAddressBuilder() throws Exception {
+  public void testShouldGenerateBuildersWithBuilderInterfaces() throws Exception {
     // Given:
     String pojo1Classname = Address.class.getName();
     String pojo2Classname = Recipient.class.getName();
+    String pojo3Classname = Order.class.getName();
+    String pojo4Classname = Item.class.getName();
+    
     String builder1Classname = AddressBuilder.class.getName();
     String builder2Classname = RecipientBuilder.class.getName();
+    String builder3Classname = OrderBuilder.class.getName();
+    String builder4Classname = ItemBuilder.class.getName();
+    
     prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojo1Classname));
     prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojo2Classname));
+    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojo3Classname));
+    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojo4Classname));
 
     // When:
     boolean success = prj.compile();
@@ -201,6 +216,10 @@ public class AnnotationProcessor_Samples_Test extends TestBase {
     logDebug(actual1);
     String actual2 = getContent(prj.findGeneratedSource(builder2Classname));
     logDebug(actual2);
+    String actual3 = getContent(prj.findGeneratedSource(builder3Classname));
+    logDebug(actual3);
+    String actual4 = getContent(prj.findGeneratedSource(builder4Classname));
+    logDebug(actual4);
 
     String expected1 = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builder1Classname));
     assertThat(actual1).isEqualTo(expected1);
@@ -208,6 +227,12 @@ public class AnnotationProcessor_Samples_Test extends TestBase {
     String expected2 = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builder2Classname));
     assertThat(actual2).isEqualTo(expected2);
     assertThat(prj.findClass(builder2Classname)).isNotNull();
+    String expected3 = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builder3Classname));
+    assertThat(actual3).isEqualTo(expected3);
+    assertThat(prj.findClass(builder3Classname)).isNotNull();
+    String expected4 = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builder4Classname));
+    assertThat(actual4).isEqualTo(expected4);
+    assertThat(prj.findClass(builder4Classname)).isNotNull();
   }
   
   /**
@@ -218,8 +243,36 @@ public class AnnotationProcessor_Samples_Test extends TestBase {
   public void testShouldGenerateCredentialsBuilder() throws Exception {
     // Given:
     String pojoClassname = Credentials.class.getName();
-    String builderClassname = "samples.CredentialsBuilder";//TextEmailBuilder.class.getName();
+    String builderClassname = CredentialsBuilder.class.getName();
     prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
+
+    // When:
+    boolean success = prj.compile();
+
+    // Then:
+    assertThat(success).isTrue();
+    String actual = getContent(prj.findGeneratedSource(builderClassname));
+    logDebug(actual);
+
+    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
+    assertThat(actual).isEqualTo(expected);
+    assertThat(prj.findClass(builderClassname)).isNotNull();
+  }
+  
+  /**
+   * @scenario Generating a builder declared in {@link DslBase}.
+   * @throws Exception
+   */
+  @Test
+  public void testShouldGenerateBuildersInDslBase() throws Exception {
+    // Given:
+    String factoryClassname = DslBase.class.getName();
+    String[] classes = new String[] { Dsl.class.getName(), DslTest.class.getName(), IntegerBuilder.class.getName(), LongBuilder.class.getName()};
+    String builderClassname = StringBuilder.class.getName();
+    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, factoryClassname));
+    for( String cls: classes) {
+      prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, cls));
+    }
 
     // When:
     boolean success = prj.compile();

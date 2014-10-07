@@ -2,7 +2,7 @@ package samples;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
-@GeneratePojoBuilder(withBuilderInterface = Builder.class)
+@GeneratePojoBuilder(withBuilderInterface = Builder.class, withBuilderProperties = true)
 public class Address {
   private String street;
   private String city;

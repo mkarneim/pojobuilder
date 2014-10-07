@@ -8,10 +8,13 @@ public class AddressBuilder
   protected AddressBuilder self;
   protected String value$street$java$lang$String;
   protected boolean isSet$street$java$lang$String;
+  protected Builder<String> builder$street$java$lang$String;
   protected String value$city$java$lang$String;
   protected boolean isSet$city$java$lang$String;
+  protected Builder<String> builder$city$java$lang$String;
   protected String value$postCode$java$lang$String;
   protected boolean isSet$postCode$java$lang$String;
+  protected Builder<String> builder$postCode$java$lang$String;
 
   /**
    * Creates a new {@link AddressBuilder}.
@@ -33,6 +36,18 @@ public class AddressBuilder
   }
 
   /**
+   * Sets the default builder for the {@link Address#street} property.
+   *
+   * @param builder the default builder
+   * @return this builder
+   */
+  public AddressBuilder withStreet(Builder<String> builder) {
+    this.builder$street$java$lang$String = builder;
+    this.isSet$street$java$lang$String = false;
+    return self;
+  }
+
+  /**
    * Sets the default value for the {@link Address#city} property.
    *
    * @param value the default value
@@ -45,6 +60,18 @@ public class AddressBuilder
   }
 
   /**
+   * Sets the default builder for the {@link Address#city} property.
+   *
+   * @param builder the default builder
+   * @return this builder
+   */
+  public AddressBuilder withCity(Builder<String> builder) {
+    this.builder$city$java$lang$String = builder;
+    this.isSet$city$java$lang$String = false;
+    return self;
+  }
+
+  /**
    * Sets the default value for the {@link Address#postCode} property.
    *
    * @param value the default value
@@ -53,6 +80,18 @@ public class AddressBuilder
   public AddressBuilder withPostCode(String value) {
     this.value$postCode$java$lang$String = value;
     this.isSet$postCode$java$lang$String = true;
+    return self;
+  }
+
+  /**
+   * Sets the default builder for the {@link Address#postCode} property.
+   *
+   * @param builder the default builder
+   * @return this builder
+   */
+  public AddressBuilder withPostCode(Builder<String> builder) {
+    this.builder$postCode$java$lang$String = builder;
+    this.isSet$postCode$java$lang$String = false;
     return self;
   }
 
@@ -92,12 +131,18 @@ public class AddressBuilder
       Address result = new Address();
       if (isSet$street$java$lang$String) {
         result.setStreet(value$street$java$lang$String);
+      } else if (builder$street$java$lang$String!=null) {
+        result.setStreet(builder$street$java$lang$String.build());
       }
       if (isSet$city$java$lang$String) {
         result.setCity(value$city$java$lang$String);
+      } else if (builder$city$java$lang$String!=null) {
+        result.setCity(builder$city$java$lang$String.build());
       }
       if (isSet$postCode$java$lang$String) {
         result.setPostCode(value$postCode$java$lang$String);
+      } else if (builder$postCode$java$lang$String!=null) {
+        result.setPostCode(builder$postCode$java$lang$String.build());
       }
       return result;
     } catch (RuntimeException ex) {
