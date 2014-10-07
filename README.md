@@ -464,7 +464,7 @@ If you want to compile this project's sources yourself you can use Gradle (see [
 [@FactoryProperties]: http://github.com/mkarneim/pojobuilder/blob/master/src/main/java/net/karneim/pojobuilder/FactoryProperties.java
 
 [samples]: http://github.com/mkarneim/pojobuilder/tree/master/samples
-[src/testdata/java/samples/dsl/DslTest.java]: http://github.com/mkarneim/pojobuilder/tree/master/samples/dsl/DslTest.java
+[src/testdata/java/samples/dsl/DslTest.java]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/dsl/DslTest.java
 [src/testdata/java/samples]: http://github.com/mkarneim/pojobuilder/tree/master/src/testdata/java/samples
 [`ContactBuilder.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/ContactBuilder.java
 [`UserBuilder.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/UserBuilder.java
