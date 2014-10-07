@@ -54,8 +54,8 @@ public class DslTest extends Dsl {
   /**
    * The method {@link #$Recipient()} returns a generated {@link RecipientBuilder}.
    * <p>
-   * This builder is configured with some default values. In this case it defines the default value for the recipients
-   * name, but not the recipients address.
+   * This builder is configured with some default values. In this case it defines the default value for the recipient's
+   * name, but not the recipient's address.
    */
   @Test
   public void testSome$Recipient() {
@@ -104,9 +104,9 @@ public class DslTest extends Dsl {
   }
 
   /**
-   * We can define the recipients address by using {@link #$Address()}.
+   * We can define the recipient's address by using {@link #$Address()}.
    * <p>
-   * Please note, that {@link #$Address()} convieniently defines default values for all properties of {@link Address}.
+   * Please note, that {@link #$Address()} conveniently defines default values for all properties of {@link Address}.
    */
   @Test
   public void testSome$Recipient_With$Address() {
@@ -152,7 +152,7 @@ public class DslTest extends Dsl {
    * This is especially useful if you want to create a large number of pojos.
    */
   @Test
-  public void testSome$ListOf5$Recipients() {
+  public void testSome$ListOf10$Recipients() {
     // Given:
 
     // When:
@@ -240,7 +240,7 @@ public class DslTest extends Dsl {
   }
 
   /**
-   * If you want to cycle through a list og builders, you can use the method {@link #$from(Builder...)}.
+   * If you want to cycle through a list of builders, you can use the method {@link #$from(Builder...)}.
    */
   @Test
   public void testSome$ListOf2$Order_WithRecipient_$From_Enumerated_Builders() {
