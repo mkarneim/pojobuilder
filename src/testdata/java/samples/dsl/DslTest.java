@@ -222,7 +222,7 @@ public class DslTest extends Dsl {
    * If you want to override the default values of many builders you can use the method {@link #from(Object...)}.
    * <p>
    * Essentially this method returns a generic {@link Builder} whose build() method cycles through the given values and
-   * returns the one-by-one.
+   * returns them one-by-one.
    */
   @Test
   public void testSome$ListOf5$Items_WithAmount_From_Enumerated_Values() {
