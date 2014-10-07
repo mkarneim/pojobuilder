@@ -13,7 +13,8 @@ import samples.Recipient;
 import samples.RecipientBuilder;
 
 /**
- * This test class demonstrates how you could use the static factory methods provided by {@link DslBase}.
+ * This test class demonstrates how you could use the static factory methods provided by {@link Dsl} and {@link DslBase}
+ * .
  */
 public class DslTest extends Dsl {
 
