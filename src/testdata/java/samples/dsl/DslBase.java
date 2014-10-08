@@ -19,12 +19,9 @@ public class DslBase extends Assertions {
 
   public static final String PACKAGE = "samples.dsl";
 
-  @GeneratePojoBuilder(withBuilderInterface = Builder.class, withBuilderProperties = true)
-  static @interface MyGeneratePojoBuilder {}
-
   static class PojoFactory {
-    @MyGeneratePojoBuilder
-    @GeneratePojoBuilder(intoPackage = PACKAGE)
+    @GeneratePojoBuilder(intoPackage = PACKAGE, withBuilderInterface = Builder.class,
+        withBuilderProperties = true)
     public static String createString(String format, long nextNumber) {
       return String.format(format, nextNumber);
     }
@@ -82,7 +79,7 @@ public class DslBase extends Assertions {
   }
 
   @SafeVarargs
-  public static <T> Builder<T> from(final T... elements) {
+  public static <T> Builder<T> $from(final T... elements) {
     return new Builder<T>() {
       int idx = 0;
 

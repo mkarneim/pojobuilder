@@ -219,7 +219,7 @@ public class DslTest extends Dsl {
   }
 
   /**
-   * If you want to override the default values of many builders you can use the method {@link #from(Object...)}.
+   * If you want to override the default values of many builders you can use the method {@link #$from(Object...)}.
    * <p>
    * Essentially this method returns a generic {@link Builder} whose build() method cycles through the given values and
    * returns them one-by-one.
@@ -229,7 +229,7 @@ public class DslTest extends Dsl {
     // Given:
 
     // When:
-    List<Item> act = some($listOf(5, $Item().withAmount(from(10, 20, 30, 40, 50))));
+    List<Item> act = some($listOf(5, $Item().withAmount($from(10, 20, 30, 40, 50))));
 
     // Then:
     assertThat(act.get(0).amount).isEqualTo(10);
