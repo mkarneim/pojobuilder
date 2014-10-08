@@ -1,5 +1,6 @@
 PojoBuilder -  A Code Generator for Pojo Builders
 ================================================= 
+[![Build Status](https://travis-ci.org/mkarneim/pojobuilder.svg?branch=master)](https://travis-ci.org/mkarneim/pojobuilder)
 
 Author: Michael Karneim
 
