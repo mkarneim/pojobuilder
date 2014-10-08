@@ -295,12 +295,10 @@ This will generate `FluentContactBuilder` as before but into the package `builde
 
 Examples
 --------
-The [PojoBuilder wiki] provides some [best practices] about how you could use the PojoBuilder Generator.
+The [PojoBuilder wiki] provides some [best practices] about how you could use the PojoBuilder Generator, e.g for building a domain-specific language for automated tests.
 
 For some complete code examples please have a look into the [src/testdata/java/samples] folder.
 
-If you are interested into an example of a domain-specific language driven by pojo builders, please
-see [src/testdata/java/samples/dsl/DslTest.java].
 
 
 Execution
