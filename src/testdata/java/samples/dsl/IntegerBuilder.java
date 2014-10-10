@@ -14,9 +14,4 @@ public class IntegerBuilder implements Builder<Integer> {
     return nextNumber++;
   }
 
-  public int max(int... a) {
-    return 0;
-  }
-
-
 }

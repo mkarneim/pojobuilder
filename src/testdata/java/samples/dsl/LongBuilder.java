@@ -16,8 +16,4 @@ public class LongBuilder implements Builder<Long> {
     return nextNumber++;
   }
 
-  public int max(int... a) {
-    return 0;
-  }
-
 }
