@@ -208,48 +208,49 @@ Have a look at [`FileBuilder.java`] to see the generated source code.
 ### Directives ###
 The following elements of [@GeneratePojoBuilder] can be used to configure the output of the code generation process.
 
-* **`withName=<String>`**
-    specifies the pattern of the builder's name. Any asterisk will be
-	replaced with the pojos simple name. For example, the result of the pattern `Fluent*Builder` will become 
-        `FluentContactBuilder` if the pojo's name is `Contact`. The default pattern is `*Builder`.
-* **`intoPackage=<String>`**
-    specifies the package of the generated builder. Any asterisk will be
-	replaced with the pojos package. For example, the result of the pattern `*.util` will become
-        `com.example.util` if the pojo's package is `com.example`. The default pattern is `*`.
-* **`withBaseclass=<Class>`**
-    specifies the base class of the generated builder. The default class is `Object.class`.
-* **`withBuilderInterface=<Class>`**
-    specifies the interface of the generated builder. The interface must declare exactly one type parameter
-    and a build method with this type as return type.    
-	For an example please see [`Address.java`], [`Builder.java`] and [`AddressBuilder.java`].
-	Default is `Void.class`, which means, that no interface should be implemented.
-* **`withBuilderProperties=<boolean>`**
-    specifies whether the generated builder should define builder-based with-methods using the builder interface (see above).
-	For an example please see [`Recipient.java`], [`Builder.java`] and [`RecipientBuilder.java`].
-	Default is `false`.	
-* **`withGenerationGap=<boolean>`**
-    specifies whether the [generation gap pattern] is used. If enabled, this
-	will generate two classes (instead of one), of which one contains the
-	ordinary builder code, whereas the other class extends the first one and is an empty template for handwritten code. 
-        Please move it out of the generated-sources folder to prevent it from being overwritten. 
- 	For examples please see [`Player.java`], [`PlayerBuilder.java`], and [`AbstractPlayerBuilder.java`].
-        Default is `false`.
-* **`withCopyMethod=<boolean>`**
-    specifies whether a copy method should be generated. Use the copy
-	method to initialize the builder's values from a given pojo instance.
-	For an example please see [`TextEmail.java`] and [`TextEmailBuilder.java`].
-	Default is `false`.	
-* **`withOptionalProperties=<Class>`**
-    specifies whether the generated builder should define optional-based setter-methods using the
-  specified 'Optional' type. Examples are Google Guava's com.google.common.base.Optional and java.util.Optional introduced
-  with Java 8. Default is `Void.class`, which means, that no optional-based setter-methods are
-  generated.
-* **`withSetterNamePattern=<String>`**
-    specifies the name pattern of the generated setter-methods. An asterisk will be replaced with
-  the property's original name. Default is ```with*```.
-* **`withValidator=<Class>`**
-    specifies the validator class that should be used to validate the created pojo. The class must
-  define a ```validate``` method having one parameter that is compatible with the pojo's
+* **withName=&lt;String&gt;**
+  specifies the pattern of the builder's name. Any asterisk will be
+  replaced with the pojos simple name. For example, the result of the pattern `Fluent*Builder` will become 
+  `FluentContactBuilder` if the pojo's name is `Contact`. The default pattern is `*Builder`.
+* **intoPackage=&lt;String&gt;**
+  specifies the package of the generated builder. Any asterisk will be
+  replaced with the pojos package. For example, the result of the pattern `*.util` will become
+  `com.example.util` if the pojo's package is `com.example`. The default pattern is `*`.
+* **withBaseclass=&lt;Class&gt;**
+  specifies the base class of the generated builder. The default class is `Object.class`.
+* **withBuilderInterface=&lt;Class&gt;**
+  specifies the interface of the generated builder. The interface must declare exactly one type parameter
+  and a build method with this type as return type.    
+  For an example please see [`Address.java`], [`Builder.java`] and [`AddressBuilder.java`].
+  Default is `Void.class`, which means, that no interface should be implemented.
+* **withBuilderProperties=&lt;boolean&gt;**
+  specifies whether the generated builder should define builder-based with-methods using the
+  builder interface (see above).
+  For an example please see [`Recipient.java`], [`Builder.java`] and [`RecipientBuilder.java`].
+  Default is `false`.	
+* **withGenerationGap=&lt;boolean&gt;**
+  specifies whether the [generation gap pattern] is used. If enabled, this
+  will generate two classes (instead of one), of which one contains the
+  ordinary builder code, whereas the other class extends the first one and is an empty template for handwritten code. 
+  Please move it out of the generated-sources folder to prevent it from being overwritten. 
+  For examples please see [`Player.java`], [`PlayerBuilder.java`], and [`AbstractPlayerBuilder.java`].
+  Default is `false`.
+* **withCopyMethod=&lt;boolean&gt;**
+  specifies whether a copy method should be generated. Use the copy
+  method to initialize the builder's values from a given pojo instance.
+  For an example please see [`TextEmail.java`] and [`TextEmailBuilder.java`].
+  Default is `false`.	
+* **withOptionalProperties=&lt;Class&gt;**
+  specifies whether the generated builder should define optional-based setter-methods using the
+  specified 'Optional' type. Examples are Google Guava's `com.google.common.base.Optional` and
+  `java.util.Optional` introduced with Java 8. Default is `Void.class`, which means,
+  that no optional-based setter-methods are generated.
+* **withSetterNamePattern=&lt;String&gt;**
+  specifies the name pattern of the generated setter-methods. An asterisk will be replaced with
+  the property's original name. Default is `with*`.
+* **withValidator=&lt;Class&gt;**
+  specifies the validator class that should be used to validate the created pojo. The class must
+  define a `validate` method having one parameter that is compatible with the pojo's
   type. If the validation fails, the method must throw some runtime exception (or one of its
   subclasses).
   For an example please see [`Credentials.java`], [`CredentialsValidator.java`] and [`CredentialsBuilder.java`].
