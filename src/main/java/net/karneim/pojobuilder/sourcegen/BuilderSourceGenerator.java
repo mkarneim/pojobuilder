@@ -291,8 +291,8 @@ public class BuilderSourceGenerator {
           .emitStatement("return result")
         .nextControlFlow("catch (RuntimeException ex)")
           .emitStatement("throw ex")
-        .nextControlFlow("catch (Throwable t)")
-          .emitStatement("throw new java.lang.reflect.UndeclaredThrowableException(t)")
+        .nextControlFlow("catch (Exception ex)")
+          .emitStatement("throw new java.lang.reflect.UndeclaredThrowableException(ex)")
         .endControlFlow()
       .endMethod();
     // @formatter:on
