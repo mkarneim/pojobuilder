@@ -79,8 +79,8 @@ public class ProductBuilder
       return result;
     } catch (RuntimeException ex) {
       throw ex;
-    } catch (Throwable t) {
-      throw new java.lang.reflect.UndeclaredThrowableException(t);
+    } catch (Exception ex) {
+      throw new java.lang.reflect.UndeclaredThrowableException(ex);
     }
   }
 }
