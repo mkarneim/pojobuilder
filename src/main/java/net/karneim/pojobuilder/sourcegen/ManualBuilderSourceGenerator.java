@@ -52,7 +52,7 @@ public class ManualBuilderSourceGenerator {
             +"    PojoBuilder generator!\n"
             +"</p>\n", builderTypeName, pojoTypeName)
         .emitAnnotation(Generated.class, JavaWriter.stringLiteral("PojoBuilder"))
-        .beginType(builderType.getGenericType(), "class", EnumSet.of(PUBLIC), baseType.getGenericTypeDeclaration(), "Cloneable")
+        .beginType(builderType.getGenericType(), "class", EnumSet.of(PUBLIC), baseType.getGenericTypeDeclaration())
         .emitEmptyLine()
         .emitJavadoc("Creates a new {@link %s}.", builderTypeName)
         .beginConstructor(EnumSet.of(Modifier.PUBLIC))

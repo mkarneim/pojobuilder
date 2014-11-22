@@ -13,8 +13,7 @@ import javax.annotation.Generated;
  * </p>
  */
 @Generated("PojoBuilder")
-public class Pojo3Builder extends AbstractPojo3Builder
-    implements Cloneable {
+public class Pojo3Builder extends AbstractPojo3Builder {
 
   /**
    * Creates a new {@link Pojo3Builder}.
