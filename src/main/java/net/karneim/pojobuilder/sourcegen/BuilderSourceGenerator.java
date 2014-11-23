@@ -163,7 +163,7 @@ public class BuilderSourceGenerator {
         .emitJavadoc(
             "Factory Method to construct a %s\n@return a new %s", classname,classname
         )
-        .beginMethod(builderTypeDeclaration, method.getName(), method.getModifier())
+        .beginMethod(builderTypeDeclaration, method.getName(), method.getModifiers())
           .emitStatement("return new %s()", classname)
         .endMethod();
     // @formatter:on
