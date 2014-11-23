@@ -12,17 +12,7 @@ import java.util.List;
 import javax.annotation.Generated;
 import javax.lang.model.element.Modifier;
 
-import net.karneim.pojobuilder.model.ArgumentListM;
-import net.karneim.pojobuilder.model.ArrayTypeM;
-import net.karneim.pojobuilder.model.BuildMethodM;
-import net.karneim.pojobuilder.model.BuilderM;
-import net.karneim.pojobuilder.model.CopyMethodM;
-import net.karneim.pojobuilder.model.FactoryMethodM;
-import net.karneim.pojobuilder.model.ImportTypesM;
-import net.karneim.pojobuilder.model.PropertyListM;
-import net.karneim.pojobuilder.model.PropertyM;
-import net.karneim.pojobuilder.model.TypeM;
-import net.karneim.pojobuilder.model.ValidatorM;
+import net.karneim.pojobuilder.model.*;
 import net.karneim.pojobuilder.model.WriteAccess.Type;
 
 import com.squareup.javawriter.JavaWriter;
@@ -52,7 +42,7 @@ public class BuilderSourceGenerator {
         builder.getBaseType(), builder.getInterfaceType(), builder.hasBuilderProperties(),
         builder.getPojoType(), builder.getProperties(), builder.getBuildMethod(),
         builder.getFactoryMethod(), builder.getCopyMethod(), builder.getValidator(),
-        builder.getOptionalType());
+        builder.getOptionalType(), builder.getStaticFactoryMethod());
   }
 
   private void checkNotNull(Object obj, String errorMessage) {
@@ -62,9 +52,9 @@ public class BuilderSourceGenerator {
   }
 
   private void generateSource(TypeM builderType, boolean isAbstract, TypeM selfType,
-      TypeM baseType, TypeM interfaceType, boolean hasBuilderProperties, TypeM pojoType,
-      PropertyListM properties, BuildMethodM buildMethod, FactoryMethodM factoryMethod,
-      CopyMethodM copyMethodM, ValidatorM validator, TypeM optionalType) throws IOException {
+                              TypeM baseType, TypeM interfaceType, boolean hasBuilderProperties, TypeM pojoType,
+                              PropertyListM properties, BuildMethodM buildMethod, FactoryMethodM factoryMethod,
+                              CopyMethodM copyMethodM, ValidatorM validator, TypeM optionalType, StaticFactoryMethodM staticFactoryMethod) throws IOException {
     properties = new PropertyListM(properties);
     properties.filterOutNonWritableProperties(builderType);
 
@@ -119,13 +109,19 @@ public class BuilderSourceGenerator {
         .emitField(selfType.getGenericTypeDeclaration(), "self", EnumSet.of(PROTECTED));
 
     if ( validator != null) {
-      emitValidatorField( validator);
+      emitValidatorField(validator);
     }
     
     for (PropertyM prop : properties) {
       emitPropertyFields(prop, interfaceType, hasBuilderProperties);
     }
+
+    if (staticFactoryMethod != null) {
+      emitStaticFactoryMethod(selfType, staticFactoryMethod);
+    }
+
     emitConstructor(builderType, selfType);
+
     for (PropertyM prop : properties) {
       emitWithMethod(builderType, selfType, pojoType, prop);
       if ( optionalType!=null ) {
@@ -155,6 +151,22 @@ public class BuilderSourceGenerator {
     String initialization = String.format("new %s()", validatorTypeDeclaration);
     writer.emitField(validatorTypeDeclaration, validator.getFieldName(), EnumSet.of(PROTECTED),
         initialization);
+  }
+
+  private void emitStaticFactoryMethod( TypeM selfType, StaticFactoryMethodM method ) throws IOException {
+    String builderTypeDeclaration = writer.compressType(selfType.getGenericTypeDeclaration());
+    String classname = writer.compressType(selfType.getName());
+
+    // @formatter:off
+    writer
+        .emitEmptyLine()
+        .emitJavadoc(
+            "Factory Method to construct a %s\n@return a new %s", classname,classname
+        )
+        .beginMethod(builderTypeDeclaration, method.getName(), method.getModifier())
+          .emitStatement("return new %s()", classname)
+        .endMethod();
+    // @formatter:on
   }
 
   private void emitCopyMethod(TypeM builderType, TypeM selfType, TypeM pojoType,

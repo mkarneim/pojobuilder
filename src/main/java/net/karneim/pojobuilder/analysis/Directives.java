@@ -33,7 +33,7 @@ public class Directives {
       copyMethodName = "copy"; // TODO make configurable in annotation!
     }
     setterNamePattern = (String) valueMap.get("withSetterNamePattern");
-    staticFactoryMethod = (String) valueMap.get("withStaticFactoryMethod");
+    staticFactoryMethod = (String) valueMap.get("withFactoryMethod");
     validatorClassname = (String) valueMap.get("withValidator");
     optionalClassname = (String) valueMap.get("withOptionalProperties");
   }
