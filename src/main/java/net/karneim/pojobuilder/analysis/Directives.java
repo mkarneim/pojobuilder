@@ -14,6 +14,7 @@ public class Directives {
   private boolean generateBuilderProperties = false;
   private boolean generationGap = false;
   private String setterNamePattern = GeneratePojoBuilder.DEFAULT_SETTER_NAME;
+  private String staticFactoryMethod = GeneratePojoBuilder.DEFAULT_FACTORY_METHOD;
   private String validatorClassname = Void.class.getName();
   private String optionalClassname = Void.class.getName();
 
@@ -32,6 +33,7 @@ public class Directives {
       copyMethodName = "copy"; // TODO make configurable in annotation!
     }
     setterNamePattern = (String) valueMap.get("withSetterNamePattern");
+    staticFactoryMethod = (String) valueMap.get("withStaticFactoryMethod");
     validatorClassname = (String) valueMap.get("withValidator");
     optionalClassname = (String) valueMap.get("withOptionalProperties");
   }
@@ -133,6 +135,14 @@ public class Directives {
     this.optionalClassname = optionalClassname;
   }
 
+  public String getStaticFactoryMethod() {
+    return staticFactoryMethod;
+  }
+
+  public void setStaticFactoryMethod(String staticFactoryMethod) {
+    this.staticFactoryMethod = staticFactoryMethod;
+  }
+
   @Override
   public String toString() {
     return "Directives [generateCopyMethod=" + generateCopyMethod + ", copyMethodName="
@@ -140,7 +150,8 @@ public class Directives {
         + ", baseclassName=" + baseclassName + ", builderInterfaceName=" + builderInterfaceName
         + ", generateBuilderProperties=" + generateBuilderProperties + ", generationGap="
         + generationGap + ", setterNamePattern=" + setterNamePattern + ", validatorClassname="
-        + validatorClassname + ", optionalClassname=" + optionalClassname + "]";
+        + validatorClassname + ", staticFactoryMethod=" + staticFactoryMethod
+        + ", optionalClassname=" + optionalClassname + "]";
   }
 
 }
