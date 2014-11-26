@@ -1,0 +1,32 @@
+package net.karneim.pojobuilder.processor.with.staticfactorymethod;
+
+import javax.annotation.Generated;
+
+/**
+ * The {@link StrifeBuilder} is a Builder for {@link Strife} objects.
+ * <p> ATTENTION:
+ *     This class has been generated.
+ *     If you want to ADD HANDWRITTEN CODE,
+ *     please MOVE THIS FILE out of the generated-sources folder
+ *     in order to prevent it from being overwritten by the
+ *     PojoBuilder generator!
+ * </p>
+ */
+@Generated("PojoBuilder")
+public class StrifeBuilder extends AbstractStrifeBuilder {
+
+  /**
+   * Factory Method to construct a StrifeBuilder
+   *
+   * @return a new StrifeBuilder
+   */
+  public static StrifeBuilder strife() {
+    return new StrifeBuilder();
+  }
+
+  /**
+   * Creates a new {@link StrifeBuilder}.
+   */
+  public StrifeBuilder() {
+  }
+}

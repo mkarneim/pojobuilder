@@ -117,7 +117,7 @@ public class BuilderSourceGenerator {
     }
 
     if (staticFactoryMethod != null) {
-      emitStaticFactoryMethod(selfType, staticFactoryMethod);
+      emitStaticFactoryMethod(selfType, staticFactoryMethod, writer);
     }
 
     emitConstructor(builderType, selfType);
@@ -153,7 +153,7 @@ public class BuilderSourceGenerator {
         initialization);
   }
 
-  private void emitStaticFactoryMethod( TypeM selfType, StaticFactoryMethodM method ) throws IOException {
+  static void emitStaticFactoryMethod(TypeM selfType, StaticFactoryMethodM method, JavaWriter writer) throws IOException {
     String builderTypeDeclaration = writer.compressType(selfType.getGenericTypeDeclaration());
     String classname = writer.compressType(selfType.getName());
 

@@ -241,9 +241,13 @@ public class JavaModelAnalyzer {
   private void processStaticFactoryMethod( Output output) {
     String methodPattern = output.getInput().getDirectives().getStaticFactoryMethod();
     if(!methodPattern.isEmpty()) {
-      StaticFactoryMethodM method = new StaticFactoryMethodM(constructStaticFactoryMethodName(output.getInput()))
-          .declaredIn(output.getBuilderModel().getType());
-      output.getBuilderModel().setStaticFactoryMethod(method);
+      StaticFactoryMethodM method = new StaticFactoryMethodM(constructStaticFactoryMethodName(output.getInput()));
+      // Method sits on manual builder if present since the abstract class should not be exposed to the client.
+      if ( output.getManualBuilderModel()!=null ) {
+        output.getManualBuilderModel().setStaticFactoryMethod(method);
+      } else {
+        output.getBuilderModel().setStaticFactoryMethod(method);
+      }
     }
   }
 

@@ -16,4 +16,8 @@ public final class StaticFactoryMethodAnalyses {
   public static class WithArbitrarySfm {
   }
 
+  @GeneratePojoBuilder(withFactoryMethod = "*", withGenerationGap = true)
+  public static class WithGenerationGap {
+  }
+
 }

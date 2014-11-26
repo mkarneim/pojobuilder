@@ -48,7 +48,6 @@ public class JavaModelAnalyzer_StaticFactoryMethod_Test {
 
     // Then:
     assertThat(output).isNotNull();
-    assertThat(output.getBuilderModel().getPojoType().getName()).isEqualTo(pojoClassname);
     assertThat(output.getBuilderModel().getStaticFactoryMethod()).isNull();
   }
 
@@ -64,7 +63,6 @@ public class JavaModelAnalyzer_StaticFactoryMethod_Test {
 
     // Then:
     assertThat(output).isNotNull();
-    assertThat(output.getBuilderModel().getPojoType().getName()).isEqualTo(pojoClassname);
     assertThat(output.getBuilderModel().getStaticFactoryMethod().getName()).isEqualTo("withDecapitalisedSfm");
   }
 
@@ -80,9 +78,23 @@ public class JavaModelAnalyzer_StaticFactoryMethod_Test {
 
     // Then:
     assertThat(output).isNotNull();
-    assertThat(output.getBuilderModel().getPojoType().getName()).isEqualTo(pojoClassname);
     assertThat(output.getBuilderModel().getStaticFactoryMethod().getName()).isEqualTo("$WithArbitrarySfm");
   }
 
+  @Test
+  public void testWithGenerationGap() throws Exception {
+    // Given:
+    String pojoClassname = StaticFactoryMethodAnalyses.WithGenerationGap.class.getCanonicalName();
+    TypeElement pojoType = elements.getTypeElement(pojoClassname);
+    Input input = inputFactory.getInput(pojoType);
+
+    // When:
+    Output output = underTest.analyze(input);
+
+    // Then:
+    assertThat(output).isNotNull();
+    assertThat(output.getBuilderModel().getStaticFactoryMethod()).isNull();
+    assertThat(output.getManualBuilderModel().getStaticFactoryMethod().getName()).isEqualTo("withGenerationGap");
+  }
 
 }
