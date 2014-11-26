@@ -44,7 +44,8 @@ public class PropertyListM implements Iterable<PropertyM> {
   public PropertyListM add(PropertyM prop) {
     Key key = keyOf(prop);
     if (elements.containsKey(key)) {
-      throw new IllegalArgumentException(String.format("Property with key %s already in list!", key));
+      throw new IllegalArgumentException(
+          String.format("Property with key %s already in list!", key));
     }
     elements.put(key, prop);
     return this;
@@ -148,6 +149,28 @@ public class PropertyListM implements Iterable<PropertyM> {
     return result;
   }
 
+  public PropertyListM filterOutPropertiesReadableBy(TypeM accessingClass) {
+    PropertyListM result = new PropertyListM();
+    Iterator<PropertyM> it = this.iterator();
+    while (it.hasNext()) {
+      PropertyM p = it.next();
+      if (p.isReadableViaFieldAccessBy(accessingClass)
+          || p.isReadableViaGetterMethodBy(accessingClass)) {
+        result.add(p);
+        it.remove();
+      }
+    }
+    return result;
+  }
+
+  public boolean hasPropertiesReadablyBy(TypeM accessingClass) {
+    return new PropertyListM(this).filterOutPropertiesReadableBy(accessingClass).isEmpty()==false;
+  }
+
+  public boolean isEmpty() {
+    return elements.isEmpty();
+  }
+
   public TypeListM getTypes() {
     TypeListM result = new TypeListM();
     for (PropertyM p : this) {
@@ -190,21 +213,24 @@ public class PropertyListM implements Iterable<PropertyM> {
 
     @Override
     public boolean equals(Object obj) {
-      if (this == obj) return true;
-      if (obj == null) return false;
-      if (getClass() != obj.getClass()) return false;
+      if (this == obj)
+        return true;
+      if (obj == null)
+        return false;
+      if (getClass() != obj.getClass())
+        return false;
       Key other = (Key) obj;
       if (propertyName == null) {
-        if (other.propertyName != null) return false;
-      } else if (!propertyName.equals(other.propertyName)) return false;
+        if (other.propertyName != null)
+          return false;
+      } else if (!propertyName.equals(other.propertyName))
+        return false;
       if (propertyType == null) {
-        if (other.propertyType != null) return false;
-      } else if (!propertyType.equals(other.propertyType)) return false;
+        if (other.propertyType != null)
+          return false;
+      } else if (!propertyType.equals(other.propertyType))
+        return false;
       return true;
     }
-
   }
-
-
-
 }

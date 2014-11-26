@@ -75,6 +75,30 @@ public class AnnotationProcessor_CopyMethod_Test extends TestBase {
     assertThat(actual).isEqualTo(expected);
     assertThat(prj.findClass(builderClassname)).isNotNull();
   }
+  
+  /**
+   * @scenario the builder is created with a copy method
+   * @throws Exception
+   */
+  @Test
+  public void testShouldGeneratePojoBuilderButSkipCopyMethod() throws Exception {
+    // Given:
+    String pojoClassname = Pojo2.class.getName();
+    String builderClassname = "net.karneim.pojobuilder.processor.with.copymethod.Pojo2Builder";//PojoBuilder.class.getName();
+    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
+
+    // When:
+    boolean success = prj.compile();
+
+    // Then:
+    String actual = getContent(prj.findGeneratedSource(builderClassname));
+    logDebug(actual);
+    assertThat(success).isTrue();
+
+    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
+    assertThat(actual).isEqualTo(expected);
+    assertThat(prj.findClass(builderClassname)).isNotNull();
+  }
 
 
 }

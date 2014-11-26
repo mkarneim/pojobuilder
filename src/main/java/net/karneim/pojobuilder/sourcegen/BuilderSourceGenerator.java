@@ -5,7 +5,9 @@ import static javax.lang.model.element.Modifier.PROTECTED;
 import static javax.lang.model.element.Modifier.PUBLIC;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 
 import javax.annotation.Generated;
 import javax.lang.model.element.Modifier;
@@ -27,10 +29,19 @@ import com.squareup.javawriter.JavaWriter;
 
 public class BuilderSourceGenerator {
 
-  private JavaWriter writer;
+  private final JavaWriter writer;
+  private final List<String> warnings = new ArrayList<String>();
 
   public BuilderSourceGenerator(JavaWriter writer) {
     this.writer = writer;
+  }
+
+  public List<String> getWarnings() {
+    return warnings;
+  }
+
+  private void addWarning(String messageFormat, Object... args) {
+    warnings.add(String.format(messageFormat, args));
   }
 
   public void generateSource(BuilderM builder) throws IOException {
@@ -127,7 +138,11 @@ public class BuilderSourceGenerator {
     emitCloneMethod(selfType);
     emitButMethod(selfType);
     if ( copyMethodM != null) {
-      emitCopyMethod(selfType, pojoType, properties, copyMethodM);
+      if ( properties.hasPropertiesReadablyBy(builderType)) {
+        emitCopyMethod(builderType, selfType, pojoType, properties, copyMethodM);
+      } else {
+        addWarning("[PojoBuilder] Skipping the generation of %s method because none of the writable properties are readable!", copyMethodM.getName());
+      }
     }
     emitBuildMethod(builderType, pojoType, interfaceType, hasBuilderProperties, properties, factoryMethod, buildMethod, validator);
     writer.endType();
@@ -142,8 +157,8 @@ public class BuilderSourceGenerator {
         initialization);
   }
 
-  private void emitCopyMethod(TypeM selfType, TypeM pojoType, PropertyListM properties,
-      CopyMethodM copyMethodM) throws IOException {
+  private void emitCopyMethod(TypeM builderType, TypeM selfType, TypeM pojoType,
+      PropertyListM properties, CopyMethodM copyMethodM) throws IOException {
     properties = new PropertyListM(properties);
     String selfTypeDeclaration = writer.compressType(selfType.getGenericTypeDeclaration());
     String pojoTypeDeclaration = writer.compressType(pojoType.getGenericTypeDeclaration());
@@ -156,14 +171,14 @@ public class BuilderSourceGenerator {
         +"@return this builder")
       .beginMethod(selfTypeDeclaration, copyMethodM.getName(), EnumSet.of(PUBLIC), pojoTypeDeclaration, "pojo");
     
-    PropertyListM getterProperties = properties.filterOutPropertiesReadableViaGetterCall(selfType);    
+    PropertyListM getterProperties = properties.filterOutPropertiesReadableViaGetterCall(builderType);    
     for( PropertyM prop : getterProperties) {
       String withMethodName = prop.getWithMethodName();
       writer
       .emitStatement("%s(pojo.%s())", withMethodName, prop.getGetterMethod().getName());
     }
     
-    PropertyListM readableFieldProperties = properties.filterOutPropertiesReadableViaFieldAccess(selfType);    
+    PropertyListM readableFieldProperties = properties.filterOutPropertiesReadableViaFieldAccess(builderType);    
     for( PropertyM prop : readableFieldProperties) {
       String withMethodName = prop.getWithMethodName();
       writer

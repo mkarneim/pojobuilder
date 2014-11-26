@@ -94,6 +94,7 @@ public class AnnotationProcessor extends AbstractProcessor {
     try {
       initHelpers(processingEnv);
       if (!aRoundEnv.processingOver()) {
+        note("[PojoBuilder] Processing annotations");
         if (!aAnnotations.isEmpty()) {
           Set<TypeElement> triggeringAnnotations =
               annotationHierarchyUtil.filterTriggeringAnnotations(aAnnotations,
@@ -125,6 +126,7 @@ public class AnnotationProcessor extends AbstractProcessor {
         }
       } else {
         // Last round
+        note("[PojoBuilder] Finishing");
         showErrorsForFailedElements();
         clearState();
       }
@@ -183,13 +185,12 @@ public class AnnotationProcessor extends AbstractProcessor {
 
   private void generateSources(Output output) throws IOException {
     if (!hasAlreadyBeenCreated(getTypeName(output.getBuilderModel()))) {
-      generateBuilderImpl(output.getBuilderModel(), output.getInput().getOrginatingElements());
+      generateBuilderImpl(output);
     }
     if (output.getManualBuilderModel() != null
         && !hasAlreadyBeenCreated(getTypeName(output.getManualBuilderModel()))
         && !typeExists(getTypeName(output.getManualBuilderModel()))) {
-      generateManualBuilder(output.getManualBuilderModel(), output.getInput()
-          .getOrginatingElements());
+      generateManualBuilder(output);
     }
   }
 
@@ -197,21 +198,26 @@ public class AnnotationProcessor extends AbstractProcessor {
     return this.generatedTypeNames.contains(typename);
   }
 
-  private void generateBuilderImpl(BuilderM builderModel, Collection<Element> orginatingElements)
-      throws IOException {
+  private void generateBuilderImpl(Output output) throws IOException {
+    BuilderM builderModel = output.getBuilderModel();
     String qualifiedName = getTypeName(builderModel);
     JavaFileObject jobj =
-        processingEnv.getFiler().createSourceFile(qualifiedName, asArray(orginatingElements));
+        processingEnv.getFiler().createSourceFile(qualifiedName,
+            asArray(output.getInput().getOrginatingElements()));
     Writer writer = jobj.openWriter();
     JavaWriter javaWriter = new JavaWriter(writer);
     BuilderSourceGenerator generator = new BuilderSourceGenerator(javaWriter);
     generator.generateSource(builderModel);
     writer.close();
+    for (String warning : generator.getWarnings()) {
+      warn(warning, output.getInput().getAnnotatedElement());
+    }
 
     generatedTypeNames.add(qualifiedName);
-    note(String.format("PojoBuilder: Generated class %s", qualifiedName), null);
+    note(String.format("[PojoBuilder] Generated class %s", qualifiedName), null);
     LOG.fine(String.format("Generated %s", jobj.toUri()));
   }
+
 
   private Element[] asArray(Collection<Element> elements) {
     Element[] result = new Element[elements.size()];
@@ -219,11 +225,12 @@ public class AnnotationProcessor extends AbstractProcessor {
     return result;
   }
 
-  private void generateManualBuilder(ManualBuilderM manualBuilderModel,
-      Collection<Element> orginatingElements) throws IOException {
+  private void generateManualBuilder(Output output) throws IOException {
+    ManualBuilderM manualBuilderModel = output.getManualBuilderModel();
     String qualifiedName = getTypeName(manualBuilderModel);
     JavaFileObject jobj =
-        processingEnv.getFiler().createSourceFile(qualifiedName, asArray(orginatingElements));
+        processingEnv.getFiler().createSourceFile(qualifiedName,
+            asArray(output.getInput().getOrginatingElements()));
     Writer writer = jobj.openWriter();
     JavaWriter javaWriter = new JavaWriter(writer);
     ManualBuilderSourceGenerator generator = new ManualBuilderSourceGenerator(javaWriter);
@@ -231,7 +238,7 @@ public class AnnotationProcessor extends AbstractProcessor {
     writer.close();
 
     generatedTypeNames.add(qualifiedName);
-    note(String.format("PojoBuilder: Generated class %s", qualifiedName), null);
+    note(String.format("[PojoBuilder] Generated class %s", qualifiedName), null);
     LOG.fine(String.format("Generated %s", jobj.toUri()));
   }
 
@@ -274,6 +281,15 @@ public class AnnotationProcessor extends AbstractProcessor {
   private void note(String msg, Element element) {
     processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE, msg, element);
   }
+
+  private void note(String msg) {
+    processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE, msg);
+  }
+
+  private void warn(String msg, Element element) {
+    processingEnv.getMessager().printMessage(Diagnostic.Kind.WARNING, msg, element);
+  }
+
 
   private String toString(Throwable ex) {
     if (ex == null) {
