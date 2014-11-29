@@ -301,7 +301,7 @@ This will generate `FluentContactBuilder` as before but into the package `builde
 
 Examples
 --------
-The [PojoBuilder wiki] provides some [best practices] about how you could use the PojoBuilder Generator, e.g for building a domain-specific language for automated tests.
+The [PojoBuilder wiki] provides a [cookbook] about using the PojoBuilder Generator, e.g for building a domain-specific language for automated tests.
 
 For some complete code examples please have a look into the [src/testdata/java/samples] folder.
 
@@ -455,7 +455,7 @@ If you want to compile this project's sources yourself you can use Gradle (see [
 
 [release history page]: http://github.com/mkarneim/pojobuilder/releases
 [PojoBuilder wiki]: http://github.com/mkarneim/pojobuilder/wiki
-[best practices]: http://github.com/mkarneim/pojobuilder/wiki/Best-practices
+[cookbook]: http://github.com/mkarneim/pojobuilder/wiki/Cookbook
 [extended Gradle script]: https://github.com/mkarneim/pojobuilder/wiki/Extended-Gradle-Build-Script
 [another Gradle script]: https://github.com/mkarneim/pojobuilder/wiki/Enabling-PojoBuilder-for-Eclipse-Using-Gradle
 
