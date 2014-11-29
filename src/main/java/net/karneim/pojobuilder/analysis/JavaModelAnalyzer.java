@@ -12,13 +12,9 @@ import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 
-import net.karneim.pojobuilder.model.BuildMethodM;
-import net.karneim.pojobuilder.model.CopyMethodM;
-import net.karneim.pojobuilder.model.ManualBuilderM;
-import net.karneim.pojobuilder.model.PropertyM;
-import net.karneim.pojobuilder.model.TypeListM;
-import net.karneim.pojobuilder.model.TypeM;
-import net.karneim.pojobuilder.model.ValidatorM;
+import net.karneim.pojobuilder.model.*;
+
+import static net.karneim.pojobuilder.analysis.JavaModelAnalyzerUtil.uncapitalize;
 
 public class JavaModelAnalyzer {
 
@@ -90,6 +86,7 @@ public class JavaModelAnalyzer {
     processValidator(result);
     setPropertiesMethodNames(result);
     processOptional(result);
+    processStaticFactoryMethod(result);
 
     return result;
   }
@@ -241,6 +238,19 @@ public class JavaModelAnalyzer {
         .add(javaModelAnalyzerUtil.getCompilationUnit(baseTypeElement));
   }
 
+  private void processStaticFactoryMethod( Output output) {
+    String methodPattern = output.getInput().getDirectives().getStaticFactoryMethod();
+    if(!methodPattern.isEmpty()) {
+      StaticFactoryMethodM method = new StaticFactoryMethodM(constructStaticFactoryMethodName(output.getInput()));
+      // Method sits on manual builder if present since the abstract class should not be exposed to the client.
+      if ( output.getManualBuilderModel()!=null ) {
+        output.getManualBuilderModel().setStaticFactoryMethod(method);
+      } else {
+        output.getBuilderModel().setStaticFactoryMethod(method);
+      }
+    }
+  }
+
   private void scanSourceCode(Input input, Output result) {
     // TODO remove input parameter since the value is already contained in Output
     if (input.getAnnotatedElement().getKind() == ElementKind.CONSTRUCTOR) {
@@ -289,6 +299,19 @@ public class JavaModelAnalyzer {
               .format(
                   "Can't construct builder's package! The value \"%s\" is not a valid Java identifier.",
                   result);
+      throw new InvalidElementException(message, input.getAnnotatedElement());
+    }
+    return result;
+  }
+
+  private String constructStaticFactoryMethodName(Input input) {
+    String result = uncapitalize(
+        input.getDirectives().getStaticFactoryMethod()
+            .replaceAll("\\*", input.getPojoElement().getSimpleName().toString()));
+    if (!javaModelAnalyzerUtil.isValidJavaPackageName(result)) {
+      String message = String.format(
+          "Can't construct factory method! The name \"%s\" is not a valid Java identifier.",
+          result);
       throw new InvalidElementException(message, input.getAnnotatedElement());
     }
     return result;

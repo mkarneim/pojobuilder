@@ -34,7 +34,7 @@ public class SetterMethodM extends MethodM implements WriteAccess {
 
   @Override
   public String toString() {
-    return "SetterMethodM [varArgs=" + varArgs + ", getName()=" + getName() + ", getModifier()=" + getModifier()
+    return "SetterMethodM [varArgs=" + varArgs + ", getName()=" + getName() + ", getModifier()=" + getModifiers()
         + ", getDeclaringClass()=" + getDeclaringClass() + "]";
   }
 

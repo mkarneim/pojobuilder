@@ -10,30 +10,31 @@ import javax.lang.model.element.Modifier;
 
 public class MethodM {
   private String name;
-  private Set<Modifier> modifier;
+  private Set<Modifier> modifiers;
   private TypeM declaringClass;
 
-  public MethodM(String name, Set<Modifier> modifier) {
+  public MethodM(String name, Set<Modifier> modifiers) {
     super();
     this.name = name;
-    this.modifier = modifier;
+    this.modifiers = modifiers;
   }
 
   public String getName() {
     return name;
   }
 
-  public Set<Modifier> getModifier() {
-    return modifier;
+  public Set<Modifier> getModifiers() {
+    return modifiers;
   }
 
   public TypeM getDeclaringClass() {
     return declaringClass;
   }
 
-  public MethodM declaredIn(TypeM type) {
+  @SuppressWarnings("unchecked")
+  public <M extends MethodM> M declaredIn(TypeM type) {
     this.declaringClass = type;
-    return this;
+    return (M)this;
   }
 
   public boolean isAccessibleFor(TypeM accessingClass) {
@@ -43,14 +44,14 @@ public class MethodM {
     if (declaringClass == null) {
       throw new IllegalStateException(String.format("Missing declaringClass in MethodM %s", name));
     }
-    // TODO check modifier PROTECTED or package protected etc.
-    if (modifier.contains(PRIVATE)) {
+    // TODO check modifiers PROTECTED or package protected etc.
+    if (modifiers.contains(PRIVATE)) {
       return false;
     }
-    if (modifier.contains(PROTECTED)) {
+    if (modifiers.contains(PROTECTED)) {
       return accessingClass.isInPackage(declaringClass.getPackageName());
     }
-    if (modifier.contains(PUBLIC)) {
+    if (modifiers.contains(PUBLIC)) {
       return true;
     }
     return accessingClass.isInPackage(declaringClass.getPackageName());
@@ -58,7 +59,7 @@ public class MethodM {
 
   @Override
   public String toString() {
-    return "MethodM [name=" + name + ", modifier=" + modifier + ", declaringClass=" + declaringClass + "]";
+    return "MethodM [name=" + name + ", modifiers=" + modifiers + ", declaringClass=" + declaringClass + "]";
   }
 
 

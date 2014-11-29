@@ -59,7 +59,7 @@ public class DirectivesFactory {
   private List<HierarchyElement> filterByType(List<HierarchyElement> hierarchy,
       Class<GeneratePojoBuilder> class1) {
     TypeMirror generatePojoBuilderAnno =
-        elements.getTypeElement(GeneratePojoBuilder.class.getName()).asType();
+        elements.getTypeElement(class1.getName()).asType();
     List<HierarchyElement> result = new ArrayList<HierarchyElement>();
     for (HierarchyElement el : hierarchy) {
       if (types.isSameType(el.annotation.getAnnotationType(), generatePojoBuilderAnno)) {

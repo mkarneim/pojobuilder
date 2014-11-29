@@ -15,6 +15,7 @@ public class BuilderM {
   private TypeM interfaceType;
   private boolean hasBuilderProperties;
   private TypeM optionalType;
+  private StaticFactoryMethodM staticFactoryMethod;
 
   public TypeM getType() {
     return type;
@@ -120,13 +121,22 @@ public class BuilderM {
     this.optionalType = optionalType;
   }
 
+  public StaticFactoryMethodM getStaticFactoryMethod() {
+    return staticFactoryMethod;
+  }
+
+  public void setStaticFactoryMethod(StaticFactoryMethodM staticFactoryMethod) {
+    this.staticFactoryMethod = staticFactoryMethod;
+  }
+
   @Override
   public String toString() {
     return "BuilderM [type=" + type + ", isAbstract=" + isAbstract + ", selfType=" + selfType
         + ", baseType=" + baseType + ", pojoType=" + pojoType + ", properties=" + properties
         + ", factoryMethod=" + factoryMethod + ", copyMethod=" + copyMethod + ", buildMethod="
         + buildMethod + ", validator=" + validator + ", interfaceType=" + interfaceType
-        + ", hasBuilderProperties=" + hasBuilderProperties + ", optionalType=" + optionalType + "]";
+        + ", hasBuilderProperties=" + hasBuilderProperties + ", optionalType=" + optionalType
+        + ", staticFactoryMethod=" + staticFactoryMethod+ "]";
   }
 
 }

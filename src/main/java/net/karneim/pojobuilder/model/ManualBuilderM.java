@@ -5,6 +5,7 @@ public class ManualBuilderM {
   private TypeM pojoType;
   private TypeM type;
   private TypeM baseType;
+  private StaticFactoryMethodM staticFactoryMethod;
 
   public TypeM getPojoType() {
     return pojoType;
@@ -30,9 +31,18 @@ public class ManualBuilderM {
     this.baseType = baseType;
   }
 
+  public StaticFactoryMethodM getStaticFactoryMethod() {
+    return staticFactoryMethod;
+  }
+
+  public void setStaticFactoryMethod(StaticFactoryMethodM staticFactoryMethod) {
+    this.staticFactoryMethod = staticFactoryMethod;
+  }
+
   @Override
   public String toString() {
-    return "ManualBuilderM [pojoType=" + pojoType + ", type=" + type + ", baseType=" + baseType + "]";
+    return "ManualBuilderM [pojoType=" + pojoType + ", type=" + type + ", baseType=" + baseType
+        + ", staticFactoryMethod=" + staticFactoryMethod + "]";
   }
 
 }

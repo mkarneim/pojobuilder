@@ -10,6 +10,7 @@ import javax.lang.model.element.Modifier;
 
 import net.karneim.pojobuilder.model.ImportTypesM;
 import net.karneim.pojobuilder.model.ManualBuilderM;
+import net.karneim.pojobuilder.model.StaticFactoryMethodM;
 import net.karneim.pojobuilder.model.TypeM;
 
 import com.squareup.javawriter.JavaWriter;
@@ -23,10 +24,10 @@ public class ManualBuilderSourceGenerator {
   }
 
   public void generateSource(ManualBuilderM builder) throws IOException {
-    generateSource(builder.getType(), builder.getBaseType(), builder.getPojoType());
+    generateSource(builder.getType(), builder.getBaseType(), builder.getPojoType(), builder.getStaticFactoryMethod());
   }
 
-  private void generateSource(TypeM builderType, TypeM baseType, TypeM pojoType) throws IOException {
+  private void generateSource(TypeM builderType, TypeM baseType, TypeM pojoType, StaticFactoryMethodM staticFactoryMethod) throws IOException {
     // @formatter:off
     writer
         .emitPackage(builderType.getPackageName());
@@ -52,11 +53,19 @@ public class ManualBuilderSourceGenerator {
             +"    PojoBuilder generator!\n"
             +"</p>\n", builderTypeName, pojoTypeName)
         .emitAnnotation(Generated.class, JavaWriter.stringLiteral("PojoBuilder"))
-        .beginType(builderType.getGenericType(), "class", EnumSet.of(PUBLIC), baseType.getGenericTypeDeclaration())
+        .beginType(builderType.getGenericType(), "class", EnumSet.of(PUBLIC), baseType.getGenericTypeDeclaration());
+
+    if (staticFactoryMethod != null) {
+      BuilderSourceGenerator.emitStaticFactoryMethod(builderType, staticFactoryMethod, writer);
+    }
+
+    writer
         .emitEmptyLine()
         .emitJavadoc("Creates a new {@link %s}.", builderTypeName)
         .beginConstructor(EnumSet.of(Modifier.PUBLIC))
-        .endConstructor()
+        .endConstructor();
+
+    writer
         .endType();
     // @formatter:on
   }

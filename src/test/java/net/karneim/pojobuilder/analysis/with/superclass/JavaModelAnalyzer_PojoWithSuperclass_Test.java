@@ -110,8 +110,8 @@ public class JavaModelAnalyzer_PojoWithSuperclass_Test {
     PropertyM nameMemberProperty = output.getBuilderModel().getProperties().get(new Key("name", "java.lang.String"));
     assertThat(nameMemberProperty).isNotNull();
     assertThat(nameMemberProperty.getFieldAccess()).isNull();
-    assertThat(nameMemberProperty.getGetterMethod().getModifier()).contains(Modifier.PROTECTED);
-    assertThat(nameMemberProperty.getSetterMethod().getModifier()).contains(Modifier.PROTECTED);
+    assertThat(nameMemberProperty.getGetterMethod().getModifiers()).contains(Modifier.PROTECTED);
+    assertThat(nameMemberProperty.getSetterMethod().getModifiers()).contains(Modifier.PROTECTED);
     
     assertThat(output.getBuilderModel().getProperties().get(new Key("hiddenMember", "float"))).isNull();
     

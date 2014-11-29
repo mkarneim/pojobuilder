@@ -14,6 +14,7 @@ public @interface GeneratePojoBuilder {
   public final String DEFAULT_NAME = "*Builder";
   public final String DEFAULT_PACKAGE = "*";
   public final String DEFAULT_SETTER_NAME = "with*";
+  public final String DEFAULT_FACTORY_METHOD = "";
 
   /**
    * Specifies the base class of the generated builder.
@@ -120,6 +121,23 @@ public @interface GeneratePojoBuilder {
    * @return <code>true</code> if a copy method should be generated
    */
   boolean withCopyMethod() default false;
+
+  /**
+   * Specifies the name of a static factory method added to the builder. An asterisk will be
+   * replaced by the pojos simple name. Default is "" meaning not to generate this method.
+   * <pre>
+   * <code>
+   * public class MyPojoBuilder {
+   *   public static MyPojoBuilder myPojo() {
+   *     return new MyPojoBuilder();
+   *   }
+   * }
+   * </code>
+   * </pre>
+   *
+   * @return the factory-method name
+   */
+  String withFactoryMethod() default DEFAULT_FACTORY_METHOD;
 
   /**
    * Specifies the validator class that should be used to validate the created pojo. The class must

@@ -1,0 +1,74 @@
+package net.karneim.pojobuilder.processor.with.staticfactorymethod;
+
+import javax.annotation.Generated;
+
+@Generated("PojoBuilder")
+public abstract class AbstractStrifeBuilder
+    implements Cloneable {
+  protected StrifeBuilder self;
+  protected char value$a$char;
+  protected boolean isSet$a$char;
+
+  /**
+   * Creates a new {@link AbstractStrifeBuilder}.
+   */
+  public AbstractStrifeBuilder() {
+    self = (StrifeBuilder)this;
+  }
+
+  /**
+   * Sets the default value for the {@link Strife#a} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public StrifeBuilder withA(char value) {
+    this.value$a$char = value;
+    this.isSet$a$char = true;
+    return self;
+  }
+
+  /**
+   * Returns a clone of this builder.
+   *
+   * @return the clone
+   */
+  @Override
+  public Object clone() {
+    try {
+      StrifeBuilder result = (StrifeBuilder)super.clone();
+      result.self = result;
+      return result;
+    } catch (CloneNotSupportedException e) {
+      throw new InternalError(e.getMessage());
+    }
+  }
+
+  /**
+   * Returns a clone of this builder.
+   *
+   * @return the clone
+   */
+  public StrifeBuilder but() {
+    return (StrifeBuilder)clone();
+  }
+
+  /**
+   * Creates a new {@link Strife} based on this builder's settings.
+   *
+   * @return the created Strife
+   */
+  public Strife build() {
+    try {
+      Strife result = new Strife();
+      if (isSet$a$char) {
+        result.a = value$a$char;
+      }
+      return result;
+    } catch (RuntimeException ex) {
+      throw ex;
+    } catch (Exception ex) {
+      throw new java.lang.reflect.UndeclaredThrowableException(ex);
+    }
+  }
+}
