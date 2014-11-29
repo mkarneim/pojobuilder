@@ -29,7 +29,7 @@ apply plugin: 'signing'
 
 group = 'net.karneim'
 archivesBaseName = "pojobuilder"
-version = '3.3.0'
+version = '3.4.0-SNAPSHOT'
 sourceCompatibility = 1.6
 
 repositories.mavenCentral()
