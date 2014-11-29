@@ -1,5 +1,5 @@
 PojoBuilder -  A Code Generator for Pojo Builders
-================================================= 
+=================================================
 [![Build Status](https://travis-ci.org/mkarneim/pojobuilder.svg?branch=master)](https://travis-ci.org/mkarneim/pojobuilder)
 
 Author: Michael Karneim
@@ -9,9 +9,9 @@ Project Homepage: http://github.com/mkarneim/pojobuilder
 About
 -----
 
-The PojoBuilder Generator is a Java 6 compliant annotation processor that generates a fluent builder class for POJOs (Plain Old Java Object). 
+The PojoBuilder Generator is a Java 6 compliant annotation processor that generates a fluent builder class for POJOs (Plain Old Java Object).
 
-The generated builder provides 
+The generated builder provides
 
 * a fluent interface for specifying values for the pojo's properties in a DSL like manner
 * and a "build()" method for creating a new pojo instance with these values.
@@ -26,15 +26,15 @@ Here is an example of how you could use a generated pojo builder from your code:
 ```
 Builders are quite useful, for example, to build test data, where you only want to set the relevant data properties.
 
-For more information on 
+For more information on
 
 * test data builders see http://c2.com/cgi/wiki?TestDataBuilder and http://www.natpryce.com/articles/000714.html.
-* the builder pattern see http://en.wikipedia.org/wiki/Builder_pattern. 
+* the builder pattern see http://en.wikipedia.org/wiki/Builder_pattern.
 * fluent interface see http://www.martinfowler.com/bliki/FluentInterface.html
 
 License and Dependencies
 ------------------------
-The source code located in the "src" directory is in the PUBLIC DOMAIN. 
+The source code located in the "src" directory is in the PUBLIC DOMAIN.
 For more information please read the [COPYING] file.
 
 PojoBuilder is a pure code generator. It does not add any runtime dependencies to your project.
@@ -69,7 +69,7 @@ You have the following options to trigger the code generation:
 To generate a builder class for a pojo you can annotate *one of its constructors* with `@GeneratePojoBuilder`.
 
 Let's have a look at the following example pojo:
-```java	
+```java
 public class Contact {
   private final String surname;
   private final String firstname;
@@ -98,17 +98,17 @@ public class Contact {
   }
 }
 ```
-The [@GeneratePojoBuilder] annotation tells the annotation processor to create a new Java source file with 
+The [@GeneratePojoBuilder] annotation tells the annotation processor to create a new Java source file with
 the name `ContactBuilder`. Have a look at [`ContactBuilder.java`] to see the generated source code.
 
 Please note that the constructor must be *public* or otherwise accessible for the generated builder,
 e.g. if it's *protected* the generated builder must reside in the same package.
- 
+
 And also note that the constructor parameter names must match the names of the pojo's properties *exactly*.
 
 An optional [@ConstructorProperties] annotation can be used to specify the mapping from the constructor-parameter-names
 to the corresponding bean-property-names on the pojo if they differ.
-```java	
+```java
 public class Contact {
   private final String surname;
   private final String firstname;
@@ -149,7 +149,7 @@ Let's have a look at the following example pojo:
 public class User {
   private String name;
   private char[] password;
-  
+
   public String getName() {
     return name;
   }
@@ -164,7 +164,7 @@ public class User {
 
   public void setPassword(char[] password) {
     this.password = password;
-  }	  
+  }
 }
 ```
 
@@ -174,7 +174,7 @@ Have a look at [`UserBuilder.java`] to see the generated source code.
 
 Alternatively, if you don't have access to the pojo's source code, or if you are no fan of annotating a pojo,
 you can annotate a factory method:
- 
+
 ```java
 public class UrlFactory {
 
@@ -188,7 +188,7 @@ public class UrlFactory {
 ```
 Have a look at [`UrlBuilder.java`] to see the generated source code.
 
-Please note that the factory method must be *public* and *static*. 
+Please note that the factory method must be *public* and *static*.
 The method parameter names must match the names of the pojo's properties exactly.
 
 An optional [@FactoryProperties] annotation can be used to specify the mapping from the factory-method-parameter-names
@@ -209,37 +209,37 @@ Have a look at [`FileBuilder.java`] to see the generated source code.
 The following elements of [@GeneratePojoBuilder] can be used to configure the output of the code generation process.
 
 * **withName=&lt;String&gt;**
-  specifies the pattern of the builder's name. Any asterisk will be
-  replaced with the pojos simple name. For example, the result of the pattern `Fluent*Builder` will become 
+  specifies the pattern of the builder's name. An asterisk will be
+  replaced with the pojos simple name. For example, the result of the pattern `Fluent*Builder` will become
   `FluentContactBuilder` if the pojo's name is `Contact`. The default pattern is `*Builder`.
 * **intoPackage=&lt;String&gt;**
-  specifies the package of the generated builder. Any asterisk will be
+  specifies the package of the generated builder. An asterisk will be
   replaced with the pojos package. For example, the result of the pattern `*.util` will become
   `com.example.util` if the pojo's package is `com.example`. The default pattern is `*`.
 * **withBaseclass=&lt;Class&gt;**
   specifies the base class of the generated builder. The default class is `Object.class`.
 * **withBuilderInterface=&lt;Class&gt;**
   specifies the interface of the generated builder. The interface must declare exactly one type parameter
-  and a build method with this type as return type.    
+  and a build method with this type as return type.
   For an example please see [`Address.java`], [`Builder.java`] and [`AddressBuilder.java`].
   Default is `Void.class`, which means, that no interface should be implemented.
 * **withBuilderProperties=&lt;boolean&gt;**
   specifies whether the generated builder should define builder-based with-methods using the
   builder interface (see above).
   For an example please see [`Recipient.java`], [`Builder.java`] and [`RecipientBuilder.java`].
-  Default is `false`.	
+  Default is `false`.
 * **withGenerationGap=&lt;boolean&gt;**
   specifies whether the [generation gap pattern] is used. If enabled, this
   will generate two classes (instead of one), of which one contains the
-  ordinary builder code, whereas the other class extends the first one and is an empty template for handwritten code. 
-  Please move it out of the generated-sources folder to prevent it from being overwritten. 
+  ordinary builder code, whereas the other class extends the first one and is an empty template for handwritten code.
+  Please move it out of the generated-sources folder to prevent it from being overwritten.
   For examples please see [`Player.java`], [`PlayerBuilder.java`], and [`AbstractPlayerBuilder.java`].
   Default is `false`.
 * **withCopyMethod=&lt;boolean&gt;**
   specifies whether a copy method should be generated. Use the copy
   method to initialize the builder's values from a given pojo instance.
   For an example please see [`TextEmail.java`] and [`TextEmailBuilder.java`].
-  Default is `false`.	
+  Default is `false`.
 * **withOptionalProperties=&lt;Class&gt;**
   specifies whether the generated builder should define optional-based setter-methods using the
   specified 'Optional' type. Examples are Google Guava's `com.google.common.base.Optional` and
@@ -254,6 +254,11 @@ The following elements of [@GeneratePojoBuilder] can be used to configure the ou
   type. If the validation fails, the method must throw some runtime exception (or one of its
   subclasses).
   For an example please see [`Credentials.java`], [`CredentialsValidator.java`] and [`CredentialsBuilder.java`].
+* **withFactoryMethod=&lt;String&gt;**
+	specifies the name of a static factory method added to the builder class which creates a builder instance.
+	An asterisk will be replaced by the pojos simple name.
+	For an example please see [`Task.java`] and [`TaskBuilder.java`].
+	Default is `""` meaning not to generate this method.
 
 ### Default Configuration and Meta-Annotations ###
 Beginning with version 3, PojoBuilder supports *meta-annotations*. That is, you can place [@GeneratePojoBuilder] onto
@@ -304,7 +309,7 @@ For some complete code examples please have a look into the [src/testdata/java/s
 
 Execution
 ---------
- 
+
 To execute the PojoBuilder annotation processor you just need to put it into the compile-time classpath.
 During runtime no libraries are required since the retention policy of PojoBuilder's annotations is `CLASS`.
 
@@ -319,9 +324,9 @@ Here is a list of brief descriptions about how to run PojoBuilder with
 The `javac` compiler will auto-detect the presence of PojoBuilder if `pojobuilder-*.jar` is included in the classpath.
 
 For example:
-    
-    javac -cp pojobuilder-3.2.0-jar-with-dependencies.jar Contact.java
-   
+
+    javac -cp pojobuilder-3.3.0-jar-with-dependencies.jar Contact.java
+
 will generate a `ContactBuilder` if `Contact` is annotated with `@GeneratePojoBuilder`.
 
 For more information see the [javac documentation].
@@ -333,7 +338,7 @@ Add the following to your project's `pom.xml` to configure the PojoBuilder annot
 	<dependency>
 		<groupId>net.karneim</groupId>
 		<artifactId>pojobuilder</artifactId>
-		<version>3.2.0</version>
+		<version>3.3.0</version>
 		<!-- 'provided' scope because this is only needed during compilation -->
 		<scope>provided</scope>
 	</dependency>
@@ -355,9 +360,9 @@ repositories {
 }
 
 dependencies {
-  compile 'net.karneim:pojobuilder:3.2.0'
+  compile 'net.karneim:pojobuilder:3.3.0'
 }
-``` 
+```
 Please note that this not only adds the PojoBuilder and its dependencies to your compile-time class path but also to your run-time class path.
 
 Alternatively you can use the following script to add PojoBuilder only to the compile-time class path:  
@@ -373,7 +378,7 @@ configurations {
 }
 
 dependencies {
-  codeGeneration 'net.karneim:pojobuilder:3.2.0'
+  codeGeneration 'net.karneim:pojobuilder:3.3.0'
 }
 compileJava.classpath += configurations.codeGeneration
 compileTestJava.classpath += configurations.codeGeneration
@@ -392,18 +397,18 @@ There is [another Gradle script] that enables PojoBuilder for Eclipse IDE.
 
 ### Using Ant
 
-Here is a code snippet of some [sample ANT build script] that runs the PojoBuilder annotation processor within the `javac` task. 
+Here is a code snippet of some [sample ANT build script] that runs the PojoBuilder annotation processor within the `javac` task.
 ```xml
     <!-- Add the required libraries into this directory. -->
     <fileset id="libs.fileset" dir="${basedir}/lib">
         <include name="*.jar" />
     </fileset>
-    	
+
     <path id="class.path">
         <fileset refid="libs.fileset" />
     </path>
-    
-    <target name="compile" depends="init" 
+
+    <target name="compile" depends="init"
             description="Compile java sources and run annotation processor">
     	<mkdir dir="${src.gen.java.dir}" />
     	<mkdir dir="${build.classes.dir}" />
@@ -424,7 +429,7 @@ Do the following to enable PojoBuilder for your Eclipse project:
 * Open your project's properties dialog
 * Navigate to "Java Build Path" tree node
 * Open the "Libraries" tab
-* Add `pojobuilder-3.2.0-annotations.jar` to your project classpath
+* Add `pojobuilder-3.3.0-annotations.jar` to your project classpath
 * Navigate to "Java Compiler / Annotation Processing" tree node
 * Check "Enable project specific settings"
 * Check "Enable annotation processing"
@@ -433,12 +438,12 @@ Do the following to enable PojoBuilder for your Eclipse project:
 * Navigate to "Java Compiler / Annotation Processing / Factory Path" tree node
 * Check "Enable project specific settings"
 * Click "Add JARs..."
-* Add `pojobuiler-3.2.0-jar-with-dependencies.jar`
+* Add `pojobuiler-3.3.0-jar-with-dependencies.jar`
 * Click "OK"
 
 How To Build
 ------------
-If you want to compile this project's sources yourself you can use Gradle (see [build.gradle]). 
+If you want to compile this project's sources yourself you can use Gradle (see [build.gradle]).
 
 [Java]: http://www.oracle.com/technetwork/java/
 [generation gap pattern]: http://martinfowler.com/dslCatalog/generationGap.html
@@ -485,3 +490,5 @@ If you want to compile this project's sources yourself you can use Gradle (see [
 [`Credentials.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/Credentials.java
 [`CredentialsBuilder.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/CredentialsBuilder.java
 [`CredentialsValidator.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/CredentialsValidator.java
+[`Task.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/Task.java
+[`TaskBuilder.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/TaskBuilder.java

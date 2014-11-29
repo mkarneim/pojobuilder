@@ -2,13 +2,25 @@
 * To create the Eclipse project and classpath files:
 *  ./gradlew cleanEclipse eclipse
 *
-* To build the PojoBuilder: 
+* To build the PojoBuilder:
 *  ./gradlew build
 *
 * To publish a new release of PojoBuilder to Sonatype OSS Maven Repo:
 *  ./gradlew clean uploadArchives
 *
 */
+
+task wrapper(type: Wrapper) { gradleVersion = '2.0' }
+
+if (!project.hasProperty('ossrhUsername') || !project.hasProperty('ossrhPassword')) {
+  println 'OSS repository hosting username or password not set'
+  ext.ossrhUsername = ''
+  ext.ossrhPassword = ''
+}
+
+ext {
+  isReleaseVersion = !version.endsWith('SNAPSHOT')
+}
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
@@ -17,10 +29,8 @@ apply plugin: 'signing'
 
 group = 'net.karneim'
 archivesBaseName = "pojobuilder"
-version = '3.3.0-SNAPSHOT'
+version = '3.3.0'
 sourceCompatibility = 1.6
-
-task wrapper(type: Wrapper) { gradleVersion = '2.0' }
 
 repositories.mavenCentral()
 
@@ -49,17 +59,17 @@ sourceSets {
   }
 }
 
-jar { 
+jar {
   from 'src/jar/resources'
 }
 
-task dependenciesJar(type: Jar, dependsOn:['compileJava']) {  
+task dependenciesJar(type: Jar, dependsOn:['compileJava']) {
   classifier = "jar-with-dependencies"
   from files(sourceSets.main.output.classesDir)
   from files(sourceSets.main.output.resourcesDir)
   from 'src/jar/resources'
   from {configurations.compile.collect {zipTree(it)}}
-  into('META-INF/license') { 
+  into('META-INF/license') {
   	from 'license'
   }
 }
@@ -83,13 +93,13 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
   from javadoc.destinationDir
 }
 
-tasks.withType(Jar) { 
-  into('META-INF') { 
+tasks.withType(Jar) {
+  into('META-INF') {
     from 'COPYING'
   }
   manifest {
     attributes(
-      'Implementation-Title': 'PojoBuilder', 
+      'Implementation-Title': 'PojoBuilder',
       'Implementation-Version': version
     )
   }
@@ -99,50 +109,53 @@ artifacts {
   archives dependenciesJar, annotationsJar, javadocJar, sourcesJar
 }
 
-if ( hasProperty('signing.keyId')) {
-  signing {
-    sign configurations.archives
-  }
+signing {
+  required { isReleaseVersion && gradle.taskGraph.hasTask('uploadArchives') }
+  sign configurations.archives
+}
 
-  uploadArchives {
-    repositories {
-      mavenDeployer {
-        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-  
-        repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-          authentication(userName: ossrhUsername, password: ossrhPassword)
-        }
-  
-        snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-          authentication(userName: ossrhUsername, password: ossrhPassword)
-        }
-  
-        pom.project {
-          name 'PojoBuilder'
-          packaging 'jar'
-          description 'The PojoBuilder Generator is a Java 6 compliant annotation processor that generates a fluent builder class for POJOs (Plain Old Java Object)'
-          url 'http://github.com/mkarneim/pojobuilder'
-          
-          scm {
-  	      url 'git@github.com:mkarneim/pojobuilder.git'
-  	      connection 'scm:git:git@github.com:mkarneim/pojobuilder.git'
-  	      developerConnection 'scm:git:git@github.com:mkarneim/pojobuilder.git'
-  	      tag 'HEAD'
-  	    }
-          licenses {
-            license {
-              name 'PUBLIC DOMAIN'
-              url 'http://github.com/mkarneim/pojobuilder/blob/master/COPYING'
-              distribution 'repo'
-              comments 'Do-whatever-you-want license'
-            }
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+      beforeDeployment {
+        if ( project.ossrhUsername == "" || project.ossrhPassword == "")
+          throw new GradleException('Missing ossrhUsername or ossrhPassword');
+      }
+
+      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+        authentication(userName: ossrhUsername, password: ossrhPassword)
+      }
+
+      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+        authentication(userName: ossrhUsername, password: ossrhPassword)
+      }
+
+      pom.project {
+        name 'PojoBuilder'
+        packaging 'jar'
+        description 'The PojoBuilder Generator is a Java 6 compliant annotation processor that generates a fluent builder class for POJOs (Plain Old Java Object)'
+        url 'http://github.com/mkarneim/pojobuilder'
+
+        scm {
+	      url 'git@github.com:mkarneim/pojobuilder.git'
+	      connection 'scm:git:git@github.com:mkarneim/pojobuilder.git'
+	      developerConnection 'scm:git:git@github.com:mkarneim/pojobuilder.git'
+	      tag 'HEAD'
+	    }
+        licenses {
+          license {
+            name 'PUBLIC DOMAIN'
+            url 'http://github.com/mkarneim/pojobuilder/blob/master/COPYING'
+            distribution 'repo'
+            comments 'Do-whatever-you-want license'
           }
-          developers {
-            developer {
-              id 'mkarneim'
-              name 'Michael Karneim'
-              timezone 'GMT+1'
-            }
+        }
+        developers {
+          developer {
+            id 'mkarneim'
+            name 'Michael Karneim'
+            timezone 'GMT+1'
           }
         }
       }
