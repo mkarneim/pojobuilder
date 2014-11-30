@@ -8,4 +8,4 @@ build
 *.ipr
 *.iws
 .idea
-
+gradle-app.setting
