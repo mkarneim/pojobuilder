@@ -1,37 +1,19 @@
 package net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import net.karneim.pojobuilder.processor.AnnotationProcessor;
-import net.karneim.pojobuilder.testenv.JavaProject;
-import net.karneim.pojobuilder.testenv.TestBase;
-import net.karneim.pojobuilder.testenv.Util;
-
-import org.junit.After;
-import org.junit.Before;
+import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @feature The {@link AnnotationProcessor} generates builder classes.
  */
-public class AnnotationProcessor_BaseclassAndGenerationGap_Test extends TestBase {
-
-  private JavaProject prj = new JavaProject(Util.createTempDir());
-
-  @Before
-  public void setupJavaProject() {
-    // Enable the AnnotationProcessor
-    prj.getProcessorClasses().add(AnnotationProcessor.class);
-  }
-
-  @After
-  public void tearDownJavaProject() {
-    prj.delete();
-  }
+public class AnnotationProcessor_BaseclassAndGenerationGap_Test extends ProcessorTestSupport {
 
   /**
-   * @scenario the abstract builder is created with a simple base class.
    * @throws Exception
+   * @scenario the abstract builder is created with a simple base class.
    */
   @Test
   public void testShouldGenerateBuilderWithSimpleBaseClass() throws Exception {
@@ -64,8 +46,8 @@ public class AnnotationProcessor_BaseclassAndGenerationGap_Test extends TestBase
   }
 
   /**
-   * @scenario the abstract builder is created with a base class declaring generic build() method.
    * @throws Exception
+   * @scenario the abstract builder is created with a base class declaring generic build() method.
    */
   @Test
   public void testShouldGenerateBuilderWithBaseClassThatDeclaresGenericBuildMethod() throws Exception {
@@ -97,10 +79,9 @@ public class AnnotationProcessor_BaseclassAndGenerationGap_Test extends TestBase
     assertThat(prj.findClass(manualBuilderClassname)).isNotNull();
   }
 
-
   /**
-   * @scenario the abstract builder is created with a base class declaring a raw build() method.
    * @throws Exception
+   * @scenario the abstract builder is created with a base class declaring a raw build() method.
    */
   @Test
   public void testShouldGenerateBuilderWithBaseClassThatDeclaresRawBuildMethod() throws Exception {

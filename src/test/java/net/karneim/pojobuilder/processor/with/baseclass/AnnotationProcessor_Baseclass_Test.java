@@ -1,37 +1,20 @@
 package net.karneim.pojobuilder.processor.with.baseclass;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import net.karneim.pojobuilder.processor.AnnotationProcessor;
-import net.karneim.pojobuilder.testenv.JavaProject;
-import net.karneim.pojobuilder.testenv.TestBase;
-import net.karneim.pojobuilder.testenv.Util;
-
-import org.junit.After;
-import org.junit.Before;
+import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @feature The {@link AnnotationProcessor} generates builder classes.
  */
-public class AnnotationProcessor_Baseclass_Test extends TestBase {
-
-  private JavaProject prj = new JavaProject(Util.createTempDir());
-
-  @Before
-  public void setupJavaProject() {
-    // Enable the AnnotationProcessor
-    prj.getProcessorClasses().add(AnnotationProcessor.class);
-  }
-
-  @After
-  public void tearDownJavaProject() {
-    prj.delete();
-  }
+public class AnnotationProcessor_Baseclass_Test extends ProcessorTestSupport {
 
   /**
-   * @scenario the builder is created with a simple base class that has been configured via @GeneratePojoBuilder
-   *           annotation
    * @throws Exception
+   * @scenario the builder is created with a simple base class that has been configured via @GeneratePojoBuilder
+   * annotation
    */
   @Test
   public void testShouldGenerateBuilderWithSimpleBaseClass() throws Exception {
@@ -56,9 +39,9 @@ public class AnnotationProcessor_Baseclass_Test extends TestBase {
   }
 
   /**
-   * @scenario the generated builder should place an @Override annotation onto the build()-method if one of it's super
-   *           types declares one.
    * @throws Exception
+   * @scenario the generated builder should place an @Override annotation onto the build()-method if one of it's super
+   * types declares one.
    */
   @Test
   public void testShouldGenerateBuilderWithBaseClassThatDeclaresGenericBuildMethod() throws Exception {
@@ -83,9 +66,9 @@ public class AnnotationProcessor_Baseclass_Test extends TestBase {
   }
 
   /**
-   * @scenario the generated builder should place an @Override annotation onto the build()-method if one of it's super
-   *           types declares one.
    * @throws Exception
+   * @scenario the generated builder should place an @Override annotation onto the build()-method if one of it's super
+   * types declares one.
    */
   @Test
   public void testShouldGenerateBuilderWithBaseClassThatDeclaresRawBuildMethod() throws Exception {

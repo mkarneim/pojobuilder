@@ -1,38 +1,20 @@
 package net.karneim.pojobuilder.processor.with.builderinterface;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import net.karneim.pojobuilder.processor.AnnotationProcessor;
-import net.karneim.pojobuilder.testenv.JavaProject;
-import net.karneim.pojobuilder.testenv.TestBase;
-import net.karneim.pojobuilder.testenv.Util;
-
-import org.junit.After;
-import org.junit.Before;
+import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @feature The {@link AnnotationProcessor} generates builder classes.
  */
-public class AnnotationProcessor_BuilderInterface_Test extends TestBase {
-
-  private JavaProject prj = new JavaProject(Util.createTempDir());
-
-  @Before
-  public void setupJavaProject() {
-    // Enable the AnnotationProcessor
-    prj.getProcessorClasses().add(AnnotationProcessor.class);
-  }
-
-  @After
-  public void tearDownJavaProject() {
-    prj.delete();
-  }
+public class AnnotationProcessor_BuilderInterface_Test extends ProcessorTestSupport {
 
   /**
-   * @scenario Generates a builder implementing the specified builder interface. Generates a extra
-   *           with-method for each property using an appropriately parameterized builder interface.
-   * 
    * @throws Exception
+   * @scenario Generates a builder implementing the specified builder interface. Generates a extra
+   * with-method for each property using an appropriately parameterized builder interface.
    */
   @Test
   public void testShouldGenerateBuilderWithBuilderInterface() throws Exception {
@@ -58,10 +40,10 @@ public class AnnotationProcessor_BuilderInterface_Test extends TestBase {
   }
 
   /**
-   * @scenario Annotated factory method. Generates a builder implementing the specified builder
-   *           interface. Generates a extra with-method for each property using an appropriately
-   *           parameterized builder interface.
    * @throws Exception
+   * @scenario Annotated factory method. Generates a builder implementing the specified builder
+   * interface. Generates a extra with-method for each property using an appropriately
+   * parameterized builder interface.
    */
   @Test
   public void testShouldGenerateBuilderWithBuilderInterfaceFromFactoryMethod() throws Exception {
@@ -89,11 +71,10 @@ public class AnnotationProcessor_BuilderInterface_Test extends TestBase {
   }
 
   /**
-   * @scenario Generates a generic builder implementing the specified builder interface. Generates a
-   *           extra with-method for each property using an appropriately parameterized builder
-   *           interface.
-   * 
    * @throws Exception
+   * @scenario Generates a generic builder implementing the specified builder interface. Generates a
+   * extra with-method for each property using an appropriately parameterized builder
+   * interface.
    */
   @Test
   public void testShouldGenerateGenericBuilderWithBuilderInterface() throws Exception {

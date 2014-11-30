@@ -1,36 +1,19 @@
 package net.karneim.pojobuilder.processor.with.copymethod;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import net.karneim.pojobuilder.processor.AnnotationProcessor;
-import net.karneim.pojobuilder.testenv.JavaProject;
-import net.karneim.pojobuilder.testenv.TestBase;
-import net.karneim.pojobuilder.testenv.Util;
-
-import org.junit.After;
-import org.junit.Before;
+import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @feature The {@link AnnotationProcessor} generates builder classes.
  */
-public class AnnotationProcessor_CopyMethod_Test extends TestBase {
-
-  private JavaProject prj = new JavaProject(Util.createTempDir());
-
-  @Before
-  public void setupJavaProject() {
-    // Enable the AnnotationProcessor
-    prj.getProcessorClasses().add(AnnotationProcessor.class);
-  }
-
-  @After
-  public void tearDownJavaProject() {
-    prj.delete();
-  }
+public class AnnotationProcessor_CopyMethod_Test extends ProcessorTestSupport {
 
   /**
-   * @scenario the builder is created with a copy method
    * @throws Exception
+   * @scenario the builder is created with a copy method
    */
   @Test
   public void testShouldGeneratePojoBuilderWithCopyMethod() throws Exception {
@@ -53,8 +36,8 @@ public class AnnotationProcessor_CopyMethod_Test extends TestBase {
   }
 
   /**
-   * @scenario the builder is created with a copy method
    * @throws Exception
+   * @scenario the builder is created with a copy method
    */
   @Test
   public void testShouldGenerateAddressBuilderWithCopyMethod() throws Exception {
@@ -75,10 +58,10 @@ public class AnnotationProcessor_CopyMethod_Test extends TestBase {
     assertThat(actual).isEqualTo(expected);
     assertThat(prj.findClass(builderClassname)).isNotNull();
   }
-  
+
   /**
-   * @scenario the builder is created with a copy method
    * @throws Exception
+   * @scenario the builder is created with a copy method
    */
   @Test
   public void testShouldGeneratePojoBuilderButSkipCopyMethod() throws Exception {
@@ -99,6 +82,5 @@ public class AnnotationProcessor_CopyMethod_Test extends TestBase {
     assertThat(actual).isEqualTo(expected);
     assertThat(prj.findClass(builderClassname)).isNotNull();
   }
-
 
 }

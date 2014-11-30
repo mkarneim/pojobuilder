@@ -1,36 +1,18 @@
 package net.karneim.pojobuilder.processor.with.settername;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import net.karneim.pojobuilder.processor.AnnotationProcessor;
-import net.karneim.pojobuilder.testenv.JavaProject;
-import net.karneim.pojobuilder.testenv.TestBase;
-import net.karneim.pojobuilder.testenv.Util;
-
-import org.junit.After;
-import org.junit.Before;
+import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @feature The name pattern of the generated with-methods can be configured.
  */
-public class AnnotationProcessor_WithMethodNamePattern_Test extends TestBase {
-
-  private JavaProject prj = new JavaProject(Util.createTempDir());
-
-  @Before
-  public void setupJavaProject() {
-    // Enable the AnnotationProcessor
-    prj.getProcessorClasses().add(AnnotationProcessor.class);
-  }
-
-  @After
-  public void tearDownJavaProject() {
-    prj.delete();
-  }
+public class AnnotationProcessor_WithMethodNamePattern_Test extends ProcessorTestSupport {
 
   /**
-   * @scenario the name pattern is "set*"
    * @throws Exception
+   * @scenario the name pattern is "set*"
    */
   @Test
   public void testPatternIsSetAsterisk() throws Exception {
@@ -54,8 +36,8 @@ public class AnnotationProcessor_WithMethodNamePattern_Test extends TestBase {
   }
 
   /**
-   * @scenario the name pattern is "*"
    * @throws Exception
+   * @scenario the name pattern is "*"
    */
   @Test
   public void testPatternIsAsterisk() throws Exception {

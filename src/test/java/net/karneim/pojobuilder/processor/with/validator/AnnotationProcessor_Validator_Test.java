@@ -1,40 +1,21 @@
 package net.karneim.pojobuilder.processor.with.validator;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
-import net.karneim.pojobuilder.processor.AnnotationProcessor;
-import net.karneim.pojobuilder.testenv.JavaProject;
-import net.karneim.pojobuilder.testenv.TestBase;
-import net.karneim.pojobuilder.testenv.Util;
-
-import org.junit.After;
-import org.junit.Before;
+import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @feature We can configure the {@link GeneratePojoBuilder} annotation to generate a call to a
- *          validator (that must be implemented manually be the user).
- * 
+ * validator (that must be implemented manually be the user).
  * @see GeneratePojoBuilder#withValidator()
  */
-public class AnnotationProcessor_Validator_Test extends TestBase {
-
-  private JavaProject prj = new JavaProject(Util.createTempDir());
-
-  @Before
-  public void setupJavaProject() {
-    // Enable the AnnotationProcessor
-    prj.getProcessorClasses().add(AnnotationProcessor.class);
-  }
-
-  @After
-  public void tearDownJavaProject() {
-    prj.delete();
-  }
+public class AnnotationProcessor_Validator_Test extends ProcessorTestSupport {
 
   /**
-   * @scenario a validator class that has a matching 'validate' method is configured
    * @throws Exception
+   * @scenario a validator class that has a matching 'validate' method is configured
    */
   @Test
   public void validatorWithMatchingValidateMethod() throws Exception {
@@ -58,8 +39,8 @@ public class AnnotationProcessor_Validator_Test extends TestBase {
   }
 
   /**
-   * @scenario a validator class that has no 'validate' method is configured
    * @throws Exception
+   * @scenario a validator class that has no 'validate' method is configured
    */
   @Test
   public void validatorWithoutValidateMethod() throws Exception {

@@ -1,37 +1,19 @@
 package net.karneim.pojobuilder.processor.with.optionals;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import net.karneim.pojobuilder.processor.AnnotationProcessor;
-import net.karneim.pojobuilder.testenv.JavaProject;
-import net.karneim.pojobuilder.testenv.TestBase;
-import net.karneim.pojobuilder.testenv.Util;
-
-import org.junit.After;
-import org.junit.Before;
+import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @feature The {@link net.karneim.pojobuilder.processor.AnnotationProcessor} generates builder
- *          classes.
+ * classes.
  */
-public class AnnotationProcessor_WithGuavaOptionals_Test extends TestBase {
-
-  private JavaProject prj = new JavaProject(Util.createTempDir());
-
-  @Before
-  public void setupJavaProject() {
-    // Enable the AnnotationProcessor
-    prj.getProcessorClasses().add(AnnotationProcessor.class);
-  }
-
-  @After
-  public void tearDownJavaProject() {
-    prj.delete();
-  }
+public class AnnotationProcessor_WithGuavaOptionals_Test extends ProcessorTestSupport {
 
   /**
-   * @scenario the builder contains withParam(Optional&lt;X&gt;) methods
    * @throws Exception
+   * @scenario the builder contains withParam(Optional&lt;X&gt;) methods
    */
   @Test
   public void testShouldGenerateGuavaOptionalsForObjectTypes() throws Exception {
@@ -55,9 +37,9 @@ public class AnnotationProcessor_WithGuavaOptionals_Test extends TestBase {
   }
 
   /**
-   * @scenario the builder withParam(Optional&lt;X&gt;) methods should not generated if the member
-   *           is already an Optional
    * @throws Exception
+   * @scenario the builder withParam(Optional&lt;X&gt;) methods should not generated if the member
+   * is already an Optional
    */
   @Test
   public void testShouldNotGenerateGuavaOptionalsForOptionalMembers() throws Exception {
