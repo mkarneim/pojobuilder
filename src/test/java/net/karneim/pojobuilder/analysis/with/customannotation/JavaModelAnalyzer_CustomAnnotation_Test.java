@@ -7,11 +7,6 @@ import net.karneim.pojobuilder.analysis.with.AnalysisTestSupport;
 import net.karneim.pojobuilder.testenv.AddToSourceTree;
 import org.junit.Test;
 
-import javax.lang.model.element.ExecutableElement;
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.util.ElementFilter;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -27,32 +22,24 @@ public class JavaModelAnalyzer_CustomAnnotation_Test extends AnalysisTestSupport
   @Test
   public void testAnalyzePojoWithSingleCustomAnnotation() throws Exception {
     // Given:
-    String pojoClassname = PojoA.class.getCanonicalName();
-    TypeElement pojoType = elements.getTypeElement(pojoClassname);
-    Input input = inputFactory.getInput(pojoType);
-
+    Input input = inputFor(PojoA.class);
     // When:
     Output output = underTest.analyze(input);
-
     // Then:
     assertThat(output).isNotNull();
-    assertThat(output.getBuilderModel().getPojoType().getName()).isEqualTo(pojoClassname);
+    assertThat(output.getBuilderModel().getPojoType().getName()).isEqualTo(PojoA.class.getName());
     assertThat(output.getBuilderModel().getType().getName()).isEqualTo("builder.FluentPojoABuilderA");
   }
 
   @Test
   public void testAnaylzePojoWithMultipleCustomAnnotations() throws Exception {
     // Given:
-    String pojoClassname = PojoAB.class.getCanonicalName();
-    TypeElement pojoType = elements.getTypeElement(pojoClassname);
-    Input input = inputFactory.getInput(pojoType);
-
+    Input input = inputFor(PojoAB.class);
     // When:
     Output output = underTest.analyze(input);
-
     // Then:
     assertThat(output).isNotNull();
-    assertThat(output.getBuilderModel().getPojoType().getName()).isEqualTo(pojoClassname);
+    assertThat(output.getBuilderModel().getPojoType().getName()).isEqualTo(PojoAB.class.getName());
     assertThat(output.getBuilderModel().getType().getName()).isEqualTo("builder.FluentPojoABBuilderB");
     assertThat(output.getBuilderModel().getCopyMethod()).isNotNull();
   }
@@ -60,46 +47,26 @@ public class JavaModelAnalyzer_CustomAnnotation_Test extends AnalysisTestSupport
   @Test
   public void testAnalyzePojoWithMultipleCustomAnnotationsInAnnotationHierarchy() throws Exception {
     // Given:
-    String pojoClassname = PojoC.class.getCanonicalName();
-    TypeElement pojoType = elements.getTypeElement(pojoClassname);
-    Input input = inputFactory.getInput(pojoType);
-
+    Input input = inputFor(PojoC.class);
     // When:
     Output output = underTest.analyze(input);
-
     // Then:
     assertThat(output).isNotNull();
-    assertThat(output.getBuilderModel().getPojoType().getName()).isEqualTo(pojoClassname);
+    assertThat(output.getBuilderModel().getPojoType().getName()).isEqualTo(PojoC.class.getName());
     assertThat(output.getBuilderModel().getType().getName()).isEqualTo("builder.FluentPojoCBuilderB");
   }
 
   @Test
   public void testAnalyzePojoFactoryWithCustomAnnotation() throws Exception {
     // Given:
-    String pojoClassname = PojoF.class.getCanonicalName();
-    String factoryClassname = PojoFFactory.class.getCanonicalName();
-    TypeElement factoryType = elements.getTypeElement(factoryClassname);
-    List<ExecutableElement> methods = ElementFilter.methodsIn(elements.getAllMembers(factoryType));
-    ExecutableElement methodEl = getFirstMethodByName("createPojoF", methods);
-    Input input = inputFactory.getInput(methodEl);
-
+    Input input = inputFor(PojoFFactory.class, "createPojoF");
     // When:
     Output output = underTest.analyze(input);
-
     // Then:
     assertThat(output).isNotNull();
-    assertThat(output.getBuilderModel().getPojoType().getName()).isEqualTo(pojoClassname);
+    assertThat(output.getBuilderModel().getPojoType().getName()).isEqualTo(PojoF.class.getName());
     assertThat(output.getBuilderModel().getType().getName()).isEqualTo(
         "net.karneim.pojobuilder.analysis.with.customannotation.FluentPojoFBuilderF");
-  }
-
-  private static ExecutableElement getFirstMethodByName(String name, List<ExecutableElement> methods) {
-    for (ExecutableElement e : methods) {
-      if (name.equals(e.getSimpleName().toString())) {
-        return e;
-      }
-    }
-    return null;
   }
 
 }

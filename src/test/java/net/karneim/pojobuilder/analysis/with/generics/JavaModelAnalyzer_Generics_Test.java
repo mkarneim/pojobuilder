@@ -9,7 +9,6 @@ import net.karneim.pojobuilder.model.TypeM;
 import org.junit.Test;
 
 import javax.lang.model.element.Modifier;
-import javax.lang.model.element.TypeElement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -18,16 +17,12 @@ public class JavaModelAnalyzer_Generics_Test extends AnalysisTestSupport {
   @Test
   public void testAnalyze() throws Exception {
     // Given:
-    String pojoClassname = ContainerPojo.class.getCanonicalName();
-    TypeElement pojoType = elements.getTypeElement(pojoClassname);
-    Input input = inputFactory.getInput(pojoType);
-
+    Input input = inputFor(ContainerPojo.class);
     // When:
     Output output = underTest.analyze(input);
-
     // Then:
     assertThat(output).isNotNull();
-    assertThat(output.getBuilderModel().getPojoType().getName()).isEqualTo(pojoClassname);
+    assertThat(output.getBuilderModel().getPojoType().getName()).isEqualTo(ContainerPojo.class.getName());
     TypeM builderType = output.getBuilderModel().getType();
     assertThat(builderType).isNotNull();
     assertThat(builderType.getName()).isEqualTo("net.karneim.pojobuilder.analysis.with.generics.ContainerPojoBuilder");
@@ -40,6 +35,5 @@ public class JavaModelAnalyzer_Generics_Test extends AnalysisTestSupport {
     assertThat(nameProperty.getFieldAccess()).isNotNull();
     assertThat(nameProperty.getFieldAccess().getModifier()).contains(Modifier.PUBLIC);
   }
-
 
 }

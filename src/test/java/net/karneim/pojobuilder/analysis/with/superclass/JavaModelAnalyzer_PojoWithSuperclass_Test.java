@@ -9,7 +9,6 @@ import net.karneim.pojobuilder.model.TypeM;
 import org.junit.Test;
 
 import javax.lang.model.element.Modifier;
-import javax.lang.model.element.TypeElement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -18,16 +17,14 @@ public class JavaModelAnalyzer_PojoWithSuperclass_Test extends AnalysisTestSuppo
   @Test
   public void testAnalyzeWithPojoExtendsClassWithPublicField() throws Exception {
     // Given:
-    String pojoClassname = SubclassPojo1.class.getCanonicalName();
-    TypeElement pojoType = elements.getTypeElement(pojoClassname);
-    Input input = inputFactory.getInput(pojoType);
+    Input input = inputFor(SubclassPojo1.class);
 
     // When:
     Output output = underTest.analyze(input);
 
     // Then:
     assertThat(output).isNotNull();
-    assertThat(output.getBuilderModel().getPojoType().getName()).isEqualTo(pojoClassname);
+    assertThat(output.getBuilderModel().getPojoType().getName()).isEqualTo(SubclassPojo1.class.getName());
     TypeM builderType = output.getBuilderModel().getType();
     assertThat(builderType).isNotNull();
     assertThat(builderType.getName())
@@ -52,16 +49,12 @@ public class JavaModelAnalyzer_PojoWithSuperclass_Test extends AnalysisTestSuppo
   @Test
   public void testAnalyzeWithPojoWhichExtendsClassInSamePackage() throws Exception {
     // Given:
-    String pojoClassname = SubclassPojo2.class.getCanonicalName();
-    TypeElement pojoType = elements.getTypeElement(pojoClassname);
-    Input input = inputFactory.getInput(pojoType);
-
+    Input input = inputFor(SubclassPojo2.class);
     // When:
     Output output = underTest.analyze(input);
-
     // Then:
     assertThat(output).isNotNull();
-    assertThat(output.getBuilderModel().getPojoType().getName()).isEqualTo(pojoClassname);
+    assertThat(output.getBuilderModel().getPojoType().getName()).isEqualTo(SubclassPojo2.class.getName());
     TypeM builderType = output.getBuilderModel().getType();
     assertThat(builderType).isNotNull();
     assertThat(builderType.getName())
@@ -84,23 +77,17 @@ public class JavaModelAnalyzer_PojoWithSuperclass_Test extends AnalysisTestSuppo
     assertThat(nameMemberProperty.getSetterMethod().getModifiers()).contains(Modifier.PROTECTED);
 
     assertThat(output.getBuilderModel().getProperties().get(new Key("hiddenMember", "float"))).isNull();
-
-
   }
 
   @Test
   public void testAnalyzeWithPojoWhichExtendsClassInOtherPackage() throws Exception {
     // Given:
-    String pojoClassname = SubclassPojo3.class.getCanonicalName();
-    TypeElement pojoType = elements.getTypeElement(pojoClassname);
-    Input input = inputFactory.getInput(pojoType);
-
+    Input input = inputFor(SubclassPojo3.class);
     // When:
     Output output = underTest.analyze(input);
-
     // Then:
     assertThat(output).isNotNull();
-    assertThat(output.getBuilderModel().getPojoType().getName()).isEqualTo(pojoClassname);
+    assertThat(output.getBuilderModel().getPojoType().getName()).isEqualTo(SubclassPojo3.class.getName());
     TypeM builderType = output.getBuilderModel().getType();
     assertThat(builderType).isNotNull();
     assertThat(builderType.getName())
@@ -111,8 +98,6 @@ public class JavaModelAnalyzer_PojoWithSuperclass_Test extends AnalysisTestSuppo
     assertThat(visibleMemberProperty.getFieldAccess()).isNotNull();
     assertThat(visibleMemberProperty.getFieldAccess().getModifier()).contains(Modifier.PUBLIC);
     assertThat(output.getBuilderModel().getProperties().get(new Key("hiddenMember", "float"))).isNull();
-    ;
-
   }
 
 }

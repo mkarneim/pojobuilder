@@ -5,8 +5,6 @@ import net.karneim.pojobuilder.analysis.Output;
 import net.karneim.pojobuilder.analysis.with.AnalysisTestSupport;
 import org.junit.Test;
 
-import javax.lang.model.element.TypeElement;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class JavaModelAnalyzer_StaticFactoryMethod_Test extends AnalysisTestSupport {
@@ -14,13 +12,9 @@ public class JavaModelAnalyzer_StaticFactoryMethod_Test extends AnalysisTestSupp
   @Test
   public void testWithoutSfm() throws Exception {
     // Given:
-    String pojoClassname = StaticFactoryMethodAnalyses.WithoutSfm.class.getCanonicalName();
-    TypeElement pojoType = elements.getTypeElement(pojoClassname);
-    Input input = inputFactory.getInput(pojoType);
-
+    Input input = inputFor(StaticFactoryMethodAnalyses.WithoutSfm.class);
     // When:
     Output output = underTest.analyze(input);
-
     // Then:
     assertThat(output).isNotNull();
     assertThat(output.getBuilderModel().getStaticFactoryMethod()).isNull();
@@ -29,13 +23,9 @@ public class JavaModelAnalyzer_StaticFactoryMethod_Test extends AnalysisTestSupp
   @Test
   public void testWithDecapitalisedSfm() throws Exception {
     // Given:
-    String pojoClassname = StaticFactoryMethodAnalyses.WithDecapitalisedSfm.class.getCanonicalName();
-    TypeElement pojoType = elements.getTypeElement(pojoClassname);
-    Input input = inputFactory.getInput(pojoType);
-
+    Input input = inputFor(StaticFactoryMethodAnalyses.WithDecapitalisedSfm.class);
     // When:
     Output output = underTest.analyze(input);
-
     // Then:
     assertThat(output).isNotNull();
     assertThat(output.getBuilderModel().getStaticFactoryMethod().getName()).isEqualTo("withDecapitalisedSfm");
@@ -44,13 +34,9 @@ public class JavaModelAnalyzer_StaticFactoryMethod_Test extends AnalysisTestSupp
   @Test
   public void testWithArbitrarySfm() throws Exception {
     // Given:
-    String pojoClassname = StaticFactoryMethodAnalyses.WithArbitrarySfm.class.getCanonicalName();
-    TypeElement pojoType = elements.getTypeElement(pojoClassname);
-    Input input = inputFactory.getInput(pojoType);
-
+    Input input = inputFor(StaticFactoryMethodAnalyses.WithArbitrarySfm.class);
     // When:
     Output output = underTest.analyze(input);
-
     // Then:
     assertThat(output).isNotNull();
     assertThat(output.getBuilderModel().getStaticFactoryMethod().getName()).isEqualTo("$WithArbitrarySfm");
@@ -59,13 +45,9 @@ public class JavaModelAnalyzer_StaticFactoryMethod_Test extends AnalysisTestSupp
   @Test
   public void testWithGenerationGap() throws Exception {
     // Given:
-    String pojoClassname = StaticFactoryMethodAnalyses.WithGenerationGap.class.getCanonicalName();
-    TypeElement pojoType = elements.getTypeElement(pojoClassname);
-    Input input = inputFactory.getInput(pojoType);
-
+    Input input = inputFor(StaticFactoryMethodAnalyses.WithGenerationGap.class);
     // When:
     Output output = underTest.analyze(input);
-
     // Then:
     assertThat(output).isNotNull();
     assertThat(output.getBuilderModel().getStaticFactoryMethod()).isNull();
