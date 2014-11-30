@@ -1,45 +1,15 @@
 package net.karneim.pojobuilder.analysis.with.intopackage;
 
+import net.karneim.pojobuilder.analysis.Input;
+import net.karneim.pojobuilder.analysis.Output;
+import net.karneim.pojobuilder.analysis.with.AnalysisTestSupport;
+import org.junit.Test;
+
+import javax.lang.model.element.TypeElement;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
-import javax.annotation.processing.ProcessingEnvironment;
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.util.Elements;
-
-import net.karneim.pojobuilder.analysis.DirectivesFactory;
-import net.karneim.pojobuilder.analysis.Input;
-import net.karneim.pojobuilder.analysis.InputFactory;
-import net.karneim.pojobuilder.analysis.JavaModelAnalyzer;
-import net.karneim.pojobuilder.analysis.JavaModelAnalyzerUtil;
-import net.karneim.pojobuilder.analysis.Output;
-import net.karneim.pojobuilder.testenv.AddToSourceTree;
-import net.karneim.pojobuilder.testenv.ProcessingEnvironmentRunner;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-@RunWith(ProcessingEnvironmentRunner.class)
-@AddToSourceTree({"src/testdata/java"})
-public class JavaModelAnalyzer_IntoPackage_Test {
-
-  private ProcessingEnvironment env;
-  private Elements elements;
-  private InputFactory inputFactory;
-  private JavaModelAnalyzer underTest;
-
-  @Before
-  public void init() {
-    env = ProcessingEnvironmentRunner.getProcessingEnvironment();
-    elements = env.getElementUtils();
-    JavaModelAnalyzerUtil javaModelAnalyzerUtil = new JavaModelAnalyzerUtil(env.getElementUtils(), env.getTypeUtils());
-    inputFactory =
-        new InputFactory(env.getTypeUtils(), new DirectivesFactory(env.getElementUtils(), env.getTypeUtils(),
-            javaModelAnalyzerUtil));
-    underTest =
-        new JavaModelAnalyzer(env.getElementUtils(), env.getTypeUtils(), new JavaModelAnalyzerUtil(
-            env.getElementUtils(), env.getTypeUtils()));
-  }
+public class JavaModelAnalyzer_IntoPackage_Test extends AnalysisTestSupport {
 
   @Test
   public void testAnalyze() throws Exception {
