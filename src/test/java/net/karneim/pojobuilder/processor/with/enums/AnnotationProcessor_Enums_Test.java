@@ -18,9 +18,8 @@ public class AnnotationProcessor_Enums_Test extends ProcessorTestSupport {
   @Test
   public void testShouldGenerateBuilderWithEnumProperties() throws Exception {
     // Given:
-    String pojoClassname = Pojo.class.getName();
+    sourceFor(Pojo.class);
     String builderClassname = PojoBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
 
     // When:
     boolean success = prj.compile();

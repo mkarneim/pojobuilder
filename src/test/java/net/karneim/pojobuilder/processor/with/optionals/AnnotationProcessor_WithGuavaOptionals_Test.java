@@ -18,9 +18,8 @@ public class AnnotationProcessor_WithGuavaOptionals_Test extends ProcessorTestSu
   @Test
   public void testShouldGenerateGuavaOptionalsForObjectTypes() throws Exception {
     // Given:
-    String pojoClassname = PojoWithGuavaOptional.class.getName();
+    sourceFor(PojoWithGuavaOptional.class);
     String builderClassname = PojoWithGuavaOptionalBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
 
     // When:
     boolean success = prj.compile();
@@ -44,9 +43,8 @@ public class AnnotationProcessor_WithGuavaOptionals_Test extends ProcessorTestSu
   @Test
   public void testShouldNotGenerateGuavaOptionalsForOptionalMembers() throws Exception {
     // Given:
-    String pojoClassname = PojoWithGuavaOptional2.class.getName();
+    sourceFor(PojoWithGuavaOptional2.class);
     String builderClassname = PojoWithGuavaOptional2Builder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
 
     // When:
     boolean success = prj.compile();

@@ -18,9 +18,8 @@ public class AnnotationProcessor_StaticFactoryMethod_Test extends ProcessorTestS
   @Test
   public void testShouldGenerateFactoryMethod() throws Exception {
     // Given:
-    String pojoClassname = Trouble.class.getName();
+    sourceFor(Trouble.class);
     String builderClassname = TroubleBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
 
     // When:
     boolean success = prj.compile();
@@ -44,10 +43,9 @@ public class AnnotationProcessor_StaticFactoryMethod_Test extends ProcessorTestS
   @Test
   public void testShouldGenerateFactoryMethodOnManualClass() throws Exception {
     // Given:
-    String pojoClassname = Strife.class.getName();
+    sourceFor(Strife.class);
     String abstractBuilderClassname = "net.karneim.pojobuilder.processor.with.staticfactorymethod.AbstractStrifeBuilder";
     String manualBuilderClassname = "net.karneim.pojobuilder.processor.with.staticfactorymethod.StrifeBuilder";
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
 
     // When:
     boolean success = prj.compile();

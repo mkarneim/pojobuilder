@@ -20,11 +20,9 @@ public class AnnotationProcessor_CustomAnnotation_Test extends ProcessorTestSupp
   @Test
   public void testShouldGenerateBuilderForPojoWithSingleCustomAnnotation() throws Exception {
     // Given:
-    String pojoClassname = PojoA.class.getName();
-    String customAnnotationA = MyCustomAnnotationA.class.getName();
+    sourceFor(PojoA.class);
+    sourceFor(MyCustomAnnotationA.class);
     String builderClassname = FluentPojoABuilderA.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, customAnnotationA));
 
     // When:
     boolean success = prj.compile();
@@ -46,13 +44,10 @@ public class AnnotationProcessor_CustomAnnotation_Test extends ProcessorTestSupp
   @Test
   public void testShouldGenerateBuilderForPojoWithMultipleCustomAnnotations() throws Exception {
     // Given:
-    String pojoClassname = PojoAB.class.getName();
-    String customAnnotationA = MyCustomAnnotationA.class.getName();
-    String customAnnotationB = MyCustomAnnotationB.class.getName();
+    sourceFor(PojoAB.class);
+    sourceFor(MyCustomAnnotationA.class);
+    sourceFor(MyCustomAnnotationB.class);
     String builderClassname = FluentPojoABBuilderB.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, customAnnotationA));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, customAnnotationB));
 
     // When:
     boolean success = prj.compile();
@@ -74,15 +69,11 @@ public class AnnotationProcessor_CustomAnnotation_Test extends ProcessorTestSupp
   @Test
   public void testShouldGenerateBuilderForPojoWithMultipleCustomAnnotationsInAnnotationHierarchy() throws Exception {
     // Given:
-    String pojoClassname = PojoC.class.getName();
-    String customAnnotationA = MyCustomAnnotationA.class.getName();
-    String customAnnotationB = MyCustomAnnotationB.class.getName();
-    String customAnnotationC = MyCustomAnnotationC.class.getName();
+    sourceFor(PojoC.class);
+    sourceFor(MyCustomAnnotationA.class);
+    sourceFor(MyCustomAnnotationB.class);
+    sourceFor(MyCustomAnnotationC.class);
     String builderClassname = "net.karneim.pojobuilder.processor.with.customannotation.builder.FluentPojoCBuilderB";
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, customAnnotationA));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, customAnnotationB));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, customAnnotationC));
 
     // When:
     boolean success = prj.compile();

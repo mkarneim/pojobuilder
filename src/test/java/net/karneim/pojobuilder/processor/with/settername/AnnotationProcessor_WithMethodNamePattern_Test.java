@@ -17,9 +17,8 @@ public class AnnotationProcessor_WithMethodNamePattern_Test extends ProcessorTes
   @Test
   public void testPatternIsSetAsterisk() throws Exception {
     // Given:
-    String pojoClassname = Pojo.class.getName();
+    sourceFor(Pojo.class);
     String builderClassname = PojoBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
 
     // When:
     boolean success = prj.compile();
@@ -42,9 +41,8 @@ public class AnnotationProcessor_WithMethodNamePattern_Test extends ProcessorTes
   @Test
   public void testPatternIsAsterisk() throws Exception {
     // Given:
-    String pojoClassname = Pojo2.class.getName();
+    sourceFor(Pojo2.class);
     String builderClassname = Pojo2Builder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
 
     // When:
     boolean success = prj.compile();

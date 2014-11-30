@@ -18,9 +18,8 @@ public class AnnotationProcessor_Generics_Test extends ProcessorTestSupport {
   @Test
   public void testShouldGenerateBuilderWithGenericProperties() throws Exception {
     // Given:
-    String pojoClassname = Pojo.class.getName();
+    sourceFor(Pojo.class);
     String builderClassname = PojoBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
 
     // When:
     boolean success = prj.compile();
@@ -42,9 +41,8 @@ public class AnnotationProcessor_Generics_Test extends ProcessorTestSupport {
   @Test
   public void testShouldGeneratePairBuilder() throws Exception {
     // Given:
-    String pojoClassname = Pair.class.getName();
+    sourceFor(Pair.class);
     String builderClassname = PairBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
 
     // When:
     boolean success = prj.compile();

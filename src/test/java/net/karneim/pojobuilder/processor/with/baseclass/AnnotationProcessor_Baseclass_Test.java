@@ -19,11 +19,9 @@ public class AnnotationProcessor_Baseclass_Test extends ProcessorTestSupport {
   @Test
   public void testShouldGenerateBuilderWithSimpleBaseClass() throws Exception {
     // Given:
-    String pojoClassname = Pojo1.class.getName();
-    String baseClassname = SimpleBaseBuilder.class.getName();
+    sourceFor(Pojo1.class);
+    sourceFor(SimpleBaseBuilder.class);
     String builderClassname = Pojo1Builder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, baseClassname));
 
     // When:
     boolean success = prj.compile();
@@ -46,11 +44,9 @@ public class AnnotationProcessor_Baseclass_Test extends ProcessorTestSupport {
   @Test
   public void testShouldGenerateBuilderWithBaseClassThatDeclaresGenericBuildMethod() throws Exception {
     // Given:
-    String pojoClassname = Pojo2.class.getName();
-    String baseClassname = BaseBuilderWithGenericBuildMethod.class.getName();
+    sourceFor(Pojo2.class);
+    sourceFor(BaseBuilderWithGenericBuildMethod.class);
     String builderClassname = Pojo2Builder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, baseClassname));
 
     // When:
     boolean success = prj.compile();
@@ -73,11 +69,9 @@ public class AnnotationProcessor_Baseclass_Test extends ProcessorTestSupport {
   @Test
   public void testShouldGenerateBuilderWithBaseClassThatDeclaresRawBuildMethod() throws Exception {
     // Given:
-    String pojoClassname = Pojo3.class.getName();
-    String baseClassname = BaseBuilderWithRawBuildMethod.class.getName();
+    sourceFor(Pojo3.class);
+    sourceFor(BaseBuilderWithRawBuildMethod.class);
     String builderClassname = Pojo3Builder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, baseClassname));
 
     // When:
     boolean success = prj.compile();

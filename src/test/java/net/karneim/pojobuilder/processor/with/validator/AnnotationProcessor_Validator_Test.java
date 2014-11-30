@@ -20,9 +20,8 @@ public class AnnotationProcessor_Validator_Test extends ProcessorTestSupport {
   @Test
   public void validatorWithMatchingValidateMethod() throws Exception {
     // Given:
-    String pojoClassname = Pojo.class.getName();
+    sourceFor(Pojo.class);
     String builderClassname = PojoBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
 
     // When:
     boolean success = prj.compile();
@@ -45,8 +44,7 @@ public class AnnotationProcessor_Validator_Test extends ProcessorTestSupport {
   @Test
   public void validatorWithoutValidateMethod() throws Exception {
     // Given:
-    String pojoClassname = Pojo2.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
+    sourceFor(Pojo2.class);
 
     // When:
     boolean success = prj.compile();

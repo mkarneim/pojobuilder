@@ -18,9 +18,8 @@ public class AnnotationProcessor_ConstructorAnnotation_Test extends ProcessorTes
   @Test
   public void testShouldGenerateBuilderForAnnotatedClassOnConstructorLevel() throws Exception {
     // Given:
-    String pojoClassname = Pojo1.class.getName();
+    sourceFor(Pojo1.class);
     String builderClassname = Pojo1Builder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
 
     // When:
     boolean success = prj.compile();
@@ -44,9 +43,8 @@ public class AnnotationProcessor_ConstructorAnnotation_Test extends ProcessorTes
   public void testShouldGenerateBuilderForAnnotatedClassOnConstructorLevelWithConstructorPropertiesAnno()
       throws Exception {
     // Given:
-    String pojoClassname = Pojo2.class.getName();
+    sourceFor(Pojo2.class);
     String builderClassname = Pojo2Builder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
 
     // When:
     boolean success = prj.compile();

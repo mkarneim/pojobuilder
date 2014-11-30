@@ -18,9 +18,8 @@ public class AnnotationProcessor_Array_Test extends ProcessorTestSupport {
   @Test
   public void testShouldGenerateBuilderWithArrayProperties() throws Exception {
     // Given:
-    String pojoClassname = Pojo.class.getName();
+    sourceFor(Pojo.class);
     String builderClassname = PojoBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
 
     // When:
     boolean success = prj.compile();
@@ -42,9 +41,8 @@ public class AnnotationProcessor_Array_Test extends ProcessorTestSupport {
   @Test
   public void testShouldGenerateBuilderWithGenericArrayProperties() throws Exception {
     // Given:
-    String pojoClassname = GenericPojo.class.getName();
+    sourceFor(GenericPojo.class);
     String builderClassname = GenericPojoBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
 
     // When:
     boolean success = prj.compile();

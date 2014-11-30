@@ -19,11 +19,8 @@ public class AnnotationProcessor_InnerClass_Test extends ProcessorTestSupport {
   @Test
   public void testShouldGenerateBuilderForInnerClass() throws Exception {
     // Given:
-    String pojoClassname = InnerPojo.class.getName();
-    String factoryClassname = PojoFactory.class.getName();
+    sourceFor(PojoFactory.class, null);
     String builderClassname = InnerPojoBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, factoryClassname));
 
     // When:
     boolean success = prj.compile();

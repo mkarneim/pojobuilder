@@ -18,11 +18,10 @@ public class AnnotationProcessor_BuilderDependencies_Test extends ProcessorTestS
   @Test
   public void testShouldGenerateBuilderForPojoWithBuilderDependencies() throws Exception {
     // Given:
-    String pojoEClassname = PojoE.class.getName();
+    sourceFor(PojoE.class);
     String pojoFClassname = "net.karneim.pojobuilder.processor.with.builderdependencies.PojoF";// PojoF.class.getName();
     String factoryFClassname = "net.karneim.pojobuilder.processor.with.builderdependencies.PojoFFactory";// PojoFFactory.class.getName();
     String builderFClassname = "net.karneim.pojobuilder.processor.with.builderdependencies.PojoFBuilder";// PojoFBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoEClassname));
     prj.addSourceFile(pojoFClassname, loadResourceFromClasspath("PojoF.java.txt"));
     prj.addSourceFile(factoryFClassname, loadResourceFromClasspath("PojoFFactory.java.txt"));
 

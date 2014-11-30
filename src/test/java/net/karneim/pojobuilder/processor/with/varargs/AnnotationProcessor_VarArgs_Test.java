@@ -18,9 +18,8 @@ public class AnnotationProcessor_VarArgs_Test extends ProcessorTestSupport {
   @Test
   public void testVarargsInConstructorAndSetterMethods() throws Exception {
     // Given:
-    String pojoClassname = Pojo.class.getName();
+    sourceFor(Pojo.class);
     String builderClassname = PojoBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
 
     // When:
     boolean success = prj.compile();
@@ -42,11 +41,8 @@ public class AnnotationProcessor_VarArgs_Test extends ProcessorTestSupport {
   @Test
   public void testVarargsInFactoryMethodAndSetterMethods() throws Exception {
     // Given:
-    String pojoClassname = Pojo.class.getName();
-    String factoryClassname = PojoFactory.class.getName();
+    sourceFor(PojoFactory.class, null);
     String builderClassname = OtherPojoBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, factoryClassname));
 
     // When:
     boolean success = prj.compile();

@@ -18,9 +18,8 @@ public class AnnotationProcessor_Name_Test extends ProcessorTestSupport {
   @Test
   public void testShouldGenerateBuilderWithConfiguredName() throws Exception {
     // Given:
-    String pojoClassname = SampleBean4.class.getName();
+    sourceFor(SampleBean4.class);
     String builderClassname = FluentSampleBean4Builder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
 
     // When:
     boolean success = prj.compile();

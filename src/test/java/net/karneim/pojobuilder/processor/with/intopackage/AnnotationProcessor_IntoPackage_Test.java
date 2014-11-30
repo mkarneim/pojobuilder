@@ -20,9 +20,8 @@ public class AnnotationProcessor_IntoPackage_Test extends ProcessorTestSupport {
   @Test
   public void testShouldGenerateBuilderIntoConfiguredPackage() throws Exception {
     // Given:
-    String pojoClassname = SampleBean3.class.getName();
+    sourceFor(SampleBean3.class);
     String builderClassname = SampleBean3Builder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
 
     // When:
     boolean success = prj.compile();

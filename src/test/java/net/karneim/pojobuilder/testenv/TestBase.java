@@ -30,22 +30,6 @@ public class TestBase {
     return getContent(new FileInputStream(file));
   }
 
-  protected String getTestDataJavaSourceContent(String fullQualifiedClassname) {
-    try {
-      File sourceFile = getJavaSourceFile(TESTDATA_DIRECTORY, fullQualifiedClassname);
-      String result = loadResource(sourceFile);
-      return result;
-    } catch (FileNotFoundException e) {
-      throw new UndeclaredThrowableException(e);
-    }
-  }
-
-  protected File getJavaSourceFile(File dir, String fullQualifiedClassname) {
-    String path = getSourceFilename(fullQualifiedClassname);
-    File file = new File(dir, path);
-    return file;
-  }
-
   protected String getSourceFilename(File srcDir, Class<?> aClass) {
     return new File(srcDir, getSourceFilename(aClass.getName())).getPath();
   }

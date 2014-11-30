@@ -18,11 +18,9 @@ public class AnnotationProcessor_GenerationGap_Test extends ProcessorTestSupport
   @Test
   public void testShouldGenerateAbstractPlayerBuilderAndPlayerBuilder() throws Exception {
     // Given:
-    String pojoClassname = Order.class.getName();
+    sourceFor(Order.class);
     String abstractBuilderClassname = "net.karneim.pojobuilder.processor.with.generationgap.AbstractOrderBuilder";
     String manualBuilderClassname = "net.karneim.pojobuilder.processor.with.generationgap.OrderBuilder";
-
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
 
     // When:
     boolean success = prj.compile();
@@ -50,11 +48,9 @@ public class AnnotationProcessor_GenerationGap_Test extends ProcessorTestSupport
   @Test
   public void testShouldGenerateOnlyAbstractPlayerBuilderButNotPlayerBuilder() throws Exception {
     // Given:
-    String pojoClassname = Player.class.getName();
+    sourceFor(Player.class);
     String abstractBuilderClassname = AbstractPlayerBuilder.class.getName();
     String manualBuilderClassname = PlayerBuilder.class.getName();
-
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
 
     // When:
     boolean success = prj.compile();

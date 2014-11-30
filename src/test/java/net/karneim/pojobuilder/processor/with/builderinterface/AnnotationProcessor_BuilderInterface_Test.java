@@ -19,11 +19,9 @@ public class AnnotationProcessor_BuilderInterface_Test extends ProcessorTestSupp
   @Test
   public void testShouldGenerateBuilderWithBuilderInterface() throws Exception {
     // Given:
-    String pojoClassname = Pojo.class.getName();
-    String builderInterfaceClassname = Builder.class.getName();
+    sourceFor(Pojo.class);
+    sourceFor(Builder.class);
     String builderClassname = PojoBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, builderInterfaceClassname));
 
     // When:
     boolean success = prj.compile();
@@ -48,13 +46,9 @@ public class AnnotationProcessor_BuilderInterface_Test extends ProcessorTestSupp
   @Test
   public void testShouldGenerateBuilderWithBuilderInterfaceFromFactoryMethod() throws Exception {
     // Given:
-    String pojoClassname = Pojo.class.getName();
-    String factoryClassname = PojoFactory.class.getName();
-    String builderInterfaceClassname = Builder.class.getName();
+    sourceFor(PojoFactory.class,null);
+    sourceFor(Builder.class);
     String builderClassname = AnotherPojoBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, factoryClassname));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, builderInterfaceClassname));
 
     // When:
     boolean success = prj.compile();
@@ -79,11 +73,9 @@ public class AnnotationProcessor_BuilderInterface_Test extends ProcessorTestSupp
   @Test
   public void testShouldGenerateGenericBuilderWithBuilderInterface() throws Exception {
     // Given:
-    String pojoClassname = GenericPojo.class.getName();
-    String builderInterfaceClassname = Builder.class.getName();
+    sourceFor(GenericPojo.class);
+    sourceFor(Builder.class);
     String builderClassname = GenericPojoBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, builderInterfaceClassname));
 
     // When:
     boolean success = prj.compile();

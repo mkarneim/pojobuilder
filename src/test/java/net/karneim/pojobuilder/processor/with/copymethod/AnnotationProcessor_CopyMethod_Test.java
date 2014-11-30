@@ -18,9 +18,8 @@ public class AnnotationProcessor_CopyMethod_Test extends ProcessorTestSupport {
   @Test
   public void testShouldGeneratePojoBuilderWithCopyMethod() throws Exception {
     // Given:
-    String pojoClassname = Pojo.class.getName();
+    sourceFor(Pojo.class);
     String builderClassname = PojoBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
 
     // When:
     boolean success = prj.compile();
@@ -42,9 +41,8 @@ public class AnnotationProcessor_CopyMethod_Test extends ProcessorTestSupport {
   @Test
   public void testShouldGenerateAddressBuilderWithCopyMethod() throws Exception {
     // Given:
-    String pojoClassname = Address.class.getName();
+    sourceFor(Address.class);
     String builderClassname = AddressBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
 
     // When:
     boolean success = prj.compile();
@@ -66,9 +64,8 @@ public class AnnotationProcessor_CopyMethod_Test extends ProcessorTestSupport {
   @Test
   public void testShouldGeneratePojoBuilderButSkipCopyMethod() throws Exception {
     // Given:
-    String pojoClassname = Pojo2.class.getName();
-    String builderClassname = "net.karneim.pojobuilder.processor.with.copymethod.Pojo2Builder";//PojoBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
+    sourceFor(Pojo2.class);
+    String builderClassname = "net.karneim.pojobuilder.processor.with.copymethod.Pojo2Builder";
 
     // When:
     boolean success = prj.compile();

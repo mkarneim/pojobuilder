@@ -18,17 +18,13 @@ public class AnnotationProcessor_NoAnnotation_Test extends ProcessorTestSupport 
   @Test
   public void testShouldNotGenerateBuilderForEmptyPojo() throws Exception {
     // Given:
-    String pojoClassname = EmptyPojo.class.getName();
+    sourceFor(EmptyPojo.class);
     String nameOfNotGeneratedBuilder = "samples.with.noannotation.EmptyPojoBuilder";
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
 
     // When:
     boolean success = prj.compile();
 
     // Then:
-    assertThat(success).isTrue();
-    Class<?> pojoClass = prj.findClass(pojoClassname);
-    assertThat(pojoClass).isNotNull();
     assertThat(prj.findGeneratedSource(nameOfNotGeneratedBuilder)).isNull();
   }
 

@@ -18,11 +18,8 @@ public class AnnotationProcessor_FactoryMethodAnnotation_Test extends ProcessorT
   @Test
   public void testShouldGenerateBuilderForAnnotatedFactoryMethod() throws Exception {
     // Given:
-    String pojoClassname = Product.class.getName();
-    String factoryClassname = ProductFactory.class.getName();
+    sourceFor( ProductFactory.class, null);
     String builderClassname = ProductBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, factoryClassname));
 
     // When:
     boolean success = prj.compile();
@@ -44,11 +41,8 @@ public class AnnotationProcessor_FactoryMethodAnnotation_Test extends ProcessorT
   @Test
   public void testShouldGenerateBuilderForAnInterfaceUsingAnnotatedFactoryMethod() throws Exception {
     // Given:
-    String pojoClassname = Resource.class.getName();
-    String factoryClassname = ResourceFactory.class.getName();
+    sourceFor( ResourceFactory.class, null);
     String builderClassname = ResourceBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, factoryClassname));
 
     // When:
     boolean success = prj.compile();
@@ -70,13 +64,10 @@ public class AnnotationProcessor_FactoryMethodAnnotation_Test extends ProcessorT
   @Test
   public void testShouldGenerateBuilderForAParameterizedInterfaceUsingAnnotatedFactoryMethod() throws Exception {
     // Given:
-    String pojoClassname = Container.class.getName();
-    String factoryClassname = ContainerFactory.class.getName();
+    sourceFor(ContainerFactory.class, null);
     String builderClassname1 = ContainerBuilder.class.getName();
     String builderClassname2 = FileContainerBuilder.class.getName();
     String builderClassname3 = GenericListContainerBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, factoryClassname));
 
     // When:
     boolean success = prj.compile();
@@ -107,13 +98,10 @@ public class AnnotationProcessor_FactoryMethodAnnotation_Test extends ProcessorT
   @Test
   public void testPairFactory() throws Exception {
     // Given:
-    String pojoClassname = Pair.class.getName();
-    String factoryClassname = PairFactory.class.getName();
+    sourceFor(PairFactory.class,null);
     String builderClassname1 = PairBuilder.class.getName();
     String builderClassname2 = StringPairBuilder.class.getName();
     String builderClassname3 = TPairBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, factoryClassname));
 
     // When:
     boolean success = prj.compile();

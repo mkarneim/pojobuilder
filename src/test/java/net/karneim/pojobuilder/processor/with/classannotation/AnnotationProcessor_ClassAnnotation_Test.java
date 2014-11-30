@@ -18,9 +18,8 @@ public class AnnotationProcessor_ClassAnnotation_Test extends ProcessorTestSuppo
   @Test
   public void testShouldGenerateBuilderForAnnotatedClassOnCLassLevel() throws Exception {
     // Given:
-    String pojoClassname = Pojo.class.getName();
+    sourceFor(Pojo.class);
     String builderClassname = PojoBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
 
     // When:
     boolean success = prj.compile();
