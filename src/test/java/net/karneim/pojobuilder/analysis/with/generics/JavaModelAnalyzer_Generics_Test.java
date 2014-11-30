@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class JavaModelAnalyzer_Generics_Test extends AnalysisTestSupport {
 
   @Test
-  public void testAnalyze() throws Exception {
+  public void testAnalyze() {
     // Given:
     Input input = inputFor(ContainerPojo.class);
     // When:

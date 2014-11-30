@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class JavaModelAnalyzer_CustomAnnotation_Test extends AnalysisTestSupport {
 
   @Test
-  public void testAnalyzePojoWithSingleCustomAnnotation() throws Exception {
+  public void testAnalyzePojoWithSingleCustomAnnotation() {
     // Given:
     Input input = inputFor(PojoA.class);
     // When:
@@ -32,7 +32,7 @@ public class JavaModelAnalyzer_CustomAnnotation_Test extends AnalysisTestSupport
   }
 
   @Test
-  public void testAnaylzePojoWithMultipleCustomAnnotations() throws Exception {
+  public void testAnaylzePojoWithMultipleCustomAnnotations() {
     // Given:
     Input input = inputFor(PojoAB.class);
     // When:
@@ -45,7 +45,7 @@ public class JavaModelAnalyzer_CustomAnnotation_Test extends AnalysisTestSupport
   }
 
   @Test
-  public void testAnalyzePojoWithMultipleCustomAnnotationsInAnnotationHierarchy() throws Exception {
+  public void testAnalyzePojoWithMultipleCustomAnnotationsInAnnotationHierarchy() {
     // Given:
     Input input = inputFor(PojoC.class);
     // When:
@@ -57,7 +57,7 @@ public class JavaModelAnalyzer_CustomAnnotation_Test extends AnalysisTestSupport
   }
 
   @Test
-  public void testAnalyzePojoFactoryWithCustomAnnotation() throws Exception {
+  public void testAnalyzePojoFactoryWithCustomAnnotation() {
     // Given:
     Input input = inputFor(PojoFFactory.class, "createPojoF");
     // When:

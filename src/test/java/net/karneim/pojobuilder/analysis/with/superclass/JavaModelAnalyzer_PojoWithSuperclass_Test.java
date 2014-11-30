@@ -15,13 +15,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class JavaModelAnalyzer_PojoWithSuperclass_Test extends AnalysisTestSupport {
 
   @Test
-  public void testAnalyzeWithPojoExtendsClassWithPublicField() throws Exception {
+  public void testAnalyzeWithPojoExtendsClassWithPublicField()
+  {
     // Given:
     Input input = inputFor(SubclassPojo1.class);
-
     // When:
     Output output = underTest.analyze(input);
-
     // Then:
     assertThat(output).isNotNull();
     assertThat(output.getBuilderModel().getPojoType().getName()).isEqualTo(SubclassPojo1.class.getName());
@@ -47,7 +46,8 @@ public class JavaModelAnalyzer_PojoWithSuperclass_Test extends AnalysisTestSuppo
   }
 
   @Test
-  public void testAnalyzeWithPojoWhichExtendsClassInSamePackage() throws Exception {
+  public void testAnalyzeWithPojoWhichExtendsClassInSamePackage()
+  {
     // Given:
     Input input = inputFor(SubclassPojo2.class);
     // When:
@@ -80,7 +80,8 @@ public class JavaModelAnalyzer_PojoWithSuperclass_Test extends AnalysisTestSuppo
   }
 
   @Test
-  public void testAnalyzeWithPojoWhichExtendsClassInOtherPackage() throws Exception {
+  public void testAnalyzeWithPojoWhichExtendsClassInOtherPackage()
+  {
     // Given:
     Input input = inputFor(SubclassPojo3.class);
     // When:

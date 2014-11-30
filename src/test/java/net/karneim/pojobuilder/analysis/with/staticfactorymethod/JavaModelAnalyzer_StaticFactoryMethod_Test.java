@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class JavaModelAnalyzer_StaticFactoryMethod_Test extends AnalysisTestSupport {
 
   @Test
-  public void testWithoutSfm() throws Exception {
+  public void testWithoutSfm() {
     // Given:
     Input input = inputFor(StaticFactoryMethodAnalyses.WithoutSfm.class);
     // When:
@@ -21,7 +21,7 @@ public class JavaModelAnalyzer_StaticFactoryMethod_Test extends AnalysisTestSupp
   }
 
   @Test
-  public void testWithDecapitalisedSfm() throws Exception {
+  public void testWithDecapitalisedSfm() {
     // Given:
     Input input = inputFor(StaticFactoryMethodAnalyses.WithDecapitalisedSfm.class);
     // When:
@@ -32,7 +32,7 @@ public class JavaModelAnalyzer_StaticFactoryMethod_Test extends AnalysisTestSupp
   }
 
   @Test
-  public void testWithArbitrarySfm() throws Exception {
+  public void testWithArbitrarySfm() {
     // Given:
     Input input = inputFor(StaticFactoryMethodAnalyses.WithArbitrarySfm.class);
     // When:
@@ -43,7 +43,7 @@ public class JavaModelAnalyzer_StaticFactoryMethod_Test extends AnalysisTestSupp
   }
 
   @Test
-  public void testWithGenerationGap() throws Exception {
+  public void testWithGenerationGap() {
     // Given:
     Input input = inputFor(StaticFactoryMethodAnalyses.WithGenerationGap.class);
     // When:
