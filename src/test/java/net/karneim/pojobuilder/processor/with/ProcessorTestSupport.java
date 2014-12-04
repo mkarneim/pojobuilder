@@ -4,7 +4,6 @@ import net.karneim.pojobuilder.processor.AnnotationProcessor;
 import net.karneim.pojobuilder.testenv.JavaProject;
 import net.karneim.pojobuilder.testenv.TestBase;
 import net.karneim.pojobuilder.testenv.Util;
-import org.assertj.core.api.Condition;
 import org.junit.After;
 import org.junit.Before;
 
@@ -28,54 +27,6 @@ public abstract class ProcessorTestSupport extends TestBase {
   @After
   public void tearDownJavaProject() {
     prj.delete();
-  }
-
-
-  // If we need any more JavaProject conditions - let's just write a proper assertor (see FEST docs)
-  private final class IdenticalSourceCondition extends Condition<JavaProject> {
-    private final Class target;
-
-    IdenticalSourceCondition(Class target) {
-      super("generated identical source");
-      this.target = target;
-    }
-
-    @Override
-    public boolean matches(JavaProject value) {
-      try {
-        String actual = getContent(prj.findGeneratedSource(target.getName()));
-        String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(target.getName()));
-        return expected.equals(actual);
-      } catch (Exception e) {
-        throw new RuntimeException(e);
-      }
-    }
-  }
-
-  private final class CompiledCondition extends Condition<JavaProject> {
-    private final Class target;
-
-    CompiledCondition(Class target) {
-      super("compiled");
-      this.target = target;
-    }
-
-    @Override
-    public boolean matches(JavaProject value) {
-      try {
-        return prj.findClass(target.getName()) != null;
-      } catch (Exception e) {
-        throw new RuntimeException(e);
-      }
-    }
-  }
-
-  protected Condition<JavaProject> generatedSameSourceAs(Class target) {
-    return new IdenticalSourceCondition(target);
-  }
-
-  protected Condition<JavaProject> compiled(Class target) {
-    return new CompiledCondition(target);
   }
 
   /**

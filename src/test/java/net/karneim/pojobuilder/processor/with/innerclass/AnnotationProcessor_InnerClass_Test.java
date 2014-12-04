@@ -4,7 +4,7 @@ import net.karneim.pojobuilder.processor.AnnotationProcessor;
 import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static net.karneim.pojobuilder.PbAssertions.assertThat;
 
 /**
  * @feature The {@link AnnotationProcessor} generates builder classes.
@@ -23,8 +23,8 @@ public class AnnotationProcessor_InnerClass_Test extends ProcessorTestSupport {
     boolean success = prj.compile();
     // Then:
     assertThat(prj)
-        .has(generatedSameSourceAs(InnerPojoBuilder.class))
-        .has(compiled(InnerPojoBuilder.class));
+        .generatedSameSourceAs(InnerPojoBuilder.class)
+        .compiled(InnerPojoBuilder.class);
     assertThat(success).isTrue();
   }
 }

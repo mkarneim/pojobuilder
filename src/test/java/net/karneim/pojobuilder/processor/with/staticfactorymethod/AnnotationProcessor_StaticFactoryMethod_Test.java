@@ -3,7 +3,7 @@ package net.karneim.pojobuilder.processor.with.staticfactorymethod;
 import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static net.karneim.pojobuilder.PbAssertions.assertThat;
 
 /**
  * @feature The {@link net.karneim.pojobuilder.processor.AnnotationProcessor} generates builder classes.
@@ -22,8 +22,8 @@ public class AnnotationProcessor_StaticFactoryMethod_Test extends ProcessorTestS
     boolean success = prj.compile();
     // Then:
     assertThat(prj)
-        .has(generatedSameSourceAs(TroubleBuilder.class))
-        .has(compiled(TroubleBuilder.class));
+        .generatedSameSourceAs(TroubleBuilder.class)
+        .compiled(TroubleBuilder.class);
     assertThat(success).isTrue();
   }
 

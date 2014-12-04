@@ -5,7 +5,7 @@ import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import net.karneim.pojobuilder.processor.with.intopackage.builder.SampleBean3Builder;
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static net.karneim.pojobuilder.PbAssertions.assertThat;
 
 /**
  * @feature The {@link AnnotationProcessor} generates builder classes.
@@ -14,7 +14,7 @@ public class AnnotationProcessor_IntoPackage_Test extends ProcessorTestSupport {
 
   /**
    * @throws Exception
-   * @scenario the builder is created into a specific package that has been configured via @GeneratePojoBuilder
+   * @scenario the builder is created into a specific package that been configured via @GeneratePojoBuildr
    * annotation
    */
   @Test
@@ -25,8 +25,8 @@ public class AnnotationProcessor_IntoPackage_Test extends ProcessorTestSupport {
     boolean success = prj.compile();
     // Then:
     assertThat(prj)
-        .has(generatedSameSourceAs(SampleBean3Builder.class))
-        .has(compiled(SampleBean3Builder.class));
+        .generatedSameSourceAs(SampleBean3Builder.class)
+        .compiled(SampleBean3Builder.class);
     assertThat(success).isTrue();
   }
 

@@ -4,8 +4,7 @@ import net.karneim.pojobuilder.processor.AnnotationProcessor;
 import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.not;
+import static net.karneim.pojobuilder.PbAssertions.assertThat;
 
 /**
  * @feature The {@link AnnotationProcessor} generates builder classes.
@@ -14,7 +13,7 @@ public class AnnotationProcessor_GenerationGap_Test extends ProcessorTestSupport
 
   /**
    * @throws Exception
-   * @scenario Should generate {@link AbstractOrderBuilder} and {@link OrderBuilder}.
+   * @scenario Should generate AbstractOrderBuilder and OrderBuilder
    */
   @Test
   public void testShouldGenerateAbstractPlayerBuilderAndPlayerBuilder() throws Exception {
@@ -54,10 +53,10 @@ public class AnnotationProcessor_GenerationGap_Test extends ProcessorTestSupport
     boolean success = prj.compile();
     // Then:
     assertThat(prj)
-        .has(generatedSameSourceAs(AbstractPlayerBuilder.class))
-        .has(compiled(AbstractPlayerBuilder.class))
-        .has(not(generatedSameSourceAs(PlayerBuilder.class)))
-        .has(compiled(PlayerBuilder.class));
+        .generatedSameSourceAs(AbstractPlayerBuilder.class)
+        .compiled(AbstractPlayerBuilder.class)
+        .didNotGenerateSourceFor(PlayerBuilder.class)
+        .compiled(PlayerBuilder.class);
     assertThat(success).isTrue();
   }
 

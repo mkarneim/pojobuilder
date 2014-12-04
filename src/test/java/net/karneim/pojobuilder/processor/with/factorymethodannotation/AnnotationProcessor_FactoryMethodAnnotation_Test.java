@@ -4,7 +4,7 @@ import net.karneim.pojobuilder.processor.AnnotationProcessor;
 import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static net.karneim.pojobuilder.PbAssertions.assertThat;
 
 /**
  * @feature The {@link AnnotationProcessor} generates builder classes.
@@ -23,8 +23,8 @@ public class AnnotationProcessor_FactoryMethodAnnotation_Test extends ProcessorT
     boolean success = prj.compile();
     // Then:
     assertThat(prj)
-        .has(generatedSameSourceAs(ProductBuilder.class))
-        .has(compiled(ProductBuilder.class));
+        .generatedSameSourceAs(ProductBuilder.class)
+        .compiled(ProductBuilder.class);
     assertThat(success).isTrue();
   }
 
@@ -40,8 +40,8 @@ public class AnnotationProcessor_FactoryMethodAnnotation_Test extends ProcessorT
     boolean success = prj.compile();
     // Then:
     assertThat(prj)
-        .has(generatedSameSourceAs(ResourceBuilder.class))
-        .has(compiled(ResourceBuilder.class));
+        .generatedSameSourceAs(ResourceBuilder.class)
+        .compiled(ResourceBuilder.class);
     assertThat(success).isTrue();
   }
 
@@ -57,12 +57,12 @@ public class AnnotationProcessor_FactoryMethodAnnotation_Test extends ProcessorT
     boolean success = prj.compile();
     // Then:
     assertThat(prj)
-        .has(generatedSameSourceAs(ContainerBuilder.class))
-        .has(compiled(ContainerBuilder.class))
-        .has(generatedSameSourceAs(FileContainerBuilder.class))
-        .has(compiled(FileContainerBuilder.class))
-        .has(generatedSameSourceAs(GenericListContainerBuilder.class))
-        .has(compiled(GenericListContainerBuilder.class));
+        .generatedSameSourceAs(ContainerBuilder.class)
+        .compiled(ContainerBuilder.class)
+        .generatedSameSourceAs(FileContainerBuilder.class)
+        .compiled(FileContainerBuilder.class)
+        .generatedSameSourceAs(GenericListContainerBuilder.class)
+        .compiled(GenericListContainerBuilder.class);
     assertThat(success).isTrue();
   }
 
@@ -74,12 +74,12 @@ public class AnnotationProcessor_FactoryMethodAnnotation_Test extends ProcessorT
     boolean success = prj.compile();
     // Then:
     assertThat(prj)
-        .has(generatedSameSourceAs(PairBuilder.class))
-        .has(compiled(PairBuilder.class))
-        .has(generatedSameSourceAs(StringPairBuilder.class))
-        .has(compiled(StringPairBuilder.class))
-        .has(generatedSameSourceAs(TPairBuilder.class))
-        .has(compiled(TPairBuilder.class));
+        .generatedSameSourceAs(PairBuilder.class)
+        .compiled(PairBuilder.class)
+        .generatedSameSourceAs(StringPairBuilder.class)
+        .compiled(StringPairBuilder.class)
+        .generatedSameSourceAs(TPairBuilder.class)
+        .compiled(TPairBuilder.class);
     assertThat(success).isTrue();
   }
 

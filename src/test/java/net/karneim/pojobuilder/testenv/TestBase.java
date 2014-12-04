@@ -4,10 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.UndeclaredThrowableException;
 
 public class TestBase {
-  protected final File TESTDATA_DIRECTORY = new File("src/testdata/java");;
+  public static final File TESTDATA_DIRECTORY = new File("src/testdata/java");;
 
   private static final boolean DEBUG_LOG_ENABLED = false;
 
@@ -21,7 +20,7 @@ public class TestBase {
     return getContent(this.getClass().getResourceAsStream(name));
   }
 
-  protected String loadResourceFromFilesystem(File directory, String name) throws IOException {
+  public String loadResourceFromFilesystem(File directory, String name) throws IOException {
     File file = new File(directory, name);
     return loadResource(file);
   }
@@ -42,12 +41,12 @@ public class TestBase {
     return getSourceFilename(aClass.getName());
   }
 
-  protected String getSourceFilename(String fullQualifiedClassname) {
+  public String getSourceFilename(String fullQualifiedClassname) {
     String result = fullQualifiedClassname.replace('.', '/').concat(".java");
     return result;
   }
 
-  protected static String getContent(java.io.InputStream is) {
+  public static String getContent(java.io.InputStream is) {
     if (is == null) {
       return null;
     }

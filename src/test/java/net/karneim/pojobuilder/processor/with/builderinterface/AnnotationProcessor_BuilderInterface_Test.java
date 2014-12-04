@@ -4,7 +4,7 @@ import net.karneim.pojobuilder.processor.AnnotationProcessor;
 import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static net.karneim.pojobuilder.PbAssertions.assertThat;
 
 /**
  * @feature The {@link AnnotationProcessor} generates builder classes.
@@ -25,8 +25,8 @@ public class AnnotationProcessor_BuilderInterface_Test extends ProcessorTestSupp
     boolean success = prj.compile();
     // Then:
     assertThat(prj)
-        .has(generatedSameSourceAs(PojoBuilder.class))
-        .has(compiled(PojoBuilder.class));
+        .generatedSameSourceAs(PojoBuilder.class)
+        .compiled(PojoBuilder.class);
     assertThat(success).isTrue();
   }
 
@@ -45,8 +45,8 @@ public class AnnotationProcessor_BuilderInterface_Test extends ProcessorTestSupp
     boolean success = prj.compile();
     // Then:
     assertThat(prj)
-        .has(generatedSameSourceAs(AnotherPojoBuilder.class))
-        .has(compiled(AnotherPojoBuilder.class));
+        .generatedSameSourceAs(AnotherPojoBuilder.class)
+        .compiled(AnotherPojoBuilder.class);
     assertThat(success).isTrue();
   }
 
@@ -65,8 +65,8 @@ public class AnnotationProcessor_BuilderInterface_Test extends ProcessorTestSupp
     boolean success = prj.compile();
     // Then:
     assertThat(prj)
-        .has(generatedSameSourceAs(GenericPojoBuilder.class))
-        .has(compiled(GenericPojoBuilder.class));
+        .generatedSameSourceAs(GenericPojoBuilder.class)
+        .compiled(GenericPojoBuilder.class);
     assertThat(success).isTrue();
   }
 }

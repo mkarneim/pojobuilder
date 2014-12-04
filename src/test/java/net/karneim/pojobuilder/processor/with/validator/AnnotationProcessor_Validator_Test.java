@@ -4,7 +4,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static net.karneim.pojobuilder.PbAssertions.assertThat;
 
 /**
  * @feature We can configure the {@link GeneratePojoBuilder} annotation to generate a call to a
@@ -15,7 +15,7 @@ public class AnnotationProcessor_Validator_Test extends ProcessorTestSupport {
 
   /**
    * @throws Exception
-   * @scenario a validator class that has a matching 'validate' method is configured
+   * @scenario a validator class that a matching 'validate' method is configurd
    */
   @Test
   public void validatorWithMatchingValidateMethod() throws Exception {
@@ -25,14 +25,14 @@ public class AnnotationProcessor_Validator_Test extends ProcessorTestSupport {
     boolean success = prj.compile();
     // Then:
     assertThat(prj)
-        .has(generatedSameSourceAs(PojoBuilder.class))
-        .has(compiled(PojoBuilder.class));
+        .generatedSameSourceAs(PojoBuilder.class)
+        .compiled(PojoBuilder.class);
     assertThat(success).isTrue();
   }
 
   /**
    * @throws Exception
-   * @scenario a validator class that has no 'validate' method is configured
+   * @scenario a validator class that no 'validate' method is configurd
    */
   @Test
   public void validatorWithoutValidateMethod() throws Exception {

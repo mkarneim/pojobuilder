@@ -6,7 +6,7 @@ import net.karneim.pojobuilder.processor.with.customannotation.builder.FluentPoj
 import net.karneim.pojobuilder.processor.with.customannotation.builder.FluentPojoCBuilderB;
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static net.karneim.pojobuilder.PbAssertions.assertThat;
 
 public class AnnotationProcessor_CustomAnnotation_Test extends ProcessorTestSupport {
 
@@ -40,8 +40,8 @@ public class AnnotationProcessor_CustomAnnotation_Test extends ProcessorTestSupp
     boolean success = prj.compile();
     // Then:
     assertThat(prj)
-        .has(generatedSameSourceAs(FluentPojoABBuilderB.class))
-        .has(compiled(FluentPojoABBuilderB.class));
+        .generatedSameSourceAs(FluentPojoABBuilderB.class)
+        .compiled(FluentPojoABBuilderB.class);
     assertThat(success).isTrue();
   }
 
@@ -56,8 +56,8 @@ public class AnnotationProcessor_CustomAnnotation_Test extends ProcessorTestSupp
     boolean success = prj.compile();
     // Then:
     assertThat(prj)
-        .has(generatedSameSourceAs(FluentPojoCBuilderB.class))
-        .has(compiled(FluentPojoCBuilderB.class));
+        .generatedSameSourceAs(FluentPojoCBuilderB.class)
+        .compiled(FluentPojoCBuilderB.class);
     assertThat(success).isTrue();
 
   }

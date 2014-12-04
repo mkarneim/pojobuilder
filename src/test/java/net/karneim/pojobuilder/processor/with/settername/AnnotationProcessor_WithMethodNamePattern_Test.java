@@ -3,7 +3,8 @@ package net.karneim.pojobuilder.processor.with.settername;
 import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static net.karneim.pojobuilder.PbAssertions.assertThat;
+
 
 /**
  * @feature The name pattern of the generated with-methods can be configured.
@@ -22,8 +23,8 @@ public class AnnotationProcessor_WithMethodNamePattern_Test extends ProcessorTes
     boolean success = prj.compile();
     // Then:
     assertThat(prj)
-        .has(generatedSameSourceAs(PojoBuilder.class))
-        .has(compiled(PojoBuilder.class));
+        .generatedSameSourceAs(PojoBuilder.class)
+        .compiled(PojoBuilder.class);
     assertThat(success).isTrue();
   }
 
@@ -39,8 +40,8 @@ public class AnnotationProcessor_WithMethodNamePattern_Test extends ProcessorTes
     boolean success = prj.compile();
     // Then:
     assertThat(prj)
-        .has(generatedSameSourceAs(Pojo2Builder.class))
-        .has(compiled(Pojo2Builder.class));
+        .generatedSameSourceAs(Pojo2Builder.class)
+        .compiled(Pojo2Builder.class);
     assertThat(success).isTrue();
   }
 }

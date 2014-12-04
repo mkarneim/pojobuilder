@@ -4,7 +4,7 @@ import net.karneim.pojobuilder.processor.AnnotationProcessor;
 import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static net.karneim.pojobuilder.PbAssertions.assertThat;
 
 /**
  * @feature The {@link AnnotationProcessor} generates builder classes.
@@ -13,7 +13,7 @@ public class AnnotationProcessor_VarArgs_Test extends ProcessorTestSupport {
 
   /**
    * @throws Exception
-   * @scenario the pojo has a constructor and some setter-methods using a varargs parameter.
+   * @scenario the pojo a constructor and some setter-methods using a varargs paramete.
    */
   @Test
   public void testVarargsInConstructorAndSetterMethods() throws Exception {
@@ -23,8 +23,8 @@ public class AnnotationProcessor_VarArgs_Test extends ProcessorTestSupport {
     boolean success = prj.compile();
     // Then:
     assertThat(prj)
-        .has(generatedSameSourceAs(PojoBuilder.class))
-        .has(compiled(PojoBuilder.class));
+        .generatedSameSourceAs(PojoBuilder.class)
+        .compiled(PojoBuilder.class);
     assertThat(success).isTrue();
   }
 
@@ -40,8 +40,8 @@ public class AnnotationProcessor_VarArgs_Test extends ProcessorTestSupport {
     boolean success = prj.compile();
     // Then:
     assertThat(prj)
-        .has(generatedSameSourceAs(OtherPojoBuilder.class))
-        .has(compiled(OtherPojoBuilder.class));
+        .generatedSameSourceAs(OtherPojoBuilder.class)
+        .compiled(OtherPojoBuilder.class);
     assertThat(success).isTrue();
   }
 
