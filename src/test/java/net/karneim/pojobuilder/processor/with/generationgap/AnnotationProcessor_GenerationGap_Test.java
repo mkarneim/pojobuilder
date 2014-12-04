@@ -5,6 +5,7 @@ import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.not;
 
 /**
  * @feature The {@link AnnotationProcessor} generates builder classes.
@@ -49,25 +50,15 @@ public class AnnotationProcessor_GenerationGap_Test extends ProcessorTestSupport
   public void testShouldGenerateOnlyAbstractPlayerBuilderButNotPlayerBuilder() throws Exception {
     // Given:
     sourceFor(Player.class);
-    String abstractBuilderClassname = AbstractPlayerBuilder.class.getName();
-    String manualBuilderClassname = PlayerBuilder.class.getName();
-
     // When:
     boolean success = prj.compile();
-
     // Then:
+    assertThat(prj)
+        .has(generatedSameSourceAs(AbstractPlayerBuilder.class))
+        .has(compiled(AbstractPlayerBuilder.class))
+        .has(not(generatedSameSourceAs(PlayerBuilder.class)))
+        .has(compiled(PlayerBuilder.class));
     assertThat(success).isTrue();
-    String codeOfAbstractBuilder = getContent(prj.findGeneratedSource(abstractBuilderClassname));
-    logDebug(codeOfAbstractBuilder);
-    String codeOfManualBuilder = getContent(prj.findGeneratedSource(manualBuilderClassname));
-    logDebug(codeOfManualBuilder);
-
-    String expected1 = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(abstractBuilderClassname));
-    assertThat(codeOfAbstractBuilder).isEqualTo(expected1);
-    assertThat(prj.findClass(abstractBuilderClassname)).isNotNull();
-
-    assertThat(codeOfManualBuilder).isNull(); // <- not overwritten since it already exists
-    assertThat(prj.findClass(manualBuilderClassname)).isNotNull();
   }
 
 }

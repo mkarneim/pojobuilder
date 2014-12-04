@@ -21,19 +21,13 @@ public class AnnotationProcessor_IntoPackage_Test extends ProcessorTestSupport {
   public void testShouldGenerateBuilderIntoConfiguredPackage() throws Exception {
     // Given:
     sourceFor(SampleBean3.class);
-    String builderClassname = SampleBean3Builder.class.getName();
-
     // When:
     boolean success = prj.compile();
-
     // Then:
+    assertThat(prj)
+        .has(generatedSameSourceAs(SampleBean3Builder.class))
+        .has(compiled(SampleBean3Builder.class));
     assertThat(success).isTrue();
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
-
-    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
   }
 
 }

@@ -19,19 +19,13 @@ public class AnnotationProcessor_Generics_Test extends ProcessorTestSupport {
   public void testShouldGenerateBuilderWithGenericProperties() throws Exception {
     // Given:
     sourceFor(Pojo.class);
-    String builderClassname = PojoBuilder.class.getName();
-
     // When:
     boolean success = prj.compile();
-
     // Then:
+    assertThat(prj)
+        .has(generatedSameSourceAs(PojoBuilder.class))
+        .has(compiled(PojoBuilder.class));
     assertThat(success).isTrue();
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
-
-    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
   }
 
   /**
@@ -42,18 +36,12 @@ public class AnnotationProcessor_Generics_Test extends ProcessorTestSupport {
   public void testShouldGeneratePairBuilder() throws Exception {
     // Given:
     sourceFor(Pair.class);
-    String builderClassname = PairBuilder.class.getName();
-
     // When:
     boolean success = prj.compile();
-
     // Then:
+    assertThat(prj)
+        .has(generatedSameSourceAs(PairBuilder.class))
+        .has(compiled(PairBuilder.class));
     assertThat(success).isTrue();
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
-
-    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
   }
 }

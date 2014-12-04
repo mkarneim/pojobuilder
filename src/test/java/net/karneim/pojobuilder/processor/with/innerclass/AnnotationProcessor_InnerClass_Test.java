@@ -2,7 +2,6 @@ package net.karneim.pojobuilder.processor.with.innerclass;
 
 import net.karneim.pojobuilder.processor.AnnotationProcessor;
 import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
-import net.karneim.pojobuilder.processor.with.innerclass.OuterPojo.InnerPojo;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,18 +19,12 @@ public class AnnotationProcessor_InnerClass_Test extends ProcessorTestSupport {
   public void testShouldGenerateBuilderForInnerClass() throws Exception {
     // Given:
     sourceFor(PojoFactory.class, null);
-    String builderClassname = InnerPojoBuilder.class.getName();
-
     // When:
     boolean success = prj.compile();
-
     // Then:
+    assertThat(prj)
+        .has(generatedSameSourceAs(InnerPojoBuilder.class))
+        .has(compiled(InnerPojoBuilder.class));
     assertThat(success).isTrue();
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
-
-    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
   }
 }

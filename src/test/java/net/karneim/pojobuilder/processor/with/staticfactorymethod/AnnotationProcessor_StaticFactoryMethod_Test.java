@@ -3,7 +3,6 @@ package net.karneim.pojobuilder.processor.with.staticfactorymethod;
 import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
 
-import static net.karneim.pojobuilder.processor.with.staticfactorymethod.TroubleBuilder.trouble;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -19,21 +18,13 @@ public class AnnotationProcessor_StaticFactoryMethod_Test extends ProcessorTestS
   public void testShouldGenerateFactoryMethod() throws Exception {
     // Given:
     sourceFor(Trouble.class);
-    String builderClassname = TroubleBuilder.class.getName();
-
     // When:
     boolean success = prj.compile();
-
     // Then:
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
+    assertThat(prj)
+        .has(generatedSameSourceAs(TroubleBuilder.class))
+        .has(compiled(TroubleBuilder.class));
     assertThat(success).isTrue();
-
-    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
-
-    trouble().withA('T');
   }
 
   /**

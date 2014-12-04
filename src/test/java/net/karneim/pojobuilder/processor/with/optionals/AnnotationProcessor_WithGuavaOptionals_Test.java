@@ -19,20 +19,13 @@ public class AnnotationProcessor_WithGuavaOptionals_Test extends ProcessorTestSu
   public void testShouldGenerateGuavaOptionalsForObjectTypes() throws Exception {
     // Given:
     sourceFor(PojoWithGuavaOptional.class);
-    String builderClassname = PojoWithGuavaOptionalBuilder.class.getName();
-
     // When:
     boolean success = prj.compile();
-
     // Then:
+    assertThat(prj)
+        .has(generatedSameSourceAs(PojoWithGuavaOptionalBuilder.class))
+        .has(compiled(PojoWithGuavaOptionalBuilder.class));
     assertThat(success).isTrue();
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
-
-    String expected =
-        loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
   }
 
   /**
@@ -44,20 +37,13 @@ public class AnnotationProcessor_WithGuavaOptionals_Test extends ProcessorTestSu
   public void testShouldNotGenerateGuavaOptionalsForOptionalMembers() throws Exception {
     // Given:
     sourceFor(PojoWithGuavaOptional2.class);
-    String builderClassname = PojoWithGuavaOptional2Builder.class.getName();
-
     // When:
     boolean success = prj.compile();
-
     // Then:
+    assertThat(prj)
+        .has(generatedSameSourceAs(PojoWithGuavaOptional2Builder.class))
+        .has(compiled(PojoWithGuavaOptional2Builder.class));
     assertThat(success).isTrue();
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
-
-    String expected =
-        loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
   }
 
 }

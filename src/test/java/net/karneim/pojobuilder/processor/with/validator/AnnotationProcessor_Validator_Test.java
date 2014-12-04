@@ -21,20 +21,13 @@ public class AnnotationProcessor_Validator_Test extends ProcessorTestSupport {
   public void validatorWithMatchingValidateMethod() throws Exception {
     // Given:
     sourceFor(Pojo.class);
-    String builderClassname = PojoBuilder.class.getName();
-
     // When:
     boolean success = prj.compile();
-
     // Then:
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
+    assertThat(prj)
+        .has(generatedSameSourceAs(PojoBuilder.class))
+        .has(compiled(PojoBuilder.class));
     assertThat(success).isTrue();
-
-    String expected =
-        loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
   }
 
   /**
@@ -45,10 +38,8 @@ public class AnnotationProcessor_Validator_Test extends ProcessorTestSupport {
   public void validatorWithoutValidateMethod() throws Exception {
     // Given:
     sourceFor(Pojo2.class);
-
     // When:
     boolean success = prj.compile();
-
     // Then:
     assertThat(success).isFalse();
   }

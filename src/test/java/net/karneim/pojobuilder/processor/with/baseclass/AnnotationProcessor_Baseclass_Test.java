@@ -21,19 +21,13 @@ public class AnnotationProcessor_Baseclass_Test extends ProcessorTestSupport {
     // Given:
     sourceFor(Pojo1.class);
     sourceFor(SimpleBaseBuilder.class);
-    String builderClassname = Pojo1Builder.class.getName();
-
     // When:
     boolean success = prj.compile();
-
     // Then:
+    assertThat(prj)
+        .has(generatedSameSourceAs(Pojo1Builder.class))
+        .has(compiled(Pojo1Builder.class));
     assertThat(success).isTrue();
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
-
-    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
   }
 
   /**
@@ -46,19 +40,13 @@ public class AnnotationProcessor_Baseclass_Test extends ProcessorTestSupport {
     // Given:
     sourceFor(Pojo2.class);
     sourceFor(BaseBuilderWithGenericBuildMethod.class);
-    String builderClassname = Pojo2Builder.class.getName();
-
     // When:
     boolean success = prj.compile();
-
     // Then:
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
+    assertThat(prj)
+        .has(generatedSameSourceAs(Pojo2Builder.class))
+        .has(compiled(Pojo2Builder.class));
     assertThat(success).isTrue();
-
-    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
   }
 
   /**
@@ -71,18 +59,12 @@ public class AnnotationProcessor_Baseclass_Test extends ProcessorTestSupport {
     // Given:
     sourceFor(Pojo3.class);
     sourceFor(BaseBuilderWithRawBuildMethod.class);
-    String builderClassname = Pojo3Builder.class.getName();
-
     // When:
     boolean success = prj.compile();
-
     // Then:
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
+    assertThat(prj)
+        .has(generatedSameSourceAs(Pojo3Builder.class))
+        .has(compiled(Pojo3Builder.class));
     assertThat(success).isTrue();
-
-    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
   }
 }

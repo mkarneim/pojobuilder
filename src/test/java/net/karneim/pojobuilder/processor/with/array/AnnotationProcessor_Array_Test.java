@@ -19,19 +19,14 @@ public class AnnotationProcessor_Array_Test extends ProcessorTestSupport {
   public void testShouldGenerateBuilderWithArrayProperties() throws Exception {
     // Given:
     sourceFor(Pojo.class);
-    String builderClassname = PojoBuilder.class.getName();
-
     // When:
     boolean success = prj.compile();
-
     // Then:
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
+    assertThat(prj)
+        .has(generatedSameSourceAs(PojoBuilder.class))
+        .has(compiled(PojoBuilder.class));
     assertThat(success).isTrue();
 
-    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
   }
 
   /**
@@ -42,18 +37,12 @@ public class AnnotationProcessor_Array_Test extends ProcessorTestSupport {
   public void testShouldGenerateBuilderWithGenericArrayProperties() throws Exception {
     // Given:
     sourceFor(GenericPojo.class);
-    String builderClassname = GenericPojoBuilder.class.getName();
-
     // When:
     boolean success = prj.compile();
-
     // Then:
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
+    assertThat(prj)
+        .has(generatedSameSourceAs(GenericPojoBuilder.class))
+        .has(compiled(GenericPojoBuilder.class));
     assertThat(success).isTrue();
-
-    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
   }
 }

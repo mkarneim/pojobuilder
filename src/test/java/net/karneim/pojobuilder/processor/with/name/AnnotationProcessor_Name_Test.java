@@ -19,18 +19,12 @@ public class AnnotationProcessor_Name_Test extends ProcessorTestSupport {
   public void testShouldGenerateBuilderWithConfiguredName() throws Exception {
     // Given:
     sourceFor(SampleBean4.class);
-    String builderClassname = FluentSampleBean4Builder.class.getName();
-
     // When:
     boolean success = prj.compile();
-
     // Then:
+    assertThat(prj)
+        .has(generatedSameSourceAs(FluentSampleBean4Builder.class))
+        .has(compiled(FluentSampleBean4Builder.class));
     assertThat(success).isTrue();
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
-
-    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
   }
 }
