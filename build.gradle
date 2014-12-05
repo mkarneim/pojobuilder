@@ -26,6 +26,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'maven'
 apply plugin: 'signing'
+apply plugin: 'jacoco'
 
 group = 'net.karneim'
 archivesBaseName = "pojobuilder"
@@ -39,6 +40,12 @@ dependencies {
   testCompile 'junit:junit:4.11'
   testCompile 'org.assertj:assertj-core:1.6.1'
   testCompile 'com.google.guava:guava:15.0'
+}
+
+jacocoTestReport {
+  reports {
+    html.enabled true
+  }
 }
 
 eclipse {

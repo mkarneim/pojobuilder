@@ -1,80 +1,48 @@
 package net.karneim.pojobuilder.processor.with.settername;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import net.karneim.pojobuilder.processor.AnnotationProcessor;
-import net.karneim.pojobuilder.testenv.JavaProject;
-import net.karneim.pojobuilder.testenv.TestBase;
-import net.karneim.pojobuilder.testenv.Util;
-
-import org.junit.After;
-import org.junit.Before;
+import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
+
+import static net.karneim.pojobuilder.PbAssertions.assertThat;
+import static net.karneim.pojobuilder.testenv.JavaProject.Compilation;
+
 
 /**
  * @feature The name pattern of the generated with-methods can be configured.
  */
-public class AnnotationProcessor_WithMethodNamePattern_Test extends TestBase {
-
-  private JavaProject prj = new JavaProject(Util.createTempDir());
-
-  @Before
-  public void setupJavaProject() {
-    // Enable the AnnotationProcessor
-    prj.getProcessorClasses().add(AnnotationProcessor.class);
-  }
-
-  @After
-  public void tearDownJavaProject() {
-    prj.delete();
-  }
+public class AnnotationProcessor_WithMethodNamePattern_Test extends ProcessorTestSupport {
 
   /**
+   * @throws Exception
    * @scenario the name pattern is "set*"
-   * @throws Exception
    */
   @Test
-  public void testPatternIsSetAsterisk() throws Exception {
+  public void testPatternIsSetAsterisk()  {
     // Given:
-    String pojoClassname = Pojo.class.getName();
-    String builderClassname = PojoBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-
+    sourceFor(Pojo.class);
     // When:
-    boolean success = prj.compile();
-
+    prj.compile();
     // Then:
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
-    assertThat(success).isTrue();
-
-    String expected =
-        loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
+    assertThat(prj)
+        .generatedSameSourceAs(PojoBuilder.class)
+        .compiled(PojoBuilder.class)
+        .reported(Compilation.Success);
   }
 
   /**
-   * @scenario the name pattern is "*"
    * @throws Exception
+   * @scenario the name pattern is "*"
    */
   @Test
-  public void testPatternIsAsterisk() throws Exception {
+  public void testPatternIsAsterisk() {
     // Given:
-    String pojoClassname = Pojo2.class.getName();
-    String builderClassname = Pojo2Builder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-
+    sourceFor(Pojo2.class);
     // When:
-    boolean success = prj.compile();
-
+    prj.compile();
     // Then:
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
-    assertThat(success).isTrue();
-
-    String expected =
-        loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
+    assertThat(prj)
+        .generatedSameSourceAs(Pojo2Builder.class)
+        .compiled(Pojo2Builder.class)
+        .reported(Compilation.Success);
   }
 }

@@ -1,53 +1,31 @@
 package net.karneim.pojobuilder.processor.with.noannotation;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import net.karneim.pojobuilder.processor.AnnotationProcessor;
-import net.karneim.pojobuilder.testenv.JavaProject;
-import net.karneim.pojobuilder.testenv.TestBase;
-import net.karneim.pojobuilder.testenv.Util;
-
-import org.junit.After;
-import org.junit.Before;
+import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
+
+import static net.karneim.pojobuilder.PbAssertions.assertThat;
+import static net.karneim.pojobuilder.testenv.JavaProject.Compilation;
 
 /**
  * @feature The {@link AnnotationProcessor} generates builder classes.
  */
-public class AnnotationProcessor_NoAnnotation_Test extends TestBase {
-
-  private JavaProject prj = new JavaProject(Util.createTempDir());
-
-  @Before
-  public void setupJavaProject() {
-    // Enable the AnnotationProcessor
-    prj.getProcessorClasses().add(AnnotationProcessor.class);
-  }
-
-  @After
-  public void tearDownJavaProject() {
-    prj.delete();
-  }
+public class AnnotationProcessor_NoAnnotation_Test extends ProcessorTestSupport {
 
   /**
-   * @scenario no builder is created for a pojo having no @GeneratePojoBuilder annotation
    * @throws Exception
+   * @scenario no builder is created for a pojo having no @GeneratePojoBuilder annotation
    */
   @Test
-  public void testShouldNotGenerateBuilderForEmptyPojo() throws Exception {
+  public void testShouldNotGenerateBuilderForEmptyPojo() {
     // Given:
-    String pojoClassname = EmptyPojo.class.getName();
-    String nameOfNotGeneratedBuilder = "samples.with.noannotation.EmptyPojoBuilder";
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-
+    sourceFor(EmptyPojo.class);
     // When:
-    boolean success = prj.compile();
-
+    prj.compile();
     // Then:
-    assertThat(success).isTrue();
-    Class<?> pojoClass = prj.findClass(pojoClassname);
-    assertThat(pojoClass).isNotNull();
-    assertThat(prj.findGeneratedSource(nameOfNotGeneratedBuilder)).isNull();
+    assertThat(prj)
+        .didNotGenerateSourceFor("samples.with.noannotation.EmptyPojoBuilder")
+        .reported(Compilation.Success);
   }
-
 
 }

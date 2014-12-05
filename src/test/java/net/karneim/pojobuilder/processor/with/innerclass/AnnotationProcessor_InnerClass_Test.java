@@ -1,57 +1,31 @@
 package net.karneim.pojobuilder.processor.with.innerclass;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import net.karneim.pojobuilder.processor.AnnotationProcessor;
-import net.karneim.pojobuilder.processor.with.innerclass.OuterPojo.InnerPojo;
-import net.karneim.pojobuilder.testenv.JavaProject;
-import net.karneim.pojobuilder.testenv.TestBase;
-import net.karneim.pojobuilder.testenv.Util;
-
-import org.junit.After;
-import org.junit.Before;
+import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
+
+import static net.karneim.pojobuilder.PbAssertions.assertThat;
+import static net.karneim.pojobuilder.testenv.JavaProject.Compilation;
 
 /**
  * @feature The {@link AnnotationProcessor} generates builder classes.
  */
-public class AnnotationProcessor_InnerClass_Test extends TestBase {
-
-  private JavaProject prj = new JavaProject(Util.createTempDir());
-
-  @Before
-  public void setupJavaProject() {
-    // Enable the AnnotationProcessor
-    prj.getProcessorClasses().add(AnnotationProcessor.class);
-  }
-
-  @After
-  public void tearDownJavaProject() {
-    prj.delete();
-  }
+public class AnnotationProcessor_InnerClass_Test extends ProcessorTestSupport {
 
   /**
-   * @scenario the builder is created for a inner class.
    * @throws Exception
+   * @scenario the builder is created for a inner class.
    */
   @Test
-  public void testShouldGenerateBuilderForInnerClass() throws Exception {
+  public void testShouldGenerateBuilderForInnerClass() {
     // Given:
-    String pojoClassname = InnerPojo.class.getName();
-    String factoryClassname = PojoFactory.class.getName();
-    String builderClassname = InnerPojoBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, factoryClassname));
-
+    sourceForFactoryMethod(PojoFactory.class, null);
     // When:
-    boolean success = prj.compile();
-
+    prj.compile();
     // Then:
-    assertThat(success).isTrue();
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
-
-    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
+    assertThat(prj)
+        .generatedSameSourceAs(InnerPojoBuilder.class)
+        .compiled(InnerPojoBuilder.class)
+        .reported(Compilation.Success);
   }
 }

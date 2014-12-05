@@ -4,10 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.UndeclaredThrowableException;
 
 public class TestBase {
-  protected final File TESTDATA_DIRECTORY = new File("src/testdata/java");;
+  public static final File TESTDATA_DIRECTORY = new File("src/testdata/java");;
 
   private static final boolean DEBUG_LOG_ENABLED = false;
 
@@ -17,33 +16,17 @@ public class TestBase {
     }
   }
 
-  protected String loadResourceFromClasspath(String name) throws IOException {
+  public String loadResourceFromClasspath(String name) throws IOException {
     return getContent(this.getClass().getResourceAsStream(name));
   }
 
-  protected String loadResourceFromFilesystem(File directory, String name) throws IOException {
+  public String loadResourceFromFilesystem(File directory, String name) throws IOException {
     File file = new File(directory, name);
     return loadResource(file);
   }
 
   private String loadResource(File file) throws FileNotFoundException {
     return getContent(new FileInputStream(file));
-  }
-
-  protected String getTestDataJavaSourceContent(String fullQualifiedClassname) {
-    try {
-      File sourceFile = getJavaSourceFile(TESTDATA_DIRECTORY, fullQualifiedClassname);
-      String result = loadResource(sourceFile);
-      return result;
-    } catch (FileNotFoundException e) {
-      throw new UndeclaredThrowableException(e);
-    }
-  }
-
-  protected File getJavaSourceFile(File dir, String fullQualifiedClassname) {
-    String path = getSourceFilename(fullQualifiedClassname);
-    File file = new File(dir, path);
-    return file;
   }
 
   protected String getSourceFilename(File srcDir, Class<?> aClass) {
@@ -58,12 +41,12 @@ public class TestBase {
     return getSourceFilename(aClass.getName());
   }
 
-  protected String getSourceFilename(String fullQualifiedClassname) {
+  public String getSourceFilename(String fullQualifiedClassname) {
     String result = fullQualifiedClassname.replace('.', '/').concat(".java");
     return result;
   }
 
-  protected static String getContent(java.io.InputStream is) {
+  public static String getContent(java.io.InputStream is) {
     if (is == null) {
       return null;
     }

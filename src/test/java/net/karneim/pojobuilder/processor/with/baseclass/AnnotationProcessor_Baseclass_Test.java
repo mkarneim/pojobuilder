@@ -1,111 +1,68 @@
 package net.karneim.pojobuilder.processor.with.baseclass;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import net.karneim.pojobuilder.processor.AnnotationProcessor;
-import net.karneim.pojobuilder.testenv.JavaProject;
-import net.karneim.pojobuilder.testenv.TestBase;
-import net.karneim.pojobuilder.testenv.Util;
-
-import org.junit.After;
-import org.junit.Before;
+import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
+import net.karneim.pojobuilder.testenv.JavaProject.Compilation;
 import org.junit.Test;
+
+import static net.karneim.pojobuilder.PbAssertions.assertThat;
 
 /**
  * @feature The {@link AnnotationProcessor} generates builder classes.
  */
-public class AnnotationProcessor_Baseclass_Test extends TestBase {
-
-  private JavaProject prj = new JavaProject(Util.createTempDir());
-
-  @Before
-  public void setupJavaProject() {
-    // Enable the AnnotationProcessor
-    prj.getProcessorClasses().add(AnnotationProcessor.class);
-  }
-
-  @After
-  public void tearDownJavaProject() {
-    prj.delete();
-  }
+public class AnnotationProcessor_Baseclass_Test extends ProcessorTestSupport {
 
   /**
+   * @throws Exception
    * @scenario the builder is created with a simple base class that has been configured via @GeneratePojoBuilder
-   *           annotation
-   * @throws Exception
+   * annotation
    */
   @Test
-  public void testShouldGenerateBuilderWithSimpleBaseClass() throws Exception {
+  public void testShouldGenerateBuilderWithSimpleBaseClass() {
     // Given:
-    String pojoClassname = Pojo1.class.getName();
-    String baseClassname = SimpleBaseBuilder.class.getName();
-    String builderClassname = Pojo1Builder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, baseClassname));
-
+    sourceFor(Pojo1.class,SimpleBaseBuilder.class);
     // When:
-    boolean success = prj.compile();
-
+    prj.compile();
     // Then:
-    assertThat(success).isTrue();
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
-
-    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
+    assertThat(prj)
+        .generatedSameSourceAs(Pojo1Builder.class)
+        .compiled(Pojo1Builder.class)
+        .reported(Compilation.Success);
   }
 
   /**
-   * @scenario the generated builder should place an @Override annotation onto the build()-method if one of it's super
-   *           types declares one.
    * @throws Exception
+   * @scenario the generated builder should place an @Override annotation onto the build()-method if one of it's super
+   * types declares one.
    */
   @Test
-  public void testShouldGenerateBuilderWithBaseClassThatDeclaresGenericBuildMethod() throws Exception {
+  public void testShouldGenerateBuilderWithBaseClassThatDeclaresGenericBuildMethod() {
     // Given:
-    String pojoClassname = Pojo2.class.getName();
-    String baseClassname = BaseBuilderWithGenericBuildMethod.class.getName();
-    String builderClassname = Pojo2Builder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, baseClassname));
-
+    sourceFor(Pojo2.class,BaseBuilderWithGenericBuildMethod.class);
     // When:
-    boolean success = prj.compile();
-
+    prj.compile();
     // Then:
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
-    assertThat(success).isTrue();
-
-    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
+    assertThat(prj)
+        .generatedSameSourceAs(Pojo2Builder.class)
+        .compiled(Pojo2Builder.class)
+        .reported(Compilation.Success);
   }
 
   /**
-   * @scenario the generated builder should place an @Override annotation onto the build()-method if one of it's super
-   *           types declares one.
    * @throws Exception
+   * @scenario the generated builder should place an @Override annotation onto the build()-method if one of it's super
+   * types declares one.
    */
   @Test
-  public void testShouldGenerateBuilderWithBaseClassThatDeclaresRawBuildMethod() throws Exception {
+  public void testShouldGenerateBuilderWithBaseClassThatDeclaresRawBuildMethod() {
     // Given:
-    String pojoClassname = Pojo3.class.getName();
-    String baseClassname = BaseBuilderWithRawBuildMethod.class.getName();
-    String builderClassname = Pojo3Builder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, baseClassname));
-
+    sourceFor(Pojo3.class,BaseBuilderWithRawBuildMethod.class);
     // When:
-    boolean success = prj.compile();
-
+    prj.compile();
     // Then:
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
-    assertThat(success).isTrue();
-
-    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
+    assertThat(prj)
+        .generatedSameSourceAs(Pojo3Builder.class)
+        .compiled(Pojo3Builder.class)
+        .reported(Compilation.Success);
   }
 }

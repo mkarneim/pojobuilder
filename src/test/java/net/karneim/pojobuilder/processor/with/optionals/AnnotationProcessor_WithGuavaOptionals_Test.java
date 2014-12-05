@@ -1,83 +1,51 @@
 package net.karneim.pojobuilder.processor.with.optionals;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import net.karneim.pojobuilder.processor.AnnotationProcessor;
-import net.karneim.pojobuilder.testenv.JavaProject;
-import net.karneim.pojobuilder.testenv.TestBase;
-import net.karneim.pojobuilder.testenv.Util;
-
-import org.junit.After;
-import org.junit.Before;
+import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
+
+import static net.karneim.pojobuilder.PbAssertions.assertThat;
+import static net.karneim.pojobuilder.testenv.JavaProject.Compilation;
 
 /**
  * @feature The {@link net.karneim.pojobuilder.processor.AnnotationProcessor} generates builder
- *          classes.
+ * classes.
  */
-public class AnnotationProcessor_WithGuavaOptionals_Test extends TestBase {
-
-  private JavaProject prj = new JavaProject(Util.createTempDir());
-
-  @Before
-  public void setupJavaProject() {
-    // Enable the AnnotationProcessor
-    prj.getProcessorClasses().add(AnnotationProcessor.class);
-  }
-
-  @After
-  public void tearDownJavaProject() {
-    prj.delete();
-  }
+public class AnnotationProcessor_WithGuavaOptionals_Test extends ProcessorTestSupport {
 
   /**
+   * @throws Exception
    * @scenario the builder contains withParam(Optional&lt;X&gt;) methods
-   * @throws Exception
    */
   @Test
-  public void testShouldGenerateGuavaOptionalsForObjectTypes() throws Exception {
+  public void testShouldGenerateGuavaOptionalsForObjectTypes() {
     // Given:
-    String pojoClassname = PojoWithGuavaOptional.class.getName();
-    String builderClassname = PojoWithGuavaOptionalBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-
+    sourceFor(PojoWithGuavaOptional.class);
     // When:
-    boolean success = prj.compile();
-
+    prj.compile();
     // Then:
-    assertThat(success).isTrue();
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
-
-    String expected =
-        loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
+    assertThat(prj)
+        .generatedSameSourceAs(PojoWithGuavaOptionalBuilder.class)
+        .compiled(PojoWithGuavaOptionalBuilder.class)
+        .reported(Compilation.Success);
   }
 
+
   /**
-   * @scenario the builder withParam(Optional&lt;X&gt;) methods should not generated if the member
-   *           is already an Optional
    * @throws Exception
+   * @scenario the builder withParam(Optional&lt;X&gt;) methods should not generated if the member
+   * is already an Optional
    */
   @Test
-  public void testShouldNotGenerateGuavaOptionalsForOptionalMembers() throws Exception {
+  public void testShouldNotGenerateGuavaOptionalsForOptionalMembers() {
     // Given:
-    String pojoClassname = PojoWithGuavaOptional2.class.getName();
-    String builderClassname = PojoWithGuavaOptional2Builder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-
+    sourceFor(PojoWithGuavaOptional2.class);
     // When:
-    boolean success = prj.compile();
-
+    prj.compile();
     // Then:
-    assertThat(success).isTrue();
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
-
-    String expected =
-        loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
+    assertThat(prj)
+        .generatedSameSourceAs(PojoWithGuavaOptional2Builder.class)
+        .compiled(PojoWithGuavaOptional2Builder.class)
+        .reported(Compilation.Success);
   }
 
 }

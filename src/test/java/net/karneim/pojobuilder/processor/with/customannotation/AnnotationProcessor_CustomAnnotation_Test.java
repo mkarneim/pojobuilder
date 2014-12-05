@@ -1,118 +1,54 @@
 package net.karneim.pojobuilder.processor.with.customannotation;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import net.karneim.pojobuilder.processor.AnnotationProcessor;
+import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import net.karneim.pojobuilder.processor.with.customannotation.builder.FluentPojoABBuilderB;
 import net.karneim.pojobuilder.processor.with.customannotation.builder.FluentPojoABuilderA;
-import net.karneim.pojobuilder.testenv.JavaProject;
-import net.karneim.pojobuilder.testenv.TestBase;
-import net.karneim.pojobuilder.testenv.Util;
-
-import org.junit.After;
-import org.junit.Before;
+import net.karneim.pojobuilder.processor.with.customannotation.builder.FluentPojoCBuilderB;
+import net.karneim.pojobuilder.testenv.JavaProject.Compilation;
 import org.junit.Test;
 
-/**
- * @feature The {@link AnnotationProcessor} generates builder classes.
- */
-public class AnnotationProcessor_CustomAnnotation_Test extends TestBase {
+import static net.karneim.pojobuilder.PbAssertions.assertThat;
 
-  private JavaProject prj = new JavaProject(Util.createTempDir());
+public class AnnotationProcessor_CustomAnnotation_Test extends ProcessorTestSupport {
 
-  @Before
-  public void setupJavaProject() {
-    // Enable the AnnotationProcessor
-    prj.getProcessorClasses().add(AnnotationProcessor.class);
-  }
-
-  @After
-  public void tearDownJavaProject() {
-    prj.delete();
-  }
-
-  /**
-   * @scenario
-   * @throws Exception
-   */
   @Test
-  public void testShouldGenerateBuilderForPojoWithSingleCustomAnnotation() throws Exception {
+  public void testShouldGenerateBuilderForPojoWithSingleCustomAnnotation() {
     // Given:
-    String pojoClassname = PojoA.class.getName();
-    String customAnnotationA = MyCustomAnnotationA.class.getName();
+    sourceFor(PojoA.class,MyCustomAnnotationA.class);
     String builderClassname = FluentPojoABuilderA.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, customAnnotationA));
-
     // When:
-    boolean success = prj.compile();
-
+    prj.compile();
     // Then:
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
-    assertThat(success).isTrue();
-
-    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
+    assertThat(prj)
+        .generatedSameSourceAs(FluentPojoABuilderA.class)
+        .compiled(FluentPojoABuilderA.class)
+        .reported(Compilation.Success);
   }
 
-  /**
-   * @scenario
-   * @throws Exception
-   */
   @Test
-  public void testShouldGenerateBuilderForPojoWithMultipleCustomAnnotations() throws Exception {
+  public void testShouldGenerateBuilderForPojoWithMultipleCustomAnnotations() {
     // Given:
-    String pojoClassname = PojoAB.class.getName();
-    String customAnnotationA = MyCustomAnnotationA.class.getName();
-    String customAnnotationB = MyCustomAnnotationB.class.getName();
-    String builderClassname = FluentPojoABBuilderB.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, customAnnotationA));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, customAnnotationB));
-
+    sourceFor(PojoAB.class,MyCustomAnnotationA.class,MyCustomAnnotationB.class);
     // When:
-    boolean success = prj.compile();
-
+    prj.compile();
     // Then:
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
-    assertThat(success).isTrue();
-
-    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
+    assertThat(prj)
+        .generatedSameSourceAs(FluentPojoABBuilderB.class)
+        .compiled(FluentPojoABBuilderB.class)
+        .reported(Compilation.Success);
   }
 
-  /**
-   * @scenario
-   * @throws Exception
-   */
   @Test
-  public void testShouldGenerateBuilderForPojoWithMultipleCustomAnnotationsInAnnotationHierarchy() throws Exception {
+  public void testShouldGenerateBuilderForPojoWithMultipleCustomAnnotationsInAnnotationHierarchy() {
     // Given:
-    String pojoClassname = PojoC.class.getName();
-    String customAnnotationA = MyCustomAnnotationA.class.getName();
-    String customAnnotationB = MyCustomAnnotationB.class.getName();
-    String customAnnotationC = MyCustomAnnotationC.class.getName();
-    String builderClassname = "net.karneim.pojobuilder.processor.with.customannotation.builder.FluentPojoCBuilderB";
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, customAnnotationA));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, customAnnotationB));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, customAnnotationC));
-
+    sourceFor(PojoC.class,MyCustomAnnotationA.class,MyCustomAnnotationB.class,MyCustomAnnotationC.class);
     // When:
-    boolean success = prj.compile();
-
+    prj.compile();
     // Then:
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
-    assertThat(success).isTrue();
-
-    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
+    assertThat(prj)
+        .generatedSameSourceAs(FluentPojoCBuilderB.class)
+        .compiled(FluentPojoCBuilderB.class)
+        .reported(Compilation.Success);
   }
-
 
 }

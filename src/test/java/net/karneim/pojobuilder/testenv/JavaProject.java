@@ -1,5 +1,10 @@
 package net.karneim.pojobuilder.testenv;
 
+import com.google.common.base.Throwables;
+
+import javax.annotation.processing.Processor;
+import javax.tools.*;
+import javax.tools.JavaFileObject.Kind;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,23 +14,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.processing.Processor;
-import javax.tools.Diagnostic;
-import javax.tools.DiagnosticCollector;
-import javax.tools.JavaCompiler;
-import javax.tools.JavaFileObject;
-import javax.tools.JavaFileObject.Kind;
-import javax.tools.StandardJavaFileManager;
-import javax.tools.StandardLocation;
-import javax.tools.ToolProvider;
-
 /**
  * The {@link JavaProject} is a driver for controlling a simple java project. This includes adding source files,
  * enabling annotation processors, compiling and accessing the generated classes.
- * 
+ *
  * @author Michael Karneim
  */
 public class JavaProject {
+
+  public enum Compilation {NotStarted, Success, Failure}
+
+  private Compilation status = Compilation.NotStarted;
+
   private final File workingDirectory;
   private final File outputRoot;
   private final File localTempDir;
@@ -41,7 +41,7 @@ public class JavaProject {
 
   /**
    * Creates a new java project with the specified working directory.
-   * 
+   *
    * @param workingDirectory will be used to store generated source and class files
    */
   public JavaProject(File workingDirectory) {
@@ -67,12 +67,13 @@ public class JavaProject {
    * Deletes this java project by deleting the working directory.
    */
   public void delete() {
+    status = Compilation.NotStarted;
     Util.deleteDir(workingDirectory);
   }
 
   /**
    * Returns the annotation processors that will be used during the compilation task.
-   * 
+   *
    * @return the annotation processors that will be used during the compilation task
    */
   public List<Processor> getProcessors() {
@@ -81,7 +82,7 @@ public class JavaProject {
 
   /**
    * Returns the annotation processor classes that will be used during the compilation task.
-   * 
+   *
    * @return the annotation processor classes that will be used
    */
   public List<Class<? extends Processor>> getProcessorClasses() {
@@ -90,7 +91,7 @@ public class JavaProject {
 
   /**
    * Returns the directory that contains the generated source and class files.
-   * 
+   *
    * @return the directory that contains the generated source and class files
    */
   public File getOutputRoot() {
@@ -104,9 +105,9 @@ public class JavaProject {
   /**
    * Adds the file with the given relative filename to the source tree. If the file is a directory then all files inside
    * that directory are added (recursively).
-   * 
+   *
    * @param filepath the filepath must be absolute or relative to the current directory (that is the directory this JVM
-   *        has been started from as stored in System.getProperty("user.dir"))
+   *                 has been started from as stored in System.getProperty("user.dir"))
    */
   public void addSourceFile(String filepath) {
     File file = new File(filepath);
@@ -121,9 +122,9 @@ public class JavaProject {
 
   /**
    * Adds a source file for the given qualified class name and the given content to the source tree.
-   * 
+   *
    * @param qualifiedClassname the qualified name of the Java class
-   * @param content the source code of the Java class
+   * @param content            the source code of the Java class
    * @throws IOException
    */
   public void addSourceFile(String qualifiedClassname, String content) throws IOException {
@@ -138,7 +139,7 @@ public class JavaProject {
     addSourceFile(file);
   }
 
-  protected String getSourceFilename(String fullQualifiedClassname) {
+  protected static String getSourceFilename(String fullQualifiedClassname) {
     String result = fullQualifiedClassname.replace('.', '/').concat(".java");
     return result;
   }
@@ -161,7 +162,7 @@ public class JavaProject {
    * Adds the (compiled) class with the given full qualified name to the list of classes, that should be processed by
    * the annotation processor(s) without being compiled first. Make sure that the class is available in the current
    * class path.
-   * 
+   *
    * @param name the full qualified class name of the class
    */
   public void addClassnameForProcessing(String name) {
@@ -170,7 +171,7 @@ public class JavaProject {
 
   /**
    * Loads a class with the given class name from this project's output directory and returns it.
-   * 
+   *
    * @param classname
    * @return the class with the given class name, loaded from this project's output directory
    * @throws ClassNotFoundException
@@ -184,7 +185,7 @@ public class JavaProject {
   /**
    * Returns an {@link InputStream} for reading the source code of the specified java class with the given name from
    * this project's output directory.
-   * 
+   *
    * @param classname
    * @return the input stream for reading the specified java class
    * @throws IOException
@@ -199,11 +200,19 @@ public class JavaProject {
 
   /**
    * Compiles this project's sources. All generated files will be placed into the output directory.
-   * 
+   *
    * @return <code>true</code> if the compilation has been successful.
    * @throws IOException
    */
-  public boolean compile() throws IOException {
+  public boolean compile() {
+    try {
+      return _compile();
+    } catch( Exception e) {
+      throw Throwables.propagate(e);
+    }
+  }
+
+  private boolean _compile() throws Exception {
     Iterable<? extends JavaFileObject> compilationUnits = fileManager.getJavaFileObjectsFromFiles(this.sourceFiles);
 
     List<String> optionList = new ArrayList<String>();
@@ -227,14 +236,17 @@ public class JavaProject {
     if (!processors.isEmpty()) {
       task.setProcessors(processors);
     }
-    boolean success = task.call();
+    status = task.call() ? Compilation.Success : Compilation.Failure;
 
     fileManager.close();
 
     for (Diagnostic<? extends JavaFileObject> d : diagnostics.getDiagnostics()) {
       System.out.println(d);
     }
-    return success;
+    return status == Compilation.Success;
   }
 
+  public Compilation getStatus() {
+    return status;
+  }
 }

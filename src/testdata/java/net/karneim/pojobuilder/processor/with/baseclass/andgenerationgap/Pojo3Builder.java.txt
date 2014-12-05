@@ -1,0 +1,23 @@
+﻿package net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap;
+
+import javax.annotation.Generated;
+
+/**
+ * The {@link Pojo3Builder} is a Builder for {@link Pojo3} objects.
+ * <p> ATTENTION:
+ *     This class has been generated.
+ *     If you want to ADD HANDWRITTEN CODE,
+ *     please MOVE THIS FILE out of the generated-sources folder
+ *     in order to prevent it from being overwritten by the
+ *     PojoBuilder generator!
+ * </p>
+ */
+@Generated("PojoBuilder")
+public class Pojo3Builder extends AbstractPojo3Builder {
+
+  /**
+   * Creates a new {@link Pojo3Builder}.
+   */
+  public Pojo3Builder() {
+  }
+}

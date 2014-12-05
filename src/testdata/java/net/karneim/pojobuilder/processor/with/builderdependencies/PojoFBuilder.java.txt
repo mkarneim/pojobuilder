@@ -1,0 +1,91 @@
+package net.karneim.pojobuilder.processor.with.builderdependencies;
+
+import javax.annotation.Generated;
+
+@Generated("PojoBuilder")
+public class PojoFBuilder
+    implements Cloneable {
+  protected PojoFBuilder self;
+  protected String value$name$java$lang$String;
+  protected boolean isSet$name$java$lang$String;
+  protected PojoEBuilder value$pojoEBuilder$net$karneim$pojobuilder$processor$with$builderdependencies$PojoEBuilder;
+  protected boolean isSet$pojoEBuilder$net$karneim$pojobuilder$processor$with$builderdependencies$PojoEBuilder;
+
+  /**
+   * Creates a new {@link PojoFBuilder}.
+   */
+  public PojoFBuilder() {
+    self = (PojoFBuilder)this;
+  }
+
+  /**
+   * Sets the default value for the {@link PojoF#name} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public PojoFBuilder withName(String value) {
+    this.value$name$java$lang$String = value;
+    this.isSet$name$java$lang$String = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link PojoF#pojoEBuilder} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public PojoFBuilder withPojoEBuilder(PojoEBuilder value) {
+    this.value$pojoEBuilder$net$karneim$pojobuilder$processor$with$builderdependencies$PojoEBuilder = value;
+    this.isSet$pojoEBuilder$net$karneim$pojobuilder$processor$with$builderdependencies$PojoEBuilder = true;
+    return self;
+  }
+
+  /**
+   * Returns a clone of this builder.
+   *
+   * @return the clone
+   */
+  @Override
+  public Object clone() {
+    try {
+      PojoFBuilder result = (PojoFBuilder)super.clone();
+      result.self = result;
+      return result;
+    } catch (CloneNotSupportedException e) {
+      throw new InternalError(e.getMessage());
+    }
+  }
+
+  /**
+   * Returns a clone of this builder.
+   *
+   * @return the clone
+   */
+  public PojoFBuilder but() {
+    return (PojoFBuilder)clone();
+  }
+
+  /**
+   * Creates a new {@link PojoF} based on this builder's settings.
+   *
+   * @return the created PojoF
+   */
+  public PojoF build() {
+    try {
+      PojoF result = PojoFFactory.createPojoF();
+      if (isSet$name$java$lang$String) {
+        result.name = value$name$java$lang$String;
+      }
+      if (isSet$pojoEBuilder$net$karneim$pojobuilder$processor$with$builderdependencies$PojoEBuilder) {
+        result.pojoEBuilder = value$pojoEBuilder$net$karneim$pojobuilder$processor$with$builderdependencies$PojoEBuilder;
+      }
+      return result;
+    } catch (RuntimeException ex) {
+      throw ex;
+    } catch (Exception ex) {
+      throw new java.lang.reflect.UndeclaredThrowableException(ex);
+    }
+  }
+}

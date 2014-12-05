@@ -1,78 +1,48 @@
 package net.karneim.pojobuilder.processor.with.array;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import net.karneim.pojobuilder.processor.AnnotationProcessor;
-import net.karneim.pojobuilder.testenv.JavaProject;
-import net.karneim.pojobuilder.testenv.TestBase;
-import net.karneim.pojobuilder.testenv.Util;
-
-import org.junit.After;
-import org.junit.Before;
+import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
+import net.karneim.pojobuilder.testenv.JavaProject.Compilation;
 import org.junit.Test;
+
+import static net.karneim.pojobuilder.PbAssertions.assertThat;
 
 /**
  * @feature The {@link AnnotationProcessor} generates builder classes.
  */
-public class AnnotationProcessor_Array_Test extends TestBase {
-
-  private JavaProject prj = new JavaProject(Util.createTempDir());
-
-  @Before
-  public void setupJavaProject() {
-    // Enable the AnnotationProcessor
-    prj.getProcessorClasses().add(AnnotationProcessor.class);
-  }
-
-  @After
-  public void tearDownJavaProject() {
-    prj.delete();
-  }
+public class AnnotationProcessor_Array_Test extends ProcessorTestSupport {
 
   /**
+   * @throws Exception
    * @scenario the builder is created with appropriate array properties.
-   * @throws Exception
    */
   @Test
-  public void testShouldGenerateBuilderWithArrayProperties() throws Exception {
+  public void testShouldGenerateBuilderWithArrayProperties() {
     // Given:
-    String pojoClassname = Pojo.class.getName();
-    String builderClassname = PojoBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-
+    sourceFor(Pojo.class);
     // When:
-    boolean success = prj.compile();
-
+    prj.compile();
     // Then:
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
-    assertThat(success).isTrue();
-
-    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
+    assertThat(prj)
+        .generatedSameSourceAs(PojoBuilder.class)
+        .compiled(PojoBuilder.class)
+        .reported(Compilation.Success);
   }
 
   /**
-   * @scenario the builder is created with appropriate generic array properties.
    * @throws Exception
+   * @scenario the builder is created with appropriate generic array properties.
    */
   @Test
-  public void testShouldGenerateBuilderWithGenericArrayProperties() throws Exception {
+  public void testShouldGenerateBuilderWithGenericArrayProperties() {
     // Given:
-    String pojoClassname = GenericPojo.class.getName();
-    String builderClassname = GenericPojoBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-
+    sourceFor(GenericPojo.class);
     // When:
-    boolean success = prj.compile();
-
+    prj.compile();
     // Then:
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
-    assertThat(success).isTrue();
-
-    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
+    assertThat(prj)
+        .generatedSameSourceAs(GenericPojoBuilder.class)
+        .compiled(GenericPojoBuilder.class)
+        .reported(Compilation.Success);
   }
 }

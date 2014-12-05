@@ -1,57 +1,34 @@
 package net.karneim.pojobuilder.processor.with.intopackage;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import net.karneim.pojobuilder.processor.AnnotationProcessor;
+import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import net.karneim.pojobuilder.processor.with.intopackage.builder.SampleBean3Builder;
-import net.karneim.pojobuilder.testenv.JavaProject;
-import net.karneim.pojobuilder.testenv.TestBase;
-import net.karneim.pojobuilder.testenv.Util;
-
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
+
+import static net.karneim.pojobuilder.PbAssertions.assertThat;
+import static net.karneim.pojobuilder.testenv.JavaProject.Compilation;
 
 /**
  * @feature The {@link AnnotationProcessor} generates builder classes.
  */
-public class AnnotationProcessor_IntoPackage_Test extends TestBase {
-
-  private JavaProject prj = new JavaProject(Util.createTempDir());
-
-  @Before
-  public void setupJavaProject() {
-    // Enable the AnnotationProcessor
-    prj.getProcessorClasses().add(AnnotationProcessor.class);
-  }
-
-  @After
-  public void tearDownJavaProject() {
-    prj.delete();
-  }
+public class AnnotationProcessor_IntoPackage_Test extends ProcessorTestSupport {
 
   /**
-   * @scenario the builder is created into a specific package that has been configured via @GeneratePojoBuilder
-   *           annotation
    * @throws Exception
+   * @scenario the builder is created into a specific package that been configured via @GeneratePojoBuildr
+   * annotation
    */
   @Test
-  public void testShouldGenerateBuilderIntoConfiguredPackage() throws Exception {
+  public void testShouldGenerateBuilderIntoConfiguredPackage() {
     // Given:
-    String pojoClassname = SampleBean3.class.getName();
-    String builderClassname = SampleBean3Builder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-
+    sourceFor(SampleBean3.class);
     // When:
-    boolean success = prj.compile();
-
+    prj.compile();
     // Then:
-    assertThat(success).isTrue();
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
-
-    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
+    assertThat(prj)
+        .generatedSameSourceAs(SampleBean3Builder.class)
+        .compiled(SampleBean3Builder.class)
+        .reported(Compilation.Success);
   }
 
 }

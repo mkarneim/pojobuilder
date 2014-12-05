@@ -1,94 +1,51 @@
 package net.karneim.pojobuilder.processor.with.generationgap;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import net.karneim.pojobuilder.processor.AnnotationProcessor;
-import net.karneim.pojobuilder.testenv.JavaProject;
-import net.karneim.pojobuilder.testenv.TestBase;
-import net.karneim.pojobuilder.testenv.Util;
-
-import org.junit.After;
-import org.junit.Before;
+import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
+
+import static net.karneim.pojobuilder.PbAssertions.assertThat;
+import static net.karneim.pojobuilder.testenv.JavaProject.Compilation;
 
 /**
  * @feature The {@link AnnotationProcessor} generates builder classes.
  */
-public class AnnotationProcessor_GenerationGap_Test extends TestBase {
-
-  private JavaProject prj = new JavaProject(Util.createTempDir());
-
-  @Before
-  public void setupJavaProject() {
-    // Enable the AnnotationProcessor
-    prj.getProcessorClasses().add(AnnotationProcessor.class);
-  }
-
-  @After
-  public void tearDownJavaProject() {
-    prj.delete();
-  }
+public class AnnotationProcessor_GenerationGap_Test extends ProcessorTestSupport {
 
   /**
-   * @scenario Should generate {@link AbstractOrderBuilder} and {@link OrderBuilder}.
    * @throws Exception
+   * @scenario Should generate AbstractOrderBuilder and OrderBuilder
    */
   @Test
-  public void testShouldGenerateAbstractPlayerBuilderAndPlayerBuilder() throws Exception {
+  public void testShouldGenerateAbstractPlayerBuilderAndPlayerBuilder() {
     // Given:
-    String pojoClassname = Order.class.getName();
-    String abstractBuilderClassname = "net.karneim.pojobuilder.processor.with.generationgap.AbstractOrderBuilder";
-    String manualBuilderClassname = "net.karneim.pojobuilder.processor.with.generationgap.OrderBuilder";
-
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-
+    sourceFor(Order.class);
     // When:
-    boolean success = prj.compile();
-
+    prj.compile();
     // Then:
-    assertThat(success).isTrue();
-    String actual1 = getContent(prj.findGeneratedSource(abstractBuilderClassname));
-    logDebug(actual1);
-    String actual2 = getContent(prj.findGeneratedSource(manualBuilderClassname));
-    logDebug(actual2);
-
-    String expected1 = loadResourceFromClasspath("AbstractOrderBuilder.expected.txt");
-    assertThat(actual1).isEqualTo(expected1);
-    assertThat(prj.findClass(abstractBuilderClassname)).isNotNull();
-
-    String expected2 = loadResourceFromClasspath("OrderBuilder.expected.txt");
-    assertThat(actual2).isEqualTo(expected2);
-    assertThat(prj.findClass(manualBuilderClassname)).isNotNull();
+    assertThat(prj)
+        .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.generationgap.AbstractOrderBuilder")
+        .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.generationgap.OrderBuilder")
+        .reported(Compilation.Success);
   }
 
   /**
+   * @throws Exception
    * @scenario Should generate {@link AbstractPlayerBuilder} but not {@link PlayerBuilder} since it already exists.
-   * @throws Exception
    */
   @Test
-  public void testShouldGenerateOnlyAbstractPlayerBuilderButNotPlayerBuilder() throws Exception {
+  public void testShouldGenerateOnlyAbstractPlayerBuilderButNotPlayerBuilder() {
     // Given:
-    String pojoClassname = Player.class.getName();
-    String abstractBuilderClassname = AbstractPlayerBuilder.class.getName();
-    String manualBuilderClassname = PlayerBuilder.class.getName();
-
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-
+    sourceFor(Player.class);
     // When:
-    boolean success = prj.compile();
-
+    prj.compile();
     // Then:
-    assertThat(success).isTrue();
-    String codeOfAbstractBuilder = getContent(prj.findGeneratedSource(abstractBuilderClassname));
-    logDebug(codeOfAbstractBuilder);
-    String codeOfManualBuilder = getContent(prj.findGeneratedSource(manualBuilderClassname));
-    logDebug(codeOfManualBuilder);
-
-    String expected1 = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(abstractBuilderClassname));
-    assertThat(codeOfAbstractBuilder).isEqualTo(expected1);
-    assertThat(prj.findClass(abstractBuilderClassname)).isNotNull();
-
-    assertThat(codeOfManualBuilder).isNull(); // <- not overwritten since it already exists
-    assertThat(prj.findClass(manualBuilderClassname)).isNotNull();
+    assertThat(prj)
+        .generatedSameSourceAs(AbstractPlayerBuilder.class)
+        .compiled(AbstractPlayerBuilder.class)
+        .didNotGenerateSourceFor(PlayerBuilder.class)
+        .compiled(PlayerBuilder.class)
+        .reported(Compilation.Success);
   }
 
 }

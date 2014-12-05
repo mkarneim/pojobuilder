@@ -1,81 +1,49 @@
 package net.karneim.pojobuilder.processor.with.varargs;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import net.karneim.pojobuilder.processor.AnnotationProcessor;
-import net.karneim.pojobuilder.testenv.JavaProject;
-import net.karneim.pojobuilder.testenv.TestBase;
-import net.karneim.pojobuilder.testenv.Util;
-
-import org.junit.After;
-import org.junit.Before;
+import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
+
+import static net.karneim.pojobuilder.PbAssertions.assertThat;
+import static net.karneim.pojobuilder.testenv.JavaProject.Compilation;
 
 /**
  * @feature The {@link AnnotationProcessor} generates builder classes.
  */
-public class AnnotationProcessor_VarArgs_Test extends TestBase {
-
-  private JavaProject prj = new JavaProject(Util.createTempDir());
-
-  @Before
-  public void setupJavaProject() {
-    // Enable the AnnotationProcessor
-    prj.getProcessorClasses().add(AnnotationProcessor.class);
-  }
-
-  @After
-  public void tearDownJavaProject() {
-    prj.delete();
-  }
+public class AnnotationProcessor_VarArgs_Test extends ProcessorTestSupport {
 
   /**
-   * @scenario the pojo has a constructor and some setter-methods using a varargs parameter.
    * @throws Exception
+   * @scenario the pojo a constructor and some setter-methods using a varargs paramete.
    */
   @Test
-  public void testVarargsInConstructorAndSetterMethods() throws Exception {
+  public void testVarargsInConstructorAndSetterMethods() {
     // Given:
-    String pojoClassname = Pojo.class.getName();
-    String builderClassname = PojoBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-
+    sourceFor(Pojo.class);
     // When:
-    boolean success = prj.compile();
-
+    prj.compile();
     // Then:
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
-    assertThat(success).isTrue();
-
-    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
+    assertThat(prj)
+        .generatedSameSourceAs(PojoBuilder.class)
+        .compiled(PojoBuilder.class)
+        .reported(Compilation.Success);
   }
 
   /**
+   * @throws Exception
    * @scenario using varargs parameter in the factory method and some setter methods
-   * @throws Exception
    */
   @Test
-  public void testVarargsInFactoryMethodAndSetterMethods() throws Exception {
+  public void testVarargsInFactoryMethodAndSetterMethods() {
     // Given:
-    String pojoClassname = Pojo.class.getName();
-    String factoryClassname = PojoFactory.class.getName();
-    String builderClassname = OtherPojoBuilder.class.getName();
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojoClassname));
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, factoryClassname));
-
+    sourceForFactoryMethod(PojoFactory.class, null);
     // When:
-    boolean success = prj.compile();
-
+    prj.compile();
     // Then:
-    assertThat(success).isTrue();
-    String actual = getContent(prj.findGeneratedSource(builderClassname));
-    logDebug(actual);
-
-    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
-    assertThat(actual).isEqualTo(expected);
-    assertThat(prj.findClass(builderClassname)).isNotNull();
+    assertThat(prj)
+        .generatedSameSourceAs(OtherPojoBuilder.class)
+        .compiled(OtherPojoBuilder.class)
+        .reported(Compilation.Success);
   }
 
 }

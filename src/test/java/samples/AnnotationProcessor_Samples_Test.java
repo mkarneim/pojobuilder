@@ -6,6 +6,7 @@ import java.io.File;
 import java.net.URL;
 
 import net.karneim.pojobuilder.processor.AnnotationProcessor;
+import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import net.karneim.pojobuilder.testenv.JavaProject;
 import net.karneim.pojobuilder.testenv.TestBase;
 import net.karneim.pojobuilder.testenv.Util;
@@ -24,20 +25,7 @@ import samples.dsl.StringBuilder;
 /**
  * @feature The {@link AnnotationProcessor} generates builder classes.
  */
-public class AnnotationProcessor_Samples_Test extends TestBase {
-
-  private JavaProject prj = new JavaProject(Util.createTempDir());
-
-  @Before
-  public void setupJavaProject() {
-    // Enable the AnnotationProcessor
-    prj.getProcessorClasses().add(AnnotationProcessor.class);
-  }
-
-  @After
-  public void tearDownJavaProject() {
-    prj.delete();
-  }
+public class AnnotationProcessor_Samples_Test extends ProcessorTestSupport {
 
   /**
    * @scenario Generating a builder for {@link Contact}.
