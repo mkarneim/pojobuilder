@@ -35,26 +35,13 @@ public class AnnotationProcessor_StaticFactoryMethod_Test extends ProcessorTestS
   public void testShouldGenerateFactoryMethodOnManualClass() throws Exception {
     // Given:
     sourceFor(Strife.class);
-    String abstractBuilderClassname = "net.karneim.pojobuilder.processor.with.staticfactorymethod.AbstractStrifeBuilder";
-    String manualBuilderClassname = "net.karneim.pojobuilder.processor.with.staticfactorymethod.StrifeBuilder";
-
     // When:
     boolean success = prj.compile();
-
     // Then:
-    String actual1 = getContent(prj.findGeneratedSource(abstractBuilderClassname));
-    logDebug(actual1);
-    String actual2 = getContent(prj.findGeneratedSource(manualBuilderClassname));
-    logDebug(actual2);
+    assertThat(prj)
+        .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.staticfactorymethod.AbstractStrifeBuilder")
+        .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.staticfactorymethod.StrifeBuilder");
     assertThat(success).isTrue();
-
-    String expected1 = loadResourceFromClasspath("AbstractStrifeBuilder.expected.txt");
-    assertThat(actual1).isEqualTo(expected1);
-    assertThat(prj.findClass(abstractBuilderClassname)).isNotNull();
-
-    String expected2 = loadResourceFromClasspath("StrifeBuilder.expected.txt");
-    assertThat(actual2).isEqualTo(expected2);
-    assertThat(prj.findClass(manualBuilderClassname)).isNotNull();
   }
 
 }

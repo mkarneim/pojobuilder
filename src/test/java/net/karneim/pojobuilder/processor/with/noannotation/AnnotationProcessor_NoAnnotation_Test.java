@@ -4,7 +4,7 @@ import net.karneim.pojobuilder.processor.AnnotationProcessor;
 import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static net.karneim.pojobuilder.PbAssertions.assertThat;
 
 /**
  * @feature The {@link AnnotationProcessor} generates builder classes.
@@ -20,12 +20,12 @@ public class AnnotationProcessor_NoAnnotation_Test extends ProcessorTestSupport 
     // Given:
     sourceFor(EmptyPojo.class);
     String nameOfNotGeneratedBuilder = "samples.with.noannotation.EmptyPojoBuilder";
-
     // When:
     boolean success = prj.compile();
-
     // Then:
-    assertThat(prj.findGeneratedSource(nameOfNotGeneratedBuilder)).isNull();
+    assertThat(prj)
+        .didNotGenerateSourceFor(nameOfNotGeneratedBuilder);
+    assertThat(success).isTrue();
   }
 
 }

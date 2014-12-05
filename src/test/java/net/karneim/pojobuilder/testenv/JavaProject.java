@@ -138,7 +138,7 @@ public class JavaProject {
     addSourceFile(file);
   }
 
-  protected String getSourceFilename(String fullQualifiedClassname) {
+  protected static String getSourceFilename(String fullQualifiedClassname) {
     String result = fullQualifiedClassname.replace('.', '/').concat(".java");
     return result;
   }

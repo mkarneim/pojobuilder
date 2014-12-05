@@ -4,7 +4,7 @@ import net.karneim.pojobuilder.processor.AnnotationProcessor;
 import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static net.karneim.pojobuilder.PbAssertions.assertThat;
 
 /**
  * @feature The {@link AnnotationProcessor} generates builder classes.
@@ -20,27 +20,13 @@ public class AnnotationProcessor_BaseclassAndGenerationGap_Test extends Processo
     // Given:
     sourceFor(Pojo1.class);
     sourceFor(SimpleBaseBuilder.class);
-    String abstractBuilderClassname =
-        "net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap.AbstractPojo1Builder";
-    String manualBuilderClassname = "net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap.Pojo1Builder";
-
     // When:
     boolean success = prj.compile();
-
     // Then:
-    String actual1 = getContent(prj.findGeneratedSource(abstractBuilderClassname));
-    logDebug(actual1);
-    String actual2 = getContent(prj.findGeneratedSource(manualBuilderClassname));
-    logDebug(actual2);
+    assertThat(prj)
+        .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap.AbstractPojo1Builder")
+        .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap.Pojo1Builder");
     assertThat(success).isTrue();
-
-    String expected1 = loadResourceFromClasspath("AbstractPojo1Builder.expected.txt");
-    assertThat(actual1).isEqualTo(expected1);
-    assertThat(prj.findClass(abstractBuilderClassname)).isNotNull();
-
-    String expected2 = loadResourceFromClasspath("Pojo1Builder.expected.txt");
-    assertThat(actual2).isEqualTo(expected2);
-    assertThat(prj.findClass(manualBuilderClassname)).isNotNull();
   }
 
   /**
@@ -52,27 +38,13 @@ public class AnnotationProcessor_BaseclassAndGenerationGap_Test extends Processo
     // Given:
     sourceFor(Pojo2.class);
     sourceFor(BaseBuilderWithGenericBuildMethod.class);
-    String abstractBuilderClassname =
-        "net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap.AbstractPojo2Builder";
-    String manualBuilderClassname = "net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap.Pojo2Builder";
-
     // When:
     boolean success = prj.compile();
-
     // Then:
+    assertThat(prj)
+        .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap.AbstractPojo2Builder")
+        .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap.Pojo2Builder");
     assertThat(success).isTrue();
-    String actual1 = getContent(prj.findGeneratedSource(abstractBuilderClassname));
-    logDebug(actual1);
-    String actual2 = getContent(prj.findGeneratedSource(manualBuilderClassname));
-    logDebug(actual2);
-
-    String expected1 = loadResourceFromClasspath("AbstractPojo2Builder.expected.txt");
-    assertThat(actual1).isEqualTo(expected1);
-    assertThat(prj.findClass(abstractBuilderClassname)).isNotNull();
-
-    String expected2 = loadResourceFromClasspath("Pojo2Builder.expected.txt");
-    assertThat(actual2).isEqualTo(expected2);
-    assertThat(prj.findClass(manualBuilderClassname)).isNotNull();
   }
 
   /**
@@ -84,26 +56,12 @@ public class AnnotationProcessor_BaseclassAndGenerationGap_Test extends Processo
     // Given:
     sourceFor(Pojo3.class);
     sourceFor(BaseBuilderWithRawBuildMethod.class);
-    String abstractBuilderClassname =
-        "net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap.AbstractPojo3Builder";
-    String manualBuilderClassname = "net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap.Pojo3Builder";
-
     // When:
     boolean success = prj.compile();
-
     // Then:
+    assertThat(prj)
+        .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap.AbstractPojo3Builder")
+        .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap.Pojo3Builder");
     assertThat(success).isTrue();
-    String actual1 = getContent(prj.findGeneratedSource(abstractBuilderClassname));
-    logDebug(actual1);
-    String actual2 = getContent(prj.findGeneratedSource(manualBuilderClassname));
-    logDebug(actual2);
-
-    String expected1 = loadResourceFromClasspath("AbstractPojo3Builder.expected.txt");
-    assertThat(actual1).isEqualTo(expected1);
-    assertThat(prj.findClass(abstractBuilderClassname)).isNotNull();
-
-    String expected2 = loadResourceFromClasspath("Pojo3Builder.expected.txt");
-    assertThat(actual2).isEqualTo(expected2);
-    assertThat(prj.findClass(manualBuilderClassname)).isNotNull();
   }
 }

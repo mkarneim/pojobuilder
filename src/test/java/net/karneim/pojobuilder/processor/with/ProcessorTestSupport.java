@@ -1,5 +1,6 @@
 package net.karneim.pojobuilder.processor.with;
 
+import com.google.common.base.Throwables;
 import net.karneim.pojobuilder.processor.AnnotationProcessor;
 import net.karneim.pojobuilder.testenv.JavaProject;
 import net.karneim.pojobuilder.testenv.TestBase;
@@ -7,6 +8,7 @@ import net.karneim.pojobuilder.testenv.Util;
 import org.junit.After;
 import org.junit.Before;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 
 /**
@@ -34,6 +36,19 @@ public abstract class ProcessorTestSupport extends TestBase {
    */
   protected void sourceFor(Class pojo) {
     prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojo.getName()));
+  }
+
+  /**
+   * For generation gap where the pre-existence of the manual class stops its from being generated we must assert the
+   * content against a file. This is done by a simple naming contract - there <b>must</b> be a file called [classname].java.txt.
+   * @param classname The full classname of the builder class
+   */
+  protected void sourceFor( String classname ) {
+    try {
+      prj.addSourceFile(classname, loadResourceFromFilesystem(TestBase.TESTDATA_DIRECTORY, getSourceFilename(classname)+".txt"));
+    } catch (IOException e) {
+      throw Throwables.propagate(e);
+    }
   }
 
   /**

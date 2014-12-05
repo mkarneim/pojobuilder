@@ -16,7 +16,7 @@ public class TestBase {
     }
   }
 
-  protected String loadResourceFromClasspath(String name) throws IOException {
+  public String loadResourceFromClasspath(String name) throws IOException {
     return getContent(this.getClass().getResourceAsStream(name));
   }
 
