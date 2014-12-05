@@ -17,7 +17,7 @@ public class AnnotationProcessor_NoAnnotation_Test extends ProcessorTestSupport 
    * @scenario no builder is created for a pojo having no @GeneratePojoBuilder annotation
    */
   @Test
-  public void testShouldNotGenerateBuilderForEmptyPojo() throws Exception {
+  public void testShouldNotGenerateBuilderForEmptyPojo() {
     // Given:
     sourceFor(EmptyPojo.class);
     // When:

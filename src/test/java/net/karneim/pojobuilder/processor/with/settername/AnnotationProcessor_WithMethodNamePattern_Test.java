@@ -17,7 +17,7 @@ public class AnnotationProcessor_WithMethodNamePattern_Test extends ProcessorTes
    * @scenario the name pattern is "set*"
    */
   @Test
-  public void testPatternIsSetAsterisk() throws Exception {
+  public void testPatternIsSetAsterisk()  {
     // Given:
     sourceFor(Pojo.class);
     // When:
@@ -34,7 +34,7 @@ public class AnnotationProcessor_WithMethodNamePattern_Test extends ProcessorTes
    * @scenario the name pattern is "*"
    */
   @Test
-  public void testPatternIsAsterisk() throws Exception {
+  public void testPatternIsAsterisk() {
     // Given:
     sourceFor(Pojo2.class);
     // When:

@@ -16,7 +16,7 @@ public class AnnotationProcessor_StaticFactoryMethod_Test extends ProcessorTestS
    * @scenario the builder is created with a factory method
    */
   @Test
-  public void testShouldGenerateFactoryMethod() throws Exception {
+  public void testShouldGenerateFactoryMethod() {
     // Given:
     sourceFor(Trouble.class);
     // When:
@@ -33,7 +33,7 @@ public class AnnotationProcessor_StaticFactoryMethod_Test extends ProcessorTestS
    * @scenario the manual builder is created with a factory method
    */
   @Test
-  public void testShouldGenerateFactoryMethodOnManualClass() throws Exception {
+  public void testShouldGenerateFactoryMethodOnManualClass() {
     // Given:
     sourceFor(Strife.class);
     // When:

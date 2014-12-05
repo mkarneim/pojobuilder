@@ -17,7 +17,7 @@ public class AnnotationProcessor_Enums_Test extends ProcessorTestSupport {
    * @scenario the builder is created with appropriate enum properties.
    */
   @Test
-  public void testShouldGenerateBuilderWithEnumProperties() throws Exception {
+  public void testShouldGenerateBuilderWithEnumProperties() {
     // Given:
     sourceFor(Pojo.class);
     // When:

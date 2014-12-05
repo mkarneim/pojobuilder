@@ -17,7 +17,7 @@ public class AnnotationProcessor_Name_Test extends ProcessorTestSupport {
    * @scenario the builder is created with a specific name that been configured via @GeneratePojoBuilder annotatin
    */
   @Test
-  public void testShouldGenerateBuilderWithConfiguredName() throws Exception {
+  public void testShouldGenerateBuilderWithConfiguredName() {
     // Given:
     sourceFor(SampleBean4.class);
     // When:

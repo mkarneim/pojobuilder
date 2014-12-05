@@ -17,7 +17,7 @@ public class AnnotationProcessor_BuilderDependencies_Test extends ProcessorTestS
    * @scenario A pojo has a dependency on a not-yet-generated builder.
    */
   @Test
-  public void testShouldGenerateBuilderForPojoWithBuilderDependencies() throws Exception {
+  public void testShouldGenerateBuilderForPojoWithBuilderDependencies() {
     // Given:
     sourceFor(PojoE.class);
     sourceFor("net.karneim.pojobuilder.processor.with.builderdependencies.PojoF");

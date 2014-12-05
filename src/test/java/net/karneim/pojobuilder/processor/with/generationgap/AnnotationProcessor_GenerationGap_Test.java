@@ -17,7 +17,7 @@ public class AnnotationProcessor_GenerationGap_Test extends ProcessorTestSupport
    * @scenario Should generate AbstractOrderBuilder and OrderBuilder
    */
   @Test
-  public void testShouldGenerateAbstractPlayerBuilderAndPlayerBuilder() throws Exception {
+  public void testShouldGenerateAbstractPlayerBuilderAndPlayerBuilder() {
     // Given:
     sourceFor(Order.class);
     // When:
@@ -34,7 +34,7 @@ public class AnnotationProcessor_GenerationGap_Test extends ProcessorTestSupport
    * @scenario Should generate {@link AbstractPlayerBuilder} but not {@link PlayerBuilder} since it already exists.
    */
   @Test
-  public void testShouldGenerateOnlyAbstractPlayerBuilderButNotPlayerBuilder() throws Exception {
+  public void testShouldGenerateOnlyAbstractPlayerBuilderButNotPlayerBuilder() {
     // Given:
     sourceFor(Player.class);
     // When:

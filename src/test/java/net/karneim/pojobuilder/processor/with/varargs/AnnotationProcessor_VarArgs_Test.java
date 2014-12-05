@@ -17,7 +17,7 @@ public class AnnotationProcessor_VarArgs_Test extends ProcessorTestSupport {
    * @scenario the pojo a constructor and some setter-methods using a varargs paramete.
    */
   @Test
-  public void testVarargsInConstructorAndSetterMethods() throws Exception {
+  public void testVarargsInConstructorAndSetterMethods() {
     // Given:
     sourceFor(Pojo.class);
     // When:
@@ -34,7 +34,7 @@ public class AnnotationProcessor_VarArgs_Test extends ProcessorTestSupport {
    * @scenario using varargs parameter in the factory method and some setter methods
    */
   @Test
-  public void testVarargsInFactoryMethodAndSetterMethods() throws Exception {
+  public void testVarargsInFactoryMethodAndSetterMethods() {
     // Given:
     sourceForFactoryMethod(PojoFactory.class, null);
     // When:

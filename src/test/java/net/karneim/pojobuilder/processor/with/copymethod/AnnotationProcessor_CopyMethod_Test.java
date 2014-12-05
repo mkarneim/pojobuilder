@@ -17,7 +17,7 @@ public class AnnotationProcessor_CopyMethod_Test extends ProcessorTestSupport {
    * @scenario the builder is created with a copy method
    */
   @Test
-  public void testShouldGeneratePojoBuilderWithCopyMethod() throws Exception {
+  public void testShouldGeneratePojoBuilderWithCopyMethod() {
     // Given:
     sourceFor(Pojo.class);
     // When:
@@ -34,7 +34,7 @@ public class AnnotationProcessor_CopyMethod_Test extends ProcessorTestSupport {
    * @scenario the builder is created with a copy method
    */
   @Test
-  public void testShouldGenerateAddressBuilderWithCopyMethod() throws Exception {
+  public void testShouldGenerateAddressBuilderWithCopyMethod() {
     // Given:
     sourceFor(Address.class);
     // When:
@@ -51,7 +51,7 @@ public class AnnotationProcessor_CopyMethod_Test extends ProcessorTestSupport {
    * @scenario the builder is created with a copy method
    */
   @Test
-  public void testShouldGeneratePojoBuilderButSkipCopyMethod() throws Exception {
+  public void testShouldGeneratePojoBuilderButSkipCopyMethod() {
     // Given:
     sourceFor(Pojo2.class);
     // When:

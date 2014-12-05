@@ -19,7 +19,7 @@ public class AnnotationProcessor_Validator_Test extends ProcessorTestSupport {
    * @scenario a validator class that a matching 'validate' method is configurd
    */
   @Test
-  public void validatorWithMatchingValidateMethod() throws Exception {
+  public void validatorWithMatchingValidateMethod() {
     // Given:
     sourceFor(Pojo.class);
     // When:
@@ -36,7 +36,7 @@ public class AnnotationProcessor_Validator_Test extends ProcessorTestSupport {
    * @scenario a validator class that no 'validate' method is configurd
    */
   @Test
-  public void validatorWithoutValidateMethod() throws Exception {
+  public void validatorWithoutValidateMethod() {
     // Given:
     sourceFor(Pojo2.class);
     // When:

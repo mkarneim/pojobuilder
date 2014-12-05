@@ -17,7 +17,7 @@ public class AnnotationProcessor_Generics_Test extends ProcessorTestSupport {
    * @scenario the builder is created with appropriate generic properties.
    */
   @Test
-  public void testShouldGenerateBuilderWithGenericProperties() throws Exception {
+  public void testShouldGenerateBuilderWithGenericProperties() {
     // Given:
     sourceFor(Pojo.class);
     // When:
@@ -34,7 +34,7 @@ public class AnnotationProcessor_Generics_Test extends ProcessorTestSupport {
    * @scenario the builder is created with appropriate generic properties.
    */
   @Test
-  public void testShouldGeneratePairBuilder() throws Exception {
+  public void testShouldGeneratePairBuilder() {
     // Given:
     sourceFor(Pair.class);
     // When:

@@ -17,7 +17,7 @@ public class AnnotationProcessor_Array_Test extends ProcessorTestSupport {
    * @scenario the builder is created with appropriate array properties.
    */
   @Test
-  public void testShouldGenerateBuilderWithArrayProperties() throws Exception {
+  public void testShouldGenerateBuilderWithArrayProperties() {
     // Given:
     sourceFor(Pojo.class);
     // When:
@@ -27,7 +27,6 @@ public class AnnotationProcessor_Array_Test extends ProcessorTestSupport {
         .generatedSameSourceAs(PojoBuilder.class)
         .compiled(PojoBuilder.class)
         .reported(Compilation.Success);
-
   }
 
   /**
@@ -35,7 +34,7 @@ public class AnnotationProcessor_Array_Test extends ProcessorTestSupport {
    * @scenario the builder is created with appropriate generic array properties.
    */
   @Test
-  public void testShouldGenerateBuilderWithGenericArrayProperties() throws Exception {
+  public void testShouldGenerateBuilderWithGenericArrayProperties() {
     // Given:
     sourceFor(GenericPojo.class);
     // When:

@@ -18,7 +18,7 @@ public class AnnotationProcessor_Baseclass_Test extends ProcessorTestSupport {
    * annotation
    */
   @Test
-  public void testShouldGenerateBuilderWithSimpleBaseClass() throws Exception {
+  public void testShouldGenerateBuilderWithSimpleBaseClass() {
     // Given:
     sourceFor(Pojo1.class,SimpleBaseBuilder.class);
     // When:
@@ -36,7 +36,7 @@ public class AnnotationProcessor_Baseclass_Test extends ProcessorTestSupport {
    * types declares one.
    */
   @Test
-  public void testShouldGenerateBuilderWithBaseClassThatDeclaresGenericBuildMethod() throws Exception {
+  public void testShouldGenerateBuilderWithBaseClassThatDeclaresGenericBuildMethod() {
     // Given:
     sourceFor(Pojo2.class,BaseBuilderWithGenericBuildMethod.class);
     // When:
@@ -54,7 +54,7 @@ public class AnnotationProcessor_Baseclass_Test extends ProcessorTestSupport {
    * types declares one.
    */
   @Test
-  public void testShouldGenerateBuilderWithBaseClassThatDeclaresRawBuildMethod() throws Exception {
+  public void testShouldGenerateBuilderWithBaseClassThatDeclaresRawBuildMethod() {
     // Given:
     sourceFor(Pojo3.class,BaseBuilderWithRawBuildMethod.class);
     // When:

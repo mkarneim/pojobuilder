@@ -17,7 +17,7 @@ public class AnnotationProcessor_ClassAnnotation_Test extends ProcessorTestSuppo
    * @scenario the builder is created for a pojo annotated with @GeneratePojoBuilder on class-level
    */
   @Test
-  public void testShouldGenerateBuilderForAnnotatedClassOnCLassLevel() throws Exception {
+  public void testShouldGenerateBuilderForAnnotatedClassOnCLassLevel() {
     // Given:
     sourceFor(Pojo.class);
     // When:

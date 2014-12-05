@@ -18,7 +18,7 @@ public class AnnotationProcessor_BuilderInterface_Test extends ProcessorTestSupp
    * with-method for each property using an appropriately parameterized builder interface.
    */
   @Test
-  public void testShouldGenerateBuilderWithBuilderInterface() throws Exception {
+  public void testShouldGenerateBuilderWithBuilderInterface() {
     // Given:
     sourceFor(Pojo.class);
     sourceFor(Builder.class);
@@ -38,7 +38,7 @@ public class AnnotationProcessor_BuilderInterface_Test extends ProcessorTestSupp
    * parameterized builder interface.
    */
   @Test
-  public void testShouldGenerateBuilderWithBuilderInterfaceFromFactoryMethod() throws Exception {
+  public void testShouldGenerateBuilderWithBuilderInterfaceFromFactoryMethod() {
     // Given:
     sourceForFactoryMethod(PojoFactory.class, null);
     sourceFor(Builder.class);
@@ -58,7 +58,7 @@ public class AnnotationProcessor_BuilderInterface_Test extends ProcessorTestSupp
    * interface.
    */
   @Test
-  public void testShouldGenerateGenericBuilderWithBuilderInterface() throws Exception {
+  public void testShouldGenerateGenericBuilderWithBuilderInterface() {
     // Given:
     sourceFor(GenericPojo.class, Builder.class);
     // When:

@@ -17,7 +17,7 @@ public class AnnotationProcessor_BaseclassAndGenerationGap_Test extends Processo
    * @scenario the abstract builder is created with a simple base class.
    */
   @Test
-  public void testShouldGenerateBuilderWithSimpleBaseClass() throws Exception {
+  public void testShouldGenerateBuilderWithSimpleBaseClass() {
     // Given:
     sourceFor(Pojo1.class,SimpleBaseBuilder.class);
     // When:
@@ -34,7 +34,7 @@ public class AnnotationProcessor_BaseclassAndGenerationGap_Test extends Processo
    * @scenario the abstract builder is created with a base class declaring generic build() method.
    */
   @Test
-  public void testShouldGenerateBuilderWithBaseClassThatDeclaresGenericBuildMethod() throws Exception {
+  public void testShouldGenerateBuilderWithBaseClassThatDeclaresGenericBuildMethod() {
     // Given:
     sourceFor(Pojo2.class,BaseBuilderWithGenericBuildMethod.class);
     // When:
@@ -51,7 +51,7 @@ public class AnnotationProcessor_BaseclassAndGenerationGap_Test extends Processo
    * @scenario the abstract builder is created with a base class declaring a raw build() method.
    */
   @Test
-  public void testShouldGenerateBuilderWithBaseClassThatDeclaresRawBuildMethod() throws Exception {
+  public void testShouldGenerateBuilderWithBaseClassThatDeclaresRawBuildMethod() {
     // Given:
     sourceFor(Pojo3.class);
     sourceFor(BaseBuilderWithRawBuildMethod.class);

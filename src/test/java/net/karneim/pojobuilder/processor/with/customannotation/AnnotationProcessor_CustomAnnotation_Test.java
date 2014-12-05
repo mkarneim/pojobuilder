@@ -12,7 +12,7 @@ import static net.karneim.pojobuilder.PbAssertions.assertThat;
 public class AnnotationProcessor_CustomAnnotation_Test extends ProcessorTestSupport {
 
   @Test
-  public void testShouldGenerateBuilderForPojoWithSingleCustomAnnotation() throws Exception {
+  public void testShouldGenerateBuilderForPojoWithSingleCustomAnnotation() {
     // Given:
     sourceFor(PojoA.class,MyCustomAnnotationA.class);
     String builderClassname = FluentPojoABuilderA.class.getName();
@@ -26,7 +26,7 @@ public class AnnotationProcessor_CustomAnnotation_Test extends ProcessorTestSupp
   }
 
   @Test
-  public void testShouldGenerateBuilderForPojoWithMultipleCustomAnnotations() throws Exception {
+  public void testShouldGenerateBuilderForPojoWithMultipleCustomAnnotations() {
     // Given:
     sourceFor(PojoAB.class,MyCustomAnnotationA.class,MyCustomAnnotationB.class);
     // When:
@@ -39,7 +39,7 @@ public class AnnotationProcessor_CustomAnnotation_Test extends ProcessorTestSupp
   }
 
   @Test
-  public void testShouldGenerateBuilderForPojoWithMultipleCustomAnnotationsInAnnotationHierarchy() throws Exception {
+  public void testShouldGenerateBuilderForPojoWithMultipleCustomAnnotationsInAnnotationHierarchy() {
     // Given:
     sourceFor(PojoC.class,MyCustomAnnotationA.class,MyCustomAnnotationB.class,MyCustomAnnotationC.class);
     // When:

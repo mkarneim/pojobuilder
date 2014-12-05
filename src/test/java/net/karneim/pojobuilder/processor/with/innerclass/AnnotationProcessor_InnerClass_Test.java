@@ -17,7 +17,7 @@ public class AnnotationProcessor_InnerClass_Test extends ProcessorTestSupport {
    * @scenario the builder is created for a inner class.
    */
   @Test
-  public void testShouldGenerateBuilderForInnerClass() throws Exception {
+  public void testShouldGenerateBuilderForInnerClass() {
     // Given:
     sourceForFactoryMethod(PojoFactory.class, null);
     // When:

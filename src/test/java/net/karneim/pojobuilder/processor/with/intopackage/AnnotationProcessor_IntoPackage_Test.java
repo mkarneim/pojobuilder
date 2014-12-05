@@ -19,7 +19,7 @@ public class AnnotationProcessor_IntoPackage_Test extends ProcessorTestSupport {
    * annotation
    */
   @Test
-  public void testShouldGenerateBuilderIntoConfiguredPackage() throws Exception {
+  public void testShouldGenerateBuilderIntoConfiguredPackage() {
     // Given:
     sourceFor(SampleBean3.class);
     // When:

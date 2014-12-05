@@ -17,7 +17,7 @@ public class AnnotationProcessor_WithGuavaOptionals_Test extends ProcessorTestSu
    * @scenario the builder contains withParam(Optional&lt;X&gt;) methods
    */
   @Test
-  public void testShouldGenerateGuavaOptionalsForObjectTypes() throws Exception {
+  public void testShouldGenerateGuavaOptionalsForObjectTypes() {
     // Given:
     sourceFor(PojoWithGuavaOptional.class);
     // When:
@@ -36,7 +36,7 @@ public class AnnotationProcessor_WithGuavaOptionals_Test extends ProcessorTestSu
    * is already an Optional
    */
   @Test
-  public void testShouldNotGenerateGuavaOptionalsForOptionalMembers() throws Exception {
+  public void testShouldNotGenerateGuavaOptionalsForOptionalMembers() {
     // Given:
     sourceFor(PojoWithGuavaOptional2.class);
     // When:

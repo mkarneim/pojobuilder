@@ -17,7 +17,7 @@ public class AnnotationProcessor_FactoryMethodAnnotation_Test extends ProcessorT
    * @scenario the builder is created for a pojo (having no annotation) using som factory method annotated with @GeneratePojoBuilder
    */
   @Test
-  public void testShouldGenerateBuilderForAnnotatedFactoryMethod() throws Exception {
+  public void testShouldGenerateBuilderForAnnotatedFactoryMethod() {
     // Given:
     sourceForFactoryMethod(ProductFactory.class, null);
     // When:
@@ -34,7 +34,7 @@ public class AnnotationProcessor_FactoryMethodAnnotation_Test extends ProcessorT
    * @scenario the builder is created for an interface using some annotated factory method.
    */
   @Test
-  public void testShouldGenerateBuilderForAnInterfaceUsingAnnotatedFactoryMethod() throws Exception {
+  public void testShouldGenerateBuilderForAnInterfaceUsingAnnotatedFactoryMethod() {
     // Given:
     sourceForFactoryMethod(ResourceFactory.class, null);
     // When:
@@ -51,7 +51,7 @@ public class AnnotationProcessor_FactoryMethodAnnotation_Test extends ProcessorT
    * @scenario the builder is created for an parameterized interface using some annotated factory method.
    */
   @Test
-  public void testShouldGenerateBuilderForAParameterizedInterfaceUsingAnnotatedFactoryMethod() throws Exception {
+  public void testShouldGenerateBuilderForAParameterizedInterfaceUsingAnnotatedFactoryMethod() {
     // Given:
     sourceForFactoryMethod(ContainerFactory.class, null);
     // When:
@@ -68,7 +68,7 @@ public class AnnotationProcessor_FactoryMethodAnnotation_Test extends ProcessorT
   }
 
   @Test
-  public void testPairFactory() throws Exception {
+  public void testPairFactory() {
     // Given:
     sourceForFactoryMethod(PairFactory.class, null);
     // When:

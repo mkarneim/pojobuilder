@@ -17,7 +17,7 @@ public class AnnotationProcessor_ConstructorAnnotation_Test extends ProcessorTes
    * @scenario the builder is created for a pojo annotated with @GeneratePojoBuilder on constructor-level
    */
   @Test
-  public void testShouldGenerateBuilderForAnnotatedClassOnConstructorLevel() throws Exception {
+  public void testShouldGenerateBuilderForAnnotatedClassOnConstructorLevel() {
     // Given:
     sourceFor(Pojo1.class);
     // When:
@@ -36,7 +36,7 @@ public class AnnotationProcessor_ConstructorAnnotation_Test extends ProcessorTes
    */
   @Test
   public void testShouldGenerateBuilderForAnnotatedClassOnConstructorLevelWithConstructorPropertiesAnno()
-      throws Exception {
+      {
     // Given:
     sourceFor(Pojo2.class);
     // When:

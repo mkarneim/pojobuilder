@@ -1,5 +1,7 @@
 package net.karneim.pojobuilder.testenv;
 
+import com.google.common.base.Throwables;
+
 import javax.annotation.processing.Processor;
 import javax.tools.*;
 import javax.tools.JavaFileObject.Kind;
@@ -202,7 +204,15 @@ public class JavaProject {
    * @return <code>true</code> if the compilation has been successful.
    * @throws IOException
    */
-  public boolean compile() throws IOException {
+  public boolean compile() {
+    try {
+      return _compile();
+    } catch( Exception e) {
+      throw Throwables.propagate(e);
+    }
+  }
+
+  private boolean _compile() throws Exception {
     Iterable<? extends JavaFileObject> compilationUnits = fileManager.getJavaFileObjectsFromFiles(this.sourceFiles);
 
     List<String> optionList = new ArrayList<String>();
