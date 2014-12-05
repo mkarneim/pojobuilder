@@ -4,6 +4,7 @@ import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
 
 import static net.karneim.pojobuilder.PbAssertions.assertThat;
+import static net.karneim.pojobuilder.testenv.JavaProject.Compilation;
 
 /**
  * @feature The {@link net.karneim.pojobuilder.processor.AnnotationProcessor} generates builder classes.
@@ -23,8 +24,8 @@ public class AnnotationProcessor_StaticFactoryMethod_Test extends ProcessorTestS
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(TroubleBuilder.class)
-        .compiled(TroubleBuilder.class);
-    assertThat(success).isTrue();
+        .compiled(TroubleBuilder.class)
+        .reported(Compilation.Success);
   }
 
   /**
@@ -40,8 +41,8 @@ public class AnnotationProcessor_StaticFactoryMethod_Test extends ProcessorTestS
     // Then:
     assertThat(prj)
         .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.staticfactorymethod.AbstractStrifeBuilder")
-        .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.staticfactorymethod.StrifeBuilder");
-    assertThat(success).isTrue();
+        .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.staticfactorymethod.StrifeBuilder")
+        .reported(Compilation.Success);
   }
 
 }

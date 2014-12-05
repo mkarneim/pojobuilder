@@ -2,6 +2,7 @@ package net.karneim.pojobuilder.processor.with.builderdependencies;
 
 import net.karneim.pojobuilder.processor.AnnotationProcessor;
 import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
+import net.karneim.pojobuilder.testenv.JavaProject.Compilation;
 import org.junit.Test;
 
 import static net.karneim.pojobuilder.PbAssertions.assertThat;
@@ -28,7 +29,7 @@ public class AnnotationProcessor_BuilderDependencies_Test extends ProcessorTestS
         .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.builderdependencies.PojoFBuilder")
         .compiled("net.karneim.pojobuilder.processor.with.builderdependencies.PojoF")
         .compiled("net.karneim.pojobuilder.processor.with.builderdependencies.PojoFFactory")
-        .compiled("net.karneim.pojobuilder.processor.with.builderdependencies.PojoFBuilder");
-    assertThat(success).isTrue();
+        .compiled("net.karneim.pojobuilder.processor.with.builderdependencies.PojoFBuilder")
+        .reported(Compilation.Success);
   }
 }

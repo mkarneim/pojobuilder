@@ -5,6 +5,7 @@ import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
 
 import static net.karneim.pojobuilder.PbAssertions.assertThat;
+import static net.karneim.pojobuilder.testenv.JavaProject.Compilation;
 
 /**
  * @feature The {@link AnnotationProcessor} generates builder classes.
@@ -18,14 +19,14 @@ public class AnnotationProcessor_FactoryMethodAnnotation_Test extends ProcessorT
   @Test
   public void testShouldGenerateBuilderForAnnotatedFactoryMethod() throws Exception {
     // Given:
-    sourceFor( ProductFactory.class, null);
+    sourceFor(ProductFactory.class, null);
     // When:
     boolean success = prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(ProductBuilder.class)
-        .compiled(ProductBuilder.class);
-    assertThat(success).isTrue();
+        .compiled(ProductBuilder.class)
+        .reported(Compilation.Success);
   }
 
   /**
@@ -35,14 +36,14 @@ public class AnnotationProcessor_FactoryMethodAnnotation_Test extends ProcessorT
   @Test
   public void testShouldGenerateBuilderForAnInterfaceUsingAnnotatedFactoryMethod() throws Exception {
     // Given:
-    sourceFor( ResourceFactory.class, null);
+    sourceFor(ResourceFactory.class, null);
     // When:
     boolean success = prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(ResourceBuilder.class)
-        .compiled(ResourceBuilder.class);
-    assertThat(success).isTrue();
+        .compiled(ResourceBuilder.class)
+        .reported(Compilation.Success);
   }
 
   /**
@@ -62,14 +63,14 @@ public class AnnotationProcessor_FactoryMethodAnnotation_Test extends ProcessorT
         .generatedSameSourceAs(FileContainerBuilder.class)
         .compiled(FileContainerBuilder.class)
         .generatedSameSourceAs(GenericListContainerBuilder.class)
-        .compiled(GenericListContainerBuilder.class);
-    assertThat(success).isTrue();
+        .compiled(GenericListContainerBuilder.class)
+        .reported(Compilation.Success);
   }
 
   @Test
   public void testPairFactory() throws Exception {
     // Given:
-    sourceFor(PairFactory.class,null);
+    sourceFor(PairFactory.class, null);
     // When:
     boolean success = prj.compile();
     // Then:
@@ -79,8 +80,8 @@ public class AnnotationProcessor_FactoryMethodAnnotation_Test extends ProcessorT
         .generatedSameSourceAs(StringPairBuilder.class)
         .compiled(StringPairBuilder.class)
         .generatedSameSourceAs(TPairBuilder.class)
-        .compiled(TPairBuilder.class);
-    assertThat(success).isTrue();
+        .compiled(TPairBuilder.class)
+        .reported(Compilation.Success);
   }
 
 }

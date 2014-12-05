@@ -2,6 +2,7 @@ package net.karneim.pojobuilder.processor.with.enums;
 
 import net.karneim.pojobuilder.processor.AnnotationProcessor;
 import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
+import net.karneim.pojobuilder.testenv.JavaProject.Compilation;
 import org.junit.Test;
 
 import static net.karneim.pojobuilder.PbAssertions.assertThat;
@@ -24,7 +25,7 @@ public class AnnotationProcessor_Enums_Test extends ProcessorTestSupport {
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(PojoBuilder.class)
-        .compiled(PojoBuilder.class);
-    assertThat(success).isTrue();
+        .compiled(PojoBuilder.class)
+        .reported(Compilation.Success);
   }
 }

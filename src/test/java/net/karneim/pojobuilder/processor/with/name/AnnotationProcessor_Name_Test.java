@@ -5,6 +5,7 @@ import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
 
 import static net.karneim.pojobuilder.PbAssertions.assertThat;
+import static net.karneim.pojobuilder.testenv.JavaProject.Compilation;
 
 /**
  * @feature The {@link AnnotationProcessor} generates builder classes.
@@ -24,7 +25,7 @@ public class AnnotationProcessor_Name_Test extends ProcessorTestSupport {
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(FluentSampleBean4Builder.class)
-        .compiled(FluentSampleBean4Builder.class);
-    assertThat(success).isTrue();
+        .compiled(FluentSampleBean4Builder.class)
+        .reported(Compilation.Success);
   }
 }

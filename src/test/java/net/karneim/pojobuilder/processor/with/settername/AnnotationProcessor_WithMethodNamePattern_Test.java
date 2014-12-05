@@ -4,6 +4,7 @@ import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
 
 import static net.karneim.pojobuilder.PbAssertions.assertThat;
+import static net.karneim.pojobuilder.testenv.JavaProject.Compilation;
 
 
 /**
@@ -24,8 +25,8 @@ public class AnnotationProcessor_WithMethodNamePattern_Test extends ProcessorTes
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(PojoBuilder.class)
-        .compiled(PojoBuilder.class);
-    assertThat(success).isTrue();
+        .compiled(PojoBuilder.class)
+        .reported(Compilation.Success);
   }
 
   /**
@@ -41,7 +42,7 @@ public class AnnotationProcessor_WithMethodNamePattern_Test extends ProcessorTes
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(Pojo2Builder.class)
-        .compiled(Pojo2Builder.class);
-    assertThat(success).isTrue();
+        .compiled(Pojo2Builder.class)
+        .reported(Compilation.Success);
   }
 }

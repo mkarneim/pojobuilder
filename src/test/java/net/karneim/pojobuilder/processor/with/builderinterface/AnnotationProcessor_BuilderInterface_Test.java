@@ -2,6 +2,7 @@ package net.karneim.pojobuilder.processor.with.builderinterface;
 
 import net.karneim.pojobuilder.processor.AnnotationProcessor;
 import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
+import net.karneim.pojobuilder.testenv.JavaProject.Compilation;
 import org.junit.Test;
 
 import static net.karneim.pojobuilder.PbAssertions.assertThat;
@@ -26,8 +27,8 @@ public class AnnotationProcessor_BuilderInterface_Test extends ProcessorTestSupp
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(PojoBuilder.class)
-        .compiled(PojoBuilder.class);
-    assertThat(success).isTrue();
+        .compiled(PojoBuilder.class)
+        .reported(Compilation.Success);
   }
 
   /**
@@ -39,15 +40,15 @@ public class AnnotationProcessor_BuilderInterface_Test extends ProcessorTestSupp
   @Test
   public void testShouldGenerateBuilderWithBuilderInterfaceFromFactoryMethod() throws Exception {
     // Given:
-    sourceFor(PojoFactory.class,null);
+    sourceFor(PojoFactory.class, null);
     sourceFor(Builder.class);
     // When:
     boolean success = prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(AnotherPojoBuilder.class)
-        .compiled(AnotherPojoBuilder.class);
-    assertThat(success).isTrue();
+        .compiled(AnotherPojoBuilder.class)
+        .reported(Compilation.Success);
   }
 
   /**
@@ -66,7 +67,7 @@ public class AnnotationProcessor_BuilderInterface_Test extends ProcessorTestSupp
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(GenericPojoBuilder.class)
-        .compiled(GenericPojoBuilder.class);
-    assertThat(success).isTrue();
+        .compiled(GenericPojoBuilder.class)
+        .reported(Compilation.Success);
   }
 }

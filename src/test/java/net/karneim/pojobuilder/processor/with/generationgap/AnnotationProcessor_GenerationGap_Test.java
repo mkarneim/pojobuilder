@@ -5,6 +5,7 @@ import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
 
 import static net.karneim.pojobuilder.PbAssertions.assertThat;
+import static net.karneim.pojobuilder.testenv.JavaProject.Compilation;
 
 /**
  * @feature The {@link AnnotationProcessor} generates builder classes.
@@ -24,8 +25,8 @@ public class AnnotationProcessor_GenerationGap_Test extends ProcessorTestSupport
     // Then:
     assertThat(prj)
         .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.generationgap.AbstractOrderBuilder")
-        .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.generationgap.OrderBuilder");
-    assertThat(success).isTrue();
+        .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.generationgap.OrderBuilder")
+        .reported(Compilation.Success);
   }
 
   /**
@@ -43,8 +44,8 @@ public class AnnotationProcessor_GenerationGap_Test extends ProcessorTestSupport
         .generatedSameSourceAs(AbstractPlayerBuilder.class)
         .compiled(AbstractPlayerBuilder.class)
         .didNotGenerateSourceFor(PlayerBuilder.class)
-        .compiled(PlayerBuilder.class);
-    assertThat(success).isTrue();
+        .compiled(PlayerBuilder.class)
+        .reported(Compilation.Success);
   }
 
 }

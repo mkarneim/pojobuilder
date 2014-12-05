@@ -4,6 +4,7 @@ import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
 
 import static net.karneim.pojobuilder.PbAssertions.assertThat;
+import static net.karneim.pojobuilder.testenv.JavaProject.Compilation;
 
 /**
  * @feature The {@link net.karneim.pojobuilder.processor.AnnotationProcessor} generates builder
@@ -24,10 +25,9 @@ public class AnnotationProcessor_WithGuavaOptionals_Test extends ProcessorTestSu
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(PojoWithGuavaOptionalBuilder.class)
-        .compiled(PojoWithGuavaOptionalBuilder.class);
-    assertThat(success).isTrue();
+        .compiled(PojoWithGuavaOptionalBuilder.class)
+        .reported(Compilation.Success);
   }
-
 
 
   /**
@@ -44,8 +44,8 @@ public class AnnotationProcessor_WithGuavaOptionals_Test extends ProcessorTestSu
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(PojoWithGuavaOptional2Builder.class)
-        .compiled(PojoWithGuavaOptional2Builder.class);
-    assertThat(success).isTrue();
+        .compiled(PojoWithGuavaOptional2Builder.class)
+        .reported(Compilation.Success);
   }
 
 }

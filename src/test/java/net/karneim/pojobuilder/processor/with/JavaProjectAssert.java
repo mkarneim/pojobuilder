@@ -11,9 +11,10 @@ import java.io.IOException;
 /**
  * FEST assertion for PojoBuilder compilation environment
  */
-public class JavaProjectAssert extends AbstractAssert<JavaProjectAssert,JavaProject> {
+public class JavaProjectAssert extends AbstractAssert<JavaProjectAssert, JavaProject> {
 
-  private TestBase base = new TestBase() {};
+  private TestBase base = new TestBase() {
+  };
 
   public JavaProjectAssert(JavaProject javaProject) {
     super(javaProject, JavaProjectAssert.class);
@@ -35,6 +36,7 @@ public class JavaProjectAssert extends AbstractAssert<JavaProjectAssert,JavaProj
   /**
    * For generation gap where the pre-existence of the manual class stops its from being generated we must assert the
    * content against a file. This is done by a simple naming contract - there <b>must</b> be a file called [classname].java.txt.
+   *
    * @param classname The full classname of the builder class
    */
   public JavaProjectAssert generatedSameSourceAs(String classname) {
@@ -43,7 +45,7 @@ public class JavaProjectAssert extends AbstractAssert<JavaProjectAssert,JavaProj
     String expectedSource = null;
     try {
       actualSource = TestBase.getContent(actual.findGeneratedSource(classname));
-      expectedSource = base.loadResourceFromFilesystem(TestBase.TESTDATA_DIRECTORY, base.getSourceFilename(classname)+".txt");
+      expectedSource = base.loadResourceFromFilesystem(TestBase.TESTDATA_DIRECTORY, base.getSourceFilename(classname) + ".txt");
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
@@ -77,6 +79,11 @@ public class JavaProjectAssert extends AbstractAssert<JavaProjectAssert,JavaProj
 
   public JavaProjectAssert compiled(Class target) {
     return compiled(target.getName());
+  }
+
+  public JavaProjectAssert reported(JavaProject.Compilation status) {
+    Assertions.assertThat(actual.getStatus()).isEqualTo(status);
+    return this;
   }
 
 }

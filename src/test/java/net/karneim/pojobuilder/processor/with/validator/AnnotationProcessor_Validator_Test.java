@@ -5,6 +5,7 @@ import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import org.junit.Test;
 
 import static net.karneim.pojobuilder.PbAssertions.assertThat;
+import static net.karneim.pojobuilder.testenv.JavaProject.Compilation;
 
 /**
  * @feature We can configure the {@link GeneratePojoBuilder} annotation to generate a call to a
@@ -26,8 +27,8 @@ public class AnnotationProcessor_Validator_Test extends ProcessorTestSupport {
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(PojoBuilder.class)
-        .compiled(PojoBuilder.class);
-    assertThat(success).isTrue();
+        .compiled(PojoBuilder.class)
+        .reported(Compilation.Success);
   }
 
   /**
@@ -41,7 +42,8 @@ public class AnnotationProcessor_Validator_Test extends ProcessorTestSupport {
     // When:
     boolean success = prj.compile();
     // Then:
-    assertThat(success).isFalse();
+    assertThat(prj)
+        .reported(Compilation.Failure);
   }
 
 }

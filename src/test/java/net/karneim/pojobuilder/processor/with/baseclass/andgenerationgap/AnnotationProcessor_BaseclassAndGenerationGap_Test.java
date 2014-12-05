@@ -2,6 +2,7 @@ package net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap;
 
 import net.karneim.pojobuilder.processor.AnnotationProcessor;
 import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
+import net.karneim.pojobuilder.testenv.JavaProject.Compilation;
 import org.junit.Test;
 
 import static net.karneim.pojobuilder.PbAssertions.assertThat;
@@ -25,8 +26,8 @@ public class AnnotationProcessor_BaseclassAndGenerationGap_Test extends Processo
     // Then:
     assertThat(prj)
         .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap.AbstractPojo1Builder")
-        .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap.Pojo1Builder");
-    assertThat(success).isTrue();
+        .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap.Pojo1Builder")
+        .reported(Compilation.Success);
   }
 
   /**
@@ -43,8 +44,8 @@ public class AnnotationProcessor_BaseclassAndGenerationGap_Test extends Processo
     // Then:
     assertThat(prj)
         .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap.AbstractPojo2Builder")
-        .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap.Pojo2Builder");
-    assertThat(success).isTrue();
+        .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap.Pojo2Builder")
+        .reported(Compilation.Success);
   }
 
   /**
@@ -61,7 +62,7 @@ public class AnnotationProcessor_BaseclassAndGenerationGap_Test extends Processo
     // Then:
     assertThat(prj)
         .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap.AbstractPojo3Builder")
-        .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap.Pojo3Builder");
-    assertThat(success).isTrue();
+        .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap.Pojo3Builder")
+        .reported(Compilation.Success);
   }
 }

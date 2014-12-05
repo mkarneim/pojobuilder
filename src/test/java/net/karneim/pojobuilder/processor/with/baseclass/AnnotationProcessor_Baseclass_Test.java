@@ -2,6 +2,7 @@ package net.karneim.pojobuilder.processor.with.baseclass;
 
 import net.karneim.pojobuilder.processor.AnnotationProcessor;
 import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
+import net.karneim.pojobuilder.testenv.JavaProject.Compilation;
 import org.junit.Test;
 
 import static net.karneim.pojobuilder.PbAssertions.assertThat;
@@ -26,8 +27,8 @@ public class AnnotationProcessor_Baseclass_Test extends ProcessorTestSupport {
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(Pojo1Builder.class)
-        .compiled(Pojo1Builder.class);
-    assertThat(success).isTrue();
+        .compiled(Pojo1Builder.class)
+        .reported(Compilation.Success);
   }
 
   /**
@@ -45,8 +46,8 @@ public class AnnotationProcessor_Baseclass_Test extends ProcessorTestSupport {
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(Pojo2Builder.class)
-        .compiled(Pojo2Builder.class);
-    assertThat(success).isTrue();
+        .compiled(Pojo2Builder.class)
+        .reported(Compilation.Success);
   }
 
   /**
@@ -64,7 +65,7 @@ public class AnnotationProcessor_Baseclass_Test extends ProcessorTestSupport {
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(Pojo3Builder.class)
-        .compiled(Pojo3Builder.class);
-    assertThat(success).isTrue();
+        .compiled(Pojo3Builder.class)
+        .reported(Compilation.Success);
   }
 }
