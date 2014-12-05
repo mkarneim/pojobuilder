@@ -21,7 +21,7 @@ public class AnnotationProcessor_NoAnnotation_Test extends ProcessorTestSupport 
     // Given:
     sourceFor(EmptyPojo.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .didNotGenerateSourceFor("samples.with.noannotation.EmptyPojoBuilder")

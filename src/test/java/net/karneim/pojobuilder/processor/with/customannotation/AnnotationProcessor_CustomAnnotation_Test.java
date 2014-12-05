@@ -17,7 +17,7 @@ public class AnnotationProcessor_CustomAnnotation_Test extends ProcessorTestSupp
     sourceFor(PojoA.class,MyCustomAnnotationA.class);
     String builderClassname = FluentPojoABuilderA.class.getName();
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(FluentPojoABuilderA.class)
@@ -30,7 +30,7 @@ public class AnnotationProcessor_CustomAnnotation_Test extends ProcessorTestSupp
     // Given:
     sourceFor(PojoAB.class,MyCustomAnnotationA.class,MyCustomAnnotationB.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(FluentPojoABBuilderB.class)
@@ -43,7 +43,7 @@ public class AnnotationProcessor_CustomAnnotation_Test extends ProcessorTestSupp
     // Given:
     sourceFor(PojoC.class,MyCustomAnnotationA.class,MyCustomAnnotationB.class,MyCustomAnnotationC.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(FluentPojoCBuilderB.class)

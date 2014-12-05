@@ -23,7 +23,7 @@ public class AnnotationProcessor_IntoPackage_Test extends ProcessorTestSupport {
     // Given:
     sourceFor(SampleBean3.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(SampleBean3Builder.class)

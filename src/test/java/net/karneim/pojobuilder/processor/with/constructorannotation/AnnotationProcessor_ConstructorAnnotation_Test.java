@@ -21,7 +21,7 @@ public class AnnotationProcessor_ConstructorAnnotation_Test extends ProcessorTes
     // Given:
     sourceFor(Pojo1.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(Pojo1Builder.class)
@@ -40,7 +40,7 @@ public class AnnotationProcessor_ConstructorAnnotation_Test extends ProcessorTes
     // Given:
     sourceFor(Pojo2.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(Pojo2Builder.class)

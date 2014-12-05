@@ -21,7 +21,7 @@ public class AnnotationProcessor_WithGuavaOptionals_Test extends ProcessorTestSu
     // Given:
     sourceFor(PojoWithGuavaOptional.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(PojoWithGuavaOptionalBuilder.class)
@@ -40,7 +40,7 @@ public class AnnotationProcessor_WithGuavaOptionals_Test extends ProcessorTestSu
     // Given:
     sourceFor(PojoWithGuavaOptional2.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(PojoWithGuavaOptional2Builder.class)

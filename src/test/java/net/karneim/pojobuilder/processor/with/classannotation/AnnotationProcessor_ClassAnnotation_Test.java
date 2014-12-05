@@ -21,7 +21,7 @@ public class AnnotationProcessor_ClassAnnotation_Test extends ProcessorTestSuppo
     // Given:
     sourceFor(Pojo.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(PojoBuilder.class)

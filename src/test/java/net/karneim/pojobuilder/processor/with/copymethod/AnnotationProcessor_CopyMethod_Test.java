@@ -21,7 +21,7 @@ public class AnnotationProcessor_CopyMethod_Test extends ProcessorTestSupport {
     // Given:
     sourceFor(Pojo.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(PojoBuilder.class)
@@ -38,7 +38,7 @@ public class AnnotationProcessor_CopyMethod_Test extends ProcessorTestSupport {
     // Given:
     sourceFor(Address.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(AddressBuilder.class)
@@ -55,7 +55,7 @@ public class AnnotationProcessor_CopyMethod_Test extends ProcessorTestSupport {
     // Given:
     sourceFor(Pojo2.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(Pojo2Builder.class)

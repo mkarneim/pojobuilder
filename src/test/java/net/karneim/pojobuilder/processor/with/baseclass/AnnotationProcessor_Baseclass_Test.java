@@ -22,7 +22,7 @@ public class AnnotationProcessor_Baseclass_Test extends ProcessorTestSupport {
     // Given:
     sourceFor(Pojo1.class,SimpleBaseBuilder.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(Pojo1Builder.class)
@@ -40,7 +40,7 @@ public class AnnotationProcessor_Baseclass_Test extends ProcessorTestSupport {
     // Given:
     sourceFor(Pojo2.class,BaseBuilderWithGenericBuildMethod.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(Pojo2Builder.class)
@@ -58,7 +58,7 @@ public class AnnotationProcessor_Baseclass_Test extends ProcessorTestSupport {
     // Given:
     sourceFor(Pojo3.class,BaseBuilderWithRawBuildMethod.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(Pojo3Builder.class)

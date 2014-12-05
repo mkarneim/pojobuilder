@@ -21,7 +21,7 @@ public class AnnotationProcessor_GenerationGap_Test extends ProcessorTestSupport
     // Given:
     sourceFor(Order.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.generationgap.AbstractOrderBuilder")
@@ -38,7 +38,7 @@ public class AnnotationProcessor_GenerationGap_Test extends ProcessorTestSupport
     // Given:
     sourceFor(Player.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(AbstractPlayerBuilder.class)

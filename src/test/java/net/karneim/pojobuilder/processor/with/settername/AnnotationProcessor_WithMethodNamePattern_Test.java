@@ -21,7 +21,7 @@ public class AnnotationProcessor_WithMethodNamePattern_Test extends ProcessorTes
     // Given:
     sourceFor(Pojo.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(PojoBuilder.class)
@@ -38,7 +38,7 @@ public class AnnotationProcessor_WithMethodNamePattern_Test extends ProcessorTes
     // Given:
     sourceFor(Pojo2.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(Pojo2Builder.class)

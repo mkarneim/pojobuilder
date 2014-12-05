@@ -23,7 +23,7 @@ public class AnnotationProcessor_BuilderDependencies_Test extends ProcessorTestS
     sourceFor("net.karneim.pojobuilder.processor.with.builderdependencies.PojoF");
     sourceFor("net.karneim.pojobuilder.processor.with.builderdependencies.PojoFFactory");
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.builderdependencies.PojoFBuilder")

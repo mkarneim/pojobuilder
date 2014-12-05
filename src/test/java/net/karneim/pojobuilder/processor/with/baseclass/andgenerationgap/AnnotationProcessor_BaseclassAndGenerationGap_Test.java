@@ -21,7 +21,7 @@ public class AnnotationProcessor_BaseclassAndGenerationGap_Test extends Processo
     // Given:
     sourceFor(Pojo1.class,SimpleBaseBuilder.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap.AbstractPojo1Builder")
@@ -38,7 +38,7 @@ public class AnnotationProcessor_BaseclassAndGenerationGap_Test extends Processo
     // Given:
     sourceFor(Pojo2.class,BaseBuilderWithGenericBuildMethod.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap.AbstractPojo2Builder")
@@ -56,7 +56,7 @@ public class AnnotationProcessor_BaseclassAndGenerationGap_Test extends Processo
     sourceFor(Pojo3.class);
     sourceFor(BaseBuilderWithRawBuildMethod.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap.AbstractPojo3Builder")

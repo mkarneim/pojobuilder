@@ -23,7 +23,7 @@ public class AnnotationProcessor_BuilderInterface_Test extends ProcessorTestSupp
     sourceFor(Pojo.class);
     sourceFor(Builder.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(PojoBuilder.class)
@@ -43,7 +43,7 @@ public class AnnotationProcessor_BuilderInterface_Test extends ProcessorTestSupp
     sourceForFactoryMethod(PojoFactory.class, null);
     sourceFor(Builder.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(AnotherPojoBuilder.class)
@@ -62,7 +62,7 @@ public class AnnotationProcessor_BuilderInterface_Test extends ProcessorTestSupp
     // Given:
     sourceFor(GenericPojo.class, Builder.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(GenericPojoBuilder.class)

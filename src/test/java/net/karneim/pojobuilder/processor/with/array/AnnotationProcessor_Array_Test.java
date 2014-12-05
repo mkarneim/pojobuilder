@@ -21,7 +21,7 @@ public class AnnotationProcessor_Array_Test extends ProcessorTestSupport {
     // Given:
     sourceFor(Pojo.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(PojoBuilder.class)
@@ -39,7 +39,7 @@ public class AnnotationProcessor_Array_Test extends ProcessorTestSupport {
     // Given:
     sourceFor(GenericPojo.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(GenericPojoBuilder.class)

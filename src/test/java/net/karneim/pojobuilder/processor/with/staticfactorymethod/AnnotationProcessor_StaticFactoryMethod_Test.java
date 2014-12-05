@@ -20,7 +20,7 @@ public class AnnotationProcessor_StaticFactoryMethod_Test extends ProcessorTestS
     // Given:
     sourceFor(Trouble.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(TroubleBuilder.class)
@@ -37,7 +37,7 @@ public class AnnotationProcessor_StaticFactoryMethod_Test extends ProcessorTestS
     // Given:
     sourceFor(Strife.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs("net.karneim.pojobuilder.processor.with.staticfactorymethod.AbstractStrifeBuilder")

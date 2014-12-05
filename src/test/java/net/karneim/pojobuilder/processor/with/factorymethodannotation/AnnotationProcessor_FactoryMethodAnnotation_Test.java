@@ -21,7 +21,7 @@ public class AnnotationProcessor_FactoryMethodAnnotation_Test extends ProcessorT
     // Given:
     sourceForFactoryMethod(ProductFactory.class, null);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(ProductBuilder.class)
@@ -38,7 +38,7 @@ public class AnnotationProcessor_FactoryMethodAnnotation_Test extends ProcessorT
     // Given:
     sourceForFactoryMethod(ResourceFactory.class, null);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(ResourceBuilder.class)
@@ -55,7 +55,7 @@ public class AnnotationProcessor_FactoryMethodAnnotation_Test extends ProcessorT
     // Given:
     sourceForFactoryMethod(ContainerFactory.class, null);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(ContainerBuilder.class)
@@ -72,7 +72,7 @@ public class AnnotationProcessor_FactoryMethodAnnotation_Test extends ProcessorT
     // Given:
     sourceForFactoryMethod(PairFactory.class, null);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(PairBuilder.class)

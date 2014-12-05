@@ -21,7 +21,7 @@ public class AnnotationProcessor_Name_Test extends ProcessorTestSupport {
     // Given:
     sourceFor(SampleBean4.class);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(FluentSampleBean4Builder.class)

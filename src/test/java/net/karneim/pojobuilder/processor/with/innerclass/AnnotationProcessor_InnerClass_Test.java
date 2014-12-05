@@ -21,7 +21,7 @@ public class AnnotationProcessor_InnerClass_Test extends ProcessorTestSupport {
     // Given:
     sourceForFactoryMethod(PojoFactory.class, null);
     // When:
-    boolean success = prj.compile();
+    prj.compile();
     // Then:
     assertThat(prj)
         .generatedSameSourceAs(InnerPojoBuilder.class)
