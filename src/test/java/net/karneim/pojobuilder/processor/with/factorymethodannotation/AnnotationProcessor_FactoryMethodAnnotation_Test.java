@@ -19,7 +19,7 @@ public class AnnotationProcessor_FactoryMethodAnnotation_Test extends ProcessorT
   @Test
   public void testShouldGenerateBuilderForAnnotatedFactoryMethod() throws Exception {
     // Given:
-    sourceFor(ProductFactory.class, null);
+    sourceForFactoryMethod(ProductFactory.class, null);
     // When:
     boolean success = prj.compile();
     // Then:
@@ -36,7 +36,7 @@ public class AnnotationProcessor_FactoryMethodAnnotation_Test extends ProcessorT
   @Test
   public void testShouldGenerateBuilderForAnInterfaceUsingAnnotatedFactoryMethod() throws Exception {
     // Given:
-    sourceFor(ResourceFactory.class, null);
+    sourceForFactoryMethod(ResourceFactory.class, null);
     // When:
     boolean success = prj.compile();
     // Then:
@@ -53,7 +53,7 @@ public class AnnotationProcessor_FactoryMethodAnnotation_Test extends ProcessorT
   @Test
   public void testShouldGenerateBuilderForAParameterizedInterfaceUsingAnnotatedFactoryMethod() throws Exception {
     // Given:
-    sourceFor(ContainerFactory.class, null);
+    sourceForFactoryMethod(ContainerFactory.class, null);
     // When:
     boolean success = prj.compile();
     // Then:
@@ -70,7 +70,7 @@ public class AnnotationProcessor_FactoryMethodAnnotation_Test extends ProcessorT
   @Test
   public void testPairFactory() throws Exception {
     // Given:
-    sourceFor(PairFactory.class, null);
+    sourceForFactoryMethod(PairFactory.class, null);
     // When:
     boolean success = prj.compile();
     // Then:

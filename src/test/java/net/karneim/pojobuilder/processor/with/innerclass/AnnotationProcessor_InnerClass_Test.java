@@ -19,7 +19,7 @@ public class AnnotationProcessor_InnerClass_Test extends ProcessorTestSupport {
   @Test
   public void testShouldGenerateBuilderForInnerClass() throws Exception {
     // Given:
-    sourceFor(PojoFactory.class, null);
+    sourceForFactoryMethod(PojoFactory.class, null);
     // When:
     boolean success = prj.compile();
     // Then:

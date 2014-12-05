@@ -36,7 +36,7 @@ public class AnnotationProcessor_VarArgs_Test extends ProcessorTestSupport {
   @Test
   public void testVarargsInFactoryMethodAndSetterMethods() throws Exception {
     // Given:
-    sourceFor(PojoFactory.class, null);
+    sourceForFactoryMethod(PojoFactory.class, null);
     // When:
     boolean success = prj.compile();
     // Then:

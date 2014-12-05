@@ -32,20 +32,26 @@ public abstract class ProcessorTestSupport extends TestBase {
   }
 
   /**
-   * Pojobuilder Input for a given annotated pojo
+   * For generation gap where the pre-existence of the manual class stops its from being generated we must assert the
+   * content against a file. This is done by a simple naming contract - there <b>must</b> be a file called [classname].java.txt.
+   * @param classes Classes to include for direct compilation by this test
    */
-  protected void sourceFor(Class pojo) {
-    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, pojo.getName()));
+  protected void sourceFor(Class... classes) {
+    for( Class c: classes) {
+      prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, c.getName()));
+    }
   }
 
   /**
    * For generation gap where the pre-existence of the manual class stops its from being generated we must assert the
    * content against a file. This is done by a simple naming contract - there <b>must</b> be a file called [classname].java.txt.
-   * @param classname The full classname of the builder class
+   * @param classnames Classnames to include for direct compilation by this test
    */
-  protected void sourceFor( String classname ) {
+  protected void sourceFor( String... classnames ) {
     try {
-      prj.addSourceFile(classname, loadResourceFromFilesystem(TestBase.TESTDATA_DIRECTORY, getSourceFilename(classname)+".txt"));
+      for( String classname: classnames) {
+        prj.addSourceFile(classname, loadResourceFromFilesystem(TestBase.TESTDATA_DIRECTORY, getSourceFilename(classname) + ".txt"));
+      }
     } catch (IOException e) {
       throw Throwables.propagate(e);
     }
@@ -56,7 +62,7 @@ public abstract class ProcessorTestSupport extends TestBase {
    *
    * @param methodName null takes the first method found
    */
-  protected void sourceFor(Class factory, String methodName) {
+  protected void sourceForFactoryMethod(Class factory, String methodName) {
     sourceFor(factory);
     Method method = firstMatchingMethod(factory, methodName);
     sourceFor(method.getReturnType());
@@ -70,6 +76,5 @@ public abstract class ProcessorTestSupport extends TestBase {
     }
     throw new IllegalStateException(String.format("Method [%s] not found in %s", methodName, clazz));
   }
-
 
 }

@@ -14,8 +14,7 @@ public class AnnotationProcessor_CustomAnnotation_Test extends ProcessorTestSupp
   @Test
   public void testShouldGenerateBuilderForPojoWithSingleCustomAnnotation() throws Exception {
     // Given:
-    sourceFor(PojoA.class);
-    sourceFor(MyCustomAnnotationA.class);
+    sourceFor(PojoA.class,MyCustomAnnotationA.class);
     String builderClassname = FluentPojoABuilderA.class.getName();
     // When:
     boolean success = prj.compile();
@@ -29,9 +28,7 @@ public class AnnotationProcessor_CustomAnnotation_Test extends ProcessorTestSupp
   @Test
   public void testShouldGenerateBuilderForPojoWithMultipleCustomAnnotations() throws Exception {
     // Given:
-    sourceFor(PojoAB.class);
-    sourceFor(MyCustomAnnotationA.class);
-    sourceFor(MyCustomAnnotationB.class);
+    sourceFor(PojoAB.class,MyCustomAnnotationA.class,MyCustomAnnotationB.class);
     // When:
     boolean success = prj.compile();
     // Then:
@@ -44,10 +41,7 @@ public class AnnotationProcessor_CustomAnnotation_Test extends ProcessorTestSupp
   @Test
   public void testShouldGenerateBuilderForPojoWithMultipleCustomAnnotationsInAnnotationHierarchy() throws Exception {
     // Given:
-    sourceFor(PojoC.class);
-    sourceFor(MyCustomAnnotationA.class);
-    sourceFor(MyCustomAnnotationB.class);
-    sourceFor(MyCustomAnnotationC.class);
+    sourceFor(PojoC.class,MyCustomAnnotationA.class,MyCustomAnnotationB.class,MyCustomAnnotationC.class);
     // When:
     boolean success = prj.compile();
     // Then:

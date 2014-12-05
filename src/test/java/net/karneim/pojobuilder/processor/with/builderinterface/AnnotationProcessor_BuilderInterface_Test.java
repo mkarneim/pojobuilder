@@ -40,7 +40,7 @@ public class AnnotationProcessor_BuilderInterface_Test extends ProcessorTestSupp
   @Test
   public void testShouldGenerateBuilderWithBuilderInterfaceFromFactoryMethod() throws Exception {
     // Given:
-    sourceFor(PojoFactory.class, null);
+    sourceForFactoryMethod(PojoFactory.class, null);
     sourceFor(Builder.class);
     // When:
     boolean success = prj.compile();
@@ -60,8 +60,7 @@ public class AnnotationProcessor_BuilderInterface_Test extends ProcessorTestSupp
   @Test
   public void testShouldGenerateGenericBuilderWithBuilderInterface() throws Exception {
     // Given:
-    sourceFor(GenericPojo.class);
-    sourceFor(Builder.class);
+    sourceFor(GenericPojo.class, Builder.class);
     // When:
     boolean success = prj.compile();
     // Then:

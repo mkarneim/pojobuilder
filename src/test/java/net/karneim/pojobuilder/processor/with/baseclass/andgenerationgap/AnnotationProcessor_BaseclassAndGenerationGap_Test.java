@@ -19,8 +19,7 @@ public class AnnotationProcessor_BaseclassAndGenerationGap_Test extends Processo
   @Test
   public void testShouldGenerateBuilderWithSimpleBaseClass() throws Exception {
     // Given:
-    sourceFor(Pojo1.class);
-    sourceFor(SimpleBaseBuilder.class);
+    sourceFor(Pojo1.class,SimpleBaseBuilder.class);
     // When:
     boolean success = prj.compile();
     // Then:
@@ -37,8 +36,7 @@ public class AnnotationProcessor_BaseclassAndGenerationGap_Test extends Processo
   @Test
   public void testShouldGenerateBuilderWithBaseClassThatDeclaresGenericBuildMethod() throws Exception {
     // Given:
-    sourceFor(Pojo2.class);
-    sourceFor(BaseBuilderWithGenericBuildMethod.class);
+    sourceFor(Pojo2.class,BaseBuilderWithGenericBuildMethod.class);
     // When:
     boolean success = prj.compile();
     // Then:
