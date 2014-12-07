@@ -29,7 +29,7 @@ public class JavaProjectAssert extends AbstractAssert<JavaProjectAssert, JavaPro
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
-    Assertions.assertThat(expectedSource).isEqualTo(actualSource);
+    Assertions.assertThat(actualSource).isEqualTo(expectedSource);
     return this;
   }
 
@@ -49,7 +49,7 @@ public class JavaProjectAssert extends AbstractAssert<JavaProjectAssert, JavaPro
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
-    Assertions.assertThat(expectedSource).isEqualTo(actualSource);
+    Assertions.assertThat(actualSource).isEqualTo(expectedSource);
     return this;
   }
 
