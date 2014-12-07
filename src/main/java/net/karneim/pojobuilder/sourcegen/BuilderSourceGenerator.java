@@ -12,7 +12,18 @@ import java.util.List;
 import javax.annotation.Generated;
 import javax.lang.model.element.Modifier;
 
-import net.karneim.pojobuilder.model.*;
+import net.karneim.pojobuilder.model.ArgumentListM;
+import net.karneim.pojobuilder.model.ArrayTypeM;
+import net.karneim.pojobuilder.model.BuildMethodM;
+import net.karneim.pojobuilder.model.BuilderM;
+import net.karneim.pojobuilder.model.CopyMethodM;
+import net.karneim.pojobuilder.model.FactoryMethodM;
+import net.karneim.pojobuilder.model.ImportTypesM;
+import net.karneim.pojobuilder.model.PropertyListM;
+import net.karneim.pojobuilder.model.PropertyM;
+import net.karneim.pojobuilder.model.StaticFactoryMethodM;
+import net.karneim.pojobuilder.model.TypeM;
+import net.karneim.pojobuilder.model.ValidatorM;
 import net.karneim.pojobuilder.model.WriteAccess.Type;
 
 import com.squareup.javawriter.JavaWriter;
@@ -52,9 +63,10 @@ public class BuilderSourceGenerator {
   }
 
   private void generateSource(TypeM builderType, boolean isAbstract, TypeM selfType,
-                              TypeM baseType, TypeM interfaceType, boolean hasBuilderProperties, TypeM pojoType,
-                              PropertyListM properties, BuildMethodM buildMethod, FactoryMethodM factoryMethod,
-                              CopyMethodM copyMethodM, ValidatorM validator, TypeM optionalType, StaticFactoryMethodM staticFactoryMethod) throws IOException {
+      TypeM baseType, TypeM interfaceType, boolean hasBuilderProperties, TypeM pojoType,
+      PropertyListM properties, BuildMethodM buildMethod, FactoryMethodM factoryMethod,
+      CopyMethodM copyMethodM, ValidatorM validator, TypeM optionalType,
+      StaticFactoryMethodM staticFactoryMethod) throws IOException {
     properties = new PropertyListM(properties);
     properties.filterOutNonWritableProperties(builderType);
 
@@ -153,18 +165,24 @@ public class BuilderSourceGenerator {
         initialization);
   }
 
-  static void emitStaticFactoryMethod(TypeM selfType, StaticFactoryMethodM method, JavaWriter writer) throws IOException {
+  static void emitStaticFactoryMethod(TypeM selfType, StaticFactoryMethodM method, JavaWriter writer)
+      throws IOException {
     String builderTypeDeclaration = writer.compressType(selfType.getGenericTypeDeclaration());
-    String classname = writer.compressType(selfType.getName());
-
+    String returnTypeDecl;
+    if (selfType.isGeneric()) {
+      String typeParameters = "<" + writer.compressType(selfType.getTypeParameters().toParameterString()) + ">";
+      returnTypeDecl = typeParameters + " " + builderTypeDeclaration;
+    } else {
+      returnTypeDecl = builderTypeDeclaration;
+    }
     // @formatter:off
     writer
         .emitEmptyLine()
         .emitJavadoc(
-            "Factory Method to construct a %s\n\n@return a new %s", classname,classname
+            "Factory Method to construct a %s\n\n@return a new %s", builderTypeDeclaration, builderTypeDeclaration
         )
-        .beginMethod(builderTypeDeclaration, method.getName(), method.getModifiers())
-          .emitStatement("return new %s()", classname)
+        .beginMethod(returnTypeDecl, method.getName(), method.getModifiers())
+          .emitStatement("return new %s()", builderTypeDeclaration)
         .endMethod();
     // @formatter:on
   }
