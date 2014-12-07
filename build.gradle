@@ -12,6 +12,15 @@
 
 task wrapper(type: Wrapper) { gradleVersion = '2.0' }
 
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.1'
+  }
+}
+
 if (!project.hasProperty('ossrhUsername') || !project.hasProperty('ossrhPassword')) {
   println 'OSS repository hosting username or password not set'
   ext.ossrhUsername = ''
@@ -27,6 +36,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven'
 apply plugin: 'signing'
 apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
 
 group = 'net.karneim'
 archivesBaseName = "pojobuilder"
@@ -44,7 +54,8 @@ dependencies {
 
 jacocoTestReport {
   reports {
-    html.enabled true
+    xml.enabled = true
+    html.enabled = true
   }
 }
 
