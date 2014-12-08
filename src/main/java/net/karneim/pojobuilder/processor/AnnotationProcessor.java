@@ -18,6 +18,7 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeKind;
 import javax.tools.Diagnostic;
@@ -64,13 +65,11 @@ public class AnnotationProcessor extends AbstractProcessor {
   }
 
   private void initHelpers(ProcessingEnvironment env) {
-    this.javaModelAnalyzerUtil =
-        new JavaModelAnalyzerUtil(env.getElementUtils(), env.getTypeUtils());
-    this.javaModelAnalyzer =
-        new JavaModelAnalyzer(env.getElementUtils(), env.getTypeUtils(), javaModelAnalyzerUtil);
+    this.javaModelAnalyzerUtil = new JavaModelAnalyzerUtil(env.getElementUtils(), env.getTypeUtils());
+    this.javaModelAnalyzer = new JavaModelAnalyzer(env.getElementUtils(), env.getTypeUtils(), javaModelAnalyzerUtil);
     this.inputFactory =
-        new InputFactory(env.getTypeUtils(), new DirectivesFactory(env.getElementUtils(),
-            env.getTypeUtils(), javaModelAnalyzerUtil));
+        new InputFactory(env.getTypeUtils(), new DirectivesFactory(env.getElementUtils(), env.getTypeUtils(),
+            javaModelAnalyzerUtil));
     this.annotationHierarchyUtil = new AnnotationHierarchyUtil(env.getTypeUtils());
   }
 
@@ -142,14 +141,13 @@ public class AnnotationProcessor extends AbstractProcessor {
   }
 
   private void addElementsThatFailedInLastRound(List<Element> elementsToProcess) {
-    elementsToProcess.addAll(javaModelAnalyzerUtil.findAnnotatedElements(
-        getTypeElements(failedTypeNames), GeneratePojoBuilder.class));
+    elementsToProcess.addAll(javaModelAnalyzerUtil.findAnnotatedElements(getTypeElements(failedTypeNames),
+        GeneratePojoBuilder.class));
   }
 
   private void addFailedElement(Element elem, Exception ex) {
     failedElementsMap.put(elem, ex);
-    failedTypeNames.add(javaModelAnalyzerUtil.getCompilationUnit(elem).getQualifiedName()
-        .toString());
+    failedTypeNames.add(javaModelAnalyzerUtil.getCompilationUnit(elem).getQualifiedName().toString());
   }
 
   private void showErrorsForFailedElements() {
@@ -158,13 +156,22 @@ public class AnnotationProcessor extends AbstractProcessor {
     }
   }
 
-  private List<Element> getAnnotatedElements(RoundEnvironment aRoundEnv,
-      Set<TypeElement> triggeringAnnotations) {
+  private List<Element> getAnnotatedElements(RoundEnvironment aRoundEnv, Set<TypeElement> triggeringAnnotations) {
     List<Element> elementsToProcess = new ArrayList<Element>();
     for (TypeElement annoTypeEl : triggeringAnnotations) {
       elementsToProcess.addAll(aRoundEnv.getElementsAnnotatedWith(annoTypeEl));
     }
-    return elementsToProcess;
+    return removeAnnotationElements(elementsToProcess);
+  }
+
+  private List<Element> removeAnnotationElements(List<Element> elements) {
+    List<Element> result = new ArrayList<Element>();
+    for (Element el : elements) {
+      if (el.getKind() != ElementKind.ANNOTATION_TYPE) {
+        result.add(el);
+      }
+    }
+    return result;
   }
 
   private TypeElement getTypeElement(Class<?> cls) {
@@ -187,8 +194,7 @@ public class AnnotationProcessor extends AbstractProcessor {
     if (!hasAlreadyBeenCreated(getTypeName(output.getBuilderModel()))) {
       generateBuilderImpl(output);
     }
-    if (output.getManualBuilderModel() != null
-        && !hasAlreadyBeenCreated(getTypeName(output.getManualBuilderModel()))
+    if (output.getManualBuilderModel() != null && !hasAlreadyBeenCreated(getTypeName(output.getManualBuilderModel()))
         && !typeExists(getTypeName(output.getManualBuilderModel()))) {
       generateManualBuilder(output);
     }
@@ -202,8 +208,7 @@ public class AnnotationProcessor extends AbstractProcessor {
     BuilderM builderModel = output.getBuilderModel();
     String qualifiedName = getTypeName(builderModel);
     JavaFileObject jobj =
-        processingEnv.getFiler().createSourceFile(qualifiedName,
-            asArray(output.getInput().getOrginatingElements()));
+        processingEnv.getFiler().createSourceFile(qualifiedName, asArray(output.getInput().getOrginatingElements()));
     Writer writer = jobj.openWriter();
     JavaWriter javaWriter = new JavaWriter(writer);
     BuilderSourceGenerator generator = new BuilderSourceGenerator(javaWriter);
@@ -229,8 +234,7 @@ public class AnnotationProcessor extends AbstractProcessor {
     ManualBuilderM manualBuilderModel = output.getManualBuilderModel();
     String qualifiedName = getTypeName(manualBuilderModel);
     JavaFileObject jobj =
-        processingEnv.getFiler().createSourceFile(qualifiedName,
-            asArray(output.getInput().getOrginatingElements()));
+        processingEnv.getFiler().createSourceFile(qualifiedName, asArray(output.getInput().getOrginatingElements()));
     Writer writer = jobj.openWriter();
     JavaWriter javaWriter = new JavaWriter(writer);
     ManualBuilderSourceGenerator generator = new ManualBuilderSourceGenerator(javaWriter);
@@ -263,8 +267,7 @@ public class AnnotationProcessor extends AbstractProcessor {
       error(invElemEx.getMessage(), elem);
     } else {
       String message =
-          String.format("PojoBuilder caught unexpected exception on element %s!%s",
-              processedElement, toString(ex));
+          String.format("PojoBuilder caught unexpected exception on element %s!%s", processedElement, toString(ex));
       error(message, processedElement);
     }
   }
