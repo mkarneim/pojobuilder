@@ -15,9 +15,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import samples.dsl.Dsl;
-import samples.dsl.DslBase;
-import samples.dsl.DslTest;
+import samples.dsl.TestDataFactory;
+import samples.dsl.TestDslBase;
+import samples.dsl.TestDslTest;
 import samples.dsl.IntegerBuilder;
 import samples.dsl.LongBuilder;
 import samples.dsl.StringBuilder;
@@ -259,15 +259,15 @@ public class AnnotationProcessor_Samples_Test extends ProcessorTestSupport {
   }
 
   /**
-   * @scenario Generating a builder declared in {@link DslBase}.
+   * @scenario Generating a builder declared in {@link TestDslBase}.
    * @throws Exception
    */
   @Test
   public void testShouldGenerateBuildersInDslBase() throws Exception {
     // Given:
-    String factoryClassname = DslBase.class.getName();
+    String factoryClassname = TestDslBase.class.getName();
     String[] classes =
-        new String[] {Dsl.class.getName(), DslTest.class.getName(), IntegerBuilder.class.getName(),
+        new String[] {TestDataFactory.class.getName(), TestDslTest.class.getName(), IntegerBuilder.class.getName(),
             LongBuilder.class.getName()};
     String builderClassname = StringBuilder.class.getName();
     prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, factoryClassname));

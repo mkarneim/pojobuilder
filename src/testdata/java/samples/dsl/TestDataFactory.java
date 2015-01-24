@@ -6,13 +6,13 @@ import samples.OrderBuilder;
 import samples.RecipientBuilder;
 
 /**
- * This is the domain-specific data factory.
+ * This is the domain-specific test data factory.
  * <p>
- * It provides factory methods for pre-configured builders of domain pojos.
+ * It provides factory methods for creating pre-configured builders.
  * <p>
  * It makes sense that these factories define typical default values for the builders.
  */
-public class Dsl extends DslBase {
+public class TestDataFactory extends TestDslBase {
 
   public static RecipientBuilder $Recipient() {
     return new RecipientBuilder().withName($String());

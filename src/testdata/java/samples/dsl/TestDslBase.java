@@ -11,11 +11,11 @@ import org.assertj.core.api.Assertions;
 import samples.Builder;
 
 /**
- * This is the domain-agnositic basis for the domain-specific language.
+ * This is the domain-agnostic basis for the domain-specific language for writing test.
  * <p>
- * See {@link DslTest} to see it in action.
+ * See {@link TestDslTest} to see it in action.
  */
-public class DslBase extends Assertions {
+public class TestDslBase extends Assertions {
 
   public static final String PACKAGE = "samples.dsl";
 
@@ -47,9 +47,20 @@ public class DslBase extends Assertions {
     return $builder.build();
   }
 
-  @SafeVarargs
-  public static <T> List<T> listOf(T... elems) {
-    return Arrays.asList(elems);
+  public static <P> P a(Builder<P> $builder) {
+    return $builder.build();
+  }
+
+  public static <P> P an(Builder<P> $builder) {
+    return $builder.build();
+  }
+
+  public static <T> List<T> listOf(int count, Builder<T> $builder) {
+    List<T> result = new ArrayList<T>();
+    for (int i = 0; i < count; i++) {
+      result.add(some($builder));
+    }
+    return result;
   }
 
   @SafeVarargs
@@ -79,7 +90,7 @@ public class DslBase extends Assertions {
   }
 
   @SafeVarargs
-  public static <T> Builder<T> $from(final T... elements) {
+  public static <T> Builder<T> $oneOf(final T... elements) {
     return new Builder<T>() {
       int idx = 0;
 
@@ -93,7 +104,7 @@ public class DslBase extends Assertions {
   }
 
   @SafeVarargs
-  public static <T> Builder<T> $from(final Builder<? extends T>... elements) {
+  public static <T> Builder<T> $oneOf(final Builder<? extends T>... elements) {
     return new Builder<T>() {
       int idx = 0;
 
@@ -105,6 +116,39 @@ public class DslBase extends Assertions {
         return result;
       }
     };
+  }
+
+  @SafeVarargs
+  public static <T> Builder<List<T>> $asList(final Builder<? extends T>... elements) {
+    return new Builder<List<T>>() {
+
+      public List<T> build() {
+        List<T> result = new ArrayList<T>(elements.length);
+        for (Builder<? extends T> elementBuilder : elements) {
+          result.add((T) elementBuilder.build());
+        }
+        return result;
+      }
+    };
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <T> T as(Class<T> cls, Object entity) {
+    return (T) entity;
+  }
+
+  @SafeVarargs
+  public static <T> List<T> asList(T... elems) {
+    return Arrays.asList(elems);
+  }
+
+
+  public static <T> List<T> unify(List<T>... lists) {
+    List<T> result = new ArrayList<T>();
+    for (List<T> l : lists) {
+      result.addAll(l);
+    }
+    return result;
   }
 
 }

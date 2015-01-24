@@ -13,16 +13,17 @@ import samples.Recipient;
 import samples.RecipientBuilder;
 
 /**
- * This test class demonstrates how you could use the static factory methods provided by {@link Dsl} and {@link DslBase}
- * .
+ * This test class demonstrates how you could use the static factory methods provided by {@link TestDataFactory}
+ * and {@link TestDslBase} .
  */
-public class DslTest extends Dsl {
+public class TestDslTest extends TestDataFactory {
 
   /**
-   * The method {@link #some(samples.Builder)} is just a convenient shortcut to 'builder.build()'. It makes the code
-   * more fluent readable.
+   * The method {@link #some(samples.Builder)} is just a convenient shortcut to 'builder.build()'.
+   * It makes the code more fluent readable.
    * <p>
-   * The method {@link #$String()} returns a generated {@link StringBuilder} that can build String objects.
+   * The method {@link #$String()} returns a generated {@link StringBuilder} that can build String
+   * objects.
    * <p>
    * Every call produces a unique String.
    */
@@ -37,7 +38,8 @@ public class DslTest extends Dsl {
   }
 
   /**
-   * The method {@link #$Long()} returns a hand-written {@link LongBuilder} that can build Long objects.
+   * The method {@link #$Long()} returns a hand-written {@link LongBuilder} that can build Long
+   * objects.
    * <p>
    * Every call produces a unique Long.
    */
@@ -54,8 +56,8 @@ public class DslTest extends Dsl {
   /**
    * The method {@link #$Recipient()} returns a generated {@link RecipientBuilder}.
    * <p>
-   * This builder is configured with some default values. In this case it defines the default value for the recipient's
-   * name, but not the recipient's address.
+   * This builder is configured with some default values. In this case it defines the default value
+   * for the recipient's name, but not the recipient's address.
    */
   @Test
   public void testSome$Recipient() {
@@ -70,10 +72,11 @@ public class DslTest extends Dsl {
   }
 
   /**
-   * Repeated calls to some($Recipient()) will produce unique {@link Recipient} instances with different names.
+   * Repeated calls to some($Recipient()) will produce unique {@link Recipient} instances with
+   * different names.
    * <p>
-   * This is because {@link #$Recipient()} uses a {@link StringBuilder} to define the recipient's name, which generates
-   * a unique value on every call.
+   * This is because {@link #$Recipient()} uses a {@link StringBuilder} to define the recipient's
+   * name, which generates a unique value on every call.
    */
   @Test
   public void testSome$Recipient_CreatesUniqueValues() {
@@ -106,7 +109,8 @@ public class DslTest extends Dsl {
   /**
    * We can define the recipient's address by using {@link #$Address()}.
    * <p>
-   * Please note, that {@link #$Address()} conveniently defines default values for all properties of {@link Address}.
+   * Please note, that {@link #$Address()} conveniently defines default values for all properties of
+   * {@link Address}.
    */
   @Test
   public void testSome$Recipient_With$Address() {
@@ -127,8 +131,8 @@ public class DslTest extends Dsl {
   /**
    * The method {@link #$listOf(samples.Builder...)} returns a list of the given builder instances.
    * <p>
-   * By wrapping it into a call to {@link #some(samples.Builder)} you can produce a list of pojos built by these
-   * builders.
+   * By wrapping it into a call to {@link #some(samples.Builder)} you can produce a list of pojos
+   * built by these builders.
    * <p>
    * The number of pojos is equal to the number of builders.
    */
@@ -144,10 +148,11 @@ public class DslTest extends Dsl {
   }
 
   /**
-   * The method {@link #$listOf(int, samples.Builder)} produces a list of builders with the given number of elements.
+   * The method {@link #$listOf(int, samples.Builder)} produces a list of builders with the given
+   * number of elements.
    * <p>
-   * By wrapping it into a call to {@link #some(samples.Builder)} you can produce a list of pojos built by these
-   * builders.
+   * By wrapping it into a call to {@link #some(samples.Builder)} you can produce a list of pojos
+   * built by these builders.
    * <p>
    * This is especially useful if you want to create a large number of pojos.
    */
@@ -180,11 +185,11 @@ public class DslTest extends Dsl {
   }
 
   /**
-   * Of course we can call {@link #$listOf(int, samples.Builder)} inline and assign the produced list of item builders
-   * directly to the order builder.
+   * Of course we can call {@link #$listOf(int, samples.Builder)} inline and assign the produced
+   * list of item builders directly to the order builder.
    * <p>
-   * That means, that on every call to some($Order()) we will get a new {@link Order} with a complete unique list of
-   * items.
+   * That means, that on every call to some($Order()) we will get a new {@link Order} with a
+   * complete unique list of items.
    */
   @Test
   public void testSome$Order_With$ListOf5$Items() {
@@ -199,8 +204,8 @@ public class DslTest extends Dsl {
   }
 
   /**
-   * We also could call {@link #$listOf(samples.Builder...)} inline. Here we can enumerate the concrete list of item
-   * builders that should be used for creating the list of items.
+   * We also could call {@link #$listOf(samples.Builder...)} inline. Here we can enumerate the
+   * concrete list of item builders that should be used for creating the list of items.
    * <p>
    * As you can see, you can override the default values of the items' properties.
    */
@@ -219,17 +224,18 @@ public class DslTest extends Dsl {
   }
 
   /**
-   * If you want to override the default values of many builders you can use the method {@link #$from(Object...)}.
+   * If you want to override the default values of many builders you can use the method
+   * {@link #$from(Object...)}.
    * <p>
-   * Essentially this method returns a generic {@link Builder} whose build() method cycles through the given values and
-   * returns them one-by-one.
+   * Essentially this method returns a generic {@link Builder} whose build() method cycles through
+   * the given values and returns them one-by-one.
    */
   @Test
-  public void testSome$ListOf5$Items_WithAmount_From_Enumerated_Values() {
+  public void testSome$ListOf5$Items_WithAmount_$OneOf_Enumerated_Values() {
     // Given:
 
     // When:
-    List<Item> act = some($listOf(5, $Item().withAmount($from(10, 20, 30, 40, 50))));
+    List<Item> act = some($listOf(5, $Item().withAmount($oneOf(10, 20, 30, 40, 50))));
 
     // Then:
     assertThat(act.get(0).amount).isEqualTo(10);
@@ -240,15 +246,19 @@ public class DslTest extends Dsl {
   }
 
   /**
-   * If you want to cycle through a list of builders, you can use the method {@link #$from(Builder...)}.
+   * If you want to cycle through a list of builders, you can use the method
+   * {@link #$from(Builder...)}.
    */
   @Test
-  public void testSome$ListOf2$Order_WithRecipient_$From_Enumerated_Builders() {
+  public void testSome$ListOf2$Order_WithRecipient_$OneOf_Enumerated_Builders() {
     // Given:
 
     // When:
     List<Order> act =
-        some($listOf(2, $Order().withRecipient($from($Recipient().withName("Peter"), $Recipient().withName("Paul")))));
+        some($listOf(
+            2,
+            $Order().withRecipient(
+                $oneOf($Recipient().withName("Peter"), $Recipient().withName("Paul")))));
 
     // Then:
     assertThat(act.get(0).recipient.getName()).isEqualTo("Peter");
