@@ -234,8 +234,8 @@ The following elements of [@GeneratePojoBuilder] can be used to configure the ou
   property pattern in the specified array will be included. All other non-mandatory properties will be excluded.
   Mandatory properties are those which are passed as constructor or factory method arguments. They will never be
   excluded, neither explicitly nor implicitly.  
-  The property pattern consists of a name pattern followed by an optional type pattern.  
-  The syntax is `&lt;name pattern&gt;[:&lt;type pattern&gt].` The pattern supports the asterisk `*`
+  The [property pattern] consists of a name pattern followed by an optional type pattern.  
+  The syntax is `<name pattern>[:<type pattern>].` The pattern supports the asterisk `*`
   wildcard character that matches any character.  
   For an example please see [`InputSourceFactory.java`] and [`InputSourceBuilder.java`].
   Default is `*`.
@@ -244,8 +244,8 @@ The following elements of [@GeneratePojoBuilder] can be used to configure the ou
   property pattern in the specified array will be excluded, except those that are mandatory. Mandatory properties are
   those which are passed as constructor or factory method arguments. They will never be excluded, neither explicitly
   nor implicitly.
-  The property pattern consists of a name pattern followed by an optional type pattern.
-  The syntax is `&lt;name pattern&gt;[:&lt;type pattern&gt].` The pattern supports the asterisk `*`
+  The [property pattern] consists of a name pattern followed by an optional type pattern.
+  The syntax is `<name pattern>[:<type pattern>].` The pattern supports the asterisk `*`
   wildcard character that matches any character.  
   For an example please see [`CalendarFactory.java`] and [`GregorianCalendarBuilder.java`].
   Default is the empty array.  
@@ -488,6 +488,8 @@ If you want to compile this project's sources yourself you can use Gradle (see [
 
 [@GeneratePojoBuilder]: http://github.com/mkarneim/pojobuilder/blob/master/src/main/java/net/karneim/pojobuilder/GeneratePojoBuilder.java
 [@FactoryProperties]: http://github.com/mkarneim/pojobuilder/blob/master/src/main/java/net/karneim/pojobuilder/FactoryProperties.java
+
+[property pattern]: http://github.com/mkarneim/pojobuilder/wiki/Property-Pattern-Examples
 
 [samples]: http://github.com/mkarneim/pojobuilder/tree/master/samples
 [src/testdata/java/samples/dsl/DslTest.java]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/dsl/DslTest.java
