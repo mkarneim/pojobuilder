@@ -236,7 +236,7 @@ The following elements of [@GeneratePojoBuilder] can be used to configure the ou
   excluded, neither explicitly nor implicitly.  
   The [property pattern] consists of a name pattern followed by an optional type pattern.  
   The syntax is `<name pattern>[:<type pattern>].` The pattern supports the asterisk `*`
-  wildcard character that matches any character.  
+  wildcard character that matches any character sequence.  
   For an example please see [`InputSourceFactory.java`] and [`InputSourceBuilder.java`].
   Default is `*`.
 * **excludeProperties=&lt;String[]&gt;**
@@ -246,7 +246,7 @@ The following elements of [@GeneratePojoBuilder] can be used to configure the ou
   nor implicitly.
   The [property pattern] consists of a name pattern followed by an optional type pattern.
   The syntax is `<name pattern>[:<type pattern>].` The pattern supports the asterisk `*`
-  wildcard character that matches any character.  
+  wildcard character that matches any character sequence.  
   For an example please see [`CalendarFactory.java`] and [`GregorianCalendarBuilder.java`].
   Default is the empty array.  
 * **withGenerationGap=&lt;boolean&gt;**
