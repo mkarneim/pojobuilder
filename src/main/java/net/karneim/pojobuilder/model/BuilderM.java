@@ -131,12 +131,11 @@ public class BuilderM {
 
   @Override
   public String toString() {
-    return "BuilderM [type=" + type + ", isAbstract=" + isAbstract + ", selfType=" + selfType
-        + ", baseType=" + baseType + ", pojoType=" + pojoType + ", properties=" + properties
-        + ", factoryMethod=" + factoryMethod + ", copyMethod=" + copyMethod + ", buildMethod="
-        + buildMethod + ", validator=" + validator + ", interfaceType=" + interfaceType
-        + ", hasBuilderProperties=" + hasBuilderProperties + ", optionalType=" + optionalType
-        + ", staticFactoryMethod=" + staticFactoryMethod+ "]";
+    return "BuilderM [type=" + type + ", isAbstract=" + isAbstract + ", selfType=" + selfType + ", baseType="
+        + baseType + ", pojoType=" + pojoType + ", properties=" + properties + ", factoryMethod=" + factoryMethod
+        + ", copyMethod=" + copyMethod + ", buildMethod=" + buildMethod + ", validator=" + validator
+        + ", interfaceType=" + interfaceType + ", hasBuilderProperties=" + hasBuilderProperties + ", optionalType="
+        + optionalType + ", staticFactoryMethod=" + staticFactoryMethod + "]";
   }
 
 }

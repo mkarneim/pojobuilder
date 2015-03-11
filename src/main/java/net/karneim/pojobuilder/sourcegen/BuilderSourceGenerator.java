@@ -49,10 +49,9 @@ public class BuilderSourceGenerator {
     checkNotNull(builder.getPojoType(), "builder.getPojoType() must not be null");
     checkNotNull(builder.getType(), "builder.getBuilderType() must not be null");
     checkNotNull(builder.getProperties(), "builder.getProperties() must not be null");
-    generateSource(builder.getType(), builder.isAbstract(), builder.getSelfType(),
-        builder.getBaseType(), builder.getInterfaceType(), builder.hasBuilderProperties(),
-        builder.getPojoType(), builder.getProperties(), builder.getBuildMethod(),
-        builder.getFactoryMethod(), builder.getCopyMethod(), builder.getValidator(),
+    generateSource(builder.getType(), builder.isAbstract(), builder.getSelfType(), builder.getBaseType(),
+        builder.getInterfaceType(), builder.hasBuilderProperties(), builder.getPojoType(), builder.getProperties(),
+        builder.getBuildMethod(), builder.getFactoryMethod(), builder.getCopyMethod(), builder.getValidator(),
         builder.getOptionalType(), builder.getStaticFactoryMethod());
   }
 
@@ -62,11 +61,10 @@ public class BuilderSourceGenerator {
     }
   }
 
-  private void generateSource(TypeM builderType, boolean isAbstract, TypeM selfType,
-      TypeM baseType, TypeM interfaceType, boolean hasBuilderProperties, TypeM pojoType,
-      PropertyListM properties, BuildMethodM buildMethod, FactoryMethodM factoryMethod,
-      CopyMethodM copyMethodM, ValidatorM validator, TypeM optionalType,
-      StaticFactoryMethodM staticFactoryMethod) throws IOException {
+  private void generateSource(TypeM builderType, boolean isAbstract, TypeM selfType, TypeM baseType,
+      TypeM interfaceType, boolean hasBuilderProperties, TypeM pojoType, PropertyListM properties,
+      BuildMethodM buildMethod, FactoryMethodM factoryMethod, CopyMethodM copyMethodM, ValidatorM validator,
+      TypeM optionalType, StaticFactoryMethodM staticFactoryMethod) throws IOException {
     properties = new PropertyListM(properties);
     properties.filterOutNonWritableProperties(builderType);
 
@@ -158,11 +156,9 @@ public class BuilderSourceGenerator {
   }
 
   private void emitValidatorField(ValidatorM validator) throws IOException {
-    String validatorTypeDeclaration =
-        writer.compressType(validator.getType().getGenericTypeDeclaration());
+    String validatorTypeDeclaration = writer.compressType(validator.getType().getGenericTypeDeclaration());
     String initialization = String.format("new %s()", validatorTypeDeclaration);
-    writer.emitField(validatorTypeDeclaration, validator.getFieldName(), EnumSet.of(PROTECTED),
-        initialization);
+    writer.emitField(validatorTypeDeclaration, validator.getFieldName(), EnumSet.of(PROTECTED), initialization);
   }
 
   static void emitStaticFactoryMethod(TypeM selfType, StaticFactoryMethodM method, JavaWriter writer)
@@ -187,8 +183,8 @@ public class BuilderSourceGenerator {
     // @formatter:on
   }
 
-  private void emitCopyMethod(TypeM builderType, TypeM selfType, TypeM pojoType,
-      PropertyListM properties, CopyMethodM copyMethodM) throws IOException {
+  private void emitCopyMethod(TypeM builderType, TypeM selfType, TypeM pojoType, PropertyListM properties,
+      CopyMethodM copyMethodM) throws IOException {
     properties = new PropertyListM(properties);
     String selfTypeDeclaration = writer.compressType(selfType.getGenericTypeDeclaration());
     String pojoTypeDeclaration = writer.compressType(pojoType.getGenericTypeDeclaration());
@@ -222,9 +218,9 @@ public class BuilderSourceGenerator {
     // @formatter:on
   }
 
-  private void emitBuildMethod(TypeM builderType, TypeM pojoType, TypeM interfaceType,
-      boolean hasBuilderProperties, PropertyListM properties, FactoryMethodM factoryMethod,
-      BuildMethodM buildMethod, ValidatorM validator) throws IOException {
+  private void emitBuildMethod(TypeM builderType, TypeM pojoType, TypeM interfaceType, boolean hasBuilderProperties,
+      PropertyListM properties, FactoryMethodM factoryMethod, BuildMethodM buildMethod, ValidatorM validator)
+      throws IOException {
     properties = new PropertyListM(properties);
     String pojoTypeDeclaration = writer.compressType(pojoType.getGenericTypeDeclaration());
     String pojoClassname = writer.compressType(pojoType.getName());
@@ -343,14 +339,13 @@ public class BuilderSourceGenerator {
     // @formatter:on
   }
 
-  private void emitWithMethodUsingBuilderInterface(TypeM builderType, TypeM selfType,
-      TypeM interfaceType, TypeM pojoType, PropertyM prop) throws IOException {
+  private void emitWithMethodUsingBuilderInterface(TypeM builderType, TypeM selfType, TypeM interfaceType,
+      TypeM pojoType, PropertyM prop) throws IOException {
     String builderFieldName = prop.getBuilderFieldName();
     String isSetFieldName = prop.getIsSetFieldName();
     String withMethodName = prop.getWithMethodName();
     String pojoTypeStr = writer.compressType(pojoType.getName());
-    String parameterTypeStr =
-        prop.getParameterizedBuilderInterfaceType(interfaceType).getGenericTypeDeclaration();
+    String parameterTypeStr = prop.getParameterizedBuilderInterfaceType(interfaceType).getGenericTypeDeclaration();
 
     // @formatter:off
     writer
@@ -368,15 +363,13 @@ public class BuilderSourceGenerator {
     // @formatter:on
   }
 
-  private void emitWithMethod(TypeM builderType, TypeM selfType, TypeM pojoType, PropertyM prop)
-      throws IOException {
+  private void emitWithMethod(TypeM builderType, TypeM selfType, TypeM pojoType, PropertyM prop) throws IOException {
     String valueFieldName = prop.getValueFieldName();
     String isSetFieldName = prop.getIsSetFieldName();
     String withMethodName = prop.getWithMethodName();
     String pojoTypeStr = writer.compressType(pojoType.getName());
     String parameterTypeStr;
-    if (prop.getPropertyType().isArrayType()
-        && prop.getPreferredWriteAccessFor(builderType).isVarArgs()) {
+    if (prop.getPropertyType().isArrayType() && prop.getPreferredWriteAccessFor(builderType).isVarArgs()) {
       ArrayTypeM arrayType = (ArrayTypeM) prop.getPropertyType();
       // TODO replace this when JavaWriter supports varargs
       // parameterTypeStr = arrayType.getGenericTypeDeclarationAsVarArgs();
@@ -402,8 +395,8 @@ public class BuilderSourceGenerator {
     // @formatter:on
   }
 
-  private void emitWithOptionalMethod(TypeM builderType, TypeM selfType, TypeM pojoType,
-      PropertyM prop, TypeM optionalType) throws IOException {
+  private void emitWithOptionalMethod(TypeM builderType, TypeM selfType, TypeM pojoType, PropertyM prop,
+      TypeM optionalType) throws IOException {
 
     TypeM optionalParameterType = prop.getOptionalPropertyType(optionalType);
     if (optionalParameterType == null) {
@@ -440,8 +433,7 @@ public class BuilderSourceGenerator {
     // @formatter:on
   }
 
-  private void emitPropertyFields(PropertyM prop, TypeM interfaceType, boolean hasBuilderProperties)
-      throws IOException {
+  private void emitPropertyFields(PropertyM prop, TypeM interfaceType, boolean hasBuilderProperties) throws IOException {
     String valueFieldName = prop.getValueFieldName();
     String isSetFieldName = prop.getIsSetFieldName();
     // @formatter:off

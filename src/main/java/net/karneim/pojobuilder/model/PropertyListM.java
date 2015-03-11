@@ -3,7 +3,9 @@ package net.karneim.pojobuilder.model;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 
+import net.karneim.pojobuilder.analysis.PropertyPattern;
 import net.karneim.pojobuilder.model.WriteAccess.Type;
 
 public class PropertyListM implements Iterable<PropertyM> {
@@ -44,8 +46,7 @@ public class PropertyListM implements Iterable<PropertyM> {
   public PropertyListM add(PropertyM prop) {
     Key key = keyOf(prop);
     if (elements.containsKey(key)) {
-      throw new IllegalArgumentException(
-          String.format("Property with key %s already in list!", key));
+      throw new IllegalArgumentException(String.format("Property with key %s already in list!", key));
     }
     elements.put(key, prop);
     return this;
@@ -154,8 +155,7 @@ public class PropertyListM implements Iterable<PropertyM> {
     Iterator<PropertyM> it = this.iterator();
     while (it.hasNext()) {
       PropertyM p = it.next();
-      if (p.isReadableViaFieldAccessBy(accessingClass)
-          || p.isReadableViaGetterMethodBy(accessingClass)) {
+      if (p.isReadableViaFieldAccessBy(accessingClass) || p.isReadableViaGetterMethodBy(accessingClass)) {
         result.add(p);
         it.remove();
       }
@@ -163,8 +163,37 @@ public class PropertyListM implements Iterable<PropertyM> {
     return result;
   }
 
+  public void retainPropertiesMatchingAnyOf(List<PropertyPattern> list) {
+    Iterator<PropertyM> it = this.iterator();
+    while (it.hasNext()) {
+      PropertyM p = it.next();
+      if (!p.matchesAnyOf(list)) {
+        // We won't exclude mandatory properties
+        if (!p.isWritableViaConstructor() && !p.isWritableViaFactoryMethod()) {
+          it.remove();
+        }
+      }
+    }
+  }
+
+  public void removePropertiesMatchingAnyOf(List<PropertyPattern> list) {
+    if (list.isEmpty()) {
+      return;
+    }
+    Iterator<PropertyM> it = this.iterator();
+    while (it.hasNext()) {
+      PropertyM p = it.next();
+      if (p.matchesAnyOf(list)) {
+        // We won't exclude mandatory properties
+        if (!p.isWritableViaConstructor() && !p.isWritableViaFactoryMethod()) {
+          it.remove();
+        }
+      }
+    }
+  }
+
   public boolean hasPropertiesReadablyBy(TypeM accessingClass) {
-    return new PropertyListM(this).filterOutPropertiesReadableBy(accessingClass).isEmpty()==false;
+    return new PropertyListM(this).filterOutPropertiesReadableBy(accessingClass).isEmpty() == false;
   }
 
   public boolean isEmpty() {
@@ -213,24 +242,20 @@ public class PropertyListM implements Iterable<PropertyM> {
 
     @Override
     public boolean equals(Object obj) {
-      if (this == obj)
-        return true;
-      if (obj == null)
-        return false;
-      if (getClass() != obj.getClass())
-        return false;
+      if (this == obj) return true;
+      if (obj == null) return false;
+      if (getClass() != obj.getClass()) return false;
       Key other = (Key) obj;
       if (propertyName == null) {
-        if (other.propertyName != null)
-          return false;
-      } else if (!propertyName.equals(other.propertyName))
-        return false;
+        if (other.propertyName != null) return false;
+      } else if (!propertyName.equals(other.propertyName)) return false;
       if (propertyType == null) {
-        if (other.propertyType != null)
-          return false;
-      } else if (!propertyType.equals(other.propertyType))
-        return false;
+        if (other.propertyType != null) return false;
+      } else if (!propertyType.equals(other.propertyType)) return false;
       return true;
     }
   }
+
+
+
 }

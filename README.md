@@ -53,7 +53,7 @@ For older versions and a *change log* please see the [release history page].
 PojoBuilder *binaries* are available for download at [Sonatype OSS Maven Repository] and [Maven Central].
 
 If you don't use any build automation tool that supports maven repos,
-you might want to download the `pojobuilder-*-jar-with-dependencies.jar` to get PojoBuilder complete with all dependent libraries included.
+you might want to download the `pojobuilder-3.4.0-jar-with-dependencies.jar` to get PojoBuilder complete with all dependent libraries included.
 
 How To Use
 ----------
@@ -229,6 +229,26 @@ The following elements of [@GeneratePojoBuilder] can be used to configure the ou
   builder interface (see above).
   For an example please see [`Recipient.java`], [`Builder.java`] and [`RecipientBuilder.java`].
   Default is `false`.
+* **includeProperties=&lt;String[]&gt;**
+  specifies which of the pojo's properties will be included into the generated builder. All properties that match any
+  property pattern in the specified array will be included. All other non-mandatory properties will be excluded.
+  Mandatory properties are those which are passed as constructor or factory method arguments. They will never be
+  excluded, neither explicitly nor implicitly.  
+  The property pattern consists of a name pattern followed by an optional type pattern.  
+  The syntax is `&lt;name pattern&gt;[:&lt;type pattern&gt].` The pattern supports the asterisk `*`
+  wildcard character that matches any character.  
+  For an example please see [`InputSourceFactory.java`] and [`InputSourceBuilder.java`].
+  Default is `*`.
+* **excludeProperties=&lt;String[]&gt;**
+  specifies which of the pojo's properties will be excluded from the generated builder. All property that match any
+  property pattern in the specified array will be excluded, except those that are mandatory. Mandatory properties are
+  those which are passed as constructor or factory method arguments. They will never be excluded, neither explicitly
+  nor implicitly.
+  The property pattern consists of a name pattern followed by an optional type pattern.
+  The syntax is `&lt;name pattern&gt;[:&lt;type pattern&gt].` The pattern supports the asterisk `*`
+  wildcard character that matches any character.  
+  For an example please see [`CalendarFactory.java`] and [`GregorianCalendarBuilder.java`].
+  Default is the empty array.  
 * **withGenerationGap=&lt;boolean&gt;**
   specifies whether the [generation gap pattern] is used. If enabled, this
   will generate two classes (instead of one), of which one contains the
@@ -326,7 +346,7 @@ The `javac` compiler will auto-detect the presence of PojoBuilder if `pojobuilde
 
 For example:
 
-    javac -cp pojobuilder-3.3.2-jar-with-dependencies.jar Contact.java
+    javac -cp pojobuilder-3.4.0-jar-with-dependencies.jar Contact.java
 
 will generate a `ContactBuilder` if `Contact` is annotated with `@GeneratePojoBuilder`.
 
@@ -339,7 +359,7 @@ Add the following to your project's `pom.xml` to configure the PojoBuilder annot
 	<dependency>
 		<groupId>net.karneim</groupId>
 		<artifactId>pojobuilder</artifactId>
-		<version>3.3.2</version>
+		<version>3.4.0</version>
 		<!-- 'provided' scope because this is only needed during compilation -->
 		<scope>provided</scope>
 	</dependency>
@@ -361,7 +381,7 @@ repositories {
 }
 
 dependencies {
-  compile 'net.karneim:pojobuilder:3.3.2'
+  compile 'net.karneim:pojobuilder:3.4.0'
 }
 ```
 Please note that this not only adds the PojoBuilder and its dependencies to your compile-time class path but also to your run-time class path.
@@ -379,7 +399,7 @@ configurations {
 }
 
 dependencies {
-  codeGeneration 'net.karneim:pojobuilder:3.3.2'
+  codeGeneration 'net.karneim:pojobuilder:3.4.0'
 }
 compileJava.classpath += configurations.codeGeneration
 compileTestJava.classpath += configurations.codeGeneration
@@ -430,7 +450,7 @@ Do the following to enable PojoBuilder for your Eclipse project:
 * Open your project's properties dialog
 * Navigate to "Java Build Path" tree node
 * Open the "Libraries" tab
-* Add `pojobuilder-3.3.2-annotations.jar` to your project classpath
+* Add `pojobuilder-3.4.0-annotations.jar` to your project classpath
 * Navigate to "Java Compiler / Annotation Processing" tree node
 * Check "Enable project specific settings"
 * Check "Enable annotation processing"
@@ -439,7 +459,7 @@ Do the following to enable PojoBuilder for your Eclipse project:
 * Navigate to "Java Compiler / Annotation Processing / Factory Path" tree node
 * Check "Enable project specific settings"
 * Click "Add JARs..."
-* Add `pojobuiler-3.3.2-jar-with-dependencies.jar`
+* Add `pojobuiler-3.4.0-jar-with-dependencies.jar`
 * Click "OK"
 
 How To Build
@@ -476,6 +496,10 @@ If you want to compile this project's sources yourself you can use Gradle (see [
 [`UserBuilder.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/UserBuilder.java
 [`UrlBuilder.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/UrlBuilder.java
 [`FileBuilder.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/FileBuilder.java
+[`InputSourceFactory.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/InputSourceFactory.java
+[`InputSourceBuilder.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/InputSourceBuilder.java
+[`CalendarFactory.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/CalendarFactory.java
+[`GregorianCalendarBuilder.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/GregorianCalendarBuilder.java
 [`Player.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/Player.java
 [`PlayerBuilder.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/PlayerBuilder.java
 [`AbstractPlayerBuilder.java`]: http://github.com/mkarneim/pojobuilder/blob/master/src/testdata/java/samples/AbstractPlayerBuilder.java

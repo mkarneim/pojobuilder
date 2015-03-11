@@ -7,20 +7,15 @@ import java.net.URL;
 
 import net.karneim.pojobuilder.processor.AnnotationProcessor;
 import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
-import net.karneim.pojobuilder.testenv.JavaProject;
-import net.karneim.pojobuilder.testenv.TestBase;
-import net.karneim.pojobuilder.testenv.Util;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
-import samples.dsl.TestDataFactory;
-import samples.dsl.TestDslBase;
-import samples.dsl.TestDslTest;
 import samples.dsl.IntegerBuilder;
 import samples.dsl.LongBuilder;
 import samples.dsl.StringBuilder;
+import samples.dsl.TestDataFactory;
+import samples.dsl.TestDslBase;
+import samples.dsl.TestDslTest;
 
 /**
  * @feature The {@link AnnotationProcessor} generates builder classes.
@@ -46,8 +41,7 @@ public class AnnotationProcessor_Samples_Test extends ProcessorTestSupport {
     String actual = getContent(prj.findGeneratedSource(builderClassname));
     logDebug(actual);
 
-    String expected =
-        loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
+    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
     assertThat(actual).isEqualTo(expected);
     assertThat(prj.findClass(builderClassname)).isNotNull();
   }
@@ -71,8 +65,7 @@ public class AnnotationProcessor_Samples_Test extends ProcessorTestSupport {
     String actual = getContent(prj.findGeneratedSource(builderClassname));
     logDebug(actual);
 
-    String expected =
-        loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
+    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
     assertThat(actual).isEqualTo(expected);
     assertThat(prj.findClass(builderClassname)).isNotNull();
   }
@@ -96,8 +89,7 @@ public class AnnotationProcessor_Samples_Test extends ProcessorTestSupport {
     String actual = getContent(prj.findGeneratedSource(builderClassname));
     logDebug(actual);
 
-    String expected =
-        loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
+    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
     assertThat(actual).isEqualTo(expected);
     assertThat(prj.findClass(builderClassname)).isNotNull();
   }
@@ -121,8 +113,7 @@ public class AnnotationProcessor_Samples_Test extends ProcessorTestSupport {
     logDebug(actual);
     assertThat(success).isTrue();
 
-    String expected =
-        loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
+    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
     assertThat(actual).isEqualTo(expected);
     assertThat(prj.findClass(builderClassname)).isNotNull();
   }
@@ -148,8 +139,7 @@ public class AnnotationProcessor_Samples_Test extends ProcessorTestSupport {
     logDebug(actual);
     assertThat(success).isTrue();
 
-    String expected =
-        loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(abstractBuilderClassname));
+    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(abstractBuilderClassname));
     assertThat(actual).isEqualTo(expected);
     assertThat(prj.findClass(builderClassname)).isNotNull();
   }
@@ -173,8 +163,7 @@ public class AnnotationProcessor_Samples_Test extends ProcessorTestSupport {
     String actual = getContent(prj.findGeneratedSource(builderClassname));
     logDebug(actual);
 
-    String expected =
-        loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
+    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
     assertThat(actual).isEqualTo(expected);
     assertThat(prj.findClass(builderClassname)).isNotNull();
   }
@@ -215,20 +204,16 @@ public class AnnotationProcessor_Samples_Test extends ProcessorTestSupport {
     String actual4 = getContent(prj.findGeneratedSource(builder4Classname));
     logDebug(actual4);
 
-    String expected1 =
-        loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builder1Classname));
+    String expected1 = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builder1Classname));
     assertThat(actual1).isEqualTo(expected1);
     assertThat(prj.findClass(builder1Classname)).isNotNull();
-    String expected2 =
-        loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builder2Classname));
+    String expected2 = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builder2Classname));
     assertThat(actual2).isEqualTo(expected2);
     assertThat(prj.findClass(builder2Classname)).isNotNull();
-    String expected3 =
-        loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builder3Classname));
+    String expected3 = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builder3Classname));
     assertThat(actual3).isEqualTo(expected3);
     assertThat(prj.findClass(builder3Classname)).isNotNull();
-    String expected4 =
-        loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builder4Classname));
+    String expected4 = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builder4Classname));
     assertThat(actual4).isEqualTo(expected4);
     assertThat(prj.findClass(builder4Classname)).isNotNull();
   }
@@ -252,8 +237,7 @@ public class AnnotationProcessor_Samples_Test extends ProcessorTestSupport {
     String actual = getContent(prj.findGeneratedSource(builderClassname));
     logDebug(actual);
 
-    String expected =
-        loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
+    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
     assertThat(actual).isEqualTo(expected);
     assertThat(prj.findClass(builderClassname)).isNotNull();
   }
@@ -283,8 +267,7 @@ public class AnnotationProcessor_Samples_Test extends ProcessorTestSupport {
     String actual = getContent(prj.findGeneratedSource(builderClassname));
     logDebug(actual);
 
-    String expected =
-        loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
+    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
     assertThat(actual).isEqualTo(expected);
     assertThat(prj.findClass(builderClassname)).isNotNull();
   }
@@ -308,8 +291,57 @@ public class AnnotationProcessor_Samples_Test extends ProcessorTestSupport {
     String actual = getContent(prj.findGeneratedSource(builderClassname));
     logDebug(actual);
 
-    String expected =
-        loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
+    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
+    assertThat(actual).isEqualTo(expected);
+    assertThat(prj.findClass(builderClassname)).isNotNull();
+  }
+
+  /**
+   * @scenario Generating a builder with some properties excluded.
+   * @throws Exception
+   */
+  @Test
+  public void testShouldGenerateInputSourceBuilder() throws Exception {
+    // Given:
+    String factoryClassname = InputSourceFactory.class.getName();
+    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, factoryClassname));
+
+    String builderClassname = InputSourceBuilder.class.getName();
+
+    // When:
+    boolean success = prj.compile();
+
+    // Then:
+    assertThat(success).isTrue();
+    String actual = getContent(prj.findGeneratedSource(builderClassname));
+    logDebug(actual);
+
+    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
+    assertThat(actual).isEqualTo(expected);
+    assertThat(prj.findClass(builderClassname)).isNotNull();
+  }
+
+  /**
+   * @scenario Generating a builder with only mandatory properties included.
+   * @throws Exception
+   */
+  @Test
+  public void testShouldGenerateGregorianCalendarBuilder() throws Exception {
+    // Given:
+    String factoryClassname = CalendarFactory.class.getName();
+    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, factoryClassname));
+
+    String builderClassname = "samples.GregorianCalendarBuilder";// InputSourceBuilder.class.getName();
+
+    // When:
+    boolean success = prj.compile();
+
+    // Then:
+    assertThat(success).isTrue();
+    String actual = getContent(prj.findGeneratedSource(builderClassname));
+    logDebug(actual);
+
+    String expected = loadResourceFromFilesystem(TESTDATA_DIRECTORY, getSourceFilename(builderClassname));
     assertThat(actual).isEqualTo(expected);
     assertThat(prj.findClass(builderClassname)).isNotNull();
   }

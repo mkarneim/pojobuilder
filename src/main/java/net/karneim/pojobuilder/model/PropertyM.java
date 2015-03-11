@@ -1,5 +1,9 @@
 package net.karneim.pojobuilder.model;
 
+import java.util.List;
+
+import net.karneim.pojobuilder.analysis.PropertyPattern;
+
 
 public class PropertyM {
   private TypeM propertyType;
@@ -48,13 +52,12 @@ public class PropertyM {
     if (propertyType.isPrimitive()) {
       PrimitiveTypeM primType = (PrimitiveTypeM) propertyType;
       TypeM result =
-          new TypeM(interfaceType.getPackageName(), interfaceType.getSimpleName())
-              .withTypeParameter(primType.getBoxClass());
+          new TypeM(interfaceType.getPackageName(), interfaceType.getSimpleName()).withTypeParameter(primType
+              .getBoxClass());
       return result;
     } else {
       TypeM result =
-          new TypeM(interfaceType.getPackageName(), interfaceType.getSimpleName())
-              .withTypeParameter(propertyType);
+          new TypeM(interfaceType.getPackageName(), interfaceType.getSimpleName()).withTypeParameter(propertyType);
       return result;
     }
   }
@@ -69,8 +72,7 @@ public class PropertyM {
       return null;
     }
     TypeM result =
-        new TypeM(optionalType.getPackageName(), optionalType.getSimpleName())
-            .withTypeParameter(propertyType);
+        new TypeM(optionalType.getPackageName(), optionalType.getSimpleName()).withTypeParameter(propertyType);
     return result;
   }
 
@@ -150,9 +152,8 @@ public class PropertyM {
   }
 
   public boolean isWritableBy(TypeM accessingClass) {
-    return isWritableViaFieldAccessBy(accessingClass)
-        || isWritableViaSetterMethodBy(accessingClass) || isWritableViaConstructor()
-        || isWritableViaFactoryMethod();
+    return isWritableViaFieldAccessBy(accessingClass) || isWritableViaSetterMethodBy(accessingClass)
+        || isWritableViaConstructor() || isWritableViaFactoryMethod();
   }
 
   public boolean isReadableViaGetterMethodBy(TypeM accessingClass) {
@@ -198,14 +199,28 @@ public class PropertyM {
     return null;
   }
 
+  public boolean matchesAnyOf(List<PropertyPattern> list) {
+    for (PropertyPattern pattern : list) {
+      if (matches(pattern)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private boolean matches(PropertyPattern pattern) {
+    return pattern.contains(this);
+  }
+
   @Override
   public String toString() {
-    return "PropertyM [propertyType=" + propertyType + ", propertyName=" + propertyName
-        + ", withMethodName=" + withMethodName + ", writableViaConstructorParameter="
-        + writableViaConstructorParameter + ", writableViaSetterMethod=" + writableViaSetterMethod
-        + ", readableViaGetterMethod=" + readableViaGetterMethod
-        + ", writableViaFactoryMethodParameter=" + writableViaFactoryMethodParameter
+    return "PropertyM [propertyType=" + propertyType + ", propertyName=" + propertyName + ", withMethodName="
+        + withMethodName + ", writableViaConstructorParameter=" + writableViaConstructorParameter
+        + ", writableViaSetterMethod=" + writableViaSetterMethod + ", readableViaGetterMethod="
+        + readableViaGetterMethod + ", writableViaFactoryMethodParameter=" + writableViaFactoryMethodParameter
         + ", fieldAccess=" + fieldAccess + "]";
   }
+
+
 
 }

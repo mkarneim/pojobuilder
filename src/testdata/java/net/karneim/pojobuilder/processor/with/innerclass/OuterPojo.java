@@ -7,16 +7,18 @@ public class OuterPojo {
     private String name;
     public int number;
     protected List<String> strings;
-    
+
     public String getName() {
       return name;
     }
+
     public void setName(String name) {
       this.name = name;
     }
+
     public List<String> getStrings() {
       return strings;
     }
-    
+
   }
 }

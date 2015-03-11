@@ -1,6 +1,10 @@
 package net.karneim.pojobuilder.analysis;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+
+import javax.lang.model.element.AnnotationValue;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
@@ -17,7 +21,10 @@ public class Directives {
   private String staticFactoryMethod = GeneratePojoBuilder.DEFAULT_FACTORY_METHOD;
   private String validatorClassname = Void.class.getName();
   private String optionalClassname = Void.class.getName();
+  private List<PropertyPattern> includeProperties = new ArrayList<PropertyPattern>();
+  private List<PropertyPattern> excludeProperties = new ArrayList<PropertyPattern>();
 
+  @SuppressWarnings("unchecked")
   public Directives(Map<String, Object> valueMap) {
     if (valueMap == null) {
       throw new NullPointerException("valueMap must not be null!");
@@ -36,6 +43,16 @@ public class Directives {
     staticFactoryMethod = (String) valueMap.get("withFactoryMethod");
     validatorClassname = (String) valueMap.get("withValidator");
     optionalClassname = (String) valueMap.get("withOptionalProperties");
+    includeProperties = newList((List<AnnotationValue>) valueMap.get("includeProperties"));
+    excludeProperties = newList((List<AnnotationValue>) valueMap.get("excludeProperties"));
+  }
+
+  private List<PropertyPattern> newList(List<AnnotationValue> array) {
+    List<PropertyPattern> result = new ArrayList<PropertyPattern>(array.size());
+    for (AnnotationValue elem : array) {
+      result.add(new PropertyPattern(String.valueOf(elem.getValue())));
+    }
+    return result;
   }
 
   public boolean isGenerateCopyMethod() {
@@ -143,15 +160,31 @@ public class Directives {
     this.staticFactoryMethod = staticFactoryMethod;
   }
 
+  public List<PropertyPattern> getExcludeProperties() {
+    return excludeProperties;
+  }
+
+  public void setExcludeProperties(List<PropertyPattern> excludeProperties) {
+    this.excludeProperties = excludeProperties;
+  }
+
+  public List<PropertyPattern> getIncludeProperties() {
+    return includeProperties;
+  }
+
+  public void setIncludeProperties(List<PropertyPattern> includeProperties) {
+    this.includeProperties = includeProperties;
+  }
+
   @Override
   public String toString() {
-    return "Directives [generateCopyMethod=" + generateCopyMethod + ", copyMethodName="
-        + copyMethodName + ", intoPackage=" + intoPackage + ", builderName=" + builderName
-        + ", baseclassName=" + baseclassName + ", builderInterfaceName=" + builderInterfaceName
-        + ", generateBuilderProperties=" + generateBuilderProperties + ", generationGap="
-        + generationGap + ", setterNamePattern=" + setterNamePattern + ", validatorClassname="
-        + validatorClassname + ", staticFactoryMethod=" + staticFactoryMethod
-        + ", optionalClassname=" + optionalClassname + "]";
+    return "Directives [generateCopyMethod=" + generateCopyMethod + ", copyMethodName=" + copyMethodName
+        + ", intoPackage=" + intoPackage + ", builderName=" + builderName + ", baseclassName=" + baseclassName
+        + ", builderInterfaceName=" + builderInterfaceName + ", generateBuilderProperties=" + generateBuilderProperties
+        + ", generationGap=" + generationGap + ", setterNamePattern=" + setterNamePattern + ", staticFactoryMethod="
+        + staticFactoryMethod + ", validatorClassname=" + validatorClassname + ", optionalClassname="
+        + optionalClassname + ", includeProperties=" + includeProperties + ", excludeProperties=" + excludeProperties
+        + "]";
   }
 
 }
