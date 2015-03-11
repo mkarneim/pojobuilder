@@ -26,6 +26,7 @@ import javax.tools.Diagnostic.Kind;
 import javax.tools.JavaFileObject;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
+import net.karneim.pojobuilder.PojoBuilderException;
 import net.karneim.pojobuilder.analysis.AnnotationHierarchyUtil;
 import net.karneim.pojobuilder.analysis.DirectivesFactory;
 import net.karneim.pojobuilder.analysis.Input;
@@ -42,12 +43,24 @@ import net.karneim.pojobuilder.sourcegen.ManualBuilderSourceGenerator;
 import com.squareup.javawriter.JavaWriter;
 
 public class AnnotationProcessor extends AbstractProcessor {
+  private static final String POJO_BUILDER_STARTED = "[PojoBuilder] Started";
+  private static final String POJO_BUILDER_PROCESSING_ANNOTATIONS_S = "[PojoBuilder] Processing annotations (round %s)";
+  private static final String POJO_BUILDER_FINISHED_S = "[PojoBuilder] Finished (%s ms)";
+  private static final String POJO_BUILDER_GENERATED_CLASS_S = "[PojoBuilder] Generated class %s";
+  private static final String GENERATED_S = "Generated %s";
+  private static final String POJO_BUILDER_CAUGHT_UNEXPECTED_EXCEPTION_ON_ELEMENT_S_S =
+      "PojoBuilder caught unexpected exception on element %s!%s";
+  private static final String POJO_BUILDER_CAUGHT_EXCEPTION_ON_ELEMENT_S_S =
+      "PojoBuilder caught exception on element %s!%s";
+
   private static final Logger LOG = Logger.getLogger(AnnotationProcessor.class.getName());
   private JavaModelAnalyzer javaModelAnalyzer;
   private InputFactory inputFactory;
   private JavaModelAnalyzerUtil javaModelAnalyzerUtil;
   private AnnotationHierarchyUtil annotationHierarchyUtil;
 
+  private long started = 0;
+  private int roundCount = 0;
   private final Set<String> failedTypeNames = new HashSet<String>();
   private final Set<String> generatedTypeNames = new HashSet<String>();
   private final Map<Element, Exception> failedElementsMap = new HashMap<Element, Exception>();
@@ -81,6 +94,8 @@ public class AnnotationProcessor extends AbstractProcessor {
     failedTypeNames.clear();
     generatedTypeNames.clear();
     failedElementsMap.clear();
+    roundCount = 0;
+    started = 0;
   }
 
   /**
@@ -88,12 +103,18 @@ public class AnnotationProcessor extends AbstractProcessor {
    */
   private static final boolean ANNOTATIONS_NOT_CLAIMED_EXCLUSIVELY = false;
 
+
   @Override
   public boolean process(Set<? extends TypeElement> aAnnotations, RoundEnvironment aRoundEnv) {
+    roundCount++;
+    if (roundCount == 1) {
+      started = System.currentTimeMillis();
+      note(POJO_BUILDER_STARTED);
+    }
     try {
       initHelpers(processingEnv);
       if (!aRoundEnv.processingOver()) {
-        note("[PojoBuilder] Processing annotations");
+        note(String.format(POJO_BUILDER_PROCESSING_ANNOTATIONS_S, roundCount));
         if (!aAnnotations.isEmpty()) {
           Set<TypeElement> triggeringAnnotations =
               annotationHierarchyUtil.filterTriggeringAnnotations(aAnnotations,
@@ -124,13 +145,17 @@ public class AnnotationProcessor extends AbstractProcessor {
           }
         }
       } else {
-        // Last round
-        note("[PojoBuilder] Finishing");
+        // In the last round we show all collected errors
         showErrorsForFailedElements();
-        clearState();
       }
     } catch (Throwable t) {
       processingEnv.getMessager().printMessage(Kind.ERROR, toString(t));
+    } finally {
+      if (aRoundEnv.processingOver()) {
+        long duration = System.currentTimeMillis() - started;
+        note(String.format(POJO_BUILDER_FINISHED_S, duration));
+        clearState();
+      }
     }
     return ANNOTATIONS_NOT_CLAIMED_EXCLUSIVELY;
   }
@@ -219,8 +244,8 @@ public class AnnotationProcessor extends AbstractProcessor {
     }
 
     generatedTypeNames.add(qualifiedName);
-    note(String.format("[PojoBuilder] Generated class %s", qualifiedName), null);
-    LOG.fine(String.format("Generated %s", jobj.toUri()));
+    note(String.format(POJO_BUILDER_GENERATED_CLASS_S, qualifiedName), null);
+    LOG.fine(String.format(GENERATED_S, jobj.toUri()));
   }
 
 
@@ -242,8 +267,8 @@ public class AnnotationProcessor extends AbstractProcessor {
     writer.close();
 
     generatedTypeNames.add(qualifiedName);
-    note(String.format("[PojoBuilder] Generated class %s", qualifiedName), null);
-    LOG.fine(String.format("Generated %s", jobj.toUri()));
+    note(String.format(POJO_BUILDER_GENERATED_CLASS_S, qualifiedName), null);
+    LOG.fine(String.format(GENERATED_S, jobj.toUri()));
   }
 
   private boolean typeExists(String qualifiedName) {
@@ -265,9 +290,12 @@ public class AnnotationProcessor extends AbstractProcessor {
       InvalidElementException invElemEx = (InvalidElementException) ex;
       Element elem = invElemEx.getElement();
       error(invElemEx.getMessage(), elem);
+    } else if (ex instanceof PojoBuilderException) {
+      String message = String.format(POJO_BUILDER_CAUGHT_EXCEPTION_ON_ELEMENT_S_S, processedElement, toString(ex));
+      error(message, processedElement);
     } else {
       String message =
-          String.format("PojoBuilder caught unexpected exception on element %s!%s", processedElement, toString(ex));
+          String.format(POJO_BUILDER_CAUGHT_UNEXPECTED_EXCEPTION_ON_ELEMENT_S_S, processedElement, toString(ex));
       error(message, processedElement);
     }
   }
