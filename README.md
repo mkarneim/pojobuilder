@@ -231,22 +231,16 @@ The following elements of [@GeneratePojoBuilder] can be used to configure the ou
   Default is `false`.
 * **includeProperties=&lt;String[]&gt;**
   specifies which of the pojo's properties will be included into the generated builder. All properties that match any
-  property pattern in the specified array will be included. All other non-mandatory properties will be excluded.
+  [property pattern] in the specified array will be included. All other non-mandatory properties will be excluded.
   Mandatory properties are those which are passed as constructor or factory method arguments. They will never be
-  excluded, neither explicitly nor implicitly.  
-  The [property pattern] consists of a name pattern followed by an optional type pattern.  
-  The syntax is `<name pattern>[:<type pattern>].` The pattern supports the asterisk `*`
-  wildcard character that matches any character sequence.  
+  excluded, neither explicitly nor implicitly.
   For an example please see [`InputSourceFactory.java`] and [`InputSourceBuilder.java`].
   Default is `*`.
 * **excludeProperties=&lt;String[]&gt;**
   specifies which of the pojo's properties will be excluded from the generated builder. All property that match any
-  property pattern in the specified array will be excluded, except those that are mandatory. Mandatory properties are
+  [property pattern] in the specified array will be excluded, except those that are mandatory. Mandatory properties are
   those which are passed as constructor or factory method arguments. They will never be excluded, neither explicitly
   nor implicitly.
-  The [property pattern] consists of a name pattern followed by an optional type pattern.
-  The syntax is `<name pattern>[:<type pattern>].` The pattern supports the asterisk `*`
-  wildcard character that matches any character sequence.  
   For an example please see [`CalendarFactory.java`] and [`GregorianCalendarBuilder.java`].
   Default is the empty array.  
 * **withGenerationGap=&lt;boolean&gt;**
