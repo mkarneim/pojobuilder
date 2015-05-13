@@ -1,8 +1,12 @@
 package samples.dsl;
 
+import static com.google.common.collect.Maps.newHashMap;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
@@ -20,8 +24,7 @@ public class TestDslBase extends Assertions {
   public static final String PACKAGE = "samples.dsl";
 
   static class PojoFactory {
-    @GeneratePojoBuilder(intoPackage = PACKAGE, withBuilderInterface = Builder.class,
-        withBuilderProperties = true)
+    @GeneratePojoBuilder(intoPackage = PACKAGE, withBuilderInterface = Builder.class, withBuilderProperties = true)
     public static String createString(String format, long nextNumber) {
       return String.format(format, nextNumber);
     }
@@ -43,6 +46,18 @@ public class TestDslBase extends Assertions {
     return new StringBuilder().withFormat("string-%s").withNextNumber($Long());
   }
 
+  public static int few() {
+    return 3;
+  }
+
+  public static int several() {
+    return 10;
+  }
+
+  public static int many() {
+    return 100;
+  }
+
   public static <P> P some(Builder<P> $builder) {
     return $builder.build();
   }
@@ -53,6 +68,30 @@ public class TestDslBase extends Assertions {
 
   public static <P> P an(Builder<P> $builder) {
     return $builder.build();
+  }
+
+  @SafeVarargs
+  public static <T> List<T> listOf(T... elems) {
+    return Arrays.asList(elems);
+  }
+
+
+  @SafeVarargs
+  public static <T> List<T> listOf(List<T>... lists) {
+    List<T> result = new ArrayList<T>();
+    for (List<T> l : lists) {
+      result.addAll(l);
+    }
+    return result;
+  }
+
+  @SafeVarargs
+  public static <T> List<T> listOf(List<T> list, T... elems) {
+    List<T> result = new ArrayList<T>(list);
+    for (T elem : elems) {
+      result.add(elem);
+    }
+    return result;
   }
 
   public static <T> List<T> listOf(int count, Builder<T> $builder) {
@@ -103,6 +142,19 @@ public class TestDslBase extends Assertions {
     };
   }
 
+  public static <T> Builder<T> $oneOf(final List<T> elements) {
+    return new Builder<T>() {
+      int idx = 0;
+
+      public T build() {
+        if (idx > elements.size() - 1) {
+          idx = 0;
+        }
+        return elements.get(idx++);
+      }
+    };
+  }
+
   @SafeVarargs
   public static <T> Builder<T> $oneOf(final Builder<? extends T>... elements) {
     return new Builder<T>() {
@@ -119,17 +171,13 @@ public class TestDslBase extends Assertions {
   }
 
   @SafeVarargs
-  public static <T> Builder<List<T>> $asList(final Builder<? extends T>... elements) {
-    return new Builder<List<T>>() {
+  public static <T> T oneOf(final T... elements) {
+    return $oneOf(elements).build();
+  }
 
-      public List<T> build() {
-        List<T> result = new ArrayList<T>(elements.length);
-        for (Builder<? extends T> elementBuilder : elements) {
-          result.add((T) elementBuilder.build());
-        }
-        return result;
-      }
-    };
+  @SafeVarargs
+  public static <T> T oneOf(final Builder<? extends T>... elements) {
+    return $oneOf(elements).build();
   }
 
   @SuppressWarnings("unchecked")
@@ -138,17 +186,36 @@ public class TestDslBase extends Assertions {
   }
 
   @SafeVarargs
-  public static <T> List<T> asList(T... elems) {
-    return Arrays.asList(elems);
-  }
-
-
-  public static <T> List<T> unify(List<T>... lists) {
-    List<T> result = new ArrayList<T>();
-    for (List<T> l : lists) {
-      result.addAll(l);
+  public static <K, V> Map<K, V> mapOf(Map.Entry<K, V>... entries) {
+    Map<K, V> result = newHashMap();
+    for (Map.Entry<K, V> entry : entries) {
+      result.put(entry.getKey(), entry.getValue());
     }
     return result;
+  }
+
+  public static <K, V> Map.Entry<K, V> entryOf(final K key, final V value) {
+    Entry<K, V> entry = new Map.Entry<K, V>() {
+      private V theValue = value;
+
+      @Override
+      public K getKey() {
+        return key;
+      }
+
+      @Override
+      public V getValue() {
+        return theValue;
+      }
+
+      @Override
+      public V setValue(V value) {
+        V old = theValue;
+        theValue = value;
+        return old;
+      }
+    };
+    return entry;
   }
 
 }
