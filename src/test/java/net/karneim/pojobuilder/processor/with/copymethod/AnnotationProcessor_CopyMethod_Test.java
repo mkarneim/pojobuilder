@@ -1,11 +1,11 @@
 package net.karneim.pojobuilder.processor.with.copymethod;
 
+import static net.karneim.pojobuilder.PbAssertions.assertThat;
 import net.karneim.pojobuilder.processor.AnnotationProcessor;
 import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
 import net.karneim.pojobuilder.testenv.JavaProject.Compilation;
-import org.junit.Test;
 
-import static net.karneim.pojobuilder.PbAssertions.assertThat;
+import org.junit.Test;
 
 /**
  * @feature The {@link AnnotationProcessor} generates builder classes.
@@ -62,5 +62,23 @@ public class AnnotationProcessor_CopyMethod_Test extends ProcessorTestSupport {
         .compiled(Pojo2Builder.class)
         .reported(Compilation.Success);
   }
+  
+  /**
+   * @throws Exception
+   * @scenario the builder is created with a copy method
+   */
+  @Test
+  public void testShouldGeneratePojoBuilderWithCopyMethodForOptionalProperty() {
+    // Given:
+    sourceFor(PojoWithOptionalProperty.class);
+    // When:
+    prj.compile();
+    // Then:
+    assertThat(prj)
+        .reported(Compilation.Success)
+        .generatedSameSourceAs(PojoWithOptionalPropertyBuilder.class)
+        .compiled(PojoWithOptionalPropertyBuilder.class);
+  }
+
 
 }
