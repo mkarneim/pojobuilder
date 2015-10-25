@@ -307,7 +307,7 @@ public class JavaModelAnalyzerUtil {
   /**
    * Returns true if the given type element defines a public no-args constructor.
    * 
-   * @param typeEl
+   * @param typeEl Type element.
    * @return true if the given type element defines a public no-args constructor
    */
   public boolean hasPublicNoArgsConstructor(TypeElement typeEl) {
