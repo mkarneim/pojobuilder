@@ -65,6 +65,8 @@ public class PropertyM {
   /**
    * The {@link TypeM} for an optional property supplied by the given optional type.
    *
+   * @param optionalType The optional property to get
+   *
    * @return null if there is no optional type available for this property
    */
   public TypeM getOptionalPropertyType(TypeM optionalType) {

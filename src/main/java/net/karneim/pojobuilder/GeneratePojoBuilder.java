@@ -166,7 +166,7 @@ public @interface GeneratePojoBuilder {
    * <p>
    * The property pattern consists of a name pattern followed by an optional type pattern.
    * <p>
-   * The syntax is <code>&lt;name pattern&gt;[:&lt;type pattern&gt].</code> The pattern supports the asterisk '*'
+   * The syntax is <code>&lt;name pattern&gt;[:&lt;type pattern&gt;].</code> The pattern supports the asterisk '*'
    * wildcard character that matches any character.
    * <p>
    * Default is '*'.
@@ -183,7 +183,7 @@ public @interface GeneratePojoBuilder {
    * <p>
    * The property pattern consists of a name pattern followed by an optional type pattern.
    * <p>
-   * The syntax is <code>&lt;name pattern&gt;[:&lt;type pattern&gt].</code> The pattern supports the asterisk '*'
+   * The syntax is <code>&lt;name pattern&gt;[:&lt;type pattern&gt;].</code> The pattern supports the asterisk '*'
    * wildcard character that matches any character.
    * <p>
    * Default is the empty array.
