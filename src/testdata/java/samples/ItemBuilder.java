@@ -8,10 +8,10 @@ public class ItemBuilder
   protected ItemBuilder self;
   protected int value$amount$int;
   protected boolean isSet$amount$int;
-  protected Builder<Integer> builder$amount$int;
+  protected Builder<? extends Integer> builder$amount$int;
   protected String value$article$java$lang$String;
   protected boolean isSet$article$java$lang$String;
-  protected Builder<String> builder$article$java$lang$String;
+  protected Builder<? extends String> builder$article$java$lang$String;
 
   /**
    * Creates a new {@link ItemBuilder}.
@@ -38,7 +38,7 @@ public class ItemBuilder
    * @param builder the default builder
    * @return this builder
    */
-  public ItemBuilder withAmount(Builder<Integer> builder) {
+  public ItemBuilder withAmount(Builder<? extends Integer> builder) {
     this.builder$amount$int = builder;
     this.isSet$amount$int = false;
     return self;
@@ -62,7 +62,7 @@ public class ItemBuilder
    * @param builder the default builder
    * @return this builder
    */
-  public ItemBuilder withArticle(Builder<String> builder) {
+  public ItemBuilder withArticle(Builder<? extends String> builder) {
     this.builder$article$java$lang$String = builder;
     this.isSet$article$java$lang$String = false;
     return self;

@@ -9,10 +9,10 @@ public class OrderBuilder
   protected OrderBuilder self;
   protected Recipient value$recipient$samples$Recipient;
   protected boolean isSet$recipient$samples$Recipient;
-  protected Builder<Recipient> builder$recipient$samples$Recipient;
+  protected Builder<? extends Recipient> builder$recipient$samples$Recipient;
   protected List<Item> value$items$java$util$List;
   protected boolean isSet$items$java$util$List;
-  protected Builder<List<Item>> builder$items$java$util$List;
+  protected Builder<? extends List<Item>> builder$items$java$util$List;
 
   /**
    * Creates a new {@link OrderBuilder}.
@@ -39,7 +39,7 @@ public class OrderBuilder
    * @param builder the default builder
    * @return this builder
    */
-  public OrderBuilder withRecipient(Builder<Recipient> builder) {
+  public OrderBuilder withRecipient(Builder<? extends Recipient> builder) {
     this.builder$recipient$samples$Recipient = builder;
     this.isSet$recipient$samples$Recipient = false;
     return self;
@@ -63,7 +63,7 @@ public class OrderBuilder
    * @param builder the default builder
    * @return this builder
    */
-  public OrderBuilder withItems(Builder<List<Item>> builder) {
+  public OrderBuilder withItems(Builder<? extends List<Item>> builder) {
     this.builder$items$java$util$List = builder;
     this.isSet$items$java$util$List = false;
     return self;

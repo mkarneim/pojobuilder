@@ -49,17 +49,14 @@ public class PropertyM {
   }
 
   public TypeM getParameterizedBuilderInterfaceType(TypeM interfaceType) {
+    TypeM typeParam;
     if (propertyType.isPrimitive()) {
-      PrimitiveTypeM primType = (PrimitiveTypeM) propertyType;
-      TypeM result =
-          new TypeM(interfaceType.getPackageName(), interfaceType.getSimpleName()).withTypeParameter(primType
-              .getBoxClass());
-      return result;
+      typeParam = ((PrimitiveTypeM) propertyType).getBoxClass();
     } else {
-      TypeM result =
-          new TypeM(interfaceType.getPackageName(), interfaceType.getSimpleName()).withTypeParameter(propertyType);
-      return result;
+      typeParam = propertyType;
     }
+    return new TypeM(interfaceType.getPackageName(), interfaceType.getSimpleName())
+        .withTypeParameter(new TypeVariableM("?").whichExtends(typeParam));
   }
 
   /**
@@ -73,8 +70,8 @@ public class PropertyM {
     if (propertyType.isPrimitive() || propertyType.getName().equals(optionalType.getName())) {
       return null;
     }
-    TypeM result =
-        new TypeM(optionalType.getPackageName(), optionalType.getSimpleName()).withTypeParameter(propertyType);
+    TypeM result = new TypeM(optionalType.getPackageName(), optionalType.getSimpleName())
+        .withTypeParameter(propertyType);
     return result;
   }
 
@@ -216,10 +213,11 @@ public class PropertyM {
 
   @Override
   public String toString() {
-    return "PropertyM [propertyType=" + propertyType + ", propertyName=" + propertyName + ", withMethodName="
-        + withMethodName + ", writableViaConstructorParameter=" + writableViaConstructorParameter
-        + ", writableViaSetterMethod=" + writableViaSetterMethod + ", readableViaGetterMethod="
-        + readableViaGetterMethod + ", writableViaFactoryMethodParameter=" + writableViaFactoryMethodParameter
+    return "PropertyM [propertyType=" + propertyType + ", propertyName=" + propertyName
+        + ", withMethodName=" + withMethodName + ", writableViaConstructorParameter="
+        + writableViaConstructorParameter + ", writableViaSetterMethod=" + writableViaSetterMethod
+        + ", readableViaGetterMethod=" + readableViaGetterMethod
+        + ", writableViaFactoryMethodParameter=" + writableViaFactoryMethodParameter
         + ", fieldAccess=" + fieldAccess + "]";
   }
 

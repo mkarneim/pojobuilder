@@ -106,10 +106,10 @@ public class BuilderSourceGenerator {
     if ( validator != null) {
       validator.getType().addToImportTypes(importTypes);
     }
-    
+
     importTypes.removePackage(builderType.getPackageName());
     importTypes.removePackage("java.lang");
-    
+
     writer
         .emitPackage(builderType.getPackageName())
         .emitImports(importTypes.getSortedDistinctClassnames())
@@ -121,7 +121,7 @@ public class BuilderSourceGenerator {
     if ( validator != null) {
       emitValidatorField(validator);
     }
-    
+
     for (PropertyM prop : properties) {
       emitPropertyFields(prop, interfaceType, hasBuilderProperties);
     }
@@ -190,27 +190,27 @@ public class BuilderSourceGenerator {
     String pojoTypeDeclaration = writer.compressType(pojoType.getGenericTypeDeclaration());
     // @formatter:off
     writer
-      .emitEmptyLine()    
+      .emitEmptyLine()
       .emitJavadoc(
          "Copies the values from the given pojo into this builder.\n\n"
         +"@param pojo\n"
         +"@return this builder")
       .beginMethod(selfTypeDeclaration, copyMethodM.getName(), EnumSet.of(PUBLIC), pojoTypeDeclaration, "pojo");
-    
-    PropertyListM getterProperties = properties.filterOutPropertiesReadableViaGetterCall(builderType);    
+
+    PropertyListM getterProperties = properties.filterOutPropertiesReadableViaGetterCall(builderType);
     for( PropertyM prop : getterProperties) {
       String withMethodName = prop.getWithMethodName();
       writer
       .emitStatement("%s(pojo.%s())", withMethodName, prop.getGetterMethod().getName());
     }
-    
-    PropertyListM readableFieldProperties = properties.filterOutPropertiesReadableViaFieldAccess(builderType);    
+
+    PropertyListM readableFieldProperties = properties.filterOutPropertiesReadableViaFieldAccess(builderType);
     for( PropertyM prop : readableFieldProperties) {
       String withMethodName = prop.getWithMethodName();
       writer
       .emitStatement("%s(pojo.%s)", withMethodName, prop.getPropertyName());
     }
-    
+
     writer
       .emitStatement("return self");
     writer
@@ -227,9 +227,9 @@ public class BuilderSourceGenerator {
 
     // @formatter:off
     writer
-      .emitEmptyLine()    
+      .emitEmptyLine()
       .emitJavadoc(
-         "Creates a new {@link %s} based on this builder's settings.\n\n" 
+         "Creates a new {@link %s} based on this builder's settings.\n\n"
         +"@return the created %s"
         , pojoClassname, pojoClassname);
     if ( buildMethod.isOverrides()) {
@@ -239,7 +239,7 @@ public class BuilderSourceGenerator {
     writer
       .beginMethod(pojoTypeDeclaration, "build", EnumSet.of(PUBLIC))
         .beginControlFlow("try");
-    
+
     if ( !hasBuilderProperties) {
       if ( factoryMethod == null) {
         String arguments = properties.filterOutPropertiesWritableViaConstructorParameter(builderType).toArgumentString();
@@ -323,10 +323,10 @@ public class BuilderSourceGenerator {
       writer
           .endControlFlow();
     }
-    //TODO inform user about any properties leftover 
-    
+    //TODO inform user about any properties leftover
+
     if (validator != null) {
-    	writer.emitStatement("%s.%s(result)", validator.getFieldName(), validator.getMethodName());
+      writer.emitStatement("%s.%s(result)", validator.getFieldName(), validator.getMethodName());
     }
     writer
           .emitStatement("return result")
@@ -345,11 +345,11 @@ public class BuilderSourceGenerator {
     String isSetFieldName = prop.getIsSetFieldName();
     String withMethodName = prop.getWithMethodName();
     String pojoTypeStr = writer.compressType(pojoType.getName());
-    String parameterTypeStr = prop.getParameterizedBuilderInterfaceType(interfaceType).getGenericTypeDeclaration();
+    String parameterTypeStr = prop.getParameterizedBuilderInterfaceType(interfaceType).getGenericType();
 
     // @formatter:off
     writer
-      .emitEmptyLine()    
+      .emitEmptyLine()
       .emitJavadoc(
           "Sets the default builder for the {@link %s#%s} property.\n\n"
         + "@param builder the default builder\n"
@@ -381,7 +381,7 @@ public class BuilderSourceGenerator {
     }
     // @formatter:off
     writer
-      .emitEmptyLine()    
+      .emitEmptyLine()
       .emitJavadoc(
           "Sets the default value for the {@link %s#%s} property.\n\n"
         + "@param value the default value\n"
@@ -438,12 +438,12 @@ public class BuilderSourceGenerator {
     String isSetFieldName = prop.getIsSetFieldName();
     // @formatter:off
     writer
-      .emitField(prop.getPropertyType().getGenericTypeDeclaration(), valueFieldName, EnumSet.of(PROTECTED));  
-    writer    
+      .emitField(prop.getPropertyType().getGenericTypeDeclaration(), valueFieldName, EnumSet.of(PROTECTED));
+    writer
       .emitField("boolean", isSetFieldName, EnumSet.of(PROTECTED));
     if ( interfaceType != null && hasBuilderProperties) {
       writer
-        .emitField(prop.getParameterizedBuilderInterfaceType(interfaceType).getGenericTypeDeclaration(), prop.getBuilderFieldName(), EnumSet.of(PROTECTED));
+        .emitField(prop.getParameterizedBuilderInterfaceType(interfaceType).getGenericType(), prop.getBuilderFieldName(), EnumSet.of(PROTECTED));
     }
     // @formatter:on
   }
@@ -473,7 +473,7 @@ public class BuilderSourceGenerator {
     writer
       .emitEmptyLine()
       .emitJavadoc(
-          "Returns a clone of this builder.\n\n" 
+          "Returns a clone of this builder.\n\n"
         + "@return the clone")
       .emitAnnotation(Override.class)
       .beginMethod("Object", "clone", EnumSet.of(PUBLIC))
