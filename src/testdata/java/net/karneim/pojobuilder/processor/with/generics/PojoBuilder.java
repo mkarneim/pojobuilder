@@ -5,7 +5,7 @@ import java.util.List;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
-public class PojoBuilder<T extends Object>
+public class PojoBuilder<T>
     implements Cloneable {
   protected PojoBuilder<T> self;
   protected T value$someElement$T;
@@ -14,6 +14,8 @@ public class PojoBuilder<T extends Object>
   protected boolean isSet$someList$java$util$List;
   protected List<File> value$someFileList$java$util$List;
   protected boolean isSet$someFileList$java$util$List;
+  protected List<? extends T> value$someWildcardList$java$util$List;
+  protected boolean isSet$someWildcardList$java$util$List;
   protected Pojo<T> value$somePojo$net$karneim$pojobuilder$processor$with$generics$Pojo;
   protected boolean isSet$somePojo$net$karneim$pojobuilder$processor$with$generics$Pojo;
 
@@ -57,6 +59,18 @@ public class PojoBuilder<T extends Object>
   public PojoBuilder<T> withSomeFileList(List<File> value) {
     this.value$someFileList$java$util$List = value;
     this.isSet$someFileList$java$util$List = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link Pojo#someWildcardList} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public PojoBuilder<T> withSomeWildcardList(List<? extends T> value) {
+    this.value$someWildcardList$java$util$List = value;
+    this.isSet$someWildcardList$java$util$List = true;
     return self;
   }
 
@@ -115,6 +129,9 @@ public class PojoBuilder<T extends Object>
       }
       if (isSet$someFileList$java$util$List) {
         result.someFileList = value$someFileList$java$util$List;
+      }
+      if (isSet$someWildcardList$java$util$List) {
+        result.someWildcardList = value$someWildcardList$java$util$List;
       }
       if (isSet$somePojo$net$karneim$pojobuilder$processor$with$generics$Pojo) {
         result.somePojo = value$somePojo$net$karneim$pojobuilder$processor$with$generics$Pojo;

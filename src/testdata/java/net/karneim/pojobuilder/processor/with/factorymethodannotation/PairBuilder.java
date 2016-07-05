@@ -3,7 +3,7 @@ package net.karneim.pojobuilder.processor.with.factorymethodannotation;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
-public class PairBuilder<L extends Object, R extends Object>
+public class PairBuilder<L, R>
     implements Cloneable {
   protected PairBuilder<L, R> self;
   protected L value$left$L;

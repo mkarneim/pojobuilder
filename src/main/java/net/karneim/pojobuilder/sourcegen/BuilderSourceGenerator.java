@@ -369,15 +369,21 @@ public class BuilderSourceGenerator {
     String withMethodName = prop.getWithMethodName();
     String pojoTypeStr = writer.compressType(pojoType.getName());
     String parameterTypeStr;
-    if (prop.getPropertyType().isArrayType() && prop.getPreferredWriteAccessFor(builderType).isVarArgs()) {
-      ArrayTypeM arrayType = (ArrayTypeM) prop.getPropertyType();
+    TypeM propertyType = prop.getPropertyType();
+    if (propertyType.isArrayType() && prop.getPreferredWriteAccessFor(builderType).isVarArgs()) {
+      ArrayTypeM arrayType = (ArrayTypeM) propertyType;
       // TODO replace this when JavaWriter supports varargs
       // parameterTypeStr = arrayType.getGenericTypeDeclarationAsVarArgs();
       String paramTypeStr = arrayType.getGenericTypeDeclaration();
       parameterTypeStr = writer.compressType(paramTypeStr);
       parameterTypeStr = parameterTypeStr.substring(0, parameterTypeStr.length() - 2).concat("...");
     } else {
-      parameterTypeStr = prop.getPropertyType().getGenericTypeDeclaration();
+      // FIXME: Methode GenericType2 für alle Types, die nicht in den selfType Parametern enthalten sind.
+//      if (selfType.getTypeParameters().contains(propertyType)) {
+//        parameterTypeStr = propertyType.getGenericType();
+//      } else {
+        parameterTypeStr = propertyType.getGenericType2();
+//      }
     }
     // @formatter:off
     writer
@@ -438,7 +444,7 @@ public class BuilderSourceGenerator {
     String isSetFieldName = prop.getIsSetFieldName();
     // @formatter:off
     writer
-      .emitField(prop.getPropertyType().getGenericTypeDeclaration(), valueFieldName, EnumSet.of(PROTECTED));
+      .emitField(prop.getPropertyType().getGenericType2(), valueFieldName, EnumSet.of(PROTECTED));
     writer
       .emitField("boolean", isSetFieldName, EnumSet.of(PROTECTED));
     if ( interfaceType != null && hasBuilderProperties) {

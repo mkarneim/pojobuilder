@@ -11,6 +11,7 @@ import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.type.TypeVariable;
+import javax.lang.model.type.WildcardType;
 
 import net.karneim.pojobuilder.model.ArrayTypeM;
 import net.karneim.pojobuilder.model.PrimitiveTypeM;
@@ -21,8 +22,8 @@ public class TypeMFactory {
 
   private final JavaModelAnalyzerUtil javaModelAnalyzerUtil;
   /*
-   * This cache prevents an infinite loop when generic type parameters are defined recursivly e.g. A in Pair<A extends
-   * Comparable<A>, B>
+   * This cache prevents an infinite loop when generic type parameters are defined recursivly e.g. A
+   * in Pair<A extends Comparable<A>, B>
    */
   private final Map<TypeParameterElement, TypeVariableM> typeVarCache =
       new HashMap<TypeParameterElement, TypeVariableM>();
@@ -34,7 +35,8 @@ public class TypeMFactory {
   public TypeM getTypeM(TypeElement typeElem) {
     String packageName = javaModelAnalyzerUtil.getPackage(typeElem);
     String classname = javaModelAnalyzerUtil.getClassname(typeElem);
-    TypeM result = new TypeM(packageName, classname).withTypeParameter(getTypeMArray(typeElem.getTypeParameters()));
+    TypeM result = new TypeM(packageName, classname)
+        .withTypeParameter(getTypeMArray(typeElem.getTypeParameters()));
     return result;
   }
 
@@ -70,19 +72,17 @@ public class TypeMFactory {
           TypeVariable typeVar = (TypeVariable) typeMirror;
           return getTypeVariableM((TypeParameterElement) typeVar.asElement());
         } else {
-          throw new UnresolvedTypeException(String.format("Expected TypeVariable for %s (%s)", typeMirror, typeMirror
-              .getClass().getName()));
+          throw new UnresolvedTypeException(String.format("Expected TypeVariable for %s (%s)",
+              typeMirror, typeMirror.getClass().getName()));
         }
       case ERROR:
-        String message =
-            String
-                .format(
-                    "%s could not be resolved! Possibly this class is not compiled, not imported, or not part of the classpath.",
-                    typeMirror);
+        String message = String.format(
+            "%s could not be resolved! Possibly this class is not compiled, not imported, or not part of the classpath.",
+            typeMirror);
         throw new IllegalArgumentException(message);
       default:
-        throw new UnsupportedOperationException(String.format("Unexpected kind %s for typeMirror %s", kind, typeMirror
-            .getClass().getName()));
+        throw new UnsupportedOperationException(String
+            .format("Unexpected kind %s for typeMirror %s", kind, typeMirror.getClass().getName()));
     }
   }
 
@@ -102,6 +102,18 @@ public class TypeMFactory {
           TypeParameterElement typeParamElem = (TypeParameterElement) typeVar.asElement();
           TypeVariableM var = getTypeVariableM(typeParamElem);
           result.withTypeParameter(var);
+        } else if (typeArg.getKind() == TypeKind.WILDCARD) {
+          TypeMirror extendsBound = ((WildcardType) typeArg).getExtendsBound();
+          if (extendsBound != null) {
+            TypeM bound = getTypeM(extendsBound);
+            result.withTypeParameter(new TypeVariableM("?").whichExtends(bound));
+          }
+          // TODO: Generic super type
+          // TypeMirror superBound = ((WildcardType)typeArg).getSuperBound();
+          // if (superBound != null) {
+          // TypeM bound = getTypeM(superBound);
+          // result.withTypeParameter(new TypeVariableM("?").whichIsASupertypeOf(bound));
+          // }
         }
       }
     }
@@ -128,11 +140,23 @@ public class TypeMFactory {
       typeVarCache.put(typeParameterElement, var);
       List<? extends TypeMirror> bounds = typeParameterElement.getBounds();
       for (TypeMirror bound : bounds) {
-        TypeM typeM = getTypeM(bound);
-        var.whichExtends(typeM);
+        if (!isJavaLangObject(bound)) {
+          TypeM typeM = getTypeM(bound);
+          var.whichExtends(typeM);
+        }
       }
     }
     return var;
+  }
+
+  private boolean isJavaLangObject(TypeMirror bound) {
+    if (bound.getKind() == TypeKind.DECLARED) {
+      TypeElement typeElem = (TypeElement) ((DeclaredType) bound).asElement();
+      String packageName = javaModelAnalyzerUtil.getPackage(typeElem);
+      String classname = javaModelAnalyzerUtil.getClassname(typeElem);
+      return "java.lang.Object".equals(packageName + "." + classname);
+    }
+    return false;
   }
 
 }

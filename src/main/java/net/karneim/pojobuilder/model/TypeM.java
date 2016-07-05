@@ -2,10 +2,10 @@ package net.karneim.pojobuilder.model;
 
 
 public class TypeM {
-  private final String packageName;
-  private final String simpleName;
-  private final String name;
-  private final TypeListM typeParameters = new TypeListM();
+  protected final String packageName;
+  protected final String simpleName;
+  protected final String name;
+  protected final TypeListM typeParameters = new TypeListM();
 
   protected TypeM(String name) {
     this("", name);
@@ -69,6 +69,14 @@ public class TypeM {
   }
 
   public String getGenericType() {
+    // With Bounds
+    if (!isGeneric()) {
+      return name;
+    }
+    return String.format("%s<%s>", name, typeParameters.toParameterString());
+  }
+
+  public String getGenericType2() {
     // With Bounds
     if (!isGeneric()) {
       return name;

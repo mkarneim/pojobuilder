@@ -10,5 +10,6 @@ public class Pojo<T> {
   public T someElement;
   public List<T> someList;
   public List<File> someFileList;
+  public List<? extends T> someWildcardList;
   public Pojo<T> somePojo;
 }
