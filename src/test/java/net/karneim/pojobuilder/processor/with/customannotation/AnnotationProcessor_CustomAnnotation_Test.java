@@ -15,7 +15,6 @@ public class AnnotationProcessor_CustomAnnotation_Test extends ProcessorTestSupp
   public void testShouldGenerateBuilderForPojoWithSingleCustomAnnotation() {
     // Given:
     sourceFor(PojoA.class,MyCustomAnnotationA.class);
-    String builderClassname = FluentPojoABuilderA.class.getName();
     // When:
     prj.compile();
     // Then:

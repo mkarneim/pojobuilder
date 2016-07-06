@@ -36,8 +36,8 @@ public abstract class ProcessorTestSupport extends TestBase {
    * content against a file. This is done by a simple naming contract - there <b>must</b> be a file called [classname].java.txt.
    * @param classes Classes to include for direct compilation by this test
    */
-  protected void sourceFor(Class... classes) {
-    for( Class c: classes) {
+  protected void sourceFor(Class<?>... classes) {
+    for( Class<?> c: classes) {
       prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY, c.getName()));
     }
   }
@@ -62,13 +62,13 @@ public abstract class ProcessorTestSupport extends TestBase {
    *
    * @param methodName null takes the first method found
    */
-  protected void sourceForFactoryMethod(Class factory, String methodName) {
+  protected void sourceForFactoryMethod(Class<?> factory, String methodName) {
     sourceFor(factory);
     Method method = firstMatchingMethod(factory, methodName);
     sourceFor(method.getReturnType());
   }
 
-  private static Method firstMatchingMethod(Class clazz, String methodName) {
+  private static Method firstMatchingMethod(Class<?> clazz, String methodName) {
     for (Method method : clazz.getDeclaredMethods()) {
       if (methodName == null || method.getName().equals(methodName)) {
         return method;

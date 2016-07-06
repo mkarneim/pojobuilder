@@ -1,10 +1,9 @@
 package net.karneim.pojobuilder.model;
 
-import javax.lang.model.element.Modifier;
-import java.util.EnumSet;
-import java.util.Set;
+import static javax.lang.model.element.Modifier.PUBLIC;
+import static javax.lang.model.element.Modifier.STATIC;
 
-import static javax.lang.model.element.Modifier.*;
+import java.util.EnumSet;
 
 /**
  * Model for {@link net.karneim.pojobuilder.GeneratePojoBuilder#withFactoryMethod()}

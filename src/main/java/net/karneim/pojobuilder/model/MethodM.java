@@ -34,7 +34,7 @@ public class MethodM {
   @SuppressWarnings("unchecked")
   public <M extends MethodM> M declaredIn(TypeM type) {
     this.declaringClass = type;
-    return (M)this;
+    return (M) this;
   }
 
   public boolean isAccessibleFor(TypeM accessingClass) {
@@ -59,7 +59,8 @@ public class MethodM {
 
   @Override
   public String toString() {
-    return "MethodM [name=" + name + ", modifiers=" + modifiers + ", declaringClass=" + declaringClass + "]";
+    return "MethodM [name=" + name + ", modifiers=" + modifiers + ", declaringClass="
+        + declaringClass + "]";
   }
 
 

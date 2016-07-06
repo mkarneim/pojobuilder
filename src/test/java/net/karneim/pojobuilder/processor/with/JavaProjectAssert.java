@@ -20,7 +20,7 @@ public class JavaProjectAssert extends AbstractAssert<JavaProjectAssert, JavaPro
     super(javaProject, JavaProjectAssert.class);
   }
 
-  public JavaProjectAssert generatedSameSourceAs(Class target) {
+  public JavaProjectAssert generatedSameSourceAs(Class<?> target) {
     String actualSource = null;
     String expectedSource = null;
     try {
@@ -64,7 +64,7 @@ public class JavaProjectAssert extends AbstractAssert<JavaProjectAssert, JavaPro
     return this;
   }
 
-  public JavaProjectAssert didNotGenerateSourceFor(Class target) {
+  public JavaProjectAssert didNotGenerateSourceFor(Class<?> target) {
     return didNotGenerateSourceFor(target.getName());
   }
 
@@ -77,7 +77,7 @@ public class JavaProjectAssert extends AbstractAssert<JavaProjectAssert, JavaPro
     }
   }
 
-  public JavaProjectAssert compiled(Class target) {
+  public JavaProjectAssert compiled(Class<?> target) {
     return compiled(target.getName());
   }
 
