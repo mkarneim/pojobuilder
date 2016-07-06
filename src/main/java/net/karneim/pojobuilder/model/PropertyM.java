@@ -56,7 +56,7 @@ public class PropertyM {
       typeParam = propertyType;
     }
     return new TypeM(interfaceType.getPackageName(), interfaceType.getSimpleName())
-        .withTypeParameter(new TypeVariableM("?").whichExtends(typeParam));
+        .withTypeParameter(new TypeWildcardM().whichExtends(typeParam));
   }
 
   /**

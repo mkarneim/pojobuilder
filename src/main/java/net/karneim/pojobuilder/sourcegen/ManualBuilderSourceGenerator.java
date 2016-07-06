@@ -36,10 +36,10 @@ public class ManualBuilderSourceGenerator {
     baseType.addToImportTypes(importTypes);
     importTypes.removePackage(builderType.getPackageName());
     importTypes.removePackage("java.lang");
-    
+
     String builderTypeName = writer.compressType(builderType.getName());
     String pojoTypeName = writer.compressType(pojoType.getName());
-    
+
     writer
         .emitImports(importTypes.getSortedDistinctClassnames())
         .emitEmptyLine()
@@ -47,13 +47,13 @@ public class ManualBuilderSourceGenerator {
             "The {@link %s} is a Builder for {@link %s} objects.\n"
             +"<p> ATTENTION:\n"
             +"    This class has been generated.\n"
-            +"    If you want to ADD HANDWRITTEN CODE,\n" 
-            +"    please MOVE THIS FILE out of the generated-sources folder\n" 
-            +"    in order to prevent it from being overwritten by the\n" 
+            +"    If you want to ADD HANDWRITTEN CODE,\n"
+            +"    please MOVE THIS FILE out of the generated-sources folder\n"
+            +"    in order to prevent it from being overwritten by the\n"
             +"    PojoBuilder generator!\n"
             +"</p>\n", builderTypeName, pojoTypeName)
         .emitAnnotation(Generated.class, JavaWriter.stringLiteral("PojoBuilder"))
-        .beginType(builderType.getGenericType(), "class", EnumSet.of(PUBLIC), baseType.getGenericTypeDeclaration());
+        .beginType(builderType.getGenericTypeDefinition(), "class", EnumSet.of(PUBLIC), baseType.getGenericType());
 
     if (staticFactoryMethod != null) {
       BuilderSourceGenerator.emitStaticFactoryMethod(builderType, staticFactoryMethod, writer);

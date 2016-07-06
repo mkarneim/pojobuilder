@@ -218,7 +218,7 @@ public class PropertyListM implements Iterable<PropertyM> {
     String propertyType;
 
     public Key(String propertyName, TypeM propertyType) {
-      this(propertyName, propertyType.getName());
+      this(propertyName, propertyType.getGenericType());
     }
 
     public Key(String propertyName, String propertyType) {

@@ -17,6 +17,7 @@ import net.karneim.pojobuilder.model.ArrayTypeM;
 import net.karneim.pojobuilder.model.PrimitiveTypeM;
 import net.karneim.pojobuilder.model.TypeM;
 import net.karneim.pojobuilder.model.TypeVariableM;
+import net.karneim.pojobuilder.model.TypeWildcardM;
 
 public class TypeMFactory {
 
@@ -104,16 +105,17 @@ public class TypeMFactory {
           result.withTypeParameter(var);
         } else if (typeArg.getKind() == TypeKind.WILDCARD) {
           TypeMirror extendsBound = ((WildcardType) typeArg).getExtendsBound();
+          TypeWildcardM wildcard = new TypeWildcardM();
           if (extendsBound != null) {
             TypeM bound = getTypeM(extendsBound);
-            result.withTypeParameter(new TypeVariableM("?").whichExtends(bound));
+            wildcard.whichExtends(bound);
           }
-          // TODO: Generic super type
-          // TypeMirror superBound = ((WildcardType)typeArg).getSuperBound();
-          // if (superBound != null) {
-          // TypeM bound = getTypeM(superBound);
-          // result.withTypeParameter(new TypeVariableM("?").whichIsASupertypeOf(bound));
-          // }
+          TypeMirror superBound = ((WildcardType) typeArg).getSuperBound();
+          if (superBound != null) {
+            TypeM bound = getTypeM(superBound);
+            wildcard.whichIsASupertypeOf(bound);
+          }
+          result.withTypeParameter(wildcard);
         }
       }
     }
