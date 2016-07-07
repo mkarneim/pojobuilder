@@ -72,13 +72,13 @@ public class TypeM {
    * used for generic parameter definitions of classes and methods.
    * <p>
    * Named generic types are represented with bounds. To get a minimal representation used for field
-   * declarations see {@link #getGenericTypeDefinition()}
+   * declarations see {@link #getGenericType()}
    * <p>
    * Example Output: {@code "Map<T extends CharSequence, E extends List<? super Number>>"}
    *
    * @return the complete generics definition
    */
-  public <T, E> String getGenericTypeDefinition() {
+  public String getGenericTypeDefinition() {
     if (!isGeneric()) {
       return name;
     }
