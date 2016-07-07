@@ -60,7 +60,7 @@ public class TypeWildcardM extends TypeVariableM {
 
   @Override
   public String toString() {
-    return "TypeWildcardM [lowerBound=" + lowerBound + "]";
+    return "TypeWildcardM [getGenericTypeDefinition()=" + getGenericTypeDefinition() + "]";
   }
 
 }

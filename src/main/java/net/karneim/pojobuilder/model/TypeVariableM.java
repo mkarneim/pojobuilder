@@ -56,8 +56,9 @@ public class TypeVariableM extends TypeM {
 
   @Override
   public int hashCode() {
-    // This hash code calculation is fast and good enough...
+    final int prime = 31;
     int result = super.hashCode();
+    result = prime * result + ((bounds == null) ? 0 : bounds.hashCode());
     return result;
   }
 
@@ -80,7 +81,7 @@ public class TypeVariableM extends TypeM {
 
   @Override
   public String toString() {
-    return "TypeVariableM [getGenericType()=" + getGenericTypeDefinition() + "]";
+    return "TypeVariableM [getGenericTypeDefinition()=" + getGenericTypeDefinition() + "]";
   }
 
 }

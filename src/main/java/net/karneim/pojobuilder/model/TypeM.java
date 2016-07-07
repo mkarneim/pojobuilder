@@ -116,17 +116,17 @@ public class TypeM {
         || packageName.equals(this.packageName);
   }
 
-  @Override
-  public String toString() {
-    return "TypeM [getGenericType()=" + getGenericTypeDefinition() + "]";
-  }
-
+  /**
+   * This {@link #hashCode()} implementation doesn't use typeParameters to avoid a potential
+   * StackOverflowError. The {@link #equals(Object)} implementation does use that field.
+   */
   @Override
   public int hashCode() {
-    // This hash code calculation is fast and good enough...
     final int prime = 31;
     int result = 1;
     result = prime * result + ((name == null) ? 0 : name.hashCode());
+    result = prime * result + ((packageName == null) ? 0 : packageName.hashCode());
+    result = prime * result + ((simpleName == null) ? 0 : simpleName.hashCode());
     return result;
   }
 
@@ -160,6 +160,11 @@ public class TypeM {
     } else if (!typeParameters.equals(other.typeParameters))
       return false;
     return true;
+  }
+
+  @Override
+  public String toString() {
+    return "TypeM [getGenericTypeDefinition()=" + getGenericTypeDefinition() + "]";
   }
 
 }
