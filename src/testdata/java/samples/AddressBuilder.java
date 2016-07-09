@@ -8,13 +8,13 @@ public class AddressBuilder
   protected AddressBuilder self;
   protected String value$street$java$lang$String;
   protected boolean isSet$street$java$lang$String;
-  protected Builder<String> builder$street$java$lang$String;
+  protected Builder<? extends String> builder$street$java$lang$String;
   protected String value$city$java$lang$String;
   protected boolean isSet$city$java$lang$String;
-  protected Builder<String> builder$city$java$lang$String;
+  protected Builder<? extends String> builder$city$java$lang$String;
   protected String value$postCode$java$lang$String;
   protected boolean isSet$postCode$java$lang$String;
-  protected Builder<String> builder$postCode$java$lang$String;
+  protected Builder<? extends String> builder$postCode$java$lang$String;
 
   /**
    * Creates a new {@link AddressBuilder}.
@@ -41,7 +41,7 @@ public class AddressBuilder
    * @param builder the default builder
    * @return this builder
    */
-  public AddressBuilder withStreet(Builder<String> builder) {
+  public AddressBuilder withStreet(Builder<? extends String> builder) {
     this.builder$street$java$lang$String = builder;
     this.isSet$street$java$lang$String = false;
     return self;
@@ -65,7 +65,7 @@ public class AddressBuilder
    * @param builder the default builder
    * @return this builder
    */
-  public AddressBuilder withCity(Builder<String> builder) {
+  public AddressBuilder withCity(Builder<? extends String> builder) {
     this.builder$city$java$lang$String = builder;
     this.isSet$city$java$lang$String = false;
     return self;
@@ -89,7 +89,7 @@ public class AddressBuilder
    * @param builder the default builder
    * @return this builder
    */
-  public AddressBuilder withPostCode(Builder<String> builder) {
+  public AddressBuilder withPostCode(Builder<? extends String> builder) {
     this.builder$postCode$java$lang$String = builder;
     this.isSet$postCode$java$lang$String = false;
     return self;

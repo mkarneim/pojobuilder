@@ -1,24 +1,20 @@
 /**
-* To create the Eclipse project and classpath files:
-*  ./gradlew cleanEclipse eclipse
-*
-* To build the PojoBuilder:
-*  ./gradlew build
-*
-* To publish a new release of PojoBuilder to Sonatype OSS Maven Repo:
-*  ./gradlew clean uploadArchives
-*
-*/
+ * To create the Eclipse project and classpath files:
+ *  ./gradlew cleanEclipse eclipse
+ *
+ * To build the PojoBuilder:
+ *  ./gradlew build
+ *
+ * To publish a new release of PojoBuilder to Sonatype OSS Maven Repo:
+ *  ./gradlew clean uploadArchives
+ *
+ */
 
-task wrapper(type: Wrapper) { gradleVersion = '2.0' }
+task wrapper(type: Wrapper) { gradleVersion = '2.13' }
 
 buildscript {
-  repositories {
-    mavenCentral()
-  }
-  dependencies {
-    classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.1'
-  }
+  repositories { mavenCentral() }
+  dependencies { classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.1' }
 }
 
 if (!project.hasProperty('ossrhUsername') || !project.hasProperty('ossrhPassword')) {
@@ -42,6 +38,7 @@ group = 'net.karneim'
 archivesBaseName = "pojobuilder"
 version = '3.5.0-SNAPSHOT'
 sourceCompatibility = 1.6
+eclipse.jdt.sourceCompatibility = 1.7
 
 repositories.mavenCentral()
 
@@ -77,9 +74,7 @@ sourceSets {
   }
 }
 
-jar {
-  from 'src/jar/resources'
-}
+jar { from 'src/jar/resources' }
 
 task dependenciesJar(type: Jar, dependsOn:['compileJava']) {
   classifier = "jar-with-dependencies"
@@ -87,9 +82,7 @@ task dependenciesJar(type: Jar, dependsOn:['compileJava']) {
   from files(sourceSets.main.output.resourcesDir)
   from 'src/jar/resources'
   from {configurations.compile.collect {zipTree(it)}}
-  into('META-INF/license') {
-  	from 'license'
-  }
+  into('META-INF/license') { from 'license' }
 }
 
 task annotationsJar(type: Jar, dependsOn:['compileJava']) {
@@ -112,14 +105,12 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 }
 
 tasks.withType(Jar) {
-  into('META-INF') {
-    from 'COPYING'
-  }
+  into('META-INF') { from 'COPYING' }
   manifest {
     attributes(
-      'Implementation-Title': 'PojoBuilder',
-      'Implementation-Version': version
-    )
+        'Implementation-Title': 'PojoBuilder',
+        'Implementation-Version': version
+        )
   }
 }
 
@@ -156,11 +147,11 @@ uploadArchives {
         url 'http://github.com/mkarneim/pojobuilder'
 
         scm {
-	      url 'git@github.com:mkarneim/pojobuilder.git'
-	      connection 'scm:git:git@github.com:mkarneim/pojobuilder.git'
-	      developerConnection 'scm:git:git@github.com:mkarneim/pojobuilder.git'
-	      tag 'HEAD'
-	    }
+          url 'git@github.com:mkarneim/pojobuilder.git'
+          connection 'scm:git:git@github.com:mkarneim/pojobuilder.git'
+          developerConnection 'scm:git:git@github.com:mkarneim/pojobuilder.git'
+          tag 'HEAD'
+        }
         licenses {
           license {
             name 'PUBLIC DOMAIN'

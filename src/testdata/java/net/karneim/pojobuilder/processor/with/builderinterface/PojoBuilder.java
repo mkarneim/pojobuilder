@@ -9,13 +9,13 @@ public class PojoBuilder
   protected PojoBuilder self;
   protected File value$file$java$io$File;
   protected boolean isSet$file$java$io$File;
-  protected Builder<File> builder$file$java$io$File;
+  protected Builder<? extends File> builder$file$java$io$File;
   protected String value$name$java$lang$String;
   protected boolean isSet$name$java$lang$String;
-  protected Builder<String> builder$name$java$lang$String;
+  protected Builder<? extends String> builder$name$java$lang$String;
   protected int value$age$int;
   protected boolean isSet$age$int;
-  protected Builder<Integer> builder$age$int;
+  protected Builder<? extends Integer> builder$age$int;
 
   /**
    * Creates a new {@link PojoBuilder}.
@@ -42,7 +42,7 @@ public class PojoBuilder
    * @param builder the default builder
    * @return this builder
    */
-  public PojoBuilder withFile(Builder<File> builder) {
+  public PojoBuilder withFile(Builder<? extends File> builder) {
     this.builder$file$java$io$File = builder;
     this.isSet$file$java$io$File = false;
     return self;
@@ -66,7 +66,7 @@ public class PojoBuilder
    * @param builder the default builder
    * @return this builder
    */
-  public PojoBuilder withName(Builder<String> builder) {
+  public PojoBuilder withName(Builder<? extends String> builder) {
     this.builder$name$java$lang$String = builder;
     this.isSet$name$java$lang$String = false;
     return self;
@@ -90,7 +90,7 @@ public class PojoBuilder
    * @param builder the default builder
    * @return this builder
    */
-  public PojoBuilder withAge(Builder<Integer> builder) {
+  public PojoBuilder withAge(Builder<? extends Integer> builder) {
     this.builder$age$int = builder;
     this.isSet$age$int = false;
     return self;

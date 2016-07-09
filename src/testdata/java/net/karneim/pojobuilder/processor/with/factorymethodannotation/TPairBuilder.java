@@ -3,7 +3,7 @@ package net.karneim.pojobuilder.processor.with.factorymethodannotation;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
-public class TPairBuilder<T extends Object>
+public class TPairBuilder<T>
     implements Cloneable {
   protected TPairBuilder<T> self;
   protected T value$left$T;

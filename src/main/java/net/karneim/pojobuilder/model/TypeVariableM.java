@@ -1,7 +1,7 @@
 package net.karneim.pojobuilder.model;
 
 public class TypeVariableM extends TypeM {
-  private final TypeListM bounds = new TypeListM();
+  protected final TypeListM bounds = new TypeListM();
 
   public TypeVariableM(String name) {
     super(name);
@@ -29,16 +29,21 @@ public class TypeVariableM extends TypeM {
       if (result.length() > 0) {
         result.append(" & ");
       }
-      result.append(bound.getGenericTypeDeclaration());
+      result.append(bound.getGenericType());
     }
     return result.toString();
   }
 
-  public String getGenericType() {
+  @Override
+  public String getGenericTypeDefinition() {
     if (!hasBounds()) {
       return getName();
     }
-    return String.format("%s extends %s", getName(), getBoundsString());
+    return String.format("%s %s %s", getName(), getBoundRelation(), getBoundsString());
+  }
+
+  protected String getBoundRelation() {
+    return "extends";
   }
 
   @Override
@@ -51,26 +56,32 @@ public class TypeVariableM extends TypeM {
 
   @Override
   public int hashCode() {
-    // This hash code calculation is fast and good enough...
+    final int prime = 31;
     int result = super.hashCode();
+    result = prime * result + ((bounds == null) ? 0 : bounds.hashCode());
     return result;
   }
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (!super.equals(obj)) return false;
-    if (getClass() != obj.getClass()) return false;
+    if (this == obj)
+      return true;
+    if (!super.equals(obj))
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
     TypeVariableM other = (TypeVariableM) obj;
     if (bounds == null) {
-      if (other.bounds != null) return false;
-    } else if (!bounds.equals(other.bounds)) return false;
+      if (other.bounds != null)
+        return false;
+    } else if (!bounds.equals(other.bounds))
+      return false;
     return true;
   }
 
   @Override
   public String toString() {
-    return "TypeVariableM [getGenericType()=" + getGenericType() + "]";
+    return "TypeVariableM [getGenericTypeDefinition()=" + getGenericTypeDefinition() + "]";
   }
 
 }

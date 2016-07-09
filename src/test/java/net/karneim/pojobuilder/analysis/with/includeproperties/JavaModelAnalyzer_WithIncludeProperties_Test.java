@@ -80,7 +80,7 @@ public class JavaModelAnalyzer_WithIncludeProperties_Test extends AnalysisTestSu
     assertThat(output).isNotNull();
     assertThat(output.getBuilderModel().getPojoType().getName()).isEqualTo(Pojo5.class.getName());
     assertThat(output.getBuilderModel().getProperties()).hasSize(1);
-    PropertyM skillsProperty = output.getBuilderModel().getProperties().get(new Key("skills", "java.util.List"));
+    PropertyM skillsProperty = output.getBuilderModel().getProperties().get(new Key("skills", "java.util.List<java.lang.String>"));
     assertThat(skillsProperty).isNotNull();
   }
 

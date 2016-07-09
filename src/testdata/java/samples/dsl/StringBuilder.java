@@ -9,10 +9,10 @@ public class StringBuilder
   protected StringBuilder self;
   protected String value$format$java$lang$String;
   protected boolean isSet$format$java$lang$String;
-  protected Builder<String> builder$format$java$lang$String;
+  protected Builder<? extends String> builder$format$java$lang$String;
   protected long value$nextNumber$long;
   protected boolean isSet$nextNumber$long;
-  protected Builder<Long> builder$nextNumber$long;
+  protected Builder<? extends Long> builder$nextNumber$long;
 
   /**
    * Creates a new {@link StringBuilder}.
@@ -39,7 +39,7 @@ public class StringBuilder
    * @param builder the default builder
    * @return this builder
    */
-  public StringBuilder withFormat(Builder<String> builder) {
+  public StringBuilder withFormat(Builder<? extends String> builder) {
     this.builder$format$java$lang$String = builder;
     this.isSet$format$java$lang$String = false;
     return self;
@@ -63,7 +63,7 @@ public class StringBuilder
    * @param builder the default builder
    * @return this builder
    */
-  public StringBuilder withNextNumber(Builder<Long> builder) {
+  public StringBuilder withNextNumber(Builder<? extends Long> builder) {
     this.builder$nextNumber$long = builder;
     this.isSet$nextNumber$long = false;
     return self;

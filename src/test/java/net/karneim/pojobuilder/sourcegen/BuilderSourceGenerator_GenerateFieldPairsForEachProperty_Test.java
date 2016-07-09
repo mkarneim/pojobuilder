@@ -44,10 +44,10 @@ public class BuilderSourceGenerator_GenerateFieldPairsForEachProperty_Test exten
   public void testPrimitiveProperties() throws Exception {
     // Given:  @formatter:off
     TypeM pojoType = new TypeM("com.example.output", "Sample");
-    
+
     BuilderM builder = new BuilderM();
     builder.setPojoType(pojoType);
-    builder.setProperties( new PropertyListM( 
+    builder.setProperties( new PropertyListM(
       new PropertyM("someBoolean", PrimitiveTypeM.BOOLEAN)
         .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC)))
         .withMethodNamePattern("with*"),
@@ -72,15 +72,15 @@ public class BuilderSourceGenerator_GenerateFieldPairsForEachProperty_Test exten
       new PropertyM("someDouble", PrimitiveTypeM.DOUBLE)
         .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC)))
         .withMethodNamePattern("with*")
-    ));    
-    
+    ));
+
     builder.setType(new TypeM("com.example.output","SampleBuilder"));
     builder.setSelfType(builder.getType());
     builder.setBuildMethod( new BuildMethodM());
-    
+
     // When:
     underTest.generateSource(builder);
-    
+
     // Then: @formatter:on
     String actual = out.toString().replace("\r", "");
     logDebug(actual);
@@ -97,10 +97,10 @@ public class BuilderSourceGenerator_GenerateFieldPairsForEachProperty_Test exten
   public void testObjectProperties() throws Exception {
     // Given:  @formatter:off
     TypeM pojoType = new TypeM("com.example.output", "Sample");
-    
+
     BuilderM builder = new BuilderM();
     builder.setPojoType(pojoType);
-    builder.setProperties( new PropertyListM( 
+    builder.setProperties( new PropertyListM(
       new PropertyM("someString", new TypeM("java.lang","String"))
         .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC)))
         .withMethodNamePattern("with*"),
@@ -113,15 +113,15 @@ public class BuilderSourceGenerator_GenerateFieldPairsForEachProperty_Test exten
       new PropertyM("someBigDecimal", new TypeM("java.math","BigDecimal"))
         .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC)))
         .withMethodNamePattern("with*")
-    ));    
-    
+    ));
+
     builder.setType(new TypeM("com.example.output","SampleBuilder"));
     builder.setSelfType(builder.getType());
     builder.setBuildMethod( new BuildMethodM());
-    
+
     // When:
     underTest.generateSource(builder);
-    
+
     // Then: @formatter:on
     String actual = out.toString().replace("\r", "");
     logDebug(actual);
@@ -139,10 +139,10 @@ public class BuilderSourceGenerator_GenerateFieldPairsForEachProperty_Test exten
   public void testGenericProperties() throws Exception {
     // Given:  @formatter:off
     TypeM pojoType = new TypeM("com.example.output", "Sample");
-    
+
     BuilderM builder = new BuilderM();
     builder.setPojoType(pojoType);
-    builder.setProperties( new PropertyListM( 
+    builder.setProperties( new PropertyListM(
       new PropertyM("someStringList", new TypeM("java.util","List")
         .withTypeParameter(new TypeM("java.lang","String")))
         .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC)))
@@ -151,15 +151,15 @@ public class BuilderSourceGenerator_GenerateFieldPairsForEachProperty_Test exten
         .withTypeParameter(new TypeM("java.lang","String"),new TypeM("java.lang","Integer")))
         .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC)))
         .withMethodNamePattern("with*")
-    ));    
-    
+    ));
+
     builder.setType(new TypeM("com.example.output","SampleBuilder"));
     builder.setSelfType(builder.getType());
     builder.setBuildMethod( new BuildMethodM());
-    
+
     // When:
     underTest.generateSource(builder);
-    
+
     // Then: @formatter:on
     String actual = out.toString().replace("\r", "");
     logDebug(actual);
@@ -178,28 +178,29 @@ public class BuilderSourceGenerator_GenerateFieldPairsForEachProperty_Test exten
     TypeVariableM K = new TypeVariableM("K");
     TypeVariableM V = new TypeVariableM("V").whichExtends(new TypeM("java.lang","Number"));
     TypeM pojoType = new TypeM("com.example.output", "Sample").withTypeParameter( K, V);
-    
+
     BuilderM builder = new BuilderM();
     builder.setPojoType(pojoType);
-    builder.setProperties( new PropertyListM( 
+    builder.setProperties( new PropertyListM(
       new PropertyM("someMap", new TypeM("java.util","Map")
         .withTypeParameter(K, V))
         .accessibleVia(new FieldAccessM(EnumSet.of(PUBLIC)))
         .withMethodNamePattern("with*")
-    ));    
-    
+    ));
+
     builder.setType(new TypeM("com.example.output","SampleBuilder").withTypeParameter(K, V));
     builder.setSelfType(builder.getType());
     builder.setBuildMethod( new BuildMethodM());
-    
+
     // When:
     underTest.generateSource(builder);
-    
+
     // Then: @formatter:on
     String actual = out.toString().replace("\r", "");
     logDebug(actual);
     String expected = loadResourceFromClasspath("ParameterizedGenericProperties.expected.txt");
 
+    System.out.println(actual);
     assertThat(actual).isEqualTo(expected);
   }
 

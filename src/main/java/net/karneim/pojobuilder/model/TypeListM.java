@@ -16,20 +16,30 @@ public class TypeListM extends ArrayList<TypeM> {
     }
   }
 
-  public String toArgumentString() {
-    // Without Bounds
+  /**
+   * Returns a String representation of this type list including bounds.
+   *
+   * @return a String representation including bounds
+   * @see TypeM#getGenericTypeDefinition()
+   */
+  public String toParameterString() {
     StringBuilder result = new StringBuilder();
     for (TypeM type : this) {
       if (result.length() > 0) {
         result.append(", ");
       }
-      result.append(type.getGenericTypeDeclaration());
+      result.append(type.getGenericTypeDefinition());
     }
     return result.toString();
   }
 
-  public String toParameterString() {
-    // With Bounds
+  /**
+   * Returns a String representation of this type list without bounds.
+   *
+   * @return a String representation without bounds
+   * @see TypeM#getGenericType()
+   */
+  public String toArgumentString() {
     StringBuilder result = new StringBuilder();
     for (TypeM type : this) {
       if (result.length() > 0) {

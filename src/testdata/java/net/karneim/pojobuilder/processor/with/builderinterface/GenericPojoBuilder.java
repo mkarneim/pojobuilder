@@ -8,10 +8,10 @@ public class GenericPojoBuilder<P extends Number>
   protected GenericPojoBuilder<P> self;
   protected String value$name$java$lang$String;
   protected boolean isSet$name$java$lang$String;
-  protected Builder<String> builder$name$java$lang$String;
+  protected Builder<? extends String> builder$name$java$lang$String;
   protected P value$content$P;
   protected boolean isSet$content$P;
-  protected Builder<P> builder$content$P;
+  protected Builder<? extends P> builder$content$P;
 
   /**
    * Creates a new {@link GenericPojoBuilder}.
@@ -38,7 +38,7 @@ public class GenericPojoBuilder<P extends Number>
    * @param builder the default builder
    * @return this builder
    */
-  public GenericPojoBuilder<P> withName(Builder<String> builder) {
+  public GenericPojoBuilder<P> withName(Builder<? extends String> builder) {
     this.builder$name$java$lang$String = builder;
     this.isSet$name$java$lang$String = false;
     return self;
@@ -62,7 +62,7 @@ public class GenericPojoBuilder<P extends Number>
    * @param builder the default builder
    * @return this builder
    */
-  public GenericPojoBuilder<P> withContent(Builder<P> builder) {
+  public GenericPojoBuilder<P> withContent(Builder<? extends P> builder) {
     this.builder$content$P = builder;
     this.isSet$content$P = false;
     return self;

@@ -3,7 +3,7 @@ package net.karneim.pojobuilder.processor.with.staticfactorymethod;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
-public class ContainerBuilder<T extends Object>
+public class ContainerBuilder<T>
     implements Cloneable {
   protected ContainerBuilder<T> self;
   protected T value$value$T;
@@ -14,7 +14,7 @@ public class ContainerBuilder<T extends Object>
    *
    * @return a new ContainerBuilder<T>
    */
-  public static <T extends Object> ContainerBuilder<T> container() {
+  public static <T> ContainerBuilder<T> container() {
     return new ContainerBuilder<T>();
   }
 

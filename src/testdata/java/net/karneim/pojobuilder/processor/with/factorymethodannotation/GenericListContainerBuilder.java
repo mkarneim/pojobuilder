@@ -4,7 +4,7 @@ import java.util.List;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
-public class GenericListContainerBuilder<T extends Object>
+public class GenericListContainerBuilder<T>
     implements Cloneable {
   protected GenericListContainerBuilder<T> self;
   protected String value$content$java$lang$String;

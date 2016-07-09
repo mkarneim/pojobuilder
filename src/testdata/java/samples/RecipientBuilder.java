@@ -8,10 +8,10 @@ public class RecipientBuilder
   protected RecipientBuilder self;
   protected String value$name$java$lang$String;
   protected boolean isSet$name$java$lang$String;
-  protected Builder<String> builder$name$java$lang$String;
+  protected Builder<? extends String> builder$name$java$lang$String;
   protected Address value$address$samples$Address;
   protected boolean isSet$address$samples$Address;
-  protected Builder<Address> builder$address$samples$Address;
+  protected Builder<? extends Address> builder$address$samples$Address;
 
   /**
    * Creates a new {@link RecipientBuilder}.
@@ -38,7 +38,7 @@ public class RecipientBuilder
    * @param builder the default builder
    * @return this builder
    */
-  public RecipientBuilder withName(Builder<String> builder) {
+  public RecipientBuilder withName(Builder<? extends String> builder) {
     this.builder$name$java$lang$String = builder;
     this.isSet$name$java$lang$String = false;
     return self;
@@ -62,7 +62,7 @@ public class RecipientBuilder
    * @param builder the default builder
    * @return this builder
    */
-  public RecipientBuilder withAddress(Builder<Address> builder) {
+  public RecipientBuilder withAddress(Builder<? extends Address> builder) {
     this.builder$address$samples$Address = builder;
     this.isSet$address$samples$Address = false;
     return self;

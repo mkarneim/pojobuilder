@@ -18,16 +18,16 @@ public class ArrayTypeM extends TypeM {
     return true;
   }
 
+  public String getGenericTypeDefinition() {
+    return componentType.getGenericTypeDefinition() + "[]";
+  }
+
   public String getGenericType() {
     return componentType.getGenericType() + "[]";
   }
 
-  public String getGenericTypeDeclaration() {
-    return componentType.getGenericTypeDeclaration() + "[]";
-  }
-
   public String getGenericTypeDeclarationAsVarArgs() {
-    return componentType.getGenericTypeDeclaration() + "...";
+    return componentType.getGenericType() + "...";
   }
 
   @Override
@@ -58,10 +58,7 @@ public class ArrayTypeM extends TypeM {
 
   @Override
   public String toString() {
-    return "ArrayTypeM [componentType=" + componentType + ", getGenericType()=" + getGenericType() + "]";
+    return "ArrayTypeM [componentType=" + componentType + ", getGenericTypeDefinition()=" + getGenericTypeDefinition() + "]";
   }
-
-  
-
 
 }

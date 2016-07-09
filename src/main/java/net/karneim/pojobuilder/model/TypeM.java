@@ -1,6 +1,5 @@
 package net.karneim.pojobuilder.model;
 
-
 public class TypeM {
   private final String packageName;
   private final String simpleName;
@@ -68,16 +67,37 @@ public class TypeM {
     return typeParameters.isEmpty() == false;
   }
 
-  public String getGenericType() {
-    // With Bounds
+  /**
+   * Returns a String representation of the complete generics definition of this type. This can be
+   * used for generic parameter definitions of classes and methods.
+   * <p>
+   * Named generic types are represented with bounds. To get a minimal representation used for field
+   * declarations see {@link #getGenericType()}
+   * <p>
+   * Example Output: {@code "Map<T extends CharSequence, E extends List<? super Number>>"}
+   *
+   * @return the complete generics definition
+   */
+  public String getGenericTypeDefinition() {
     if (!isGeneric()) {
       return name;
     }
     return String.format("%s<%s>", name, typeParameters.toParameterString());
   }
 
-  public String getGenericTypeDeclaration() {
-    // Without Bounds
+  /**
+   * Returns a String representation of the minimal generics definition of this type. This can be
+   * used for variable, parameter or return types such as field declarations.
+   * <p>
+   * Named generic types are represented without bounds, because they are defined in the class or
+   * method signature. To get a representation of the full definition including bounds see
+   * {@link #getGenericTypeDefinition()}
+   * <p>
+   * Example Output: {@code "Map<T, ? extends List<? super Number>>"}
+   *
+   * @return the generic type
+   */
+  public String getGenericType() {
     if (!isGeneric()) {
       return name;
     }
@@ -92,42 +112,59 @@ public class TypeM {
   }
 
   public boolean isInPackage(String packageName) {
-    return (packageName == null && this.packageName.isEmpty()) || packageName.equals(this.packageName);
+    return (packageName == null && this.packageName.isEmpty())
+        || packageName.equals(this.packageName);
   }
 
-  @Override
-  public String toString() {
-    return "TypeM [getGenericType()=" + getGenericType() + "]";
-  }
-
+  /**
+   * This {@link #hashCode()} implementation doesn't use typeParameters to avoid a potential
+   * StackOverflowError. The {@link #equals(Object)} implementation does use that field.
+   */
   @Override
   public int hashCode() {
-    // This hash code calculation is fast and good enough...
     final int prime = 31;
     int result = 1;
     result = prime * result + ((name == null) ? 0 : name.hashCode());
+    result = prime * result + ((packageName == null) ? 0 : packageName.hashCode());
+    result = prime * result + ((simpleName == null) ? 0 : simpleName.hashCode());
     return result;
   }
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (obj == null) return false;
-    if (getClass() != obj.getClass()) return false;
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
     TypeM other = (TypeM) obj;
     if (name == null) {
-      if (other.name != null) return false;
-    } else if (!name.equals(other.name)) return false;
+      if (other.name != null)
+        return false;
+    } else if (!name.equals(other.name))
+      return false;
     if (packageName == null) {
-      if (other.packageName != null) return false;
-    } else if (!packageName.equals(other.packageName)) return false;
+      if (other.packageName != null)
+        return false;
+    } else if (!packageName.equals(other.packageName))
+      return false;
     if (simpleName == null) {
-      if (other.simpleName != null) return false;
-    } else if (!simpleName.equals(other.simpleName)) return false;
+      if (other.simpleName != null)
+        return false;
+    } else if (!simpleName.equals(other.simpleName))
+      return false;
     if (typeParameters == null) {
-      if (other.typeParameters != null) return false;
-    } else if (!typeParameters.equals(other.typeParameters)) return false;
+      if (other.typeParameters != null)
+        return false;
+    } else if (!typeParameters.equals(other.typeParameters))
+      return false;
     return true;
+  }
+
+  @Override
+  public String toString() {
+    return "TypeM [getGenericTypeDefinition()=" + getGenericTypeDefinition() + "]";
   }
 
 }

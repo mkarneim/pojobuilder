@@ -47,7 +47,7 @@ public class PropertyPattern {
   public boolean contains(PropertyM propertyM) {
     boolean matchesName = propertyM.getPropertyName().matches(nameRegex);
     if (matchesName) {
-      String genericTypeDeclaration = propertyM.getPropertyType().getGenericTypeDeclaration();
+      String genericTypeDeclaration = propertyM.getPropertyType().getGenericType();
       boolean matchesType =
           typeRegex == null || genericTypeDeclaration.matches(typeRegex);
       return matchesType;

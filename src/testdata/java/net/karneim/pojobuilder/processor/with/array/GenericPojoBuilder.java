@@ -3,7 +3,7 @@ package net.karneim.pojobuilder.processor.with.array;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
-public class GenericPojoBuilder<T extends Object>
+public class GenericPojoBuilder<T>
     implements Cloneable {
   protected GenericPojoBuilder<T> self;
   protected T[] value$someArray$T$L;

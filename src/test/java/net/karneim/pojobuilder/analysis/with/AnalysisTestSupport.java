@@ -39,7 +39,7 @@ public abstract class AnalysisTestSupport {
   /**
    * Pojobuilder Input for a given annotated pojo
    */
-  protected Input inputFor(Class pojo) {
+  protected Input inputFor(Class<?> pojo) {
     String pojoClassname = pojo.getCanonicalName();
     TypeElement pojoType = elements.getTypeElement(pojoClassname);
     return inputFactory.getInput(pojoType);
@@ -48,7 +48,7 @@ public abstract class AnalysisTestSupport {
   /**
    * Pojobuilder Input for a given annotated factory method
    */
-  protected Input inputFor(Class factory, String methodName) {
+  protected Input inputFor(Class<?> factory, String methodName) {
     String factoryClassname = factory.getCanonicalName();
     TypeElement factoryType = elements.getTypeElement(factoryClassname);
     List<ExecutableElement> methods = ElementFilter.methodsIn(elements.getAllMembers(factoryType));
