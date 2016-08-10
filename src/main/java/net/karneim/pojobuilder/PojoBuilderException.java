@@ -8,10 +8,6 @@ public class PojoBuilderException extends RuntimeException {
     super();
   }
 
-  public PojoBuilderException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-    super(message, cause, enableSuppression, writableStackTrace);
-  }
-
   public PojoBuilderException(String message, Throwable cause) {
     super(message, cause);
   }

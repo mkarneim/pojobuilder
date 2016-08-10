@@ -129,8 +129,13 @@ public class PojoBuilder
   @Override
   public Pojo build() {
     try {
-      File _file = !isSet$file$java$io$File && builder$file$java$io$File!=null?builder$file$java$io$File.build():value$file$java$io$File;
-      Pojo result = new Pojo(_file);
+      File file;
+      if (!isSet$file$java$io$File && builder$file$java$io$File!=null) {
+        file = builder$file$java$io$File.build();
+      } else {
+        file = value$file$java$io$File;
+      }
+      Pojo result = new Pojo(file);
       if (isSet$age$int) {
         result.setAge(value$age$int);
       } else if (builder$age$int!=null) {
