@@ -101,19 +101,19 @@ public class ItemBuilder
   @Override
   public Item build() {
     try {
-      int amount;
+      int _amount;
       if (!isSet$amount$int && builder$amount$int!=null) {
-        amount = builder$amount$int.build();
+        _amount = builder$amount$int.build();
       } else {
-        amount = value$amount$int;
+        _amount = value$amount$int;
       }
-      String article;
+      String _article;
       if (!isSet$article$java$lang$String && builder$article$java$lang$String!=null) {
-        article = builder$article$java$lang$String.build();
+        _article = builder$article$java$lang$String.build();
       } else {
-        article = value$article$java$lang$String;
+        _article = value$article$java$lang$String;
       }
-      Item result = new Item(amount, article);
+      Item result = new Item(_amount, _article);
       return result;
     } catch (RuntimeException ex) {
       throw ex;

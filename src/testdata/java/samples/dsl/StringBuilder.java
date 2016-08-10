@@ -102,19 +102,19 @@ public class StringBuilder
   @Override
   public String build() {
     try {
-      String format;
+      String _format;
       if (!isSet$format$java$lang$String && builder$format$java$lang$String!=null) {
-        format = builder$format$java$lang$String.build();
+        _format = builder$format$java$lang$String.build();
       } else {
-        format = value$format$java$lang$String;
+        _format = value$format$java$lang$String;
       }
-      long nextNumber;
+      long _nextNumber;
       if (!isSet$nextNumber$long && builder$nextNumber$long!=null) {
-        nextNumber = builder$nextNumber$long.build();
+        _nextNumber = builder$nextNumber$long.build();
       } else {
-        nextNumber = value$nextNumber$long;
+        _nextNumber = value$nextNumber$long;
       }
-      String result = TestDslBase.PojoFactory.createString(format, nextNumber);
+      String result = TestDslBase.PojoFactory.createString(_format, _nextNumber);
       return result;
     } catch (RuntimeException ex) {
       throw ex;
