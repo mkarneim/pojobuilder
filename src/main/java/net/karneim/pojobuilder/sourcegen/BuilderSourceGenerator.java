@@ -250,12 +250,12 @@ public class BuilderSourceGenerator {
         ArgumentListM constructorArguments = properties.filterOutPropertiesWritableViaConstructorParameter(builderType);
         StringBuilder arguments = new StringBuilder();
         for (PropertyM prop : constructorArguments.sortByPosition().getPropertyList()) {
-          String parameterName = prop.getConstructorParameter().getName();
-          emitParameterAssignmentWithBuilderProperty(prop, parameterName);
+          String parameterFieldName = "_" + prop.getConstructorParameter().getName();
+          emitParameterAssignmentWithBuilderProperty(prop, parameterFieldName);
           if (arguments.length() > 0) {
             arguments.append(", ");
           }
-          arguments.append(String.format("%s", parameterName));
+          arguments.append(String.format("%s", parameterFieldName));
         }
         writer.emitStatement("%s result = new %s(%s)", pojoTypeDeclaration, pojoTypeDeclaration, arguments.toString());
       } else {
@@ -263,12 +263,12 @@ public class BuilderSourceGenerator {
             properties.filterOutPropertiesWritableViaFactoryMethodParameter(builderType);
         StringBuilder arguments = new StringBuilder();
         for (PropertyM prop : factoryMethodArguments.sortByPosition().getPropertyList()) {
-          String parameterName = prop.getFactoryMethodParameter().getName();
-          emitParameterAssignmentWithBuilderProperty(prop, parameterName);
+          String parameterFieldName = "_" + prop.getFactoryMethodParameter().getName();
+          emitParameterAssignmentWithBuilderProperty(prop, parameterFieldName);
           if (arguments.length() > 0) {
             arguments.append(", ");
           }
-          arguments.append(String.format("%s", parameterName));
+          arguments.append(String.format("%s", parameterFieldName));
         }
         String factoryClass = writer.compressType(factoryMethod.getDeclaringClass().getName());
         writer.emitStatement("%s result = %s.%s(%s)", pojoTypeDeclaration, factoryClass, factoryMethod.getName(),
@@ -306,11 +306,12 @@ public class BuilderSourceGenerator {
         .emitStatement("throw new java.lang.reflect.UndeclaredThrowableException(ex)").endControlFlow().endMethod();
   }
 
-  private void emitParameterAssignmentWithBuilderProperty(PropertyM prop, String parameterName) throws IOException {
-    writer.emitStatement("%s %s", writer.compressType(prop.getPropertyType().getGenericType()), parameterName);
+  private void emitParameterAssignmentWithBuilderProperty(PropertyM prop, String parameterFieldName)
+      throws IOException {
+    writer.emitStatement("%s %s", writer.compressType(prop.getPropertyType().getGenericType()), parameterFieldName);
     writer.beginControlFlow("if (!%s && %s!=null)", prop.getIsSetFieldName(), prop.getBuilderFieldName())
-        .emitStatement("%s = %s.build()", parameterName, prop.getBuilderFieldName());
-    writer.nextControlFlow("else").emitStatement("%s = %s", parameterName, prop.getValueFieldName());
+        .emitStatement("%s = %s.build()", parameterFieldName, prop.getBuilderFieldName());
+    writer.nextControlFlow("else").emitStatement("%s = %s", parameterFieldName, prop.getValueFieldName());
     writer.endControlFlow();
   }
 

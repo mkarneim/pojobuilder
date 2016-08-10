@@ -103,13 +103,13 @@ public class GenericPojoBuilder<P extends Number>
   @Override
   public GenericPojo<P> build() {
     try {
-      String name;
+      String _name;
       if (!isSet$name$java$lang$String && builder$name$java$lang$String!=null) {
-        name = builder$name$java$lang$String.build();
+        _name = builder$name$java$lang$String.build();
       } else {
-        name = value$name$java$lang$String;
+        _name = value$name$java$lang$String;
       }
-      GenericPojo<P> result = new GenericPojo<P>(name);
+      GenericPojo<P> result = new GenericPojo<P>(_name);
       if (isSet$content$P) {
         result.setContent(value$content$P);
       } else if (builder$content$P!=null) {
