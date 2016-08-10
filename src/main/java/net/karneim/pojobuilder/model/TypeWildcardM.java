@@ -27,6 +27,7 @@ public class TypeWildcardM extends TypeVariableM {
     return this;
   }
 
+  @Override
   public String getBoundRelation() {
     return lowerBound ? "super" : "extends";
   }
