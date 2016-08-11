@@ -36,7 +36,7 @@ apply plugin: 'com.github.kt3k.coveralls'
 
 group = 'net.karneim'
 archivesBaseName = "pojobuilder"
-version = '3.4.2'
+version = '3.5.0-SNAPSHOT'
 sourceCompatibility = 1.6
 eclipse.jdt.sourceCompatibility = 1.7
 
