@@ -101,8 +101,18 @@ public class ItemBuilder
   @Override
   public Item build() {
     try {
-      int _amount = !isSet$amount$int && builder$amount$int!=null?builder$amount$int.build():value$amount$int;
-      String _article = !isSet$article$java$lang$String && builder$article$java$lang$String!=null?builder$article$java$lang$String.build():value$article$java$lang$String;
+      int _amount;
+      if (!isSet$amount$int && builder$amount$int!=null) {
+        _amount = builder$amount$int.build();
+      } else {
+        _amount = value$amount$int;
+      }
+      String _article;
+      if (!isSet$article$java$lang$String && builder$article$java$lang$String!=null) {
+        _article = builder$article$java$lang$String.build();
+      } else {
+        _article = value$article$java$lang$String;
+      }
       Item result = new Item(_amount, _article);
       return result;
     } catch (RuntimeException ex) {

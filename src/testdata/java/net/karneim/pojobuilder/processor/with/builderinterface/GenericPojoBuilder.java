@@ -103,7 +103,12 @@ public class GenericPojoBuilder<P extends Number>
   @Override
   public GenericPojo<P> build() {
     try {
-      String _name = !isSet$name$java$lang$String && builder$name$java$lang$String!=null?builder$name$java$lang$String.build():value$name$java$lang$String;
+      String _name;
+      if (!isSet$name$java$lang$String && builder$name$java$lang$String!=null) {
+        _name = builder$name$java$lang$String.build();
+      } else {
+        _name = value$name$java$lang$String;
+      }
       GenericPojo<P> result = new GenericPojo<P>(_name);
       if (isSet$content$P) {
         result.setContent(value$content$P);

@@ -102,8 +102,18 @@ public class StringBuilder
   @Override
   public String build() {
     try {
-      String _format = !isSet$format$java$lang$String && builder$format$java$lang$String!=null?builder$format$java$lang$String.build():value$format$java$lang$String;
-      long _nextNumber = !isSet$nextNumber$long && builder$nextNumber$long!=null?builder$nextNumber$long.build():value$nextNumber$long;
+      String _format;
+      if (!isSet$format$java$lang$String && builder$format$java$lang$String!=null) {
+        _format = builder$format$java$lang$String.build();
+      } else {
+        _format = value$format$java$lang$String;
+      }
+      long _nextNumber;
+      if (!isSet$nextNumber$long && builder$nextNumber$long!=null) {
+        _nextNumber = builder$nextNumber$long.build();
+      } else {
+        _nextNumber = value$nextNumber$long;
+      }
       String result = TestDslBase.PojoFactory.createString(_format, _nextNumber);
       return result;
     } catch (RuntimeException ex) {
