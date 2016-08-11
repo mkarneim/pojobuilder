@@ -53,7 +53,7 @@ For older versions and a *change log* please see the [release history page].
 PojoBuilder *binaries* are available for download at [Sonatype OSS Maven Repository] and [Maven Central].
 
 If you don't use any build automation tool that supports maven repos,
-you might want to download the `pojobuilder-3.4.1-jar-with-dependencies.jar` to get PojoBuilder complete with all dependent libraries included.
+you might want to download the `pojobuilder-3.4.2-jar-with-dependencies.jar` to get PojoBuilder complete with all dependent libraries included.
 
 How To Use
 ----------
@@ -340,7 +340,7 @@ The `javac` compiler will auto-detect the presence of PojoBuilder if `pojobuilde
 
 For example:
 
-    javac -cp pojobuilder-3.4.1-jar-with-dependencies.jar Contact.java
+    javac -cp pojobuilder-3.4.2-jar-with-dependencies.jar Contact.java
 
 will generate a `ContactBuilder` if `Contact` is annotated with `@GeneratePojoBuilder`.
 
@@ -353,7 +353,7 @@ Add the following to your project's `pom.xml` to configure the PojoBuilder annot
 	<dependency>
 		<groupId>net.karneim</groupId>
 		<artifactId>pojobuilder</artifactId>
-		<version>3.4.1</version>
+		<version>3.4.2</version>
 		<!-- 'provided' scope because this is only needed during compilation -->
 		<scope>provided</scope>
 	</dependency>
@@ -375,7 +375,7 @@ repositories {
 }
 
 dependencies {
-  compile 'net.karneim:pojobuilder:3.4.1'
+  compile 'net.karneim:pojobuilder:3.4.2'
 }
 ```
 Please note that this not only adds the PojoBuilder and its dependencies to your compile-time class path but also to your run-time class path.
@@ -393,7 +393,7 @@ configurations {
 }
 
 dependencies {
-  codeGeneration 'net.karneim:pojobuilder:3.4.1'
+  codeGeneration 'net.karneim:pojobuilder:3.4.2'
 }
 compileJava.classpath += configurations.codeGeneration
 compileTestJava.classpath += configurations.codeGeneration
@@ -444,7 +444,7 @@ Do the following to enable PojoBuilder for your Eclipse project:
 * Open your project's properties dialog
 * Navigate to "Java Build Path" tree node
 * Open the "Libraries" tab
-* Add `pojobuilder-3.4.1-annotations.jar` to your project classpath
+* Add `pojobuilder-3.4.2-annotations.jar` to your project classpath
 * Navigate to "Java Compiler / Annotation Processing" tree node
 * Check "Enable project specific settings"
 * Check "Enable annotation processing"
@@ -453,7 +453,7 @@ Do the following to enable PojoBuilder for your Eclipse project:
 * Navigate to "Java Compiler / Annotation Processing / Factory Path" tree node
 * Check "Enable project specific settings"
 * Click "Add JARs..."
-* Add `pojobuiler-3.4.1-jar-with-dependencies.jar`
+* Add `pojobuiler-3.4.2-jar-with-dependencies.jar`
 * Click "OK"
 
 How To Build
