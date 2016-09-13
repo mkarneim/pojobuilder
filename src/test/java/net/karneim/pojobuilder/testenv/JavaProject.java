@@ -230,6 +230,7 @@ public class JavaProject {
       }
       optionList.addAll(Arrays.asList("-processor", buf.toString()));
     }
+    optionList.addAll(Arrays.asList("-encoding", "utf8"));
 
     JavaCompiler.CompilationTask task =
         compiler.getTask(null, fileManager, diagnostics, optionList, classnamesForProcessing, compilationUnits);
