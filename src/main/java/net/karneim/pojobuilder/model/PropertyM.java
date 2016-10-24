@@ -71,7 +71,7 @@ public class PropertyM {
       return null;
     }
     TypeM result = new TypeM(optionalType.getPackageName(), optionalType.getSimpleName())
-        .withTypeParameter(propertyType);
+        .withTypeParameter(new TypeWildcardM().whichExtends(propertyType));
     return result;
   }
 

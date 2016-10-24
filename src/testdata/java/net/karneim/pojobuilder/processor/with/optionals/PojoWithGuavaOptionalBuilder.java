@@ -51,7 +51,7 @@ public class PojoWithGuavaOptionalBuilder
    * @param value the default value
    * @return this builder
    */
-  public PojoWithGuavaOptionalBuilder withBoxedInt(Optional<Integer> optionalValue) {
+  public PojoWithGuavaOptionalBuilder withBoxedInt(Optional<? extends Integer> optionalValue) {
     return optionalValue.isPresent()?withBoxedInt(optionalValue.get()):self;
   }
 
@@ -73,7 +73,7 @@ public class PojoWithGuavaOptionalBuilder
    * @param value the default value
    * @return this builder
    */
-  public PojoWithGuavaOptionalBuilder withArray(Optional<int[]> optionalValue) {
+  public PojoWithGuavaOptionalBuilder withArray(Optional<? extends int[]> optionalValue) {
     return optionalValue.isPresent()?withArray(optionalValue.get()):self;
   }
 
