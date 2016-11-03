@@ -106,6 +106,7 @@ public class TestDslBase extends Assertions {
   public static <T> Builder<List<T>> $listOf(final Builder<? extends T>... elements) {
     return new Builder<List<T>>() {
 
+      @Override
       public List<T> build() {
         List<T> result = new ArrayList<T>(elements.length);
         for (Builder<? extends T> elementBuilder : elements) {
@@ -118,6 +119,7 @@ public class TestDslBase extends Assertions {
 
   public static <P> Builder<List<P>> $listOf(final int number, final Builder<P> prototype) {
     return new Builder<List<P>>() {
+      @Override
       public List<P> build() {
         List<P> result = new ArrayList<P>();
         for (int i = 0; i < number; ++i) {
@@ -133,6 +135,7 @@ public class TestDslBase extends Assertions {
     return new Builder<T>() {
       int idx = 0;
 
+      @Override
       public T build() {
         if (idx > elements.length - 1) {
           idx = 0;
@@ -146,6 +149,7 @@ public class TestDslBase extends Assertions {
     return new Builder<T>() {
       int idx = 0;
 
+      @Override
       public T build() {
         if (idx > elements.size() - 1) {
           idx = 0;
@@ -160,6 +164,7 @@ public class TestDslBase extends Assertions {
     return new Builder<T>() {
       int idx = 0;
 
+      @Override
       public T build() {
         if (idx > elements.length - 1) {
           idx = 0;

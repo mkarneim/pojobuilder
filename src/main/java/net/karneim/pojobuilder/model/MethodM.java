@@ -31,10 +31,9 @@ public class MethodM {
     return declaringClass;
   }
 
-  @SuppressWarnings("unchecked")
-  public <M extends MethodM> M declaredIn(TypeM type) {
+  public MethodM declaredIn(TypeM type) {
     this.declaringClass = type;
-    return (M) this;
+    return this;
   }
 
   public boolean isAccessibleFor(TypeM accessingClass) {
