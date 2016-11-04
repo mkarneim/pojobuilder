@@ -18,10 +18,12 @@ public class ArrayTypeM extends TypeM {
     return true;
   }
 
+  @Override
   public String getGenericTypeDefinition() {
     return componentType.getGenericTypeDefinition() + "[]";
   }
 
+  @Override
   public String getGenericType() {
     return componentType.getGenericType() + "[]";
   }

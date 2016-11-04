@@ -48,7 +48,7 @@ public class PojoWithGuavaOptionalBuilder
   /**
    * Optionally sets the default value for the {@link PojoWithGuavaOptional#boxedInt} property.
    *
-   * @param value the default value
+   * @param optionalValue the optional default value
    * @return this builder
    */
   public PojoWithGuavaOptionalBuilder withBoxedInt(Optional<? extends Integer> optionalValue) {
@@ -70,7 +70,7 @@ public class PojoWithGuavaOptionalBuilder
   /**
    * Optionally sets the default value for the {@link PojoWithGuavaOptional#array} property.
    *
-   * @param value the default value
+   * @param optionalValue the optional default value
    * @return this builder
    */
   public PojoWithGuavaOptionalBuilder withArray(Optional<? extends int[]> optionalValue) {

@@ -390,7 +390,7 @@ public class BuilderSourceGenerator {
         .emitEmptyLine()
         .emitJavadoc(
             "Optionally sets the default value for the {@link %s#%s} property.\n\n"
-                + "@param value the default value\n"
+                + "@param optionalValue the optional default value\n"
                 + "@return this builder"
             , pojoTypeStr, prop.getPropertyName())
         .beginMethod(selfType.getGenericType(), withMethodName, EnumSet.of(PUBLIC), optionalParameterTypeStr, "optionalValue")
