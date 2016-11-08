@@ -20,13 +20,13 @@ public class AnnotationProcessor_Utf8_Test extends ProcessorTestSupport {
   @Test
   public void testShouldGenerateBuilderHavingUmlautCharacters() {
     // Given:
-    sourceFor(Änderung.class);
+    sourceFor(PojoWithUmlaut.class);
     // When:
     prj.compile();
     // Then:
     assertThat(prj)
-        .generatedSameSourceAs(ÄnderungBuilder.class)
-        .compiled(ÄnderungBuilder.class)
+        .generatedSameSourceAs(PojoWithUmlautBuilder.class)
+        .compiled(PojoWithUmlautBuilder.class)
         .reported(Compilation.Success);
   }
 }

@@ -5,6 +5,6 @@ import java.util.Date;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 @GeneratePojoBuilder
-public class Änderung {
+public class PojoWithUmlaut {
   public Date gültigAb;
 }

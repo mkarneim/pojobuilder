@@ -4,26 +4,26 @@ import java.util.Date;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
-public class ÄnderungBuilder
+public class PojoWithUmlautBuilder
     implements Cloneable {
-  protected ÄnderungBuilder self;
+  protected PojoWithUmlautBuilder self;
   protected Date value$gültigAb$java$util$Date;
   protected boolean isSet$gültigAb$java$util$Date;
 
   /**
-   * Creates a new {@link ÄnderungBuilder}.
+   * Creates a new {@link PojoWithUmlautBuilder}.
    */
-  public ÄnderungBuilder() {
-    self = (ÄnderungBuilder)this;
+  public PojoWithUmlautBuilder() {
+    self = (PojoWithUmlautBuilder)this;
   }
 
   /**
-   * Sets the default value for the {@link Änderung#gültigAb} property.
+   * Sets the default value for the {@link PojoWithUmlaut#gültigAb} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public ÄnderungBuilder withGültigAb(Date value) {
+  public PojoWithUmlautBuilder withGültigAb(Date value) {
     this.value$gültigAb$java$util$Date = value;
     this.isSet$gültigAb$java$util$Date = true;
     return self;
@@ -37,7 +37,7 @@ public class ÄnderungBuilder
   @Override
   public Object clone() {
     try {
-      ÄnderungBuilder result = (ÄnderungBuilder)super.clone();
+      PojoWithUmlautBuilder result = (PojoWithUmlautBuilder)super.clone();
       result.self = result;
       return result;
     } catch (CloneNotSupportedException e) {
@@ -50,18 +50,18 @@ public class ÄnderungBuilder
    *
    * @return the clone
    */
-  public ÄnderungBuilder but() {
-    return (ÄnderungBuilder)clone();
+  public PojoWithUmlautBuilder but() {
+    return (PojoWithUmlautBuilder)clone();
   }
 
   /**
-   * Creates a new {@link Änderung} based on this builder's settings.
+   * Creates a new {@link PojoWithUmlaut} based on this builder's settings.
    *
-   * @return the created Änderung
+   * @return the created PojoWithUmlaut
    */
-  public Änderung build() {
+  public PojoWithUmlaut build() {
     try {
-      Änderung result = new Änderung();
+      PojoWithUmlaut result = new PojoWithUmlaut();
       if (isSet$gültigAb$java$util$Date) {
         result.gültigAb = value$gültigAb$java$util$Date;
       }
