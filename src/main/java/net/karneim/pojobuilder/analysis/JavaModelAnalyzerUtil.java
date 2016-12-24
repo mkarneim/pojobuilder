@@ -54,7 +54,7 @@ public class JavaModelAnalyzerUtil {
 
   /**
    * Returns the classname (without any package qualifier) of the given type element.
-   * 
+   *
    * @param typeElem the type element
    * @return the classname of the given type element
    */
@@ -70,7 +70,7 @@ public class JavaModelAnalyzerUtil {
 
   /**
    * Returns the Java package the given type (or it's outer type) belongs to.
-   * 
+   *
    * @param type the type
    * @return the Java package the given type belongs to
    */
@@ -80,7 +80,7 @@ public class JavaModelAnalyzerUtil {
 
   /**
    * Returns the Java package the given type element (or it's outer type) belongs to.
-   * 
+   *
    * @param typeElem the type element
    * @return the Java package the given type element belongs to
    */
@@ -97,7 +97,7 @@ public class JavaModelAnalyzerUtil {
 
   /**
    * Returns the top-level Java class that contains the given element.
-   * 
+   *
    * @param elem the element
    * @return the top-level Java class that contains the given element
    */
@@ -110,7 +110,7 @@ public class JavaModelAnalyzerUtil {
 
   /**
    * Returns true if the given element is accessible for the given builder.
-   * 
+   *
    * @param el the element
    * @param builderM the builder
    * @return true if the given element is accessible
@@ -134,7 +134,7 @@ public class JavaModelAnalyzerUtil {
 
   /**
    * Returns true if the given element is marked with a 'static' modifier.
-   * 
+   *
    * @param el the element
    * @return true if the given element is marked with a 'static' modifier
    */
@@ -144,35 +144,33 @@ public class JavaModelAnalyzerUtil {
 
   /**
    * Returns true if the given element is a Setter-method.
-   * 
+   *
    * @param el the element
    * @return true if the given element is a Setter-method
    */
   public boolean isSetterMethod(ExecutableElement el) {
     String methodName = el.getSimpleName().toString();
-    TypeMirror retType = el.getReturnType();
     return methodName.startsWith(SET) && methodName.length() > SET.length()
-        && retType.getKind() == VOID && el.getParameters().size() == 1;
+        && el.getParameters().size() == 1;
   }
 
   /**
    * Returns true if the given element is a Getter-method.
-   * 
+   *
    * @param el the element
    * @return true if the given element is a Getter-method
    */
   public boolean isGetterMethod(ExecutableElement el) {
     String methodName = el.getSimpleName().toString();
     TypeMirror retType = el.getReturnType();
-    return ((methodName.startsWith(GET) && methodName.length() > GET.length()) || (methodName
-        .startsWith(IS) && methodName.length() > IS.length()))
-        && retType.getKind() != VOID
-        && el.getParameters().size() == 0;
+    return ((methodName.startsWith(GET) && methodName.length() > GET.length())
+        || (methodName.startsWith(IS) && methodName.length() > IS.length()))
+        && retType.getKind() != VOID && el.getParameters().size() == 0;
   }
 
   /**
    * Returns whether the given element is directly declared in {@link Object}.
-   * 
+   *
    * @param el the element
    * @return true if the element is declared in {@link Object}
    */
@@ -187,7 +185,7 @@ public class JavaModelAnalyzerUtil {
 
   /**
    * Returns the name of the property that is accessed by the given [G|S]etter method.
-   * 
+   *
    * @param methodEl the method element
    * @return the name of the property
    */
@@ -207,14 +205,14 @@ public class JavaModelAnalyzerUtil {
       name = firstCharToLowerCase(name);
       return name;
     } else {
-      throw new IllegalArgumentException(String.format("Not a setter or getter method name: %s!",
-          name));
+      throw new IllegalArgumentException(
+          String.format("Not a setter or getter method name: %s!", name));
     }
   }
 
   /**
    * Returns a copy of the given text where the first character is a lower case letter.
-   * 
+   *
    * @param text the text
    * @return a copy of the text with first letter lower case
    */
@@ -227,7 +225,7 @@ public class JavaModelAnalyzerUtil {
   /**
    * Returns the effective type of the given element when is is viewed as a member of the given
    * owner type.
-   * 
+   *
    * @param ownerType the owner type
    * @param element the element
    * @return the effective type of the given element
@@ -245,7 +243,7 @@ public class JavaModelAnalyzerUtil {
   /**
    * Returns true, if the given type element has a method called "build" with no parameters and
    * which has an actual return type that is compatible with the given return type.
-   * 
+   *
    * @param typeElement the type element
    * @param requiredReturnType the required return type (maybe {@link NoType})
    * @return true, if the type element has a build method
@@ -258,7 +256,7 @@ public class JavaModelAnalyzerUtil {
    * Returns true, if the given type element has a method with the given name and has an actual
    * return type that is compatible with the given return type, and has an actual parameter that is
    * compatible with the given parameter type.
-   * 
+   *
    * @param typeElement the type element
    * @param name the required name of the method
    * @param requiredReturnType the required return type (maybe {@link NoType}).
@@ -306,7 +304,7 @@ public class JavaModelAnalyzerUtil {
 
   /**
    * Returns true if the given type element defines a public no-args constructor.
-   * 
+   *
    * @param typeEl Type element.
    * @return true if the given type element defines a public no-args constructor
    */
@@ -327,7 +325,7 @@ public class JavaModelAnalyzerUtil {
 
   /**
    * Returns true if the given typeElement is a subtype of the given type parameter's upper bound.
-   * 
+   *
    * @param typeElement the type element
    * @param typeParamEl the type parameter element
    * @return true if the given typeElement is a subtype of the given type parameter's upper bound
@@ -344,7 +342,7 @@ public class JavaModelAnalyzerUtil {
 
   /**
    * Returns true if the given type parameter has an upper bound of type {@link Object}.
-   * 
+   *
    * @param typeParamEl the type parameter
    * @return true if the given type parameter has an upper bound of type {@link Object}
    */
@@ -361,7 +359,7 @@ public class JavaModelAnalyzerUtil {
 
   /**
    * Returns <code>true</code> if the given string is a valid Java identifier.
-   * 
+   *
    * @param string the string
    * @return <code>true</code> if the given string is a valid Java identifier
    */
@@ -382,7 +380,7 @@ public class JavaModelAnalyzerUtil {
    * Returns <code>true</code> if the given string is a valid Java package name.
    * <p>
    * This does not check if the package exists.
-   * 
+   *
    * @param string the string
    * @return <code>true</code> if the given string is a valid Java package name.
    */
@@ -405,7 +403,8 @@ public class JavaModelAnalyzerUtil {
     return result;
   }
 
-  private void findAnnotatedElements(List<Element> result, Element element, Class<?> annotationType) {
+  private void findAnnotatedElements(List<Element> result, Element element,
+      Class<?> annotationType) {
     switch (element.getKind()) {
       case CLASS:
         TypeElement typeEl = (TypeElement) element;
@@ -450,10 +449,8 @@ public class JavaModelAnalyzerUtil {
       return str;
     }
 
-    return new StringBuilder(strLen)
-        .append(Character.toLowerCase(firstChar))
-        .append(str.substring(1))
-        .toString();
+    return new StringBuilder(strLen).append(Character.toLowerCase(firstChar))
+        .append(str.substring(1)).toString();
   }
 
 }
