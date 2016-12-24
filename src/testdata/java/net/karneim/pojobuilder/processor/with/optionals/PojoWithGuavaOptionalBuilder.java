@@ -34,6 +34,16 @@ public class PojoWithGuavaOptionalBuilder
   }
 
   /**
+   * Optionally sets the default value for the {@link PojoWithGuavaOptional#primitiveInt} property.
+   *
+   * @param optionalValue the optional default value
+   * @return this builder
+   */
+  public PojoWithGuavaOptionalBuilder withPrimitiveInt(Optional<? extends Integer> optionalValue) {
+    return optionalValue.isPresent()?withPrimitiveInt(optionalValue.get()):self;
+  }
+
+  /**
    * Sets the default value for the {@link PojoWithGuavaOptional#boxedInt} property.
    *
    * @param value the default value

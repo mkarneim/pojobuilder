@@ -67,11 +67,17 @@ public class PropertyM {
    * @return null if there is no optional type available for this property
    */
   public TypeM getOptionalPropertyType(TypeM optionalType) {
-    if (propertyType.isPrimitive() || propertyType.getName().equals(optionalType.getName())) {
+    if (propertyType.getName().equals(optionalType.getName())) {
       return null;
     }
+    TypeM typeParam;
+    if (propertyType.isPrimitive()) {
+      typeParam = ((PrimitiveTypeM) propertyType).getBoxClass();
+    } else {
+      typeParam = propertyType;
+    }
     TypeM result = new TypeM(optionalType.getPackageName(), optionalType.getSimpleName())
-        .withTypeParameter(new TypeWildcardM().whichExtends(propertyType));
+        .withTypeParameter(new TypeWildcardM().whichExtends(typeParam));
     return result;
   }
 
