@@ -1,9 +1,7 @@
 package net.karneim.pojobuilder.analysis;
 
 import static javax.lang.model.element.ElementKind.CLASS;
-import static javax.lang.model.element.Modifier.PRIVATE;
-import static javax.lang.model.element.Modifier.PUBLIC;
-import static javax.lang.model.element.Modifier.STATIC;
+import static javax.lang.model.element.Modifier.*;
 import static javax.lang.model.type.TypeKind.VOID;
 
 import java.util.ArrayList;
@@ -434,6 +432,10 @@ public class JavaModelAnalyzerUtil {
       findAnnotatedElements(result, unit, annotationType);
     }
     return result;
+  }
+
+  public boolean isAbstract(TypeElement element) {
+    return element.getModifiers().contains(ABSTRACT);
   }
 
   private void findAnnotatedElements(List<Element> result, Element element,

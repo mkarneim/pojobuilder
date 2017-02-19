@@ -220,8 +220,13 @@ public class BuilderSourceGenerator {
     if (buildMethod.isOverrides()) {
       writer.emitAnnotation(Override.class);
     }
-    writer.beginMethod(pojoTypeDeclaration, buildMethod.getName(), buildMethod.getModifiers()).beginControlFlow("try");
+    writer.beginMethod(pojoTypeDeclaration, buildMethod.getName(), buildMethod.getModifiers());
+    if ( buildMethod.getModifiers().contains(ABSTRACT)) {
+      writer.endMethod();
+      return;
+    }
 
+    writer.beginControlFlow("try");
     if (!hasBuilderProperties) {
       if (factoryMethod == null) {
         String arguments =

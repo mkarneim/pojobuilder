@@ -42,7 +42,7 @@ public class JavaModelAnalyzer {
 
     TypeM pojoType = typeMFactory.getTypeM(input.getPojoType());
     result.getBuilderModel().setPojoType(pojoType);
-    result.getBuilderModel().setBuildMethod(new BuildMethodM());
+    processBuildMethod(result);
     processCloneMethod(result);
 
     if (input.getDirectives().isGenerationGap()) {
@@ -88,6 +88,15 @@ public class JavaModelAnalyzer {
     result.getBuilderModel().getProperties()
         .removePropertiesMatchingAnyOf(input.getDirectives().getExcludeProperties());
     return result;
+  }
+
+  private void processBuildMethod(Output output) {
+    if (javaModelAnalyzerUtil.isAbstract(output.getInput().getPojoElement())) {
+      output.getBuilderModel().setAbstract(true);
+      output.getBuilderModel().setBuildMethod(new BuildMethodM(Modifier.ABSTRACT));
+    } else {
+      output.getBuilderModel().setBuildMethod(new BuildMethodM());
+    }
   }
 
   private void setPropertiesMethodNames(Output output) {
