@@ -200,7 +200,6 @@ public class BuilderSourceGenerator_GenerateFieldPairsForEachProperty_Test exten
     logDebug(actual);
     String expected = loadResourceFromClasspath("ParameterizedGenericProperties.expected.txt");
 
-    System.out.println(actual);
     assertThat(actual).isEqualTo(expected);
   }
 
