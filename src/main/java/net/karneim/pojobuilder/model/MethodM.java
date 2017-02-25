@@ -12,6 +12,7 @@ public class MethodM {
   private String name;
   private Set<Modifier> modifiers;
   private TypeM declaringClass;
+  private boolean overrides;
 
   public MethodM(String name, Set<Modifier> modifiers) {
     super();
@@ -56,10 +57,18 @@ public class MethodM {
     return accessingClass.isInPackage(declaringClass.getPackageName());
   }
 
+  public boolean isOverrides() {
+    return overrides;
+  }
+
+  public void setOverrides(boolean value) {
+    this.overrides = value;
+  }
+
   @Override
   public String toString() {
     return "MethodM [name=" + name + ", modifiers=" + modifiers + ", declaringClass="
-        + declaringClass + "]";
+        + declaringClass + ", overrides="+overrides+"]";
   }
 
 

@@ -195,7 +195,7 @@ public class BuilderSourceGenerator {
          "Copies the values from the given pojo into this builder.\n\n"
         +"@param pojo\n"
         +"@return this builder")
-      .beginMethod(selfTypeDeclaration, copyMethodM.getName(), EnumSet.of(PUBLIC), pojoTypeDeclaration, "pojo");
+      .beginMethod(selfTypeDeclaration, copyMethodM.getName(), copyMethodM.getModifiers(), pojoTypeDeclaration, "pojo");
 
     PropertyListM getterProperties = properties.filterOutPropertiesReadableViaGetterCall(builderType);
     for( PropertyM prop : getterProperties) {
@@ -231,7 +231,7 @@ public class BuilderSourceGenerator {
     if (buildMethod.isOverrides()) {
       writer.emitAnnotation(Override.class);
     }
-    writer.beginMethod(pojoTypeDeclaration, "build", EnumSet.of(PUBLIC)).beginControlFlow("try");
+    writer.beginMethod(pojoTypeDeclaration, buildMethod.getName(), buildMethod.getModifiers()).beginControlFlow("try");
 
     if (!hasBuilderProperties) {
       if (factoryMethod == null) {
