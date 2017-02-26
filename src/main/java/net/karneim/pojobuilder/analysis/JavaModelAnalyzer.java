@@ -14,14 +14,7 @@ import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 
-import net.karneim.pojobuilder.model.BuildMethodM;
-import net.karneim.pojobuilder.model.CopyMethodM;
-import net.karneim.pojobuilder.model.ManualBuilderM;
-import net.karneim.pojobuilder.model.PropertyM;
-import net.karneim.pojobuilder.model.StaticFactoryMethodM;
-import net.karneim.pojobuilder.model.TypeListM;
-import net.karneim.pojobuilder.model.TypeM;
-import net.karneim.pojobuilder.model.ValidatorM;
+import net.karneim.pojobuilder.model.*;
 
 public class JavaModelAnalyzer {
 
@@ -50,6 +43,7 @@ public class JavaModelAnalyzer {
     TypeM pojoType = typeMFactory.getTypeM(input.getPojoType());
     result.getBuilderModel().setPojoType(pojoType);
     result.getBuilderModel().setBuildMethod(new BuildMethodM());
+    processCloneMethod(result);
 
     if (input.getDirectives().isGenerationGap()) {
       processBaseClass(result);
@@ -189,6 +183,10 @@ public class JavaModelAnalyzer {
     output.getInput().getOrginatingElements().add(javaModelAnalyzerUtil.getCompilationUnit(interfaceTypeElement));
   }
 
+  private void processCloneMethod(Output output) {
+    output.getBuilderModel().setCloneMethod(new CloneMethodM());
+  }
+
   private void processBaseClass(Output output) {
     TypeElement baseTypeElement = elements.getTypeElement(output.getInput().getDirectives().getBaseclassName());
     if (baseTypeElement.getModifiers().contains(Modifier.FINAL)) {
@@ -217,11 +215,20 @@ public class JavaModelAnalyzer {
       baseType.getTypeParameters().clear();
       baseType.getTypeParameters().add(output.getBuilderModel().getPojoType());
     }
+
     boolean hasBuildMethod =
         javaModelAnalyzerUtil.hasBuildMethod(baseTypeElement, output.getInput().getPojoElement().asType());
     if (hasBuildMethod) {
       output.getBuilderModel().getBuildMethod().setOverrides(true);
     }
+
+    ExecutableElement cloneMethod =
+        javaModelAnalyzerUtil.getMethod(baseTypeElement, "clone", elements.getTypeElement("java.lang.Object").asType(), null);
+    boolean throwsCloneException = javaModelAnalyzerUtil.hasThrows(cloneMethod, elements.getTypeElement("java.lang.CloneNotSupportedException"));
+    if (!throwsCloneException) {
+      output.getBuilderModel().getCloneMethod().setCatchesCloneException(false);
+    }
+
     output.getBuilderModel().setBaseType(baseType);
     output.getInput().getOrginatingElements().add(javaModelAnalyzerUtil.getCompilationUnit(baseTypeElement));
   }

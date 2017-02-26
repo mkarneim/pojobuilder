@@ -253,7 +253,7 @@ public class JavaModelAnalyzerUtil {
   }
 
   /**
-   * Returns true, if the given type element has a method with the given name and has an actual
+   * Finds a method, if the given type element has a method with the given name and has an actual
    * return type that is compatible with the given return type, and has an actual parameter that is
    * compatible with the given parameter type.
    *
@@ -262,9 +262,9 @@ public class JavaModelAnalyzerUtil {
    * @param requiredReturnType the required return type (maybe {@link NoType}).
    * @param requiredParamType the type of the required (first) parameter, or <code>null</code> if no
    *        parameter is required
-   * @return true, if the type element has the required method
+   * @return method if one matches or null
    */
-  public boolean hasMethod(TypeElement typeElement, String name, TypeMirror requiredReturnType,
+  public ExecutableElement getMethod(TypeElement typeElement, String name, TypeMirror requiredReturnType,
       TypeMirror requiredParamType) {
     List<? extends Element> memberEls = elements.getAllMembers(typeElement);
     List<ExecutableElement> methodEls = ElementFilter.methodsIn(memberEls);
@@ -297,7 +297,40 @@ public class JavaModelAnalyzerUtil {
           continue;
         }
       }
-      return true;
+      return methodEl;
+    }
+    return null;
+  }
+
+  /**
+   * Returns true, if the given type element has a method with the given name and has an actual
+   * return type that is compatible with the given return type, and has an actual parameter that is
+   * compatible with the given parameter type.
+   *
+   * @param typeElement the type element
+   * @param name the required name of the method
+   * @param requiredReturnType the required return type (maybe {@link NoType}).
+   * @param requiredParamType the type of the required (first) parameter, or <code>null</code> if no
+   *        parameter is required
+   * @return true, if the type element has the required method
+   */
+  public boolean hasMethod(TypeElement typeElement, String name, TypeMirror requiredReturnType,
+                           TypeMirror requiredParamType) {
+    return getMethod(typeElement, name, requiredReturnType, requiredParamType) != null;
+  }
+
+  /**
+   * Determines if a given method throws a given exception.
+   * @param method the method to analyse
+   * @param throwable throwable type to test for
+   * @return true if the method throws this exception or anything assignable to it
+   */
+  public boolean hasThrows(ExecutableElement method, TypeElement throwable) {
+    TypeMirror throwableType = throwable.asType();
+    for (TypeMirror candidate : method.getThrownTypes()) {
+      if (types.isAssignable(candidate, throwableType)) {
+        return true;
+      }
     }
     return false;
   }

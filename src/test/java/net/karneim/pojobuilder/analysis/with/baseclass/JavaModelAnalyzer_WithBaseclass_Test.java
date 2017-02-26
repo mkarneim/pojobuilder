@@ -6,6 +6,7 @@ import net.karneim.pojobuilder.analysis.with.AnalysisTestSupport;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.CoreMatchers.is;
 
 public class JavaModelAnalyzer_WithBaseclass_Test extends AnalysisTestSupport {
 
@@ -22,6 +23,7 @@ public class JavaModelAnalyzer_WithBaseclass_Test extends AnalysisTestSupport {
         "net.karneim.pojobuilder.analysis.with.baseclass.PojoBuilder");
     assertThat(output.getBuilderModel().getBaseType().getName()).isEqualTo(
         "net.karneim.pojobuilder.analysis.with.baseclass.BuilderBaseclass");
+    assertThat(output.getBuilderModel().getCloneMethod().isCatchesCloneException()).isFalse();
   }
 
 }
