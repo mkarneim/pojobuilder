@@ -6,6 +6,7 @@ import java.io.StringWriter;
 
 import net.karneim.pojobuilder.model.BuildMethodM;
 import net.karneim.pojobuilder.model.BuilderM;
+import net.karneim.pojobuilder.model.CloneMethodM;
 import net.karneim.pojobuilder.model.TypeM;
 import net.karneim.pojobuilder.testenv.TestBase;
 
@@ -37,6 +38,7 @@ public class BuilderSourceGenerator_GenerateWithBaseclass_Test extends TestBase 
     builder.setType(new TypeM("com.example.output","SampleBuilder"));
     builder.setSelfType(builder.getType());
     builder.setBaseType(new TypeM("com.example.base","BaseBuilder"));
+    builder.setCloneMethod(new CloneMethodM());
     builder.setBuildMethod( new BuildMethodM());
     
     // When:

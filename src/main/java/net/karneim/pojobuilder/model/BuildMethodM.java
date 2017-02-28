@@ -1,22 +1,18 @@
 package net.karneim.pojobuilder.model;
 
-public class BuildMethodM {
-  private boolean overrides;
+import javax.lang.model.element.Modifier;
 
-  public BuildMethodM() {}
+import java.util.EnumSet;
 
-  public boolean isOverrides() {
-    return overrides;
+import static java.util.Collections.singleton;
+
+public class BuildMethodM extends MethodM {
+
+  public BuildMethodM() {
+    super("build", singleton(Modifier.PUBLIC));
   }
 
-  public BuildMethodM setOverrides(boolean value) {
-    this.overrides = value;
-    return this;
+  public BuildMethodM(Modifier modifier) {
+    super("build", EnumSet.of(Modifier.PUBLIC, modifier));
   }
-
-  @Override
-  public String toString() {
-    return "BuildMethodM [overrides=" + overrides + "]";
-  }
-
 }

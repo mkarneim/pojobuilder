@@ -7,17 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.StringWriter;
 import java.util.EnumSet;
 
-import net.karneim.pojobuilder.model.BuildMethodM;
-import net.karneim.pojobuilder.model.BuilderM;
-import net.karneim.pojobuilder.model.ConstructorParameterM;
-import net.karneim.pojobuilder.model.CopyMethodM;
-import net.karneim.pojobuilder.model.FieldAccessM;
-import net.karneim.pojobuilder.model.MethodM;
-import net.karneim.pojobuilder.model.PrimitiveTypeM;
-import net.karneim.pojobuilder.model.PropertyListM;
-import net.karneim.pojobuilder.model.PropertyM;
-import net.karneim.pojobuilder.model.SetterMethodM;
-import net.karneim.pojobuilder.model.TypeM;
+import net.karneim.pojobuilder.model.*;
 import net.karneim.pojobuilder.testenv.TestBase;
 
 import org.junit.Before;
@@ -62,6 +52,7 @@ public class BuilderSourceGenerator_GenerateCopyMethod_Test extends TestBase {
     builder.setType(new TypeM("com.example.output","SampleBuilder"));
     builder.setSelfType(builder.getType());
     builder.setCopyMethod(new CopyMethodM("copy"));
+    builder.setCloneMethod(new CloneMethodM());
     builder.setBuildMethod( new BuildMethodM());
 
     // Assume: properties are returned in insertion order
@@ -102,6 +93,7 @@ public class BuilderSourceGenerator_GenerateCopyMethod_Test extends TestBase {
     builder.setType(new TypeM("com.example.output","SampleBuilder"));
     builder.setSelfType(builder.getType());
     builder.setCopyMethod(new CopyMethodM("copy"));
+    builder.setCloneMethod(new CloneMethodM());
     builder.setBuildMethod( new BuildMethodM());
 
     // Assume: properties are returned in insertion order

@@ -16,10 +16,10 @@ import javax.lang.model.util.Types;
 
 import net.karneim.pojobuilder.model.BuildMethodM;
 import net.karneim.pojobuilder.model.CopyMethodM;
+import net.karneim.pojobuilder.model.CloneMethodM;
 import net.karneim.pojobuilder.model.ManualBuilderM;
 import net.karneim.pojobuilder.model.PropertyM;
 import net.karneim.pojobuilder.model.StaticFactoryMethodM;
-import net.karneim.pojobuilder.model.TypeListM;
 import net.karneim.pojobuilder.model.TypeM;
 import net.karneim.pojobuilder.model.ValidatorM;
 
@@ -49,32 +49,31 @@ public class JavaModelAnalyzer {
 
     TypeM pojoType = typeMFactory.getTypeM(input.getPojoType());
     result.getBuilderModel().setPojoType(pojoType);
-    result.getBuilderModel().setBuildMethod(new BuildMethodM());
+    processBuildMethod(result);
+    processCloneMethod(result);
+
+    processBaseClass(result);
+    processGenericBuilderInterface(result);
+
+    TypeM[] pojoGenerics = pojoType.getTypeParameters().distinctTypeVariables().asArray();
 
     if (input.getDirectives().isGenerationGap()) {
-      processBaseClass(result);
-      processGenericBuilderInterface(result);
-
       result.getBuilderModel().setType(
-          new TypeM(constructBuilderPackage(input), constructAbstractBuilderClassname(input))
-              .withTypeParameter(pojoType.getTypeParameters().collectDistinctTypeVariablesRecursevly(new TypeListM())
-                  .asArray()));
+          constructBuilderType(constructBuilderPackage(input), constructAbstractBuilderClassname(input), pojoGenerics)
+      );
       result.getBuilderModel().setAbstract(true);
 
       result.setManualBuilderModel(new ManualBuilderM());
       result.getManualBuilderModel().setType(
-          new TypeM(constructBuilderPackage(input), constructBuilderClassname(input)).withTypeParameter(pojoType
-              .getTypeParameters().collectDistinctTypeVariablesRecursevly(new TypeListM()).asArray()));
+          constructBuilderType(constructBuilderPackage(input), constructBuilderClassname(input), pojoGenerics)
+      );
       result.getManualBuilderModel().setBaseType(result.getBuilderModel().getType());
       result.getManualBuilderModel().setPojoType(pojoType);
       result.getBuilderModel().setSelfType(result.getManualBuilderModel().getType());
     } else {
-      processBaseClass(result);
-      processGenericBuilderInterface(result);
-
       result.getBuilderModel().setType(
-          new TypeM(constructBuilderPackage(input), constructBuilderClassname(input)).withTypeParameter(pojoType
-              .getTypeParameters().collectDistinctTypeVariablesRecursevly(new TypeListM()).asArray()));
+          constructBuilderType(constructBuilderPackage(input), constructBuilderClassname(input), pojoGenerics)
+      );
       result.getBuilderModel().setSelfType(result.getBuilderModel().getType());
     }
 
@@ -94,6 +93,22 @@ public class JavaModelAnalyzer {
     result.getBuilderModel().getProperties()
         .removePropertiesMatchingAnyOf(input.getDirectives().getExcludeProperties());
     return result;
+  }
+
+  private TypeM constructBuilderType(String packagename, String classname, TypeM[] pojoGenerics) {
+    return new TypeM(packagename, classname)
+        .withTypeParameter(pojoGenerics);
+  }
+
+  private void processBuildMethod(Output output) {
+    if (javaModelAnalyzerUtil.isAbstract(output.getInput().getPojoElement()) &&
+        output.getInput().getAnnotatedElement().getKind() != ElementKind.METHOD) {
+      output.getBuilderModel().setAbstract(true);
+      output.getBuilderModel().setBuildMethod(new BuildMethodM(Modifier.ABSTRACT));
+    } else {
+      output.getBuilderModel().setBuildMethod(new BuildMethodM());
+
+    }
   }
 
   private void setPropertiesMethodNames(Output output) {
@@ -189,6 +204,10 @@ public class JavaModelAnalyzer {
     output.getInput().getOrginatingElements().add(javaModelAnalyzerUtil.getCompilationUnit(interfaceTypeElement));
   }
 
+  private void processCloneMethod(Output output) {
+    output.getBuilderModel().setCloneMethod(new CloneMethodM());
+  }
+
   private void processBaseClass(Output output) {
     TypeElement baseTypeElement = elements.getTypeElement(output.getInput().getDirectives().getBaseclassName());
     if (baseTypeElement.getModifiers().contains(Modifier.FINAL)) {
@@ -217,11 +236,20 @@ public class JavaModelAnalyzer {
       baseType.getTypeParameters().clear();
       baseType.getTypeParameters().add(output.getBuilderModel().getPojoType());
     }
+
     boolean hasBuildMethod =
         javaModelAnalyzerUtil.hasBuildMethod(baseTypeElement, output.getInput().getPojoElement().asType());
     if (hasBuildMethod) {
       output.getBuilderModel().getBuildMethod().setOverrides(true);
     }
+
+    ExecutableElement cloneMethod =
+        javaModelAnalyzerUtil.getMethod(baseTypeElement, "clone", elements.getTypeElement("java.lang.Object").asType(), null);
+    boolean throwsCloneException = javaModelAnalyzerUtil.hasThrows(cloneMethod, elements.getTypeElement("java.lang.CloneNotSupportedException"));
+    if (!throwsCloneException) {
+      output.getBuilderModel().getCloneMethod().setCatchesCloneException(false);
+    }
+
     output.getBuilderModel().setBaseType(baseType);
     output.getInput().getOrginatingElements().add(javaModelAnalyzerUtil.getCompilationUnit(baseTypeElement));
   }

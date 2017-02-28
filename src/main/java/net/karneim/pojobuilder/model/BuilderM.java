@@ -10,6 +10,7 @@ public class BuilderM {
   private PropertyListM properties = new PropertyListM();
   private FactoryMethodM factoryMethod;
   private CopyMethodM copyMethod;
+  private CloneMethodM cloneMethod;
   private BuildMethodM buildMethod;
   private ValidatorM validator;
   private TypeM interfaceType;
@@ -79,6 +80,14 @@ public class BuilderM {
 
   public void setCopyMethod(CopyMethodM copyMethod) {
     this.copyMethod = copyMethod;
+  }
+
+  public CloneMethodM getCloneMethod() {
+    return cloneMethod;
+  }
+
+  public void setCloneMethod(CloneMethodM cloneMethod) {
+    this.cloneMethod = cloneMethod;
   }
 
   public BuildMethodM getBuildMethod() {

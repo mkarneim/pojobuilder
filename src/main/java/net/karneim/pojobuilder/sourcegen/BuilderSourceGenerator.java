@@ -14,18 +14,7 @@ import javax.lang.model.element.Modifier;
 
 import com.squareup.javawriter.JavaWriter;
 
-import net.karneim.pojobuilder.model.ArgumentListM;
-import net.karneim.pojobuilder.model.ArrayTypeM;
-import net.karneim.pojobuilder.model.BuildMethodM;
-import net.karneim.pojobuilder.model.BuilderM;
-import net.karneim.pojobuilder.model.CopyMethodM;
-import net.karneim.pojobuilder.model.FactoryMethodM;
-import net.karneim.pojobuilder.model.ImportTypesM;
-import net.karneim.pojobuilder.model.PropertyListM;
-import net.karneim.pojobuilder.model.PropertyM;
-import net.karneim.pojobuilder.model.StaticFactoryMethodM;
-import net.karneim.pojobuilder.model.TypeM;
-import net.karneim.pojobuilder.model.ValidatorM;
+import net.karneim.pojobuilder.model.*;
 import net.karneim.pojobuilder.model.WriteAccess.Type;
 
 public class BuilderSourceGenerator {
@@ -52,7 +41,7 @@ public class BuilderSourceGenerator {
     generateSource(builder.getType(), builder.isAbstract(), builder.getSelfType(), builder.getBaseType(),
         builder.getInterfaceType(), builder.hasBuilderProperties(), builder.getPojoType(), builder.getProperties(),
         builder.getBuildMethod(), builder.getFactoryMethod(), builder.getCopyMethod(), builder.getValidator(),
-        builder.getOptionalType(), builder.getStaticFactoryMethod());
+        builder.getOptionalType(), builder.getStaticFactoryMethod(), builder.getCloneMethod());
   }
 
   private void checkNotNull(Object obj, String errorMessage) {
@@ -64,7 +53,7 @@ public class BuilderSourceGenerator {
   private void generateSource(TypeM builderType, boolean isAbstract, TypeM selfType, TypeM baseType,
       TypeM interfaceType, boolean hasBuilderProperties, TypeM pojoType, PropertyListM properties,
       BuildMethodM buildMethod, FactoryMethodM factoryMethod, CopyMethodM copyMethodM, ValidatorM validator,
-      TypeM optionalType, StaticFactoryMethodM staticFactoryMethod) throws IOException {
+      TypeM optionalType, StaticFactoryMethodM staticFactoryMethod, CloneMethodM cloneMethod) throws IOException {
     properties = new PropertyListM(properties);
     properties.filterOutNonWritableProperties(builderType);
 
@@ -141,7 +130,7 @@ public class BuilderSourceGenerator {
         emitWithMethodUsingBuilderInterface(builderType, selfType, interfaceType, pojoType, prop);
       }
     }
-    emitCloneMethod(selfType);
+    emitCloneMethod(selfType, cloneMethod);
     emitButMethod(selfType);
     if ( copyMethodM != null) {
       if ( properties.hasPropertiesReadablyBy(builderType)) {
@@ -195,7 +184,7 @@ public class BuilderSourceGenerator {
          "Copies the values from the given pojo into this builder.\n\n"
         +"@param pojo\n"
         +"@return this builder")
-      .beginMethod(selfTypeDeclaration, copyMethodM.getName(), EnumSet.of(PUBLIC), pojoTypeDeclaration, "pojo");
+      .beginMethod(selfTypeDeclaration, copyMethodM.getName(), copyMethodM.getModifiers(), pojoTypeDeclaration, "pojo");
 
     PropertyListM getterProperties = properties.filterOutPropertiesReadableViaGetterCall(builderType);
     for( PropertyM prop : getterProperties) {
@@ -231,8 +220,13 @@ public class BuilderSourceGenerator {
     if (buildMethod.isOverrides()) {
       writer.emitAnnotation(Override.class);
     }
-    writer.beginMethod(pojoTypeDeclaration, "build", EnumSet.of(PUBLIC)).beginControlFlow("try");
+    writer.beginMethod(pojoTypeDeclaration, buildMethod.getName(), buildMethod.getModifiers());
+    if ( buildMethod.getModifiers().contains(ABSTRACT)) {
+      writer.endMethod();
+      return;
+    }
 
+    writer.beginControlFlow("try");
     if (!hasBuilderProperties) {
       if (factoryMethod == null) {
         String arguments =
@@ -445,7 +439,7 @@ public class BuilderSourceGenerator {
     // @formatter:on
   }
 
-  private void emitCloneMethod(TypeM selfType) throws IOException {
+  private void emitCloneMethod(TypeM selfType, CloneMethodM cloneMethod) throws IOException {
     String builderTypeStr = writer.compressType(selfType.getGenericType());
     // @formatter:off
     writer
@@ -454,20 +448,26 @@ public class BuilderSourceGenerator {
           "Returns a clone of this builder.\n\n"
         + "@return the clone")
       .emitAnnotation(Override.class)
-      .beginMethod("Object", "clone", EnumSet.of(PUBLIC))
-        .beginControlFlow("try");
-    if ( selfType.isGeneric()) {
-      writer
-          .emitAnnotation(SuppressWarnings.class, JavaWriter.stringLiteral("unchecked"));
-    }
-    writer
+      .beginMethod("Object", cloneMethod.getName(), cloneMethod.getModifiers());
+        if( cloneMethod.isCatchesCloneException()) {
+          writer.beginControlFlow("try");
+        }
+
+        if ( selfType.isGeneric()) {
+          writer
+              .emitAnnotation(SuppressWarnings.class, JavaWriter.stringLiteral("unchecked"));
+        }
+        writer
           .emitStatement("%s result = (%s)super.clone()", builderTypeStr, builderTypeStr)
           .emitStatement("result.self = result")
-          .emitStatement("return result")
-        .nextControlFlow("catch (CloneNotSupportedException e)")
-          .emitStatement("throw new InternalError(e.getMessage())")
-        .endControlFlow()
-      .endMethod();
+          .emitStatement("return result");
+        if( cloneMethod.isCatchesCloneException()) {
+          writer
+            .nextControlFlow("catch (CloneNotSupportedException e)")
+            .emitStatement("throw new InternalError(e.getMessage())")
+            .endControlFlow();
+        }
+      writer.endMethod();
     // @formatter:on
   }
 

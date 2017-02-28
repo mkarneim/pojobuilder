@@ -65,16 +65,21 @@ public class TypeListM extends ArrayList<TypeM> {
     return this.toArray(new TypeM[size()]);
   }
 
-  public TypeListM collectDistinctTypeVariablesRecursevly(TypeListM result) {
+  public TypeListM distinctTypeVariables() {
+    TypeListM distinct = new TypeListM();
+    collectDistinctTypeVariablesRecursively(distinct);
+    return distinct;
+  }
+
+  private void collectDistinctTypeVariablesRecursively(TypeListM result) {
     for (TypeM type : this) {
       if (type.isTypeVariable()) {
         if (!result.contains(type)) {
           result.add(type);
         }
       } else {
-        type.getTypeParameters().collectDistinctTypeVariablesRecursevly(result);
+        type.getTypeParameters().collectDistinctTypeVariablesRecursively(result);
       }
     }
-    return result;
   }
 }
