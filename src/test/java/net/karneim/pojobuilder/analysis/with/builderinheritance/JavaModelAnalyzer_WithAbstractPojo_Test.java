@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class JavaModelAnalyzer_WithAbstractPojo_Test extends AnalysisTestSupport {
 
   @Test
-  public void testAnalyze() {
+  public void testAbstractPojoGeneratesAbstractBuilder() {
     // Given:
     Input input = inputFor(AbstractPojo.class);
     // When:
@@ -22,6 +22,17 @@ public class JavaModelAnalyzer_WithAbstractPojo_Test extends AnalysisTestSupport
     // Then:
     assertThat(output.getBuilderModel().isAbstract()).isTrue();
     assertThat(output.getBuilderModel().getBuildMethod().getModifiers()).contains(Modifier.ABSTRACT);
+  }
+
+  @Test
+  public void testAbstractPojoFromFactoryGeneratesConcreteBuilder() {
+    // Given:
+    Input input = inputFor(AbstractPojo.class, "instantiate");
+    // When:
+    Output output = underTest.analyze(input);
+    // Then:
+    assertThat(output.getBuilderModel().isAbstract()).isFalse();
+    assertThat(output.getBuilderModel().getBuildMethod().getModifiers()).doesNotContain(Modifier.ABSTRACT);
   }
 
 }

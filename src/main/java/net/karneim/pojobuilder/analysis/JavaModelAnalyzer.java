@@ -101,11 +101,13 @@ public class JavaModelAnalyzer {
   }
 
   private void processBuildMethod(Output output) {
-    if (javaModelAnalyzerUtil.isAbstract(output.getInput().getPojoElement())) {
+    if (javaModelAnalyzerUtil.isAbstract(output.getInput().getPojoElement()) &&
+        output.getInput().getAnnotatedElement().getKind() != ElementKind.METHOD) {
       output.getBuilderModel().setAbstract(true);
       output.getBuilderModel().setBuildMethod(new BuildMethodM(Modifier.ABSTRACT));
     } else {
       output.getBuilderModel().setBuildMethod(new BuildMethodM());
+
     }
   }
 
