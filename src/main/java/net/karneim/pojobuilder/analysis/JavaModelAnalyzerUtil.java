@@ -32,6 +32,7 @@ import net.karneim.pojobuilder.model.BuilderM;
 public class JavaModelAnalyzerUtil {
 
   private static final String BUILD_METHOD_NAME = "build";
+  private static final String GET_METHOD_NAME = "get";
   private static final String IS = "is";
   private static final String GET = "get";
   private static final String SET = "set";
@@ -250,6 +251,18 @@ public class JavaModelAnalyzerUtil {
    */
   public boolean hasBuildMethod(TypeElement typeElement, TypeMirror requiredReturnType) {
     return hasMethod(typeElement, BUILD_METHOD_NAME, requiredReturnType, null);
+  }
+  
+  /**
+   * Returns true, if the given type element has a method called "get" with no parameters and
+   * which has an actual return type that is compatible with the given return type.
+   *
+   * @param interfaceTypeElement
+   * @param asType
+   * @return
+   */
+  public boolean hasGetMethod(TypeElement typeElement, TypeMirror requiredReturnType) {
+    return hasMethod(typeElement, GET_METHOD_NAME, requiredReturnType, null);
   }
 
   /**

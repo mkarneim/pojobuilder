@@ -26,7 +26,7 @@ public @interface GeneratePojoBuilder {
 
   /**
    * Specifies the generic builder interface of the generated builder. This interface must declare exactly one type
-   * parameter and a <code>build()</code> method having this type as return type.
+   * parameter and a <code>build()</code> (or alternatively a <code>get()</code>) method having this type as return type.
    * <p>
    * For example:
    * 

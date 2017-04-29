@@ -231,7 +231,7 @@ public class BuilderSourceGenerator {
     if (buildMethod.isOverrides()) {
       writer.emitAnnotation(Override.class);
     }
-    writer.beginMethod(pojoTypeDeclaration, "build", EnumSet.of(PUBLIC)).beginControlFlow("try");
+    writer.beginMethod(pojoTypeDeclaration, buildMethod.getName(), EnumSet.of(PUBLIC)).beginControlFlow("try");
 
     if (!hasBuilderProperties) {
       if (factoryMethod == null) {
@@ -251,7 +251,7 @@ public class BuilderSourceGenerator {
         StringBuilder arguments = new StringBuilder();
         for (PropertyM prop : constructorArguments.sortByPosition().getPropertyList()) {
           String parameterFieldName = "_" + prop.getConstructorParameter().getName();
-          emitParameterAssignmentWithBuilderProperty(prop, parameterFieldName);
+          emitParameterAssignmentWithBuilderProperty(prop, parameterFieldName, buildMethod.getName());
           if (arguments.length() > 0) {
             arguments.append(", ");
           }
@@ -264,7 +264,7 @@ public class BuilderSourceGenerator {
         StringBuilder arguments = new StringBuilder();
         for (PropertyM prop : factoryMethodArguments.sortByPosition().getPropertyList()) {
           String parameterFieldName = "_" + prop.getFactoryMethodParameter().getName();
-          emitParameterAssignmentWithBuilderProperty(prop, parameterFieldName);
+          emitParameterAssignmentWithBuilderProperty(prop, parameterFieldName, buildMethod.getName());
           if (arguments.length() > 0) {
             arguments.append(", ");
           }
@@ -281,8 +281,8 @@ public class BuilderSourceGenerator {
       writer.beginControlFlow("if (%s)", prop.getIsSetFieldName()).emitStatement("result.%s(%s)",
           prop.getSetterMethod().getName(), prop.getValueFieldName());
       if (hasBuilderProperties) {
-        writer.nextControlFlow("else if (%s!=null)", prop.getBuilderFieldName()).emitStatement("result.%s(%s.build())",
-            prop.getSetterMethod().getName(), prop.getBuilderFieldName());
+        writer.nextControlFlow("else if (%s!=null)", prop.getBuilderFieldName()).emitStatement("result.%s(%s.%s())",
+            prop.getSetterMethod().getName(), prop.getBuilderFieldName(), buildMethod.getName());
       }
       writer.endControlFlow();
     }
@@ -292,8 +292,8 @@ public class BuilderSourceGenerator {
       writer.beginControlFlow("if (%s)", prop.getIsSetFieldName()).emitStatement("result.%s = %s",
           prop.getPropertyName(), prop.getValueFieldName());
       if (hasBuilderProperties) {
-        writer.nextControlFlow("else if (%s!=null)", prop.getBuilderFieldName()).emitStatement("result.%s = %s.build()",
-            prop.getPropertyName(), prop.getBuilderFieldName());
+        writer.nextControlFlow("else if (%s!=null)", prop.getBuilderFieldName()).emitStatement("result.%s = %s.%s()",
+            prop.getPropertyName(), prop.getBuilderFieldName(), buildMethod.getName());
       }
       writer.endControlFlow();
     }
@@ -306,11 +306,11 @@ public class BuilderSourceGenerator {
         .emitStatement("throw new java.lang.reflect.UndeclaredThrowableException(ex)").endControlFlow().endMethod();
   }
 
-  private void emitParameterAssignmentWithBuilderProperty(PropertyM prop, String parameterFieldName)
+  private void emitParameterAssignmentWithBuilderProperty(PropertyM prop, String parameterFieldName, String buildMethodName)
       throws IOException {
     writer.emitStatement("%s %s", writer.compressType(prop.getPropertyType().getGenericType()), parameterFieldName);
     writer.beginControlFlow("if (!%s && %s!=null)", prop.getIsSetFieldName(), prop.getBuilderFieldName())
-        .emitStatement("%s = %s.build()", parameterFieldName, prop.getBuilderFieldName());
+        .emitStatement("%s = %s.%s()", parameterFieldName, prop.getBuilderFieldName(), buildMethodName);
     writer.nextControlFlow("else").emitStatement("%s = %s", parameterFieldName, prop.getValueFieldName());
     writer.endControlFlow();
   }
