@@ -277,9 +277,9 @@ public class JavaModelAnalyzerUtil {
    * Returns true, if the given type element has a method called "get" with no parameters and which
    * has an actual return type that is compatible with the given return type.
    *
-   * @param interfaceTypeElement
-   * @param asType
-   * @return
+   * @param typeElement the type element
+   * @param requiredReturnType the required return type (maybe {@link NoType}).
+   * @return true, if the type element has the required method
    */
   public boolean hasGetMethod(TypeElement typeElement, TypeMirror requiredReturnType) {
     return hasMethod(typeElement, GET_METHOD_NAME, requiredReturnType, null);
