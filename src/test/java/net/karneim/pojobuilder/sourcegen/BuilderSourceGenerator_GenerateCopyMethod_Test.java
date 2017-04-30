@@ -9,6 +9,7 @@ import java.util.EnumSet;
 
 import net.karneim.pojobuilder.model.BuildMethodM;
 import net.karneim.pojobuilder.model.BuilderM;
+import net.karneim.pojobuilder.model.CloneMethodM;
 import net.karneim.pojobuilder.model.ConstructorParameterM;
 import net.karneim.pojobuilder.model.CopyMethodM;
 import net.karneim.pojobuilder.model.FieldAccessM;
@@ -63,6 +64,7 @@ public class BuilderSourceGenerator_GenerateCopyMethod_Test extends TestBase {
     builder.setSelfType(builder.getType());
     builder.setCopyMethod(new CopyMethodM("copy"));
     builder.setBuildMethod( new BuildMethodM());
+    builder.setCloneMethod( new CloneMethodM().setShouldCatchCloneNotSupportedException(true));
 
     // Assume: properties are returned in insertion order
     assertThat(builder.getProperties().iterator()).extracting("propertyName").containsExactly("someBoolean","someChar","someString");
@@ -103,6 +105,7 @@ public class BuilderSourceGenerator_GenerateCopyMethod_Test extends TestBase {
     builder.setSelfType(builder.getType());
     builder.setCopyMethod(new CopyMethodM("copy"));
     builder.setBuildMethod( new BuildMethodM());
+    builder.setCloneMethod( new CloneMethodM().setShouldCatchCloneNotSupportedException(true));
 
     // Assume: properties are returned in insertion order
     assertThat(builder.getProperties().iterator()).extracting("propertyName").containsExactly("someBoolean","someChar","someString");

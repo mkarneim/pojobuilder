@@ -18,6 +18,7 @@ import net.karneim.pojobuilder.model.ArgumentListM;
 import net.karneim.pojobuilder.model.ArrayTypeM;
 import net.karneim.pojobuilder.model.BuildMethodM;
 import net.karneim.pojobuilder.model.BuilderM;
+import net.karneim.pojobuilder.model.CloneMethodM;
 import net.karneim.pojobuilder.model.CopyMethodM;
 import net.karneim.pojobuilder.model.FactoryMethodM;
 import net.karneim.pojobuilder.model.ImportTypesM;
@@ -49,10 +50,11 @@ public class BuilderSourceGenerator {
     checkNotNull(builder.getPojoType(), "builder.getPojoType() must not be null");
     checkNotNull(builder.getType(), "builder.getBuilderType() must not be null");
     checkNotNull(builder.getProperties(), "builder.getProperties() must not be null");
-    generateSource(builder.getType(), builder.isAbstract(), builder.getSelfType(), builder.getBaseType(),
-        builder.getInterfaceType(), builder.hasBuilderProperties(), builder.getPojoType(), builder.getProperties(),
-        builder.getBuildMethod(), builder.getFactoryMethod(), builder.getCopyMethod(), builder.getValidator(),
-        builder.getOptionalType(), builder.getStaticFactoryMethod());
+    generateSource(builder.getType(), builder.isAbstract(), builder.getSelfType(),
+        builder.getBaseType(), builder.getInterfaceType(), builder.hasBuilderProperties(),
+        builder.getPojoType(), builder.getProperties(), builder.getBuildMethod(),
+        builder.getFactoryMethod(), builder.getCopyMethod(), builder.getValidator(),
+        builder.getOptionalType(), builder.getStaticFactoryMethod(), builder.getCloneMethod());
   }
 
   private void checkNotNull(Object obj, String errorMessage) {
@@ -63,8 +65,9 @@ public class BuilderSourceGenerator {
 
   private void generateSource(TypeM builderType, boolean isAbstract, TypeM selfType, TypeM baseType,
       TypeM interfaceType, boolean hasBuilderProperties, TypeM pojoType, PropertyListM properties,
-      BuildMethodM buildMethod, FactoryMethodM factoryMethod, CopyMethodM copyMethodM, ValidatorM validator,
-      TypeM optionalType, StaticFactoryMethodM staticFactoryMethod) throws IOException {
+      BuildMethodM buildMethod, FactoryMethodM factoryMethod, CopyMethodM copyMethodM,
+      ValidatorM validator, TypeM optionalType, StaticFactoryMethodM staticFactoryMethod,
+      CloneMethodM cloneMethod) throws IOException {
     properties = new PropertyListM(properties);
     properties.filterOutNonWritableProperties(builderType);
 
@@ -141,7 +144,7 @@ public class BuilderSourceGenerator {
         emitWithMethodUsingBuilderInterface(builderType, selfType, interfaceType, pojoType, prop);
       }
     }
-    emitCloneMethod(selfType);
+    emitCloneMethod(selfType, cloneMethod);
     emitButMethod(selfType);
     if ( copyMethodM != null) {
       if ( properties.hasPropertiesReadablyBy(builderType)) {
@@ -158,15 +161,17 @@ public class BuilderSourceGenerator {
   private void emitValidatorField(ValidatorM validator) throws IOException {
     String validatorTypeDeclaration = writer.compressType(validator.getType().getGenericType());
     String initialization = String.format("new %s()", validatorTypeDeclaration);
-    writer.emitField(validatorTypeDeclaration, validator.getFieldName(), EnumSet.of(PROTECTED), initialization);
+    writer.emitField(validatorTypeDeclaration, validator.getFieldName(), EnumSet.of(PROTECTED),
+        initialization);
   }
 
-  static void emitStaticFactoryMethod(TypeM selfType, StaticFactoryMethodM method, JavaWriter writer)
-      throws IOException {
+  static void emitStaticFactoryMethod(TypeM selfType, StaticFactoryMethodM method,
+      JavaWriter writer) throws IOException {
     String builderTypeDeclaration = writer.compressType(selfType.getGenericType());
     String returnTypeDecl;
     if (selfType.isGeneric()) {
-      String typeParameters = "<" + writer.compressType(selfType.getTypeParameters().toParameterString()) + ">";
+      String typeParameters =
+          "<" + writer.compressType(selfType.getTypeParameters().toParameterString()) + ">";
       returnTypeDecl = typeParameters + " " + builderTypeDeclaration;
     } else {
       returnTypeDecl = builderTypeDeclaration;
@@ -183,8 +188,8 @@ public class BuilderSourceGenerator {
     // @formatter:on
   }
 
-  private void emitCopyMethod(TypeM builderType, TypeM selfType, TypeM pojoType, PropertyListM properties,
-      CopyMethodM copyMethodM) throws IOException {
+  private void emitCopyMethod(TypeM builderType, TypeM selfType, TypeM pojoType,
+      PropertyListM properties, CopyMethodM copyMethodM) throws IOException {
     properties = new PropertyListM(properties);
     String selfTypeDeclaration = writer.compressType(selfType.getGenericType());
     String pojoTypeDeclaration = writer.compressType(pojoType.getGenericType());
@@ -218,82 +223,92 @@ public class BuilderSourceGenerator {
     // @formatter:on
   }
 
-  private void emitBuildMethod(TypeM builderType, TypeM pojoType, TypeM interfaceType, boolean hasBuilderProperties,
-      PropertyListM properties, FactoryMethodM factoryMethod, BuildMethodM buildMethod, ValidatorM validator)
-          throws IOException {
+  private void emitBuildMethod(TypeM builderType, TypeM pojoType, TypeM interfaceType,
+      boolean hasBuilderProperties, PropertyListM properties, FactoryMethodM factoryMethod,
+      BuildMethodM buildMethod, ValidatorM validator) throws IOException {
     properties = new PropertyListM(properties);
     String pojoTypeDeclaration = writer.compressType(pojoType.getGenericType());
     String pojoClassname = writer.compressType(pojoType.getName());
 
     writer.emitEmptyLine().emitJavadoc(
-        "Creates a new {@link %s} based on this builder's settings.\n\n" + "@return the created %s", pojoClassname,
-        pojoClassname);
+        "Creates a new {@link %s} based on this builder's settings.\n\n" + "@return the created %s",
+        pojoClassname, pojoClassname);
     if (buildMethod.isOverrides()) {
       writer.emitAnnotation(Override.class);
     }
-    writer.beginMethod(pojoTypeDeclaration, buildMethod.getName(), EnumSet.of(PUBLIC)).beginControlFlow("try");
+    writer.beginMethod(pojoTypeDeclaration, buildMethod.getName(), EnumSet.of(PUBLIC))
+        .beginControlFlow("try");
 
     if (!hasBuilderProperties) {
       if (factoryMethod == null) {
-        String arguments =
-            properties.filterOutPropertiesWritableViaConstructorParameter(builderType).toArgumentString();
-        writer.emitStatement("%s result = new %s(%s)", pojoTypeDeclaration, pojoTypeDeclaration, arguments);
-      } else {
-        String arguments =
-            properties.filterOutPropertiesWritableViaFactoryMethodParameter(builderType).toArgumentString();
-        String factoryClass = writer.compressType(factoryMethod.getDeclaringClass().getName());
-        writer.emitStatement("%s result = %s.%s(%s)", pojoTypeDeclaration, factoryClass, factoryMethod.getName(),
+        String arguments = properties
+            .filterOutPropertiesWritableViaConstructorParameter(builderType).toArgumentString();
+        writer.emitStatement("%s result = new %s(%s)", pojoTypeDeclaration, pojoTypeDeclaration,
             arguments);
+      } else {
+        String arguments = properties
+            .filterOutPropertiesWritableViaFactoryMethodParameter(builderType).toArgumentString();
+        String factoryClass = writer.compressType(factoryMethod.getDeclaringClass().getName());
+        writer.emitStatement("%s result = %s.%s(%s)", pojoTypeDeclaration, factoryClass,
+            factoryMethod.getName(), arguments);
       }
     } else {
       if (factoryMethod == null) {
-        ArgumentListM constructorArguments = properties.filterOutPropertiesWritableViaConstructorParameter(builderType);
+        ArgumentListM constructorArguments =
+            properties.filterOutPropertiesWritableViaConstructorParameter(builderType);
         StringBuilder arguments = new StringBuilder();
         for (PropertyM prop : constructorArguments.sortByPosition().getPropertyList()) {
           String parameterFieldName = "_" + prop.getConstructorParameter().getName();
-          emitParameterAssignmentWithBuilderProperty(prop, parameterFieldName, buildMethod.getName());
+          emitParameterAssignmentWithBuilderProperty(prop, parameterFieldName,
+              buildMethod.getName());
           if (arguments.length() > 0) {
             arguments.append(", ");
           }
           arguments.append(String.format("%s", parameterFieldName));
         }
-        writer.emitStatement("%s result = new %s(%s)", pojoTypeDeclaration, pojoTypeDeclaration, arguments.toString());
+        writer.emitStatement("%s result = new %s(%s)", pojoTypeDeclaration, pojoTypeDeclaration,
+            arguments.toString());
       } else {
         ArgumentListM factoryMethodArguments =
             properties.filterOutPropertiesWritableViaFactoryMethodParameter(builderType);
         StringBuilder arguments = new StringBuilder();
         for (PropertyM prop : factoryMethodArguments.sortByPosition().getPropertyList()) {
           String parameterFieldName = "_" + prop.getFactoryMethodParameter().getName();
-          emitParameterAssignmentWithBuilderProperty(prop, parameterFieldName, buildMethod.getName());
+          emitParameterAssignmentWithBuilderProperty(prop, parameterFieldName,
+              buildMethod.getName());
           if (arguments.length() > 0) {
             arguments.append(", ");
           }
           arguments.append(String.format("%s", parameterFieldName));
         }
         String factoryClass = writer.compressType(factoryMethod.getDeclaringClass().getName());
-        writer.emitStatement("%s result = %s.%s(%s)", pojoTypeDeclaration, factoryClass, factoryMethod.getName(),
-            arguments.toString());
+        writer.emitStatement("%s result = %s.%s(%s)", pojoTypeDeclaration, factoryClass,
+            factoryMethod.getName(), arguments.toString());
       }
     }
 
-    PropertyListM setterProperties = properties.filterOutPropertiesWritableBy(Type.SETTER, builderType);
+    PropertyListM setterProperties =
+        properties.filterOutPropertiesWritableBy(Type.SETTER, builderType);
     for (PropertyM prop : setterProperties) {
       writer.beginControlFlow("if (%s)", prop.getIsSetFieldName()).emitStatement("result.%s(%s)",
           prop.getSetterMethod().getName(), prop.getValueFieldName());
       if (hasBuilderProperties) {
-        writer.nextControlFlow("else if (%s!=null)", prop.getBuilderFieldName()).emitStatement("result.%s(%s.%s())",
-            prop.getSetterMethod().getName(), prop.getBuilderFieldName(), buildMethod.getName());
+        writer.nextControlFlow("else if (%s!=null)", prop.getBuilderFieldName()).emitStatement(
+            "result.%s(%s.%s())", prop.getSetterMethod().getName(), prop.getBuilderFieldName(),
+            buildMethod.getName());
       }
       writer.endControlFlow();
     }
 
-    PropertyListM writableProperties = properties.filterOutPropertiesWritableBy(Type.FIELD, builderType);
+    PropertyListM writableProperties =
+        properties.filterOutPropertiesWritableBy(Type.FIELD, builderType);
     for (PropertyM prop : writableProperties) {
       writer.beginControlFlow("if (%s)", prop.getIsSetFieldName()).emitStatement("result.%s = %s",
           prop.getPropertyName(), prop.getValueFieldName());
       if (hasBuilderProperties) {
-        writer.nextControlFlow("else if (%s!=null)", prop.getBuilderFieldName()).emitStatement("result.%s = %s.%s()",
-            prop.getPropertyName(), prop.getBuilderFieldName(), buildMethod.getName());
+        writer.nextControlFlow("else if (%s!=null)", prop.getBuilderFieldName()).emitStatement(
+            "result.%s = %s.%s()", prop.getPropertyName(), prop.getBuilderFieldName(),
+            buildMethod.getName());
       }
       writer.endControlFlow();
     }
@@ -301,27 +316,32 @@ public class BuilderSourceGenerator {
     if (validator != null) {
       writer.emitStatement("%s.%s(result)", validator.getFieldName(), validator.getMethodName());
     }
-    writer.emitStatement("return result").nextControlFlow("catch (RuntimeException ex)").emitStatement("throw ex")
-        .nextControlFlow("catch (Exception ex)")
-        .emitStatement("throw new java.lang.reflect.UndeclaredThrowableException(ex)").endControlFlow().endMethod();
+    writer.emitStatement("return result").nextControlFlow("catch (RuntimeException ex)")
+        .emitStatement("throw ex").nextControlFlow("catch (Exception ex)")
+        .emitStatement("throw new java.lang.reflect.UndeclaredThrowableException(ex)")
+        .endControlFlow().endMethod();
   }
 
-  private void emitParameterAssignmentWithBuilderProperty(PropertyM prop, String parameterFieldName, String buildMethodName)
-      throws IOException {
-    writer.emitStatement("%s %s", writer.compressType(prop.getPropertyType().getGenericType()), parameterFieldName);
-    writer.beginControlFlow("if (!%s && %s!=null)", prop.getIsSetFieldName(), prop.getBuilderFieldName())
-        .emitStatement("%s = %s.%s()", parameterFieldName, prop.getBuilderFieldName(), buildMethodName);
-    writer.nextControlFlow("else").emitStatement("%s = %s", parameterFieldName, prop.getValueFieldName());
+  private void emitParameterAssignmentWithBuilderProperty(PropertyM prop, String parameterFieldName,
+      String buildMethodName) throws IOException {
+    writer.emitStatement("%s %s", writer.compressType(prop.getPropertyType().getGenericType()),
+        parameterFieldName);
+    writer.beginControlFlow("if (!%s && %s!=null)", prop.getIsSetFieldName(),
+        prop.getBuilderFieldName()).emitStatement("%s = %s.%s()", parameterFieldName,
+            prop.getBuilderFieldName(), buildMethodName);
+    writer.nextControlFlow("else").emitStatement("%s = %s", parameterFieldName,
+        prop.getValueFieldName());
     writer.endControlFlow();
   }
 
-  private void emitWithMethodUsingBuilderInterface(TypeM builderType, TypeM selfType, TypeM interfaceType,
-      TypeM pojoType, PropertyM prop) throws IOException {
+  private void emitWithMethodUsingBuilderInterface(TypeM builderType, TypeM selfType,
+      TypeM interfaceType, TypeM pojoType, PropertyM prop) throws IOException {
     String builderFieldName = prop.getBuilderFieldName();
     String isSetFieldName = prop.getIsSetFieldName();
     String withMethodName = prop.getWithMethodName();
     String pojoTypeStr = writer.compressType(pojoType.getName());
-    String parameterTypeStr = prop.getParameterizedBuilderInterfaceType(interfaceType).getGenericType();
+    String parameterTypeStr =
+        prop.getParameterizedBuilderInterfaceType(interfaceType).getGenericType();
 
     // @formatter:off
     writer
@@ -339,7 +359,8 @@ public class BuilderSourceGenerator {
     // @formatter:on
   }
 
-  private void emitWithMethod(TypeM builderType, TypeM selfType, TypeM pojoType, PropertyM prop) throws IOException {
+  private void emitWithMethod(TypeM builderType, TypeM selfType, TypeM pojoType, PropertyM prop)
+      throws IOException {
     String valueFieldName = prop.getValueFieldName();
     String isSetFieldName = prop.getIsSetFieldName();
     String withMethodName = prop.getWithMethodName();
@@ -372,8 +393,8 @@ public class BuilderSourceGenerator {
     // @formatter:on
   }
 
-  private void emitWithOptionalMethod(TypeM builderType, TypeM selfType, TypeM pojoType, PropertyM prop,
-      TypeM optionalType) throws IOException {
+  private void emitWithOptionalMethod(TypeM builderType, TypeM selfType, TypeM pojoType,
+      PropertyM prop, TypeM optionalType) throws IOException {
 
     TypeM optionalParameterType = prop.getOptionalPropertyType(optionalType);
     if (optionalParameterType == null) {
@@ -445,7 +466,7 @@ public class BuilderSourceGenerator {
     // @formatter:on
   }
 
-  private void emitCloneMethod(TypeM selfType) throws IOException {
+  private void emitCloneMethod(TypeM selfType, CloneMethodM cloneMethod) throws IOException {
     String builderTypeStr = writer.compressType(selfType.getGenericType());
     // @formatter:off
     writer
@@ -454,8 +475,10 @@ public class BuilderSourceGenerator {
           "Returns a clone of this builder.\n\n"
         + "@return the clone")
       .emitAnnotation(Override.class)
-      .beginMethod("Object", "clone", EnumSet.of(PUBLIC))
-        .beginControlFlow("try");
+      .beginMethod("Object", "clone", EnumSet.of(PUBLIC));
+    if ( cloneMethod.shouldCatchCloneNotSupportedException()) {
+      writer.beginControlFlow("try");
+    }
     if ( selfType.isGeneric()) {
       writer
           .emitAnnotation(SuppressWarnings.class, JavaWriter.stringLiteral("unchecked"));
@@ -463,11 +486,13 @@ public class BuilderSourceGenerator {
     writer
           .emitStatement("%s result = (%s)super.clone()", builderTypeStr, builderTypeStr)
           .emitStatement("result.self = result")
-          .emitStatement("return result")
-        .nextControlFlow("catch (CloneNotSupportedException e)")
-          .emitStatement("throw new InternalError(e.getMessage())")
-        .endControlFlow()
-      .endMethod();
+          .emitStatement("return result");
+    if ( cloneMethod.shouldCatchCloneNotSupportedException()) {
+      writer.nextControlFlow("catch (CloneNotSupportedException e)")
+        .emitStatement("throw new InternalError(e.getMessage())")
+        .endControlFlow();
+    }
+    writer.endMethod();
     // @formatter:on
   }
 

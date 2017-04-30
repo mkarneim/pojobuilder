@@ -15,6 +15,7 @@ import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 
 import net.karneim.pojobuilder.model.BuildMethodM;
+import net.karneim.pojobuilder.model.CloneMethodM;
 import net.karneim.pojobuilder.model.CopyMethodM;
 import net.karneim.pojobuilder.model.ManualBuilderM;
 import net.karneim.pojobuilder.model.PropertyM;
@@ -238,6 +239,11 @@ public class JavaModelAnalyzer {
     if (hasBuildMethod) {
       output.getBuilderModel().getBuildMethod().setOverrides(true);
     }
+    boolean cloneShouldCatchException =
+        !javaModelAnalyzerUtil.hasCloneMethodThatDoesNotThrowACloneNotSupportedException(baseTypeElement);
+    output.getBuilderModel().setCloneMethod(
+        new CloneMethodM().setShouldCatchCloneNotSupportedException(cloneShouldCatchException));
+
     output.getBuilderModel().setBaseType(baseType);
     output.getInput().getOrginatingElements()
         .add(javaModelAnalyzerUtil.getCompilationUnit(baseTypeElement));

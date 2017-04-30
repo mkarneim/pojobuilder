@@ -1,6 +1,5 @@
 package net.karneim.pojobuilder.model;
 
-
 public class BuilderM {
   private TypeM type;
   private boolean isAbstract;
@@ -16,6 +15,7 @@ public class BuilderM {
   private boolean hasBuilderProperties;
   private TypeM optionalType;
   private StaticFactoryMethodM staticFactoryMethod;
+  private CloneMethodM cloneMethod;
 
   public TypeM getType() {
     return type;
@@ -129,13 +129,22 @@ public class BuilderM {
     this.staticFactoryMethod = staticFactoryMethod;
   }
 
+  public CloneMethodM getCloneMethod() {
+    return cloneMethod;
+  }
+
+  public void setCloneMethod(CloneMethodM cloneMethod) {
+    this.cloneMethod = cloneMethod;
+  }
+
   @Override
   public String toString() {
-    return "BuilderM [type=" + type + ", isAbstract=" + isAbstract + ", selfType=" + selfType + ", baseType="
-        + baseType + ", pojoType=" + pojoType + ", properties=" + properties + ", factoryMethod=" + factoryMethod
-        + ", copyMethod=" + copyMethod + ", buildMethod=" + buildMethod + ", validator=" + validator
-        + ", interfaceType=" + interfaceType + ", hasBuilderProperties=" + hasBuilderProperties + ", optionalType="
-        + optionalType + ", staticFactoryMethod=" + staticFactoryMethod + "]";
+    return "BuilderM [type=" + type + ", isAbstract=" + isAbstract + ", selfType=" + selfType
+        + ", baseType=" + baseType + ", pojoType=" + pojoType + ", properties=" + properties
+        + ", factoryMethod=" + factoryMethod + ", copyMethod=" + copyMethod + ", buildMethod="
+        + buildMethod + ", validator=" + validator + ", interfaceType=" + interfaceType
+        + ", hasBuilderProperties=" + hasBuilderProperties + ", optionalType=" + optionalType
+        + ", staticFactoryMethod=" + staticFactoryMethod + ", cloneMethod=" + cloneMethod + "]";
   }
 
 }

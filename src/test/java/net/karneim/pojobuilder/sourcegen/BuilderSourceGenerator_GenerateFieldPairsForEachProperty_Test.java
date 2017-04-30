@@ -8,6 +8,7 @@ import java.util.EnumSet;
 
 import net.karneim.pojobuilder.model.BuildMethodM;
 import net.karneim.pojobuilder.model.BuilderM;
+import net.karneim.pojobuilder.model.CloneMethodM;
 import net.karneim.pojobuilder.model.FieldAccessM;
 import net.karneim.pojobuilder.model.PrimitiveTypeM;
 import net.karneim.pojobuilder.model.PropertyListM;
@@ -77,6 +78,7 @@ public class BuilderSourceGenerator_GenerateFieldPairsForEachProperty_Test exten
     builder.setType(new TypeM("com.example.output","SampleBuilder"));
     builder.setSelfType(builder.getType());
     builder.setBuildMethod( new BuildMethodM());
+    builder.setCloneMethod( new CloneMethodM().setShouldCatchCloneNotSupportedException(true));
 
     // When:
     underTest.generateSource(builder);
@@ -118,6 +120,7 @@ public class BuilderSourceGenerator_GenerateFieldPairsForEachProperty_Test exten
     builder.setType(new TypeM("com.example.output","SampleBuilder"));
     builder.setSelfType(builder.getType());
     builder.setBuildMethod( new BuildMethodM());
+    builder.setCloneMethod( new CloneMethodM().setShouldCatchCloneNotSupportedException(true));
 
     // When:
     underTest.generateSource(builder);
@@ -156,6 +159,7 @@ public class BuilderSourceGenerator_GenerateFieldPairsForEachProperty_Test exten
     builder.setType(new TypeM("com.example.output","SampleBuilder"));
     builder.setSelfType(builder.getType());
     builder.setBuildMethod( new BuildMethodM());
+    builder.setCloneMethod( new CloneMethodM().setShouldCatchCloneNotSupportedException(true));
 
     // When:
     underTest.generateSource(builder);
@@ -191,6 +195,7 @@ public class BuilderSourceGenerator_GenerateFieldPairsForEachProperty_Test exten
     builder.setType(new TypeM("com.example.output","SampleBuilder").withTypeParameter(K, V));
     builder.setSelfType(builder.getType());
     builder.setBuildMethod( new BuildMethodM());
+    builder.setCloneMethod( new CloneMethodM().setShouldCatchCloneNotSupportedException(true));
 
     // When:
     underTest.generateSource(builder);

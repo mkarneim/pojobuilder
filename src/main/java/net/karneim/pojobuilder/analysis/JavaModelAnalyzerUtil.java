@@ -32,6 +32,7 @@ import net.karneim.pojobuilder.model.BuilderM;
 public class JavaModelAnalyzerUtil {
 
   private static final String BUILD_METHOD_NAME = "build";
+  private static final String CLONE_METHOD_NAME = "clone";
   private static final String GET_METHOD_NAME = "get";
   private static final String IS = "is";
   private static final String GET = "get";
@@ -252,10 +253,29 @@ public class JavaModelAnalyzerUtil {
   public boolean hasBuildMethod(TypeElement typeElement, TypeMirror requiredReturnType) {
     return hasMethod(typeElement, BUILD_METHOD_NAME, requiredReturnType, null);
   }
-  
+
   /**
-   * Returns true, if the given type element has a method called "get" with no parameters and
-   * which has an actual return type that is compatible with the given return type.
+   * Returns true, if the given type element has a method called "clone" with no parameters and
+   * which does not throw a {@link CloneNotSupportedException}.
+   *
+   * @param typeElement the type element
+   * @return true, if the method is found
+   */
+  public boolean hasCloneMethodThatDoesNotThrowACloneNotSupportedException(TypeElement typeElement) {
+    ExecutableElement ex = findMethod(typeElement, CLONE_METHOD_NAME, null, null);
+    if (ex != null) {
+      TypeElement execptionType =
+          elements.getTypeElement(CloneNotSupportedException.class.getName());
+      List<? extends TypeMirror> thrownTypes = ex.getThrownTypes();
+      TypeMirror exType = execptionType.asType();
+      return (!thrownTypes.contains(exType));
+    }
+    return false;
+  }
+
+  /**
+   * Returns true, if the given type element has a method called "get" with no parameters and which
+   * has an actual return type that is compatible with the given return type.
    *
    * @param interfaceTypeElement
    * @param asType
@@ -279,6 +299,24 @@ public class JavaModelAnalyzerUtil {
    */
   public boolean hasMethod(TypeElement typeElement, String name, TypeMirror requiredReturnType,
       TypeMirror requiredParamType) {
+    return findMethod(typeElement, name, requiredReturnType, requiredParamType) != null;
+  }
+
+  /**
+   * Searches the given type element for a method with the given name and an actual return type that
+   * is compatible with the given return type, and has an actual parameter that is compatible with
+   * the given parameter type.
+   *
+   * @param typeElement the type element
+   * @param name the required name of the method
+   * @param requiredReturnType the required return type (maybe {@link NoType}).
+   * @param requiredParamType the type of the required (first) parameter, or <code>null</code> if no
+   *        parameter is required
+   * @return the ExecutableElement repesenting the found method, or <code>null</code> if none if
+   *         found
+   */
+  public ExecutableElement findMethod(TypeElement typeElement, String name,
+      TypeMirror requiredReturnType, TypeMirror requiredParamType) {
     List<? extends Element> memberEls = elements.getAllMembers(typeElement);
     List<ExecutableElement> methodEls = ElementFilter.methodsIn(memberEls);
     for (ExecutableElement methodEl : methodEls) {
@@ -310,9 +348,9 @@ public class JavaModelAnalyzerUtil {
           continue;
         }
       }
-      return true;
+      return methodEl;
     }
-    return false;
+    return null;
   }
 
   /**
