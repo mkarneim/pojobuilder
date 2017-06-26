@@ -3,26 +3,26 @@ package net.karneim.pojobuilder.processor.with.classannotation;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
-public class PojoBuilder
+public class Pojo1Builder
     implements Cloneable {
-  protected PojoBuilder self;
+  protected Pojo1Builder self;
   protected String value$name$java$lang$String;
   protected boolean isSet$name$java$lang$String;
 
   /**
-   * Creates a new {@link PojoBuilder}.
+   * Creates a new {@link Pojo1Builder}.
    */
-  public PojoBuilder() {
-    self = (PojoBuilder)this;
+  public Pojo1Builder() {
+    self = (Pojo1Builder)this;
   }
 
   /**
-   * Sets the default value for the {@link Pojo#name} property.
+   * Sets the default value for the {@link Pojo1#name} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public PojoBuilder withName(String value) {
+  public Pojo1Builder withName(String value) {
     this.value$name$java$lang$String = value;
     this.isSet$name$java$lang$String = true;
     return self;
@@ -36,7 +36,7 @@ public class PojoBuilder
   @Override
   public Object clone() {
     try {
-      PojoBuilder result = (PojoBuilder)super.clone();
+      Pojo1Builder result = (Pojo1Builder)super.clone();
       result.self = result;
       return result;
     } catch (CloneNotSupportedException e) {
@@ -49,18 +49,18 @@ public class PojoBuilder
    *
    * @return the clone
    */
-  public PojoBuilder but() {
-    return (PojoBuilder)clone();
+  public Pojo1Builder but() {
+    return (Pojo1Builder)clone();
   }
 
   /**
-   * Creates a new {@link Pojo} based on this builder's settings.
+   * Creates a new {@link Pojo1} based on this builder's settings.
    *
-   * @return the created Pojo
+   * @return the created Pojo1
    */
-  public Pojo build() {
+  public Pojo1 build() {
     try {
-      Pojo result = new Pojo();
+      Pojo1 result = new Pojo1();
       if (isSet$name$java$lang$String) {
         result.name = value$name$java$lang$String;
       }
