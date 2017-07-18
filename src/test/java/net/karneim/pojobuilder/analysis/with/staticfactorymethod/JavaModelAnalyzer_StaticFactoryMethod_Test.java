@@ -29,6 +29,7 @@ public class JavaModelAnalyzer_StaticFactoryMethod_Test extends AnalysisTestSupp
     // Then:
     assertThat(output).isNotNull();
     assertThat(output.getBuilderModel().getStaticFactoryMethod().getName()).isEqualTo("withDecapitalisedSfm");
+    assertThat(output.getBuilderModel().hasPublicConstructor()).isEqualTo(true);
   }
 
   @Test
@@ -40,6 +41,7 @@ public class JavaModelAnalyzer_StaticFactoryMethod_Test extends AnalysisTestSupp
     // Then:
     assertThat(output).isNotNull();
     assertThat(output.getBuilderModel().getStaticFactoryMethod().getName()).isEqualTo("$WithArbitrarySfm");
+    assertThat(output.getBuilderModel().hasPublicConstructor()).isEqualTo(true);
   }
 
   @Test
@@ -52,6 +54,18 @@ public class JavaModelAnalyzer_StaticFactoryMethod_Test extends AnalysisTestSupp
     assertThat(output).isNotNull();
     assertThat(output.getBuilderModel().getStaticFactoryMethod()).isNull();
     assertThat(output.getManualBuilderModel().getStaticFactoryMethod().getName()).isEqualTo("withGenerationGap");
+    assertThat(output.getBuilderModel().hasPublicConstructor()).isEqualTo(true);
+  }
+
+  @Test
+  public void testWithoutPublicConstructor() {
+    // Given:
+    Input input = inputFor(StaticFactoryMethodAnalyses.WithoutPublicConstructor.class);
+    // When:
+    Output output = underTest.analyze(input);
+    // Then:
+    assertThat(output).isNotNull();
+    assertThat(output.getBuilderModel().hasPublicConstructor()).isEqualTo(false);
   }
 
 }

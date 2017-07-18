@@ -19,12 +19,12 @@ public class Directives {
   private boolean generationGap = false;
   private String setterNamePattern = GeneratePojoBuilder.DEFAULT_SETTER_NAME;
   private String staticFactoryMethod = GeneratePojoBuilder.DEFAULT_FACTORY_METHOD;
+  private boolean publicConstructor = true;
   private String validatorClassname = Void.class.getName();
   private String optionalClassname = Void.class.getName();
   private List<PropertyPattern> includeProperties = new ArrayList<PropertyPattern>();
   private List<PropertyPattern> excludeProperties = new ArrayList<PropertyPattern>();
 
-  @SuppressWarnings("unchecked")
   public Directives(Map<String, Object> valueMap) {
     if (valueMap == null) {
       throw new NullPointerException("valueMap must not be null!");
@@ -41,6 +41,9 @@ public class Directives {
     }
     setterNamePattern = (String) valueMap.get("withSetterNamePattern");
     staticFactoryMethod = (String) valueMap.get("withFactoryMethod");
+    if (staticFactoryMethod != null) {
+      publicConstructor = (Boolean) valueMap.get("withPublicConstructor");
+    }
     validatorClassname = (String) valueMap.get("withValidator");
     optionalClassname = (String) valueMap.get("withOptionalProperties");
     includeProperties = newList((List<AnnotationValue>) valueMap.get("includeProperties"));
@@ -158,6 +161,14 @@ public class Directives {
 
   public void setStaticFactoryMethod(String staticFactoryMethod) {
     this.staticFactoryMethod = staticFactoryMethod;
+  }
+
+  public boolean isPublicConstructor() {
+    return publicConstructor;
+  }
+
+  public void setPublicConstructor(boolean publicConstructor) {
+    this.publicConstructor = publicConstructor;
   }
 
   public List<PropertyPattern> getExcludeProperties() {
