@@ -1,7 +1,5 @@
 package net.karneim.pojobuilder.analysis;
 
-import static net.karneim.pojobuilder.analysis.JavaModelAnalyzerUtil.uncapitalize;
-
 import java.util.logging.Logger;
 
 import javax.lang.model.element.ElementKind;
@@ -23,6 +21,8 @@ import net.karneim.pojobuilder.model.StaticFactoryMethodM;
 import net.karneim.pojobuilder.model.TypeListM;
 import net.karneim.pojobuilder.model.TypeM;
 import net.karneim.pojobuilder.model.ValidatorM;
+
+import static net.karneim.pojobuilder.analysis.JavaModelAnalyzerUtil.uncapitalize;
 
 public class JavaModelAnalyzer {
 
@@ -242,6 +242,9 @@ public class JavaModelAnalyzer {
       } else {
         output.getBuilderModel().setStaticFactoryMethod(method);
       }
+      output.getBuilderModel().setHasPublicConstructor(output.getInput().getDirectives().isPublicConstructor());
+    } else {
+      output.getBuilderModel().setHasPublicConstructor(true);
     }
   }
 

@@ -135,6 +135,8 @@ public @interface GeneratePojoBuilder {
    */
   String withFactoryMethod() default DEFAULT_FACTORY_METHOD;
 
+  boolean withPublicConstructor() default true;
+
   /**
    * Specifies the validator class that should be used to validate the created pojo. The class must define a
    * <code>validate</code> method having one parameter that is compatible with the pojo's type. If the validation fails,

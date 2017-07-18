@@ -21,7 +21,7 @@ public class TroubleBuilder
   /**
    * Creates a new {@link TroubleBuilder}.
    */
-  public TroubleBuilder() {
+  private TroubleBuilder() {
     self = (TroubleBuilder)this;
   }
 

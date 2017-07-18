@@ -20,4 +20,7 @@ public final class StaticFactoryMethodAnalyses {
   public static class WithGenerationGap {
   }
 
+  @GeneratePojoBuilder(withFactoryMethod = "*", withPublicConstructor = false)
+  public static class WithoutPublicConstructor {
+  }
 }
