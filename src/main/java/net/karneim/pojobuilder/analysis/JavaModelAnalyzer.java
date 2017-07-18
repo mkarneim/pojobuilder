@@ -271,6 +271,9 @@ public class JavaModelAnalyzer {
       } else {
         output.getBuilderModel().setStaticFactoryMethod(method);
       }
+      output.getBuilderModel().setHasPublicConstructor(output.getInput().getDirectives().isPublicConstructor());
+    } else {
+      output.getBuilderModel().setHasPublicConstructor(true);
     }
   }
 

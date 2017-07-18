@@ -15,6 +15,7 @@ public class BuilderM {
   private boolean hasBuilderProperties;
   private OptionalM optional;
   private StaticFactoryMethodM staticFactoryMethod;
+  private boolean hasPublicConstructor = true;
   private CloneMethodM cloneMethod;
 
   public TypeM getType() {
@@ -127,6 +128,14 @@ public class BuilderM {
 
   public void setStaticFactoryMethod(StaticFactoryMethodM staticFactoryMethod) {
     this.staticFactoryMethod = staticFactoryMethod;
+  }
+
+  public boolean hasPublicConstructor() {
+    return hasPublicConstructor;
+  }
+
+  public void setHasPublicConstructor(boolean hasPublicConstructor) {
+    this.hasPublicConstructor = hasPublicConstructor;
   }
 
   public CloneMethodM getCloneMethod() {
