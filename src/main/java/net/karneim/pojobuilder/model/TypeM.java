@@ -166,5 +166,4 @@ public class TypeM {
   public String toString() {
     return "TypeM [getGenericTypeDefinition()=" + getGenericTypeDefinition() + "]";
   }
-
 }

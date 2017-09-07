@@ -7,6 +7,7 @@ import com.google.common.base.Optional;
 @GeneratePojoBuilder(withOptionalProperties = Optional.class)
 public class PojoWithGuavaOptional2 {
 
-  public Optional<Integer> optionalValue;
+  public Optional<Integer> boxedInt;
+  public Optional<int[]> array;
 
 }

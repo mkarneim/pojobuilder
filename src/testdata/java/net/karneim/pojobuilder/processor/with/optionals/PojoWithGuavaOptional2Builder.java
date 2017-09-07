@@ -7,8 +7,8 @@ import javax.annotation.Generated;
 public class PojoWithGuavaOptional2Builder
     implements Cloneable {
   protected PojoWithGuavaOptional2Builder self;
-  protected Optional<Integer> value$optionalValue$com$google$common$base$Optional;
-  protected boolean isSet$optionalValue$com$google$common$base$Optional;
+  protected Optional<Integer> value$boxedInt$com$google$common$base$Optional = Optional.absent();
+  protected Optional<int[]> value$array$com$google$common$base$Optional = Optional.absent();
 
   /**
    * Creates a new {@link PojoWithGuavaOptional2Builder}.
@@ -18,14 +18,58 @@ public class PojoWithGuavaOptional2Builder
   }
 
   /**
-   * Sets the default value for the {@link PojoWithGuavaOptional2#optionalValue} property.
+   * Sets the default value for the {@link PojoWithGuavaOptional2#boxedInt} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public PojoWithGuavaOptional2Builder withOptionalValue(Optional<Integer> value) {
-    this.value$optionalValue$com$google$common$base$Optional = value;
-    this.isSet$optionalValue$com$google$common$base$Optional = true;
+  public PojoWithGuavaOptional2Builder withBoxedInt(Integer value) {
+    if (value == null) {
+      this.value$boxedInt$com$google$common$base$Optional = null;
+    } else {
+      this.value$boxedInt$com$google$common$base$Optional = Optional.of(value);
+    }
+    return self;
+  }
+
+  /**
+   * Optionally sets the default value for the {@link PojoWithGuavaOptional2#boxedInt} property.
+   *
+   * @param optionalValue the optional default value
+   * @return this builder
+   */
+  public PojoWithGuavaOptional2Builder withBoxedInt(Optional<Integer> optionalValue) {
+    if (optionalValue == null || optionalValue.isPresent()) {
+      this.value$boxedInt$com$google$common$base$Optional = optionalValue;
+    }
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link PojoWithGuavaOptional2#array} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public PojoWithGuavaOptional2Builder withArray(int[] value) {
+    if (value == null) {
+      this.value$array$com$google$common$base$Optional = null;
+    } else {
+      this.value$array$com$google$common$base$Optional = Optional.of(value);
+    }
+    return self;
+  }
+
+  /**
+   * Optionally sets the default value for the {@link PojoWithGuavaOptional2#array} property.
+   *
+   * @param optionalValue the optional default value
+   * @return this builder
+   */
+  public PojoWithGuavaOptional2Builder withArray(Optional<int[]> optionalValue) {
+    if (optionalValue == null || optionalValue.isPresent()) {
+      this.value$array$com$google$common$base$Optional = optionalValue;
+    }
     return self;
   }
 
@@ -62,8 +106,11 @@ public class PojoWithGuavaOptional2Builder
   public PojoWithGuavaOptional2 build() {
     try {
       PojoWithGuavaOptional2 result = new PojoWithGuavaOptional2();
-      if (isSet$optionalValue$com$google$common$base$Optional) {
-        result.optionalValue = value$optionalValue$com$google$common$base$Optional;
+      if (value$boxedInt$com$google$common$base$Optional == null || value$boxedInt$com$google$common$base$Optional.isPresent()) {
+        result.boxedInt = value$boxedInt$com$google$common$base$Optional;
+      }
+      if (value$array$com$google$common$base$Optional == null || value$array$com$google$common$base$Optional.isPresent()) {
+        result.array = value$array$com$google$common$base$Optional;
       }
       return result;
     } catch (RuntimeException ex) {

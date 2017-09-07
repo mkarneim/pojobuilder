@@ -7,12 +7,9 @@ import javax.annotation.Generated;
 public class PojoWithGuavaOptionalBuilder
     implements Cloneable {
   protected PojoWithGuavaOptionalBuilder self;
-  protected int value$primitiveInt$int;
-  protected boolean isSet$primitiveInt$int;
-  protected Integer value$boxedInt$java$lang$Integer;
-  protected boolean isSet$boxedInt$java$lang$Integer;
-  protected int[] value$array$int$L;
-  protected boolean isSet$array$int$L;
+  protected Optional<? extends Integer> value$primitiveInt$int = Optional.absent();
+  protected Optional<? extends Integer> value$boxedInt$java$lang$Integer = Optional.absent();
+  protected Optional<? extends int[]> value$array$int$L = Optional.absent();
 
   /**
    * Creates a new {@link PojoWithGuavaOptionalBuilder}.
@@ -28,8 +25,7 @@ public class PojoWithGuavaOptionalBuilder
    * @return this builder
    */
   public PojoWithGuavaOptionalBuilder withPrimitiveInt(int value) {
-    this.value$primitiveInt$int = value;
-    this.isSet$primitiveInt$int = true;
+    this.value$primitiveInt$int = Optional.of(value);
     return self;
   }
 
@@ -40,7 +36,10 @@ public class PojoWithGuavaOptionalBuilder
    * @return this builder
    */
   public PojoWithGuavaOptionalBuilder withPrimitiveInt(Optional<? extends Integer> optionalValue) {
-    return optionalValue.isPresent()?withPrimitiveInt(optionalValue.get()):self;
+    if (optionalValue.isPresent()) {
+      this.value$primitiveInt$int = optionalValue;
+    }
+    return self;
   }
 
   /**
@@ -50,8 +49,11 @@ public class PojoWithGuavaOptionalBuilder
    * @return this builder
    */
   public PojoWithGuavaOptionalBuilder withBoxedInt(Integer value) {
-    this.value$boxedInt$java$lang$Integer = value;
-    this.isSet$boxedInt$java$lang$Integer = true;
+    if (value == null) {
+      this.value$boxedInt$java$lang$Integer = null;
+    } else {
+      this.value$boxedInt$java$lang$Integer = Optional.of(value);
+    }
     return self;
   }
 
@@ -62,7 +64,10 @@ public class PojoWithGuavaOptionalBuilder
    * @return this builder
    */
   public PojoWithGuavaOptionalBuilder withBoxedInt(Optional<? extends Integer> optionalValue) {
-    return optionalValue.isPresent()?withBoxedInt(optionalValue.get()):self;
+    if (optionalValue == null || optionalValue.isPresent()) {
+      this.value$boxedInt$java$lang$Integer = optionalValue;
+    }
+    return self;
   }
 
   /**
@@ -72,8 +77,11 @@ public class PojoWithGuavaOptionalBuilder
    * @return this builder
    */
   public PojoWithGuavaOptionalBuilder withArray(int[] value) {
-    this.value$array$int$L = value;
-    this.isSet$array$int$L = true;
+    if (value == null) {
+      this.value$array$int$L = null;
+    } else {
+      this.value$array$int$L = Optional.of(value);
+    }
     return self;
   }
 
@@ -84,7 +92,10 @@ public class PojoWithGuavaOptionalBuilder
    * @return this builder
    */
   public PojoWithGuavaOptionalBuilder withArray(Optional<? extends int[]> optionalValue) {
-    return optionalValue.isPresent()?withArray(optionalValue.get()):self;
+    if (optionalValue == null || optionalValue.isPresent()) {
+      this.value$array$int$L = optionalValue;
+    }
+    return self;
   }
 
   /**
@@ -120,14 +131,18 @@ public class PojoWithGuavaOptionalBuilder
   public PojoWithGuavaOptional build() {
     try {
       PojoWithGuavaOptional result = new PojoWithGuavaOptional();
-      if (isSet$primitiveInt$int) {
-        result.primitiveInt = value$primitiveInt$int;
+      if (value$primitiveInt$int.isPresent()) {
+        result.primitiveInt = value$primitiveInt$int.get();
       }
-      if (isSet$boxedInt$java$lang$Integer) {
-        result.boxedInt = value$boxedInt$java$lang$Integer;
+      if (value$boxedInt$java$lang$Integer == null) {
+        result.boxedInt = null;
+      } else if (value$boxedInt$java$lang$Integer.isPresent()) {
+        result.boxedInt = value$boxedInt$java$lang$Integer.get();
       }
-      if (isSet$array$int$L) {
-        result.array = value$array$int$L;
+      if (value$array$int$L == null) {
+        result.array = null;
+      } else if (value$array$int$L.isPresent()) {
+        result.array = value$array$int$L.get();
       }
       return result;
     } catch (RuntimeException ex) {
