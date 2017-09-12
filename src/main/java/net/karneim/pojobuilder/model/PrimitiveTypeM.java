@@ -1,25 +1,23 @@
 package net.karneim.pojobuilder.model;
 
-import com.google.common.primitives.Primitives;
-
 public class PrimitiveTypeM extends TypeM {
-  public static final TypeM VOID = new PrimitiveTypeM(void.class);
-  public static final TypeM DOUBLE = new PrimitiveTypeM(double.class);
-  public static final TypeM FLOAT = new PrimitiveTypeM(float.class);
-  public static final TypeM LONG = new PrimitiveTypeM(long.class);
-  public static final TypeM INT = new PrimitiveTypeM(int.class);
-  public static final TypeM SHORT = new PrimitiveTypeM(short.class);
-  public static final TypeM BYTE = new PrimitiveTypeM(byte.class);
-  public static final TypeM CHAR = new PrimitiveTypeM(char.class);
-  public static final TypeM BOOLEAN = new PrimitiveTypeM(boolean.class);
+  public static final TypeM VOID = new PrimitiveTypeM(void.class, Void.class);
+  public static final TypeM DOUBLE = new PrimitiveTypeM(double.class, Double.class);
+  public static final TypeM FLOAT = new PrimitiveTypeM(float.class, Float.class);
+  public static final TypeM LONG = new PrimitiveTypeM(long.class, Long.class);
+  public static final TypeM INT = new PrimitiveTypeM(int.class, Integer.class);
+  public static final TypeM SHORT = new PrimitiveTypeM(short.class, Short.class);
+  public static final TypeM BYTE = new PrimitiveTypeM(byte.class, Byte.class);
+  public static final TypeM CHAR = new PrimitiveTypeM(char.class, Character.class);
+  public static final TypeM BOOLEAN = new PrimitiveTypeM(boolean.class, Boolean.class);
 
   private final Class<?> type;
   private final TypeM boxType;
 
-  public PrimitiveTypeM(Class<?> type) {
+  public PrimitiveTypeM(Class<?> type, Class<?> boxType) {
     super(type.getName());
     this.type = type;
-    this.boxType = new TypeM(Primitives.wrap(type));
+    this.boxType = new TypeM(boxType);
   }
 
   /**

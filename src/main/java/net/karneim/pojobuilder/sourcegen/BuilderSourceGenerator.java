@@ -14,7 +14,6 @@ import java.util.List;
 import javax.annotation.Generated;
 import javax.lang.model.element.Modifier;
 
-import com.google.common.base.Joiner;
 import com.squareup.javawriter.JavaWriter;
 
 import net.karneim.pojobuilder.model.ArgumentListM;
@@ -254,16 +253,14 @@ public class BuilderSourceGenerator {
     } else {
       if (factoryMethod == null) {
         ArgumentListM argumentMs = properties.filterOutPropertiesWritableViaConstructorParameter(builderType);
-        List<String> arguments = emitParameterAssignments(hasBuilderProperties, optionalType, buildMethod, argumentMs);
-        String argumentString = Joiner.on(", ").join(arguments);
-        writer.emitStatement("%s result = new %s(%s)", pojoTypeDeclaration, pojoTypeDeclaration, argumentString);
+        String arguments = emitParameterAssignments(hasBuilderProperties, optionalType, buildMethod, argumentMs);
+        writer.emitStatement("%s result = new %s(%s)", pojoTypeDeclaration, pojoTypeDeclaration, arguments);
       } else {
         ArgumentListM argumentMs = properties.filterOutPropertiesWritableViaFactoryMethodParameter(builderType);
-        List<String> arguments = emitParameterAssignments(hasBuilderProperties, optionalType, buildMethod, argumentMs);
-        String argumentString = Joiner.on(", ").join(arguments);
+        String arguments = emitParameterAssignments(hasBuilderProperties, optionalType, buildMethod, argumentMs);
         String factoryClass = writer.compressType(factoryMethod.getDeclaringClass().getName());
         writer.emitStatement("%s result = %s.%s(%s)", pojoTypeDeclaration, factoryClass, factoryMethod.getName(),
-            argumentString);
+            arguments);
       }
     }
 
@@ -287,15 +284,18 @@ public class BuilderSourceGenerator {
         .emitStatement("throw new java.lang.reflect.UndeclaredThrowableException(ex)").endControlFlow().endMethod();
   }
 
-  private List<String> emitParameterAssignments(boolean hasBuilderProperties, TypeM optionalType,
-      BuildMethodM buildMethod, ArgumentListM factoryMethodArguments) throws IOException, ClassNotFoundException {
-    List<String> arguments = new ArrayList<String>(factoryMethodArguments.size());
+  private String emitParameterAssignments(boolean hasBuilderProperties, TypeM optionalType, BuildMethodM buildMethod,
+      ArgumentListM factoryMethodArguments) throws IOException, ClassNotFoundException {
+    StringBuilder arguments = new StringBuilder();
     for (PropertyM prop : factoryMethodArguments.sortByPosition().getPropertyList()) {
       String parameterFieldName = "_" + prop.getPropertyName();
       emitParameterAssignment(prop, parameterFieldName, optionalType, hasBuilderProperties, buildMethod);
-      arguments.add(parameterFieldName);
+      if (arguments.length() > 0) {
+        arguments.append(", ");
+      }
+      arguments.append(parameterFieldName);
     }
-    return arguments;
+    return arguments.toString();
   }
 
   private void emitBuildPropertyStatement(boolean hasBuilderProperties, BuildMethodM buildMethod, TypeM optionalType,
