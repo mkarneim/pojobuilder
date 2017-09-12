@@ -130,7 +130,7 @@ public class Pojo3Builder
   public Pojo3 get() {
     try {
       File _file;
-      if (!isSet$file$java$io$File && builder$file$java$io$File!=null) {
+      if (!isSet$file$java$io$File && builder$file$java$io$File != null) {
         _file = builder$file$java$io$File.get();
       } else {
         _file = value$file$java$io$File;
@@ -138,12 +138,12 @@ public class Pojo3Builder
       Pojo3 result = new Pojo3(_file);
       if (isSet$age$int) {
         result.setAge(value$age$int);
-      } else if (builder$age$int!=null) {
+      } else if (builder$age$int != null) {
         result.setAge(builder$age$int.get());
       }
       if (isSet$name$java$lang$String) {
         result.name = value$name$java$lang$String;
-      } else if (builder$name$java$lang$String!=null) {
+      } else if (builder$name$java$lang$String != null) {
         result.name = builder$name$java$lang$String.get();
       }
       return result;

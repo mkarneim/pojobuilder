@@ -103,13 +103,13 @@ public class StringBuilder
   public String build() {
     try {
       String _format;
-      if (!isSet$format$java$lang$String && builder$format$java$lang$String!=null) {
+      if (!isSet$format$java$lang$String && builder$format$java$lang$String != null) {
         _format = builder$format$java$lang$String.build();
       } else {
         _format = value$format$java$lang$String;
       }
       long _nextNumber;
-      if (!isSet$nextNumber$long && builder$nextNumber$long!=null) {
+      if (!isSet$nextNumber$long && builder$nextNumber$long != null) {
         _nextNumber = builder$nextNumber$long.build();
       } else {
         _nextNumber = value$nextNumber$long;

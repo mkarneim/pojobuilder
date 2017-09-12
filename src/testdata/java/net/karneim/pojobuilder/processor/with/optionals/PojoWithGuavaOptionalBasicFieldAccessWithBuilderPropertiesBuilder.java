@@ -217,28 +217,28 @@ public class PojoWithGuavaOptionalBasicFieldAccessWithBuilderPropertiesBuilder
       PojoWithGuavaOptionalBasicFieldAccessWithBuilderProperties result = new PojoWithGuavaOptionalBasicFieldAccessWithBuilderProperties();
       if (value$primitiveInt$int.isPresent()) {
         result.primitiveInt = value$primitiveInt$int.get();
-      } else if (builder$primitiveInt$int!=null) {
+      } else if (builder$primitiveInt$int != null) {
         result.primitiveInt = builder$primitiveInt$int.build();
       }
       if (value$boxedInt$java$lang$Integer == null) {
         result.boxedInt = (Integer) null;
       } else if (value$boxedInt$java$lang$Integer.isPresent()) {
         result.boxedInt = value$boxedInt$java$lang$Integer.get();
-      } else if (builder$boxedInt$java$lang$Integer!=null) {
+      } else if (builder$boxedInt$java$lang$Integer != null) {
         result.boxedInt = builder$boxedInt$java$lang$Integer.build();
       }
       if (value$array$int$L == null) {
         result.array = (int[]) null;
       } else if (value$array$int$L.isPresent()) {
         result.array = value$array$int$L.get();
-      } else if (builder$array$int$L!=null) {
+      } else if (builder$array$int$L != null) {
         result.array = builder$array$int$L.build();
       }
       if (value$list$java$util$List == null) {
         result.list = (List<Integer>) null;
       } else if (value$list$java$util$List.isPresent()) {
         result.list = value$list$java$util$List.get();
-      } else if (builder$list$java$util$List!=null) {
+      } else if (builder$list$java$util$List != null) {
         result.list = builder$list$java$util$List.build();
       }
       return result;

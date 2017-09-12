@@ -105,12 +105,12 @@ public class OrderBuilder
       Order result = new Order();
       if (isSet$recipient$samples$Recipient) {
         result.recipient = value$recipient$samples$Recipient;
-      } else if (builder$recipient$samples$Recipient!=null) {
+      } else if (builder$recipient$samples$Recipient != null) {
         result.recipient = builder$recipient$samples$Recipient.build();
       }
       if (isSet$items$java$util$List) {
         result.items = value$items$java$util$List;
-      } else if (builder$items$java$util$List!=null) {
+      } else if (builder$items$java$util$List != null) {
         result.items = builder$items$java$util$List.build();
       }
       return result;

@@ -321,7 +321,7 @@ public class BuilderSourceGenerator {
       writer.emitStatement(setTemplate, prop.getValueFieldName() + ".get()");
     }
     if (hasBuilderProperties) {
-      writer.nextControlFlow("else if (%s!=null)", prop.getBuilderFieldName());
+      writer.nextControlFlow("else if (%s != null)", prop.getBuilderFieldName());
       writer.emitStatement(setTemplate, prop.getBuilderFieldName() + "." + buildMethod.getName() + "()");
     }
     writer.endControlFlow();
@@ -334,7 +334,7 @@ public class BuilderSourceGenerator {
     String valueField = prop.getValueFieldName();
     if (optionalType == null) {
       writer.emitStatement("%s %s", compressedType, parameterFieldName);
-      writer.beginControlFlow("if (!%s && %s!=null)", prop.getIsSetFieldName(), prop.getBuilderFieldName())
+      writer.beginControlFlow("if (!%s && %s != null)", prop.getIsSetFieldName(), prop.getBuilderFieldName())
           .emitStatement("%s = %s.%s()", parameterFieldName, prop.getBuilderFieldName(), buildMethodName);
       writer.nextControlFlow("else").emitStatement("%s = %s", parameterFieldName, valueField);
       writer.endControlFlow();
