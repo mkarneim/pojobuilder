@@ -144,7 +144,7 @@ public class BuilderSourceGenerator {
         emitWithOptionalMethod(builderType, selfType, pojoType, prop, optionalType);
       }
       if (interfaceType != null && hasBuilderProperties) {
-        emitWithMethodUsingBuilderInterface(builderType, selfType, interfaceType, pojoType, prop);
+        emitWithMethodUsingBuilderInterface(builderType, selfType, interfaceType, pojoType, prop, optionalType);
       }
     }
     emitCloneMethod(selfType, cloneMethod);
@@ -357,27 +357,25 @@ public class BuilderSourceGenerator {
   }
 
   private void emitWithMethodUsingBuilderInterface(TypeM builderType, TypeM selfType, TypeM interfaceType,
-      TypeM pojoType, PropertyM prop) throws IOException {
-    String builderFieldName = prop.getBuilderFieldName();
-    String isSetFieldName = prop.getIsSetFieldName();
+      TypeM pojoType, PropertyM prop, TypeM optionalType) throws IOException, ClassNotFoundException {
     String withMethodName = prop.getWithMethodName();
     String pojoTypeStr = writer.compressType(pojoType.getName());
     String parameterTypeStr = prop.getParameterizedBuilderInterfaceType(interfaceType).getGenericType();
 
-    // @formatter:off
-    writer
-      .emitEmptyLine()
-      .emitJavadoc(
-          "Sets the default builder for the {@link %s#%s} property.\n\n"
-        + "@param builder the default builder\n"
-        + "@return this builder"
-        , pojoTypeStr, prop.getPropertyName())
-      .beginMethod(selfType.getGenericType(), withMethodName, EnumSet.of(PUBLIC), parameterTypeStr, "builder")
-        .emitStatement("this.%s = builder", builderFieldName)
-        .emitStatement("this.%s = false", isSetFieldName)
-        .emitStatement("return self")
-      .endMethod();
-    // @formatter:on
+    writer.emitEmptyLine();
+    writer.emitJavadoc(
+        "Sets the default builder for the {@link %s#%s} property.\n\n"//
+            + "@param builder the default builder\n"//
+            + "@return this builder"//
+        , pojoTypeStr, prop.getPropertyName());
+    writer.beginMethod(selfType.getGenericType(), withMethodName, EnumSet.of(PUBLIC), parameterTypeStr, "builder");
+    writer.emitStatement("this.%s = builder", prop.getBuilderFieldName());
+    if (optionalType == null) {
+      writer.emitStatement("this.%s = false", prop.getIsSetFieldName());
+    } else {
+      writer.emitStatement("this.%s = %s", prop.getValueFieldName(), getOptionalAbsentCreation(optionalType));
+    }
+    writer.emitStatement("return self").endMethod();
   }
 
   private void emitWithMethod(TypeM builderType, TypeM selfType, TypeM pojoType, PropertyM prop, TypeM optionalType)
@@ -467,17 +465,17 @@ public class BuilderSourceGenerator {
   private void emitPropertyFields(PropertyM prop, TypeM interfaceType, boolean hasBuilderProperties, TypeM optionalType)
       throws IOException, ClassNotFoundException {
     String valueFieldName = prop.getValueFieldName();
-    if (optionalType != null) {
-      writer.emitField(prop.getOptionalPropertyType(optionalType).getGenericType(), valueFieldName,
-          EnumSet.of(PROTECTED), getOptionalAbsentCreation(optionalType));
-    } else {
+    if (optionalType == null) {
       String isSetFieldName = prop.getIsSetFieldName();
       writer.emitField(prop.getPropertyType().getGenericType(), valueFieldName, EnumSet.of(PROTECTED));
       writer.emitField("boolean", isSetFieldName, EnumSet.of(PROTECTED));
-      if (interfaceType != null && hasBuilderProperties) {
-        writer.emitField(prop.getParameterizedBuilderInterfaceType(interfaceType).getGenericType(),
-            prop.getBuilderFieldName(), EnumSet.of(PROTECTED));
-      }
+    } else {
+      writer.emitField(prop.getOptionalPropertyType(optionalType).getGenericType(), valueFieldName,
+          EnumSet.of(PROTECTED), getOptionalAbsentCreation(optionalType));
+    }
+    if (interfaceType != null && hasBuilderProperties) {
+      writer.emitField(prop.getParameterizedBuilderInterfaceType(interfaceType).getGenericType(),
+          prop.getBuilderFieldName(), EnumSet.of(PROTECTED));
     }
   }
 
