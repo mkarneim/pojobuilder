@@ -214,6 +214,10 @@ public class PropertyM {
     return String.format("builder$%s$%s", getPropertyName(), typeIdentifier);
   }
 
+  public String getCallTo(BuildMethodM buildMethod) {
+    return getBuilderFieldName() + "." + buildMethod.getName() + "()";
+  }
+
   private String getTypeIdentifierForFieldName() {
     return getPropertyType().getName().replaceAll("\\.", "\\$").replaceAll("\\[\\]", "\\$L");
   }

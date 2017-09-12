@@ -257,7 +257,7 @@ public class BuilderSourceGenerator {
         StringBuilder arguments = new StringBuilder();
         for (PropertyM prop : constructorArguments.sortByPosition().getPropertyList()) {
           String parameterFieldName = "_" + prop.getConstructorParameter().getName();
-          emitParameterAssignment(prop, parameterFieldName, buildMethod.getName(), optionalType);
+          emitParameterAssignment(prop, parameterFieldName, optionalType, hasBuilderProperties, buildMethod);
           if (arguments.length() > 0) {
             arguments.append(", ");
           }
@@ -270,7 +270,7 @@ public class BuilderSourceGenerator {
         StringBuilder arguments = new StringBuilder();
         for (PropertyM prop : factoryMethodArguments.sortByPosition().getPropertyList()) {
           String parameterFieldName = "_" + prop.getFactoryMethodParameter().getName();
-          emitParameterAssignment(prop, parameterFieldName, buildMethod.getName(), optionalType);
+          emitParameterAssignment(prop, parameterFieldName, optionalType, hasBuilderProperties, buildMethod);
           if (arguments.length() > 0) {
             arguments.append(", ");
           }
@@ -323,12 +323,12 @@ public class BuilderSourceGenerator {
     }
     if (hasBuilderProperties) {
       writer.nextControlFlow("else if (%s != null)", prop.getBuilderFieldName());
-      String callBuild = prop.getBuilderFieldName() + "." + buildMethod.getName() + "()";
+      String callBuild = prop.getCallTo(buildMethod);
       if (optionalType == null || !prop.isOptionalProperty(optionalType)) {
         writer.emitStatement(setTemplate, callBuild);
       } else {
         String basicType = writer.compressType(prop.getBasicPropertyType(optionalType).getGenericType());
-        String tempFieldName = "_" + prop.getPropertyName();
+        String tempFieldName = "builtValue";
         writer.emitStatement("%s %s = %s", basicType, tempFieldName, callBuild);
         writer.beginControlFlow("if (%s == null)", tempFieldName);
         writer.emitStatement(setTemplate, "(" + compressedType + ") null");
@@ -340,15 +340,18 @@ public class BuilderSourceGenerator {
     writer.endControlFlow();
   }
 
-  private void emitParameterAssignment(PropertyM prop, String parameterFieldName, String buildMethodName,
-      TypeM optionalType) throws IOException {
+  private void emitParameterAssignment(PropertyM prop, String parameterFieldName, TypeM optionalType,
+      boolean hasBuilderProperties, BuildMethodM buildMethod) throws IOException, ClassNotFoundException {
     TypeM propertyType = prop.getPropertyType();
     String compressedType = writer.compressType(propertyType.getGenericType());
+    String builderFieldName = prop.getBuilderFieldName();
     String valueField = prop.getValueFieldName();
+    String callBuild = prop.getCallTo(buildMethod);
+
     if (optionalType == null) {
       writer.emitStatement("%s %s", compressedType, parameterFieldName);
-      writer.beginControlFlow("if (!%s && %s != null)", prop.getIsSetFieldName(), prop.getBuilderFieldName())
-          .emitStatement("%s = %s.%s()", parameterFieldName, prop.getBuilderFieldName(), buildMethodName);
+      writer.beginControlFlow("if (!%s && %s != null)", prop.getIsSetFieldName(), builderFieldName);
+      writer.emitStatement("%s = %s", parameterFieldName, callBuild);
       writer.nextControlFlow("else").emitStatement("%s = %s", parameterFieldName, valueField);
       writer.endControlFlow();
     } else {
@@ -361,9 +364,34 @@ public class BuilderSourceGenerator {
       if (prop.isOptionalProperty(optionalType)) {
         writer.beginControlFlow("if (%s == null || %s.isPresent())", valueField, valueField);
         writer.emitStatement("%s = %s", parameterFieldName, valueField);
+        if (hasBuilderProperties) {
+          writer.nextControlFlow("else if (%s != null)", builderFieldName);
+          String basicType = writer.compressType(prop.getBasicPropertyType(optionalType).getGenericType());
+          String tempFieldName = "builtValue";
+          writer.emitStatement("%s %s = %s", basicType, tempFieldName, callBuild);
+          writer.beginControlFlow("if (%s != null)", tempFieldName);
+          writer.emitStatement("%s = %s", parameterFieldName, getOptionalPresentCreation(optionalType, tempFieldName));
+          writer.endControlFlow();
+        }
       } else {
-        writer.beginControlFlow("if (%s != null && %s.isPresent())", valueField, valueField);
+        boolean extraControlFlow = false;
+        if (propertyType.isPrimitive()) {
+          writer.beginControlFlow("if (%s.isPresent())", valueField);
+        } else if (hasBuilderProperties) {
+          extraControlFlow = true;
+          writer.beginControlFlow("if (%s != null)", valueField);
+          writer.beginControlFlow("if (%s.isPresent())", valueField);
+        } else {
+          writer.beginControlFlow("if (%s != null && %s.isPresent())", valueField, valueField);
+        }
         writer.emitStatement("%s = %s.get()", parameterFieldName, valueField);
+        if (hasBuilderProperties) {
+          writer.nextControlFlow("else if (%s != null)", builderFieldName);
+          writer.emitStatement("%s = %s", parameterFieldName, callBuild);
+        }
+        if (extraControlFlow) {
+          writer.endControlFlow();
+        }
       }
       writer.endControlFlow();
     }

@@ -156,6 +156,22 @@ public class AnnotationProcessor_WithGuavaOptionals_Test extends ProcessorTestSu
    * @scenario the builder contains withParam(Optional&lt;X&gt;) methods
    */
   @Test
+  public void testShouldGenerateWithOptionalMethodsForBasicConstructorWithBuilderProperties() {
+    // Given:
+    sourceFor(PojoWithGuavaOptionalBasicConstructorWithBuilderProperties.class);
+    // When:
+    prj.compile();
+    // Then:
+    assertThat(prj).generatedSameSourceAs(PojoWithGuavaOptionalBasicConstructorWithBuilderPropertiesBuilder.class)
+        .compiled(PojoWithGuavaOptionalBasicConstructorWithBuilderPropertiesBuilder.class)
+        .reported(Compilation.Success);
+  }
+
+  /**
+   * @throws Exception
+   * @scenario the builder contains withParam(Optional&lt;X&gt;) methods
+   */
+  @Test
   public void testShouldGenerateWithOptionalMethodsForOptionalConstructor() {
     // Given:
     sourceFor(PojoWithGuavaOptionalOptionalConstructor.class);
@@ -164,6 +180,22 @@ public class AnnotationProcessor_WithGuavaOptionals_Test extends ProcessorTestSu
     // Then:
     assertThat(prj).generatedSameSourceAs(PojoWithGuavaOptionalOptionalConstructorBuilder.class)
         .compiled(PojoWithGuavaOptionalOptionalConstructorBuilder.class).reported(Compilation.Success);
+  }
+
+  /**
+   * @throws Exception
+   * @scenario the builder contains withParam(Optional&lt;X&gt;) methods
+   */
+  @Test
+  public void testShouldGenerateWithOptionalMethodsForOptionalConstructorWithBuilderProperties() {
+    // Given:
+    sourceFor(PojoWithGuavaOptionalOptionalConstructorWithBuilderProperties.class);
+    // When:
+    prj.compile();
+    // Then:
+    assertThat(prj).generatedSameSourceAs(PojoWithGuavaOptionalOptionalConstructorWithBuilderPropertiesBuilder.class)
+        .compiled(PojoWithGuavaOptionalOptionalConstructorWithBuilderPropertiesBuilder.class)
+        .reported(Compilation.Success);
   }
 
   /**

@@ -161,7 +161,7 @@ public class PojoWithGuavaOptionalBasicFactoryBuilder
   public PojoWithGuavaOptionalBasicFactory build() {
     try {
       int _primitiveInt = 0;
-      if (value$primitiveInt$int != null && value$primitiveInt$int.isPresent()) {
+      if (value$primitiveInt$int.isPresent()) {
         _primitiveInt = value$primitiveInt$int.get();
       }
       Integer _boxedInt = null;

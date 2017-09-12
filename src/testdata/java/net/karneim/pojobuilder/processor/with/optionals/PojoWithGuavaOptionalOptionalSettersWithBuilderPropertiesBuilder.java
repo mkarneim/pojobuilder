@@ -180,31 +180,31 @@ public class PojoWithGuavaOptionalOptionalSettersWithBuilderPropertiesBuilder
       if (value$boxedInt$com$google$common$base$Optional == null || value$boxedInt$com$google$common$base$Optional.isPresent()) {
         result.setBoxedInt(value$boxedInt$com$google$common$base$Optional);
       } else if (builder$boxedInt$com$google$common$base$Optional != null) {
-        Integer _boxedInt = builder$boxedInt$com$google$common$base$Optional.build();
-        if (_boxedInt == null) {
+        Integer builtValue = builder$boxedInt$com$google$common$base$Optional.build();
+        if (builtValue == null) {
           result.setBoxedInt((Optional<Integer>) null);
         } else {
-          result.setBoxedInt(Optional.of(_boxedInt));
+          result.setBoxedInt(Optional.of(builtValue));
         }
       }
       if (value$array$com$google$common$base$Optional == null || value$array$com$google$common$base$Optional.isPresent()) {
         result.setArray(value$array$com$google$common$base$Optional);
       } else if (builder$array$com$google$common$base$Optional != null) {
-        int[] _array = builder$array$com$google$common$base$Optional.build();
-        if (_array == null) {
+        int[] builtValue = builder$array$com$google$common$base$Optional.build();
+        if (builtValue == null) {
           result.setArray((Optional<int[]>) null);
         } else {
-          result.setArray(Optional.of(_array));
+          result.setArray(Optional.of(builtValue));
         }
       }
       if (value$list$com$google$common$base$Optional == null || value$list$com$google$common$base$Optional.isPresent()) {
         result.setList(value$list$com$google$common$base$Optional);
       } else if (builder$list$com$google$common$base$Optional != null) {
-        List<Integer> _list = builder$list$com$google$common$base$Optional.build();
-        if (_list == null) {
+        List<Integer> builtValue = builder$list$com$google$common$base$Optional.build();
+        if (builtValue == null) {
           result.setList((Optional<List<Integer>>) null);
         } else {
-          result.setList(Optional.of(_list));
+          result.setList(Optional.of(builtValue));
         }
       }
       return result;
