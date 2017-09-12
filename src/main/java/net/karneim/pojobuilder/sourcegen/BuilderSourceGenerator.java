@@ -282,38 +282,14 @@ public class BuilderSourceGenerator {
 
     PropertyListM setterProperties = properties.filterOutPropertiesWritableBy(Type.SETTER, builderType);
     for (PropertyM prop : setterProperties) {
-      writer.beginControlFlow("if (%s)", prop.getIsSetFieldName()).emitStatement("result.%s(%s)",
-          prop.getSetterMethod().getName(), prop.getValueFieldName());
-      if (hasBuilderProperties) {
-        writer.nextControlFlow("else if (%s!=null)", prop.getBuilderFieldName()).emitStatement("result.%s(%s.%s())",
-            prop.getSetterMethod().getName(), prop.getBuilderFieldName(), buildMethod.getName());
-      }
-      writer.endControlFlow();
+      String setTemplate = "result." + prop.getSetterMethod().getName() + "(%s)";
+      emitBuildPropertyStatement(hasBuilderProperties, buildMethod, optionalType, prop, setTemplate);
     }
 
     PropertyListM writableProperties = properties.filterOutPropertiesWritableBy(Type.FIELD, builderType);
     for (PropertyM prop : writableProperties) {
-      if (optionalType == null) { // ohne Optionals
-        writer.beginControlFlow("if (%s)", prop.getIsSetFieldName());
-        writer.emitStatement("result.%s = %s", prop.getPropertyName(), prop.getValueFieldName());
-      } else if (prop.getPropertyType().isPrimitive()) { // Primitive (mit Optionals)
-        writer.beginControlFlow("if (%s.isPresent())", prop.getValueFieldName());
-        writer.emitStatement("result.%s = %s.get()", prop.getPropertyName(), prop.getValueFieldName());
-      } else if (prop.isOptionalProperty(optionalType)) { // Optional (mit Optionals)
-        writer.beginControlFlow("if (%s == null || %s.isPresent())", prop.getValueFieldName(),
-            prop.getValueFieldName());
-        writer.emitStatement("result.%s = %s", prop.getPropertyName(), prop.getValueFieldName());
-      } else { // Nicht Primitive (mit Optionals)
-        writer.beginControlFlow("if (%s == null)", prop.getValueFieldName());
-        writer.emitStatement("result.%s = null", prop.getPropertyName());
-        writer.nextControlFlow("else if (%s.isPresent())", prop.getValueFieldName());
-        writer.emitStatement("result.%s = %s.get()", prop.getPropertyName(), prop.getValueFieldName());
-      }
-      if (hasBuilderProperties) {
-        writer.nextControlFlow("else if (%s!=null)", prop.getBuilderFieldName()).emitStatement("result.%s = %s.%s()",
-            prop.getPropertyName(), prop.getBuilderFieldName(), buildMethod.getName());
-      }
-      writer.endControlFlow();
+      String setTemplate = "result." + prop.getPropertyName() + " = %s";
+      emitBuildPropertyStatement(hasBuilderProperties, buildMethod, optionalType, prop, setTemplate);
     }
     // TODO inform user about any properties leftover
     if (validator != null) {
@@ -322,6 +298,31 @@ public class BuilderSourceGenerator {
     writer.emitStatement("return result").nextControlFlow("catch (RuntimeException ex)").emitStatement("throw ex")
         .nextControlFlow("catch (Exception ex)")
         .emitStatement("throw new java.lang.reflect.UndeclaredThrowableException(ex)").endControlFlow().endMethod();
+  }
+
+  private void emitBuildPropertyStatement(boolean hasBuilderProperties, BuildMethodM buildMethod, TypeM optionalType, PropertyM prop,
+      String setTemplate) throws IOException {
+    if (optionalType == null) { // ohne Optionals
+      writer.beginControlFlow("if (%s)", prop.getIsSetFieldName());
+      writer.emitStatement(setTemplate, prop.getValueFieldName());
+    } else if (prop.getPropertyType().isPrimitive()) { // Primitive (mit Optionals)
+      writer.beginControlFlow("if (%s.isPresent())", prop.getValueFieldName());
+      writer.emitStatement(setTemplate, prop.getValueFieldName() + ".get()");
+    } else if (prop.isOptionalProperty(optionalType)) { // Optional (mit Optionals)
+      writer.beginControlFlow("if (%s == null || %s.isPresent())", prop.getValueFieldName(), prop.getValueFieldName());
+      writer.emitStatement(setTemplate, prop.getValueFieldName());
+    } else { // Nicht Primitive (mit Optionals)
+      writer.beginControlFlow("if (%s == null)", prop.getValueFieldName());
+      String type = writer.compressType(prop.getPropertyType().getGenericType());
+      writer.emitStatement(setTemplate, "(" + type + ") null");
+      writer.nextControlFlow("else if (%s.isPresent())", prop.getValueFieldName());
+      writer.emitStatement(setTemplate, prop.getValueFieldName() + ".get()");
+    }
+    if (hasBuilderProperties) {
+      writer.nextControlFlow("else if (%s!=null)", prop.getBuilderFieldName());
+      writer.emitStatement(setTemplate, prop.getBuilderFieldName() + "." + buildMethod.getName() + "()");
+    }
+    writer.endControlFlow();
   }
 
   private void emitParameterAssignmentWithBuilderProperty(PropertyM prop, String parameterFieldName,

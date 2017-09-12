@@ -5,27 +5,27 @@ import java.util.List;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
-public class PojoWithGuavaOptionalOptionalFieldAccessBuilder
+public class PojoWithGuavaOptionalOptionalSettersBuilder
     implements Cloneable {
-  protected PojoWithGuavaOptionalOptionalFieldAccessBuilder self;
+  protected PojoWithGuavaOptionalOptionalSettersBuilder self;
   protected Optional<Integer> value$boxedInt$com$google$common$base$Optional = Optional.absent();
   protected Optional<int[]> value$array$com$google$common$base$Optional = Optional.absent();
   protected Optional<List<Integer>> value$list$com$google$common$base$Optional = Optional.absent();
 
   /**
-   * Creates a new {@link PojoWithGuavaOptionalOptionalFieldAccessBuilder}.
+   * Creates a new {@link PojoWithGuavaOptionalOptionalSettersBuilder}.
    */
-  public PojoWithGuavaOptionalOptionalFieldAccessBuilder() {
-    self = (PojoWithGuavaOptionalOptionalFieldAccessBuilder)this;
+  public PojoWithGuavaOptionalOptionalSettersBuilder() {
+    self = (PojoWithGuavaOptionalOptionalSettersBuilder)this;
   }
 
   /**
-   * Sets the default value for the {@link PojoWithGuavaOptionalOptionalFieldAccess#boxedInt} property.
+   * Sets the default value for the {@link PojoWithGuavaOptionalOptionalSetters#boxedInt} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public PojoWithGuavaOptionalOptionalFieldAccessBuilder withBoxedInt(Integer value) {
+  public PojoWithGuavaOptionalOptionalSettersBuilder withBoxedInt(Integer value) {
     if (value == null) {
       this.value$boxedInt$com$google$common$base$Optional = null;
     } else {
@@ -35,12 +35,12 @@ public class PojoWithGuavaOptionalOptionalFieldAccessBuilder
   }
 
   /**
-   * Optionally sets the default value for the {@link PojoWithGuavaOptionalOptionalFieldAccess#boxedInt} property.
+   * Optionally sets the default value for the {@link PojoWithGuavaOptionalOptionalSetters#boxedInt} property.
    *
    * @param optionalValue the optional default value
    * @return this builder
    */
-  public PojoWithGuavaOptionalOptionalFieldAccessBuilder withBoxedInt(Optional<Integer> optionalValue) {
+  public PojoWithGuavaOptionalOptionalSettersBuilder withBoxedInt(Optional<Integer> optionalValue) {
     if (optionalValue == null || optionalValue.isPresent()) {
       this.value$boxedInt$com$google$common$base$Optional = optionalValue;
     }
@@ -48,12 +48,12 @@ public class PojoWithGuavaOptionalOptionalFieldAccessBuilder
   }
 
   /**
-   * Sets the default value for the {@link PojoWithGuavaOptionalOptionalFieldAccess#array} property.
+   * Sets the default value for the {@link PojoWithGuavaOptionalOptionalSetters#array} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public PojoWithGuavaOptionalOptionalFieldAccessBuilder withArray(int[] value) {
+  public PojoWithGuavaOptionalOptionalSettersBuilder withArray(int[] value) {
     if (value == null) {
       this.value$array$com$google$common$base$Optional = null;
     } else {
@@ -63,12 +63,12 @@ public class PojoWithGuavaOptionalOptionalFieldAccessBuilder
   }
 
   /**
-   * Optionally sets the default value for the {@link PojoWithGuavaOptionalOptionalFieldAccess#array} property.
+   * Optionally sets the default value for the {@link PojoWithGuavaOptionalOptionalSetters#array} property.
    *
    * @param optionalValue the optional default value
    * @return this builder
    */
-  public PojoWithGuavaOptionalOptionalFieldAccessBuilder withArray(Optional<int[]> optionalValue) {
+  public PojoWithGuavaOptionalOptionalSettersBuilder withArray(Optional<int[]> optionalValue) {
     if (optionalValue == null || optionalValue.isPresent()) {
       this.value$array$com$google$common$base$Optional = optionalValue;
     }
@@ -76,12 +76,12 @@ public class PojoWithGuavaOptionalOptionalFieldAccessBuilder
   }
 
   /**
-   * Sets the default value for the {@link PojoWithGuavaOptionalOptionalFieldAccess#list} property.
+   * Sets the default value for the {@link PojoWithGuavaOptionalOptionalSetters#list} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public PojoWithGuavaOptionalOptionalFieldAccessBuilder withList(List<Integer> value) {
+  public PojoWithGuavaOptionalOptionalSettersBuilder withList(List<Integer> value) {
     if (value == null) {
       this.value$list$com$google$common$base$Optional = null;
     } else {
@@ -91,12 +91,12 @@ public class PojoWithGuavaOptionalOptionalFieldAccessBuilder
   }
 
   /**
-   * Optionally sets the default value for the {@link PojoWithGuavaOptionalOptionalFieldAccess#list} property.
+   * Optionally sets the default value for the {@link PojoWithGuavaOptionalOptionalSetters#list} property.
    *
    * @param optionalValue the optional default value
    * @return this builder
    */
-  public PojoWithGuavaOptionalOptionalFieldAccessBuilder withList(Optional<List<Integer>> optionalValue) {
+  public PojoWithGuavaOptionalOptionalSettersBuilder withList(Optional<List<Integer>> optionalValue) {
     if (optionalValue == null || optionalValue.isPresent()) {
       this.value$list$com$google$common$base$Optional = optionalValue;
     }
@@ -111,7 +111,7 @@ public class PojoWithGuavaOptionalOptionalFieldAccessBuilder
   @Override
   public Object clone() {
     try {
-      PojoWithGuavaOptionalOptionalFieldAccessBuilder result = (PojoWithGuavaOptionalOptionalFieldAccessBuilder)super.clone();
+      PojoWithGuavaOptionalOptionalSettersBuilder result = (PojoWithGuavaOptionalOptionalSettersBuilder)super.clone();
       result.self = result;
       return result;
     } catch (CloneNotSupportedException e) {
@@ -124,26 +124,26 @@ public class PojoWithGuavaOptionalOptionalFieldAccessBuilder
    *
    * @return the clone
    */
-  public PojoWithGuavaOptionalOptionalFieldAccessBuilder but() {
-    return (PojoWithGuavaOptionalOptionalFieldAccessBuilder)clone();
+  public PojoWithGuavaOptionalOptionalSettersBuilder but() {
+    return (PojoWithGuavaOptionalOptionalSettersBuilder)clone();
   }
 
   /**
-   * Creates a new {@link PojoWithGuavaOptionalOptionalFieldAccess} based on this builder's settings.
+   * Creates a new {@link PojoWithGuavaOptionalOptionalSetters} based on this builder's settings.
    *
-   * @return the created PojoWithGuavaOptionalOptionalFieldAccess
+   * @return the created PojoWithGuavaOptionalOptionalSetters
    */
-  public PojoWithGuavaOptionalOptionalFieldAccess build() {
+  public PojoWithGuavaOptionalOptionalSetters build() {
     try {
-      PojoWithGuavaOptionalOptionalFieldAccess result = new PojoWithGuavaOptionalOptionalFieldAccess();
+      PojoWithGuavaOptionalOptionalSetters result = new PojoWithGuavaOptionalOptionalSetters();
       if (value$boxedInt$com$google$common$base$Optional == null || value$boxedInt$com$google$common$base$Optional.isPresent()) {
-        result.boxedInt = value$boxedInt$com$google$common$base$Optional;
+        result.setBoxedInt(value$boxedInt$com$google$common$base$Optional);
       }
       if (value$array$com$google$common$base$Optional == null || value$array$com$google$common$base$Optional.isPresent()) {
-        result.array = value$array$com$google$common$base$Optional;
+        result.setArray(value$array$com$google$common$base$Optional);
       }
       if (value$list$com$google$common$base$Optional == null || value$list$com$google$common$base$Optional.isPresent()) {
-        result.list = value$list$com$google$common$base$Optional;
+        result.setList(value$list$com$google$common$base$Optional);
       }
       return result;
     } catch (RuntimeException ex) {

@@ -1,5 +1,6 @@
 package net.karneim.pojobuilder.processor.with.optionals;
 
+import java.util.List;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
@@ -9,6 +10,7 @@ public class PojoWithOtherOptionalBasicFieldAccessBuilder
   protected OtherOptional<? extends Integer> value$primitiveInt$int = OtherOptional.empty();
   protected OtherOptional<? extends Integer> value$boxedInt$java$lang$Integer = OtherOptional.empty();
   protected OtherOptional<? extends int[]> value$array$int$L = OtherOptional.empty();
+  protected OtherOptional<? extends List<Integer>> value$list$java$util$List = OtherOptional.empty();
 
   /**
    * Creates a new {@link PojoWithOtherOptionalBasicFieldAccessBuilder}.
@@ -98,6 +100,34 @@ public class PojoWithOtherOptionalBasicFieldAccessBuilder
   }
 
   /**
+   * Sets the default value for the {@link PojoWithOtherOptionalBasicFieldAccess#list} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public PojoWithOtherOptionalBasicFieldAccessBuilder withList(List<Integer> value) {
+    if (value == null) {
+      this.value$list$java$util$List = null;
+    } else {
+      this.value$list$java$util$List = OtherOptional.of(value);
+    }
+    return self;
+  }
+
+  /**
+   * Optionally sets the default value for the {@link PojoWithOtherOptionalBasicFieldAccess#list} property.
+   *
+   * @param optionalValue the optional default value
+   * @return this builder
+   */
+  public PojoWithOtherOptionalBasicFieldAccessBuilder withList(OtherOptional<? extends List<Integer>> optionalValue) {
+    if (optionalValue == null || optionalValue.isPresent()) {
+      this.value$list$java$util$List = optionalValue;
+    }
+    return self;
+  }
+
+  /**
    * Returns a clone of this builder.
    *
    * @return the clone
@@ -134,14 +164,19 @@ public class PojoWithOtherOptionalBasicFieldAccessBuilder
         result.primitiveInt = value$primitiveInt$int.get();
       }
       if (value$boxedInt$java$lang$Integer == null) {
-        result.boxedInt = null;
+        result.boxedInt = (Integer) null;
       } else if (value$boxedInt$java$lang$Integer.isPresent()) {
         result.boxedInt = value$boxedInt$java$lang$Integer.get();
       }
       if (value$array$int$L == null) {
-        result.array = null;
+        result.array = (int[]) null;
       } else if (value$array$int$L.isPresent()) {
         result.array = value$array$int$L.get();
+      }
+      if (value$list$java$util$List == null) {
+        result.list = (List<Integer>) null;
+      } else if (value$list$java$util$List.isPresent()) {
+        result.list = value$list$java$util$List.get();
       }
       return result;
     } catch (RuntimeException ex) {

@@ -5,39 +5,39 @@ import java.util.List;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
-public class PojoWithGuavaOptionalBasicFieldAccessBuilder
+public class PojoWithGuavaOptionalBasicSettersBuilder
     implements Cloneable {
-  protected PojoWithGuavaOptionalBasicFieldAccessBuilder self;
+  protected PojoWithGuavaOptionalBasicSettersBuilder self;
   protected Optional<? extends Integer> value$primitiveInt$int = Optional.absent();
   protected Optional<? extends Integer> value$boxedInt$java$lang$Integer = Optional.absent();
   protected Optional<? extends int[]> value$array$int$L = Optional.absent();
   protected Optional<? extends List<Integer>> value$list$java$util$List = Optional.absent();
 
   /**
-   * Creates a new {@link PojoWithGuavaOptionalBasicFieldAccessBuilder}.
+   * Creates a new {@link PojoWithGuavaOptionalBasicSettersBuilder}.
    */
-  public PojoWithGuavaOptionalBasicFieldAccessBuilder() {
-    self = (PojoWithGuavaOptionalBasicFieldAccessBuilder)this;
+  public PojoWithGuavaOptionalBasicSettersBuilder() {
+    self = (PojoWithGuavaOptionalBasicSettersBuilder)this;
   }
 
   /**
-   * Sets the default value for the {@link PojoWithGuavaOptionalBasicFieldAccess#primitiveInt} property.
+   * Sets the default value for the {@link PojoWithGuavaOptionalBasicSetters#primitiveInt} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public PojoWithGuavaOptionalBasicFieldAccessBuilder withPrimitiveInt(int value) {
+  public PojoWithGuavaOptionalBasicSettersBuilder withPrimitiveInt(int value) {
     this.value$primitiveInt$int = Optional.of(value);
     return self;
   }
 
   /**
-   * Optionally sets the default value for the {@link PojoWithGuavaOptionalBasicFieldAccess#primitiveInt} property.
+   * Optionally sets the default value for the {@link PojoWithGuavaOptionalBasicSetters#primitiveInt} property.
    *
    * @param optionalValue the optional default value
    * @return this builder
    */
-  public PojoWithGuavaOptionalBasicFieldAccessBuilder withPrimitiveInt(Optional<? extends Integer> optionalValue) {
+  public PojoWithGuavaOptionalBasicSettersBuilder withPrimitiveInt(Optional<? extends Integer> optionalValue) {
     if (optionalValue.isPresent()) {
       this.value$primitiveInt$int = optionalValue;
     }
@@ -45,12 +45,12 @@ public class PojoWithGuavaOptionalBasicFieldAccessBuilder
   }
 
   /**
-   * Sets the default value for the {@link PojoWithGuavaOptionalBasicFieldAccess#boxedInt} property.
+   * Sets the default value for the {@link PojoWithGuavaOptionalBasicSetters#boxedInt} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public PojoWithGuavaOptionalBasicFieldAccessBuilder withBoxedInt(Integer value) {
+  public PojoWithGuavaOptionalBasicSettersBuilder withBoxedInt(Integer value) {
     if (value == null) {
       this.value$boxedInt$java$lang$Integer = null;
     } else {
@@ -60,12 +60,12 @@ public class PojoWithGuavaOptionalBasicFieldAccessBuilder
   }
 
   /**
-   * Optionally sets the default value for the {@link PojoWithGuavaOptionalBasicFieldAccess#boxedInt} property.
+   * Optionally sets the default value for the {@link PojoWithGuavaOptionalBasicSetters#boxedInt} property.
    *
    * @param optionalValue the optional default value
    * @return this builder
    */
-  public PojoWithGuavaOptionalBasicFieldAccessBuilder withBoxedInt(Optional<? extends Integer> optionalValue) {
+  public PojoWithGuavaOptionalBasicSettersBuilder withBoxedInt(Optional<? extends Integer> optionalValue) {
     if (optionalValue == null || optionalValue.isPresent()) {
       this.value$boxedInt$java$lang$Integer = optionalValue;
     }
@@ -73,12 +73,12 @@ public class PojoWithGuavaOptionalBasicFieldAccessBuilder
   }
 
   /**
-   * Sets the default value for the {@link PojoWithGuavaOptionalBasicFieldAccess#array} property.
+   * Sets the default value for the {@link PojoWithGuavaOptionalBasicSetters#array} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public PojoWithGuavaOptionalBasicFieldAccessBuilder withArray(int[] value) {
+  public PojoWithGuavaOptionalBasicSettersBuilder withArray(int[] value) {
     if (value == null) {
       this.value$array$int$L = null;
     } else {
@@ -88,12 +88,12 @@ public class PojoWithGuavaOptionalBasicFieldAccessBuilder
   }
 
   /**
-   * Optionally sets the default value for the {@link PojoWithGuavaOptionalBasicFieldAccess#array} property.
+   * Optionally sets the default value for the {@link PojoWithGuavaOptionalBasicSetters#array} property.
    *
    * @param optionalValue the optional default value
    * @return this builder
    */
-  public PojoWithGuavaOptionalBasicFieldAccessBuilder withArray(Optional<? extends int[]> optionalValue) {
+  public PojoWithGuavaOptionalBasicSettersBuilder withArray(Optional<? extends int[]> optionalValue) {
     if (optionalValue == null || optionalValue.isPresent()) {
       this.value$array$int$L = optionalValue;
     }
@@ -101,12 +101,12 @@ public class PojoWithGuavaOptionalBasicFieldAccessBuilder
   }
 
   /**
-   * Sets the default value for the {@link PojoWithGuavaOptionalBasicFieldAccess#list} property.
+   * Sets the default value for the {@link PojoWithGuavaOptionalBasicSetters#list} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public PojoWithGuavaOptionalBasicFieldAccessBuilder withList(List<Integer> value) {
+  public PojoWithGuavaOptionalBasicSettersBuilder withList(List<Integer> value) {
     if (value == null) {
       this.value$list$java$util$List = null;
     } else {
@@ -116,12 +116,12 @@ public class PojoWithGuavaOptionalBasicFieldAccessBuilder
   }
 
   /**
-   * Optionally sets the default value for the {@link PojoWithGuavaOptionalBasicFieldAccess#list} property.
+   * Optionally sets the default value for the {@link PojoWithGuavaOptionalBasicSetters#list} property.
    *
    * @param optionalValue the optional default value
    * @return this builder
    */
-  public PojoWithGuavaOptionalBasicFieldAccessBuilder withList(Optional<? extends List<Integer>> optionalValue) {
+  public PojoWithGuavaOptionalBasicSettersBuilder withList(Optional<? extends List<Integer>> optionalValue) {
     if (optionalValue == null || optionalValue.isPresent()) {
       this.value$list$java$util$List = optionalValue;
     }
@@ -136,7 +136,7 @@ public class PojoWithGuavaOptionalBasicFieldAccessBuilder
   @Override
   public Object clone() {
     try {
-      PojoWithGuavaOptionalBasicFieldAccessBuilder result = (PojoWithGuavaOptionalBasicFieldAccessBuilder)super.clone();
+      PojoWithGuavaOptionalBasicSettersBuilder result = (PojoWithGuavaOptionalBasicSettersBuilder)super.clone();
       result.self = result;
       return result;
     } catch (CloneNotSupportedException e) {
@@ -149,35 +149,35 @@ public class PojoWithGuavaOptionalBasicFieldAccessBuilder
    *
    * @return the clone
    */
-  public PojoWithGuavaOptionalBasicFieldAccessBuilder but() {
-    return (PojoWithGuavaOptionalBasicFieldAccessBuilder)clone();
+  public PojoWithGuavaOptionalBasicSettersBuilder but() {
+    return (PojoWithGuavaOptionalBasicSettersBuilder)clone();
   }
 
   /**
-   * Creates a new {@link PojoWithGuavaOptionalBasicFieldAccess} based on this builder's settings.
+   * Creates a new {@link PojoWithGuavaOptionalBasicSetters} based on this builder's settings.
    *
-   * @return the created PojoWithGuavaOptionalBasicFieldAccess
+   * @return the created PojoWithGuavaOptionalBasicSetters
    */
-  public PojoWithGuavaOptionalBasicFieldAccess build() {
+  public PojoWithGuavaOptionalBasicSetters build() {
     try {
-      PojoWithGuavaOptionalBasicFieldAccess result = new PojoWithGuavaOptionalBasicFieldAccess();
+      PojoWithGuavaOptionalBasicSetters result = new PojoWithGuavaOptionalBasicSetters();
       if (value$primitiveInt$int.isPresent()) {
-        result.primitiveInt = value$primitiveInt$int.get();
+        result.setPrimitiveInt(value$primitiveInt$int.get());
       }
       if (value$boxedInt$java$lang$Integer == null) {
-        result.boxedInt = (Integer) null;
+        result.setBoxedInt((Integer) null);
       } else if (value$boxedInt$java$lang$Integer.isPresent()) {
-        result.boxedInt = value$boxedInt$java$lang$Integer.get();
+        result.setBoxedInt(value$boxedInt$java$lang$Integer.get());
       }
       if (value$array$int$L == null) {
-        result.array = (int[]) null;
+        result.setArray((int[]) null);
       } else if (value$array$int$L.isPresent()) {
-        result.array = value$array$int$L.get();
+        result.setArray(value$array$int$L.get());
       }
       if (value$list$java$util$List == null) {
-        result.list = (List<Integer>) null;
+        result.setList((List<Integer>) null);
       } else if (value$list$java$util$List.isPresent()) {
-        result.list = value$list$java$util$List.get();
+        result.setList(value$list$java$util$List.get());
       }
       return result;
     } catch (RuntimeException ex) {
