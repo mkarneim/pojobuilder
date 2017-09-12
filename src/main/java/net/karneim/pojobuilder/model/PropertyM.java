@@ -75,12 +75,13 @@ public class PropertyM {
     }
   }
 
-  public TypeM getParameterizedBuilderInterfaceType(TypeM interfaceType) {
+  public TypeM getParameterizedBuilderInterfaceType(TypeM interfaceType, TypeM optionalType) {
+    TypeM basicType = getBasicPropertyType(optionalType);
     TypeM typeParam;
-    if (propertyType.isPrimitive()) {
-      typeParam = ((PrimitiveTypeM) propertyType).getBoxType();
+    if (basicType.isPrimitive()) {
+      typeParam = ((PrimitiveTypeM) basicType).getBoxType();
     } else {
-      typeParam = propertyType;
+      typeParam = basicType;
     }
     return new TypeM(interfaceType.getPackageName(), interfaceType.getSimpleName())
         .withTypeParameter(new TypeWildcardM().whichExtends(typeParam));

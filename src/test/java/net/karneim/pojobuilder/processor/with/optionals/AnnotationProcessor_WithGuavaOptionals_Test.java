@@ -61,6 +61,23 @@ public class AnnotationProcessor_WithGuavaOptionals_Test extends ProcessorTestSu
 
   /**
    * @throws Exception
+   * @scenario the builder withParam(Optional&lt;X&gt;) methods should not generated if the member is already an
+   *           Optional
+   */
+  @Test
+  public void testShouldGenerateWithOptionalMethodsForOptionalFieldAccessWithBuilderProperties() {
+    // Given:
+    sourceFor(PojoWithGuavaOptionalOptionalFieldAccessWithBuilderProperties.class);
+    // When:
+    prj.compile();
+    // Then:
+    assertThat(prj).generatedSameSourceAs(PojoWithGuavaOptionalOptionalFieldAccessWithBuilderPropertiesBuilder.class)
+        .compiled(PojoWithGuavaOptionalOptionalFieldAccessWithBuilderPropertiesBuilder.class)
+        .reported(Compilation.Success);
+  }
+
+  /**
+   * @throws Exception
    * @scenario the builder contains withParam(Optional&lt;X&gt;) methods
    */
   @Test
