@@ -23,8 +23,8 @@ public class TypeMFactory {
 
   private final JavaModelAnalyzerUtil javaModelAnalyzerUtil;
   /*
-   * This cache prevents an infinite loop when generic type parameters are defined recursivly e.g. A
-   * in Pair<A extends Comparable<A>, B>
+   * This cache prevents an infinite loop when generic type parameters are defined recursivly e.g. A in Pair<A extends
+   * Comparable<A>, B>
    */
   private final Map<TypeParameterElement, TypeVariableM> typeVarCache =
       new HashMap<TypeParameterElement, TypeVariableM>();
@@ -36,8 +36,7 @@ public class TypeMFactory {
   public TypeM getTypeM(TypeElement typeElem) {
     String packageName = javaModelAnalyzerUtil.getPackage(typeElem);
     String classname = javaModelAnalyzerUtil.getClassname(typeElem);
-    TypeM result = new TypeM(packageName, classname)
-        .withTypeParameter(getTypeMArray(typeElem.getTypeParameters()));
+    TypeM result = new TypeM(packageName, classname).withTypeParameter(getTypeMArray(typeElem.getTypeParameters()));
     return result;
   }
 
@@ -73,8 +72,8 @@ public class TypeMFactory {
           TypeVariable typeVar = (TypeVariable) typeMirror;
           return getTypeVariableM((TypeParameterElement) typeVar.asElement());
         } else {
-          throw new UnresolvedTypeException(String.format("Expected TypeVariable for %s (%s)",
-              typeMirror, typeMirror.getClass().getName()));
+          throw new UnresolvedTypeException(
+              String.format("Expected TypeVariable for %s (%s)", typeMirror, typeMirror.getClass().getName()));
         }
       case ERROR:
         String message = String.format(
@@ -82,8 +81,8 @@ public class TypeMFactory {
             typeMirror);
         throw new IllegalArgumentException(message);
       default:
-        throw new UnsupportedOperationException(String
-            .format("Unexpected kind %s for typeMirror %s", kind, typeMirror.getClass().getName()));
+        throw new UnsupportedOperationException(
+            String.format("Unexpected kind %s for typeMirror %s", kind, typeMirror.getClass().getName()));
     }
   }
 
@@ -93,17 +92,16 @@ public class TypeMFactory {
     String classname = javaModelAnalyzerUtil.getClassname(typeElem);
     TypeM result = new TypeM(packageName, classname);
 
-    if (type.getTypeArguments().isEmpty() == false) {
-      for (TypeMirror typeArg : type.getTypeArguments()) {
-        if (typeArg.getKind() == TypeKind.DECLARED) {
-          TypeM typeArgElemTypeM = getTypeM(typeArg);
-          result.withTypeParameter(typeArgElemTypeM);
-        } else if (typeArg.getKind() == TypeKind.TYPEVAR) {
+    for (TypeMirror typeArg : type.getTypeArguments()) {
+      TypeKind kind = typeArg.getKind();
+      switch (kind) {
+        case TYPEVAR:
           TypeVariable typeVar = (TypeVariable) typeArg;
           TypeParameterElement typeParamElem = (TypeParameterElement) typeVar.asElement();
           TypeVariableM var = getTypeVariableM(typeParamElem);
           result.withTypeParameter(var);
-        } else if (typeArg.getKind() == TypeKind.WILDCARD) {
+          break;
+        case WILDCARD:
           TypeMirror extendsBound = ((WildcardType) typeArg).getExtendsBound();
           TypeWildcardM wildcard = new TypeWildcardM();
           if (extendsBound != null) {
@@ -116,7 +114,10 @@ public class TypeMFactory {
             wildcard.whichIsASupertypeOf(bound);
           }
           result.withTypeParameter(wildcard);
-        }
+          break;
+        default:
+          TypeM typeArgElemTypeM = getTypeM(typeArg);
+          result.withTypeParameter(typeArgElemTypeM);
       }
     }
     return result;
