@@ -103,4 +103,34 @@ public class AnnotationProcessor_WithGuavaOptionals_Test extends ProcessorTestSu
         .compiled(PojoWithGuavaOptionalOptionalConstructorBuilder.class).reported(Compilation.Success);
   }
 
+  /**
+   * @throws Exception
+   * @scenario the builder contains withParam(Optional&lt;X&gt;) methods
+   */
+  @Test
+  public void testShouldGenerateWithOptionalMethodsForBasicFactory() {
+    // Given:
+    sourceFor(PojoWithGuavaOptionalBasicFactory.class);
+    // When:
+    prj.compile();
+    // Then:
+    assertThat(prj).generatedSameSourceAs(PojoWithGuavaOptionalBasicFactoryBuilder.class)
+        .compiled(PojoWithGuavaOptionalBasicFactoryBuilder.class).reported(Compilation.Success);
+  }
+
+  /**
+   * @throws Exception
+   * @scenario the builder contains withParam(Optional&lt;X&gt;) methods
+   */
+  @Test
+  public void testShouldGenerateWithOptionalMethodsForOptionalFactory() {
+    // Given:
+    sourceFor(PojoWithGuavaOptionalOptionalFactory.class);
+    // When:
+    prj.compile();
+    // Then:
+    assertThat(prj).generatedSameSourceAs(PojoWithGuavaOptionalOptionalFactoryBuilder.class)
+        .compiled(PojoWithGuavaOptionalOptionalFactoryBuilder.class).reported(Compilation.Success);
+  }
+
 }

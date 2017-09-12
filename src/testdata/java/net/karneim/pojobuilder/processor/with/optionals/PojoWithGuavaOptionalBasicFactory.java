@@ -6,15 +6,19 @@ import com.google.common.base.Optional;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
-public class PojoWithGuavaOptionalBasicConstructor {
+public class PojoWithGuavaOptionalBasicFactory {
+  @GeneratePojoBuilder(withOptionalProperties = Optional.class)
+  public static PojoWithGuavaOptionalBasicFactory create(int primitiveInt, Integer boxedInt, int[] array,
+      List<Integer> list) {
+    return new PojoWithGuavaOptionalBasicFactory(primitiveInt, boxedInt, array, list);
+  }
+
   private int primitiveInt;
   private Integer boxedInt;
   private int[] array;
   private List<Integer> list;
 
-  @GeneratePojoBuilder(withOptionalProperties = Optional.class)
-  public PojoWithGuavaOptionalBasicConstructor(int primitiveInt, Integer boxedInt, int[] array,
-      List<Integer> list) {
+  private PojoWithGuavaOptionalBasicFactory(int primitiveInt, Integer boxedInt, int[] array, List<Integer> list) {
     this.primitiveInt = primitiveInt;
     this.boxedInt = boxedInt;
     this.array = array;
