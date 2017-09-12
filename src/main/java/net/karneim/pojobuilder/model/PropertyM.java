@@ -63,7 +63,7 @@ public class PropertyM {
    * @return the basic type of this property
    */
   public TypeM getBasicPropertyType(TypeM optionalType) {
-    if (optionalType != null && !isOptionalProperty(optionalType)) {
+    if (optionalType == null || !isOptionalProperty(optionalType)) {
       return propertyType;
     }
     Iterator<TypeM> typeParameters = propertyType.getTypeParameters().iterator();
