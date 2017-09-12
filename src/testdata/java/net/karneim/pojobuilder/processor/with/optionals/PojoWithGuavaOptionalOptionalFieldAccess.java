@@ -5,7 +5,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 import com.google.common.base.Optional;
 
 @GeneratePojoBuilder(withOptionalProperties = Optional.class)
-public class PojoWithGuavaOptional2 {
+public class PojoWithGuavaOptionalOptionalFieldAccess {
 
   public Optional<Integer> boxedInt;
   public Optional<int[]> array;

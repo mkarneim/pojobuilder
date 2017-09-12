@@ -1,10 +1,11 @@
 package net.karneim.pojobuilder.processor.with.optionals;
 
 import static net.karneim.pojobuilder.PbAssertions.assertThat;
-import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
-import net.karneim.pojobuilder.testenv.JavaProject.Compilation;
 
 import org.junit.Test;
+
+import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
+import net.karneim.pojobuilder.testenv.JavaProject.Compilation;
 
 /**
  * @feature The {@link net.karneim.pojobuilder.processor.AnnotationProcessor} generates builder classes.
@@ -16,16 +17,15 @@ public class AnnotationProcessor_WithGuavaOptionals_Test extends ProcessorTestSu
    * @scenario the builder contains withParam(Optional&lt;X&gt;) methods
    */
   @Test
-  public void testShouldGenerateGuavaOptionalsForObjectTypes() {
+  public void testShouldGenerateWithOptionalMethodsForBasicFieldAccess() {
     // Given:
-    sourceFor(PojoWithGuavaOptional.class);
+    sourceFor(PojoWithGuavaOptionalBasicFieldAccess.class);
     // When:
     prj.compile();
     // Then:
-    assertThat(prj).generatedSameSourceAs(PojoWithGuavaOptionalBuilder.class)
-        .compiled(PojoWithGuavaOptionalBuilder.class).reported(Compilation.Success);
+    assertThat(prj).generatedSameSourceAs(PojoWithGuavaOptionalBasicFieldAccessBuilder.class)
+        .compiled(PojoWithGuavaOptionalBasicFieldAccessBuilder.class).reported(Compilation.Success);
   }
-
 
   /**
    * @throws Exception
@@ -33,14 +33,14 @@ public class AnnotationProcessor_WithGuavaOptionals_Test extends ProcessorTestSu
    *           Optional
    */
   @Test
-  public void testShouldNotGenerateGuavaOptionalsForOptionalMembers() {
+  public void testShouldGenerateWithOptionalMethodsForOptionalFieldAccess() {
     // Given:
-    sourceFor(PojoWithGuavaOptional2.class);
+    sourceFor(PojoWithGuavaOptionalOptionalFieldAccess.class);
     // When:
     prj.compile();
     // Then:
-    assertThat(prj).generatedSameSourceAs(PojoWithGuavaOptional2Builder.class)
-        .compiled(PojoWithGuavaOptional2Builder.class).reported(Compilation.Success);
+    assertThat(prj).generatedSameSourceAs(PojoWithGuavaOptionalOptionalFieldAccessBuilder.class)
+        .compiled(PojoWithGuavaOptionalOptionalFieldAccessBuilder.class).reported(Compilation.Success);
   }
 
 }

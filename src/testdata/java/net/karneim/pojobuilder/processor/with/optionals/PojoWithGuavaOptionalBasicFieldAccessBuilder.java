@@ -4,38 +4,38 @@ import com.google.common.base.Optional;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
-public class PojoWithGuavaOptionalBuilder
+public class PojoWithGuavaOptionalBasicFieldAccessBuilder
     implements Cloneable {
-  protected PojoWithGuavaOptionalBuilder self;
+  protected PojoWithGuavaOptionalBasicFieldAccessBuilder self;
   protected Optional<? extends Integer> value$primitiveInt$int = Optional.absent();
   protected Optional<? extends Integer> value$boxedInt$java$lang$Integer = Optional.absent();
   protected Optional<? extends int[]> value$array$int$L = Optional.absent();
 
   /**
-   * Creates a new {@link PojoWithGuavaOptionalBuilder}.
+   * Creates a new {@link PojoWithGuavaOptionalBasicFieldAccessBuilder}.
    */
-  public PojoWithGuavaOptionalBuilder() {
-    self = (PojoWithGuavaOptionalBuilder)this;
+  public PojoWithGuavaOptionalBasicFieldAccessBuilder() {
+    self = (PojoWithGuavaOptionalBasicFieldAccessBuilder)this;
   }
 
   /**
-   * Sets the default value for the {@link PojoWithGuavaOptional#primitiveInt} property.
+   * Sets the default value for the {@link PojoWithGuavaOptionalBasicFieldAccess#primitiveInt} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public PojoWithGuavaOptionalBuilder withPrimitiveInt(int value) {
+  public PojoWithGuavaOptionalBasicFieldAccessBuilder withPrimitiveInt(int value) {
     this.value$primitiveInt$int = Optional.of(value);
     return self;
   }
 
   /**
-   * Optionally sets the default value for the {@link PojoWithGuavaOptional#primitiveInt} property.
+   * Optionally sets the default value for the {@link PojoWithGuavaOptionalBasicFieldAccess#primitiveInt} property.
    *
    * @param optionalValue the optional default value
    * @return this builder
    */
-  public PojoWithGuavaOptionalBuilder withPrimitiveInt(Optional<? extends Integer> optionalValue) {
+  public PojoWithGuavaOptionalBasicFieldAccessBuilder withPrimitiveInt(Optional<? extends Integer> optionalValue) {
     if (optionalValue.isPresent()) {
       this.value$primitiveInt$int = optionalValue;
     }
@@ -43,12 +43,12 @@ public class PojoWithGuavaOptionalBuilder
   }
 
   /**
-   * Sets the default value for the {@link PojoWithGuavaOptional#boxedInt} property.
+   * Sets the default value for the {@link PojoWithGuavaOptionalBasicFieldAccess#boxedInt} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public PojoWithGuavaOptionalBuilder withBoxedInt(Integer value) {
+  public PojoWithGuavaOptionalBasicFieldAccessBuilder withBoxedInt(Integer value) {
     if (value == null) {
       this.value$boxedInt$java$lang$Integer = null;
     } else {
@@ -58,12 +58,12 @@ public class PojoWithGuavaOptionalBuilder
   }
 
   /**
-   * Optionally sets the default value for the {@link PojoWithGuavaOptional#boxedInt} property.
+   * Optionally sets the default value for the {@link PojoWithGuavaOptionalBasicFieldAccess#boxedInt} property.
    *
    * @param optionalValue the optional default value
    * @return this builder
    */
-  public PojoWithGuavaOptionalBuilder withBoxedInt(Optional<? extends Integer> optionalValue) {
+  public PojoWithGuavaOptionalBasicFieldAccessBuilder withBoxedInt(Optional<? extends Integer> optionalValue) {
     if (optionalValue == null || optionalValue.isPresent()) {
       this.value$boxedInt$java$lang$Integer = optionalValue;
     }
@@ -71,12 +71,12 @@ public class PojoWithGuavaOptionalBuilder
   }
 
   /**
-   * Sets the default value for the {@link PojoWithGuavaOptional#array} property.
+   * Sets the default value for the {@link PojoWithGuavaOptionalBasicFieldAccess#array} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public PojoWithGuavaOptionalBuilder withArray(int[] value) {
+  public PojoWithGuavaOptionalBasicFieldAccessBuilder withArray(int[] value) {
     if (value == null) {
       this.value$array$int$L = null;
     } else {
@@ -86,12 +86,12 @@ public class PojoWithGuavaOptionalBuilder
   }
 
   /**
-   * Optionally sets the default value for the {@link PojoWithGuavaOptional#array} property.
+   * Optionally sets the default value for the {@link PojoWithGuavaOptionalBasicFieldAccess#array} property.
    *
    * @param optionalValue the optional default value
    * @return this builder
    */
-  public PojoWithGuavaOptionalBuilder withArray(Optional<? extends int[]> optionalValue) {
+  public PojoWithGuavaOptionalBasicFieldAccessBuilder withArray(Optional<? extends int[]> optionalValue) {
     if (optionalValue == null || optionalValue.isPresent()) {
       this.value$array$int$L = optionalValue;
     }
@@ -106,7 +106,7 @@ public class PojoWithGuavaOptionalBuilder
   @Override
   public Object clone() {
     try {
-      PojoWithGuavaOptionalBuilder result = (PojoWithGuavaOptionalBuilder)super.clone();
+      PojoWithGuavaOptionalBasicFieldAccessBuilder result = (PojoWithGuavaOptionalBasicFieldAccessBuilder)super.clone();
       result.self = result;
       return result;
     } catch (CloneNotSupportedException e) {
@@ -119,18 +119,18 @@ public class PojoWithGuavaOptionalBuilder
    *
    * @return the clone
    */
-  public PojoWithGuavaOptionalBuilder but() {
-    return (PojoWithGuavaOptionalBuilder)clone();
+  public PojoWithGuavaOptionalBasicFieldAccessBuilder but() {
+    return (PojoWithGuavaOptionalBasicFieldAccessBuilder)clone();
   }
 
   /**
-   * Creates a new {@link PojoWithGuavaOptional} based on this builder's settings.
+   * Creates a new {@link PojoWithGuavaOptionalBasicFieldAccess} based on this builder's settings.
    *
-   * @return the created PojoWithGuavaOptional
+   * @return the created PojoWithGuavaOptionalBasicFieldAccess
    */
-  public PojoWithGuavaOptional build() {
+  public PojoWithGuavaOptionalBasicFieldAccess build() {
     try {
-      PojoWithGuavaOptional result = new PojoWithGuavaOptional();
+      PojoWithGuavaOptionalBasicFieldAccess result = new PojoWithGuavaOptionalBasicFieldAccess();
       if (value$primitiveInt$int.isPresent()) {
         result.primitiveInt = value$primitiveInt$int.get();
       }

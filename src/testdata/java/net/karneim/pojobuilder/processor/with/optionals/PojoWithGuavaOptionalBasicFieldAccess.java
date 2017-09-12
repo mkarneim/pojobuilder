@@ -5,7 +5,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 import com.google.common.base.Optional;
 
 @GeneratePojoBuilder(withOptionalProperties = Optional.class)
-public class PojoWithGuavaOptional {
+public class PojoWithGuavaOptionalBasicFieldAccess {
 
   public int primitiveInt;
   public Integer boxedInt;
