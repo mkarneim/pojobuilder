@@ -78,7 +78,7 @@ public class PropertyM {
   public TypeM getParameterizedBuilderInterfaceType(TypeM interfaceType) {
     TypeM typeParam;
     if (propertyType.isPrimitive()) {
-      typeParam = ((PrimitiveTypeM) propertyType).getBoxClass();
+      typeParam = ((PrimitiveTypeM) propertyType).getBoxType();
     } else {
       typeParam = propertyType;
     }
@@ -101,7 +101,7 @@ public class PropertyM {
     }
     TypeM typeParam;
     if (propertyType.isPrimitive()) {
-      typeParam = ((PrimitiveTypeM) propertyType).getBoxClass();
+      typeParam = ((PrimitiveTypeM) propertyType).getBoxType();
     } else {
       typeParam = propertyType;
     }

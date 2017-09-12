@@ -14,6 +14,7 @@ import java.util.List;
 import javax.annotation.Generated;
 import javax.lang.model.element.Modifier;
 
+import com.google.common.base.Defaults;
 import com.squareup.javawriter.JavaWriter;
 
 import net.karneim.pojobuilder.model.ArgumentListM;
@@ -24,6 +25,7 @@ import net.karneim.pojobuilder.model.CloneMethodM;
 import net.karneim.pojobuilder.model.CopyMethodM;
 import net.karneim.pojobuilder.model.FactoryMethodM;
 import net.karneim.pojobuilder.model.ImportTypesM;
+import net.karneim.pojobuilder.model.PrimitiveTypeM;
 import net.karneim.pojobuilder.model.PropertyListM;
 import net.karneim.pojobuilder.model.PropertyM;
 import net.karneim.pojobuilder.model.StaticFactoryMethodM;
@@ -237,7 +239,7 @@ public class BuilderSourceGenerator {
     }
     writer.beginMethod(pojoTypeDeclaration, buildMethod.getName(), EnumSet.of(PUBLIC)).beginControlFlow("try");
 
-    if (!hasBuilderProperties) {
+    if (!hasBuilderProperties && optionalType == null) {
       if (factoryMethod == null) {
         String arguments =
             properties.filterOutPropertiesWritableViaConstructorParameter(builderType).toArgumentString();
@@ -255,7 +257,7 @@ public class BuilderSourceGenerator {
         StringBuilder arguments = new StringBuilder();
         for (PropertyM prop : constructorArguments.sortByPosition().getPropertyList()) {
           String parameterFieldName = "_" + prop.getConstructorParameter().getName();
-          emitParameterAssignmentWithBuilderProperty(prop, parameterFieldName, buildMethod.getName());
+          emitParameterAssignment(prop, parameterFieldName, buildMethod.getName(), optionalType);
           if (arguments.length() > 0) {
             arguments.append(", ");
           }
@@ -268,7 +270,7 @@ public class BuilderSourceGenerator {
         StringBuilder arguments = new StringBuilder();
         for (PropertyM prop : factoryMethodArguments.sortByPosition().getPropertyList()) {
           String parameterFieldName = "_" + prop.getFactoryMethodParameter().getName();
-          emitParameterAssignmentWithBuilderProperty(prop, parameterFieldName, buildMethod.getName());
+          emitParameterAssignment(prop, parameterFieldName, buildMethod.getName(), optionalType);
           if (arguments.length() > 0) {
             arguments.append(", ");
           }
@@ -300,8 +302,8 @@ public class BuilderSourceGenerator {
         .emitStatement("throw new java.lang.reflect.UndeclaredThrowableException(ex)").endControlFlow().endMethod();
   }
 
-  private void emitBuildPropertyStatement(boolean hasBuilderProperties, BuildMethodM buildMethod, TypeM optionalType, PropertyM prop,
-      String setTemplate) throws IOException {
+  private void emitBuildPropertyStatement(boolean hasBuilderProperties, BuildMethodM buildMethod, TypeM optionalType,
+      PropertyM prop, String setTemplate) throws IOException {
     if (optionalType == null) { // ohne Optionals
       writer.beginControlFlow("if (%s)", prop.getIsSetFieldName());
       writer.emitStatement(setTemplate, prop.getValueFieldName());
@@ -325,13 +327,33 @@ public class BuilderSourceGenerator {
     writer.endControlFlow();
   }
 
-  private void emitParameterAssignmentWithBuilderProperty(PropertyM prop, String parameterFieldName,
-      String buildMethodName) throws IOException {
-    writer.emitStatement("%s %s", writer.compressType(prop.getPropertyType().getGenericType()), parameterFieldName);
-    writer.beginControlFlow("if (!%s && %s!=null)", prop.getIsSetFieldName(), prop.getBuilderFieldName())
-        .emitStatement("%s = %s.%s()", parameterFieldName, prop.getBuilderFieldName(), buildMethodName);
-    writer.nextControlFlow("else").emitStatement("%s = %s", parameterFieldName, prop.getValueFieldName());
-    writer.endControlFlow();
+  private void emitParameterAssignment(PropertyM prop, String parameterFieldName, String buildMethodName,
+      TypeM optionalType) throws IOException {
+    TypeM propertyType = prop.getPropertyType();
+    String compressedType = writer.compressType(propertyType.getGenericType());
+    String valueField = prop.getValueFieldName();
+    if (optionalType == null) {
+      writer.emitStatement("%s %s", compressedType, parameterFieldName);
+      writer.beginControlFlow("if (!%s && %s!=null)", prop.getIsSetFieldName(), prop.getBuilderFieldName())
+          .emitStatement("%s = %s.%s()", parameterFieldName, prop.getBuilderFieldName(), buildMethodName);
+      writer.nextControlFlow("else").emitStatement("%s = %s", parameterFieldName, valueField);
+      writer.endControlFlow();
+    } else {
+      String defaultValue = "null";
+      if (propertyType.isPrimitive()) {
+        Class<?> type = ((PrimitiveTypeM) propertyType).getType();
+        defaultValue = String.valueOf(Defaults.defaultValue(type));
+      }
+      writer.emitStatement("%s %s = %s", compressedType, parameterFieldName, defaultValue);
+      if (prop.isOptionalProperty(optionalType)) {
+        writer.beginControlFlow("if (%s == null || %s.isPresent())", valueField, valueField);
+        writer.emitStatement("%s = %s", parameterFieldName, valueField);
+      } else {
+        writer.beginControlFlow("if (%s != null && %s.isPresent())", valueField, valueField);
+        writer.emitStatement("%s = %s.get()", parameterFieldName, valueField);
+      }
+      writer.endControlFlow();
+    }
   }
 
   private void emitWithMethodUsingBuilderInterface(TypeM builderType, TypeM selfType, TypeM interfaceType,
