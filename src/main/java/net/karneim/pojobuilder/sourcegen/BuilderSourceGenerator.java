@@ -15,6 +15,7 @@ import javax.annotation.Generated;
 import javax.lang.model.element.Modifier;
 
 import com.google.common.base.Defaults;
+import com.google.common.base.Joiner;
 import com.squareup.javawriter.JavaWriter;
 
 import net.karneim.pojobuilder.model.ArgumentListM;
@@ -253,32 +254,17 @@ public class BuilderSourceGenerator {
       }
     } else {
       if (factoryMethod == null) {
-        ArgumentListM constructorArguments = properties.filterOutPropertiesWritableViaConstructorParameter(builderType);
-        StringBuilder arguments = new StringBuilder();
-        for (PropertyM prop : constructorArguments.sortByPosition().getPropertyList()) {
-          String parameterFieldName = "_" + prop.getConstructorParameter().getName();
-          emitParameterAssignment(prop, parameterFieldName, optionalType, hasBuilderProperties, buildMethod);
-          if (arguments.length() > 0) {
-            arguments.append(", ");
-          }
-          arguments.append(String.format("%s", parameterFieldName));
-        }
-        writer.emitStatement("%s result = new %s(%s)", pojoTypeDeclaration, pojoTypeDeclaration, arguments.toString());
+        ArgumentListM argumentMs = properties.filterOutPropertiesWritableViaConstructorParameter(builderType);
+        List<String> arguments = emitParameterAssignments(hasBuilderProperties, optionalType, buildMethod, argumentMs);
+        String argumentString = Joiner.on(", ").join(arguments);
+        writer.emitStatement("%s result = new %s(%s)", pojoTypeDeclaration, pojoTypeDeclaration, argumentString);
       } else {
-        ArgumentListM factoryMethodArguments =
-            properties.filterOutPropertiesWritableViaFactoryMethodParameter(builderType);
-        StringBuilder arguments = new StringBuilder();
-        for (PropertyM prop : factoryMethodArguments.sortByPosition().getPropertyList()) {
-          String parameterFieldName = "_" + prop.getFactoryMethodParameter().getName();
-          emitParameterAssignment(prop, parameterFieldName, optionalType, hasBuilderProperties, buildMethod);
-          if (arguments.length() > 0) {
-            arguments.append(", ");
-          }
-          arguments.append(String.format("%s", parameterFieldName));
-        }
+        ArgumentListM argumentMs = properties.filterOutPropertiesWritableViaFactoryMethodParameter(builderType);
+        List<String> arguments = emitParameterAssignments(hasBuilderProperties, optionalType, buildMethod, argumentMs);
+        String argumentString = Joiner.on(", ").join(arguments);
         String factoryClass = writer.compressType(factoryMethod.getDeclaringClass().getName());
         writer.emitStatement("%s result = %s.%s(%s)", pojoTypeDeclaration, factoryClass, factoryMethod.getName(),
-            arguments.toString());
+            argumentString);
       }
     }
 
@@ -300,6 +286,17 @@ public class BuilderSourceGenerator {
     writer.emitStatement("return result").nextControlFlow("catch (RuntimeException ex)").emitStatement("throw ex")
         .nextControlFlow("catch (Exception ex)")
         .emitStatement("throw new java.lang.reflect.UndeclaredThrowableException(ex)").endControlFlow().endMethod();
+  }
+
+  private List<String> emitParameterAssignments(boolean hasBuilderProperties, TypeM optionalType,
+      BuildMethodM buildMethod, ArgumentListM factoryMethodArguments) throws IOException, ClassNotFoundException {
+    List<String> arguments = new ArrayList<>(factoryMethodArguments.size());
+    for (PropertyM prop : factoryMethodArguments.sortByPosition().getPropertyList()) {
+      String parameterFieldName = "_" + prop.getPropertyName();
+      emitParameterAssignment(prop, parameterFieldName, optionalType, hasBuilderProperties, buildMethod);
+      arguments.add(parameterFieldName);
+    }
+    return arguments;
   }
 
   private void emitBuildPropertyStatement(boolean hasBuilderProperties, BuildMethodM buildMethod, TypeM optionalType,

@@ -39,8 +39,7 @@ public class PojoConstructorScanner {
         TypeMirror propertyTypeMirror = paramEl.asType();
         TypeM propertyType = typeMFactory.getTypeM(propertyTypeMirror);
         output.getBuilderModel().getProperties().getOrCreate(propertyName, propertyType)
-            .writableVia(new ConstructorParameterM(i).withName(propertyName)
-                .withVarArgs(constrEl.isVarArgs() && i == parameters.size() - 1));
+            .writableVia(new ConstructorParameterM(i).withVarArgs(constrEl.isVarArgs() && i == parameters.size() - 1));
         i++;
       }
     } else {
@@ -63,8 +62,7 @@ public class PojoConstructorScanner {
         TypeMirror propertyTypeMirror = parameters.get(i).asType();
         TypeM propertyType = typeMFactory.getTypeM(propertyTypeMirror);
         output.getBuilderModel().getProperties().getOrCreate(propertyName, propertyType)
-            .writableVia(new ConstructorParameterM(i).withName(propertyName)
-                .withVarArgs(constrEl.isVarArgs() && i == parameters.size() - 1));
+            .writableVia(new ConstructorParameterM(i).withVarArgs(constrEl.isVarArgs() && i == parameters.size() - 1));
       }
     }
     output.getInput().getOrginatingElements().add(javaModelAnalyzerUtil.getCompilationUnit(constrEl));

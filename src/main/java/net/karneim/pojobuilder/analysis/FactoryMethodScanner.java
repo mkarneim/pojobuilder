@@ -41,12 +41,11 @@ public class FactoryMethodScanner {
         TypeMirror propertyTypeMirror = param.asType();
         TypeM propertyType = typeMFactory.getTypeM(propertyTypeMirror);
         output
-            .getBuilderModel()
-            .getProperties()
-            .getOrCreate(propertyName, propertyType)
-            .writableVia(
-                new FactoryMethodParameterM(i).withName(propertyName).withVarArgs(
-                    factoryMethodEl.isVarArgs() && i == parameters.size() - 1));
+          .getBuilderModel()
+          .getProperties()
+          .getOrCreate(propertyName, propertyType)
+          .writableVia(new FactoryMethodParameterM(i)
+            .withVarArgs(factoryMethodEl.isVarArgs() && i == parameters.size() - 1));
         i++;
       }
     } else {
@@ -69,12 +68,11 @@ public class FactoryMethodScanner {
         TypeMirror propertyTypeMirror = factoryMethodEl.getParameters().get(i).asType();
         TypeM propertyType = typeMFactory.getTypeM(propertyTypeMirror);
         output
-            .getBuilderModel()
-            .getProperties()
-            .getOrCreate(propertyName, propertyType)
-            .writableVia(
-                new FactoryMethodParameterM(i).withName(propertyName).withVarArgs(
-                    factoryMethodEl.isVarArgs() && i == parameters.size() - 1));
+          .getBuilderModel()
+          .getProperties()
+          .getOrCreate(propertyName, propertyType)
+          .writableVia(new FactoryMethodParameterM(i)
+            .withVarArgs(factoryMethodEl.isVarArgs() && i == parameters.size() - 1));
       }
     }
     output.getInput().getOrginatingElements().add(javaModelAnalyzerUtil.getCompilationUnit(factoryMethodEl));

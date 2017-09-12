@@ -1,10 +1,8 @@
 package net.karneim.pojobuilder.model;
 
 public class FactoryMethodParameterM implements WriteAccess, Positional {
-
   private int pos;
   private boolean varArgs;
-  private String name;
 
   public FactoryMethodParameterM(int pos) {
     this.pos = pos;
@@ -30,18 +28,8 @@ public class FactoryMethodParameterM implements WriteAccess, Positional {
     return this;
   }
 
-  public String getName() {
-    return name;
-  }
-
-  public FactoryMethodParameterM withName(String name) {
-    this.name = name;
-    return this;
-  }
-
   @Override
   public String toString() {
-    return "FactoryMethodParameterM [pos=" + pos + ", varArgs=" + varArgs + ", name=" + name + "]";
+    return "FactoryMethodParameterM [pos=" + pos + ", varArgs=" + varArgs + "]";
   }
-
 }
