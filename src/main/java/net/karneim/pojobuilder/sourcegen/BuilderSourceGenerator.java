@@ -14,7 +14,6 @@ import java.util.List;
 import javax.annotation.Generated;
 import javax.lang.model.element.Modifier;
 
-import com.google.common.base.Defaults;
 import com.google.common.base.Joiner;
 import com.squareup.javawriter.JavaWriter;
 
@@ -355,7 +354,7 @@ public class BuilderSourceGenerator {
       String defaultValue = "null";
       if (propertyType.isPrimitive()) {
         Class<?> type = ((PrimitiveTypeM) propertyType).getType();
-        defaultValue = String.valueOf(Defaults.defaultValue(type));
+        defaultValue = Defaults.defaultValueAsLiteral(type);
       }
       writer.emitStatement("%s %s = %s", compressedType, parameterFieldName, defaultValue);
       if (prop.isOptionalProperty(optionalType)) {
