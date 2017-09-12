@@ -290,7 +290,7 @@ public class BuilderSourceGenerator {
 
   private List<String> emitParameterAssignments(boolean hasBuilderProperties, TypeM optionalType,
       BuildMethodM buildMethod, ArgumentListM factoryMethodArguments) throws IOException, ClassNotFoundException {
-    List<String> arguments = new ArrayList<>(factoryMethodArguments.size());
+    List<String> arguments = new ArrayList<String>(factoryMethodArguments.size());
     for (PropertyM prop : factoryMethodArguments.sortByPosition().getPropertyList()) {
       String parameterFieldName = "_" + prop.getPropertyName();
       emitParameterAssignment(prop, parameterFieldName, optionalType, hasBuilderProperties, buildMethod);
