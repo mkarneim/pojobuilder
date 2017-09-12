@@ -43,10 +43,10 @@ eclipse.jdt.sourceCompatibility = 1.7
 repositories.mavenCentral()
 
 dependencies {
+  compile 'com.google.guava:guava:15.0'
   compile 'com.squareup:javawriter:2.5.0'
   testCompile 'junit:junit:4.11'
   testCompile 'org.assertj:assertj-core:1.6.1'
-  testCompile 'com.google.guava:guava:15.0'
 }
 
 jacocoTestReport {
