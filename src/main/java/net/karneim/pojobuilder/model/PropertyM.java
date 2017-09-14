@@ -50,8 +50,8 @@ public class PropertyM {
     return text.substring(0, 1).toUpperCase().concat(text.substring(1));
   }
 
-  public boolean isOptionalProperty(TypeM optionalType) {
-    return propertyType.getName().equals(optionalType.getName());
+  public boolean isOptionalProperty(OptionalM optional) {
+    return propertyType.getName().equals(optional.getType().getName());
   }
 
   /**
@@ -59,11 +59,11 @@ public class PropertyM {
    * optionalType, then the basic type is defined as the generic type parameter of the optional type. Otherwise, the
    * basic type is the property type itself.
    *
-   * @param optionalType the type defined in {@link GeneratePojoBuilder#withOptionalProperties()}
+   * @param optional the Optional defined in {@link GeneratePojoBuilder#withOptionalProperties()}
    * @return the basic type of this property
    */
-  public TypeM getBasicPropertyType(TypeM optionalType) {
-    if (optionalType == null || !isOptionalProperty(optionalType)) {
+  public TypeM getBasicPropertyType(OptionalM optional) {
+    if (optional == null || !isOptionalProperty(optional)) {
       return propertyType;
     }
     Iterator<TypeM> typeParameters = propertyType.getTypeParameters().iterator();
@@ -75,8 +75,8 @@ public class PropertyM {
     }
   }
 
-  public TypeM getParameterizedBuilderInterfaceType(TypeM interfaceType, TypeM optionalType) {
-    TypeM basicType = getBasicPropertyType(optionalType);
+  public TypeM getParameterizedBuilderInterfaceType(TypeM interfaceType, OptionalM optional) {
+    TypeM basicType = getBasicPropertyType(optional);
     TypeM typeParam;
     if (basicType.isPrimitive()) {
       typeParam = ((PrimitiveTypeM) basicType).getBoxType();
@@ -91,13 +91,13 @@ public class PropertyM {
    * The {@link TypeM} for an optional property with the property type as it's type parameter or the property type if
    * that is already an optional type.
    *
-   * @param optionalType The type of optional
+   * @param optional the Optional defined in {@link GeneratePojoBuilder#withOptionalProperties()}
    *
    * @return a {@link TypeM} for an optional property with the property type as it's type parameter or the property type
    *         if that is already an optional type
    */
-  public TypeM getOptionalPropertyType(TypeM optionalType) {
-    if (isOptionalProperty(optionalType)) {
+  public TypeM getOptionalPropertyType(OptionalM optional) {
+    if (isOptionalProperty(optional)) {
       return propertyType;
     }
     TypeM typeParam;
@@ -106,6 +106,7 @@ public class PropertyM {
     } else {
       typeParam = propertyType;
     }
+    TypeM optionalType = optional.getType();
     TypeM result = new TypeM(optionalType.getPackageName(), optionalType.getSimpleName())
         .withTypeParameter(new TypeWildcardM().whichExtends(typeParam));
     return result;

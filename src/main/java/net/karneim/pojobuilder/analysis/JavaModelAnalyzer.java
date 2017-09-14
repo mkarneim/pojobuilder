@@ -2,6 +2,8 @@ package net.karneim.pojobuilder.analysis;
 
 import static net.karneim.pojobuilder.analysis.JavaModelAnalyzerUtil.uncapitalize;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.lang.model.element.ElementKind;
@@ -18,6 +20,7 @@ import net.karneim.pojobuilder.model.BuildMethodM;
 import net.karneim.pojobuilder.model.CloneMethodM;
 import net.karneim.pojobuilder.model.CopyMethodM;
 import net.karneim.pojobuilder.model.ManualBuilderM;
+import net.karneim.pojobuilder.model.OptionalM;
 import net.karneim.pojobuilder.model.PropertyM;
 import net.karneim.pojobuilder.model.StaticFactoryMethodM;
 import net.karneim.pojobuilder.model.TypeListM;
@@ -29,6 +32,7 @@ public class JavaModelAnalyzer {
   private static final Logger LOG = Logger.getLogger(JavaModelAnalyzer.class.getName());
 
   private final Elements elements;
+  private final Types types;
   private TypeMFactory typeMFactory;
   private JavaModelAnalyzerUtil javaModelAnalyzerUtil;
   private FactoryMethodScanner factoryMethodScanner;
@@ -37,6 +41,7 @@ public class JavaModelAnalyzer {
 
   public JavaModelAnalyzer(Elements elements, Types types, JavaModelAnalyzerUtil javaModelAnalyzerUtil) {
     this.elements = elements;
+    this.types = types;
     this.javaModelAnalyzerUtil = javaModelAnalyzerUtil;
     this.typeMFactory = new TypeMFactory(javaModelAnalyzerUtil);
     this.factoryMethodScanner = new FactoryMethodScanner(javaModelAnalyzerUtil, typeMFactory);
@@ -132,18 +137,43 @@ public class JavaModelAnalyzer {
     }
     TypeElement typeEl = elements.getTypeElement(optionalClassname);
     TypeMirror booleanType = javaModelAnalyzerUtil.getPrimitiveBooleanType();
+    TypeMirror optionalType = types.getDeclaredType(typeEl, types.getWildcardType(null, null));
     TypeMirror objectType = elements.getTypeElement("java.lang.Object").asType();
-    boolean hasIsPresent = javaModelAnalyzerUtil.hasMethod(typeEl, "isPresent", booleanType, null);
+    boolean hasIsPresent = javaModelAnalyzerUtil.hasMethod(typeEl, OptionalM.IS_PRESENT_METHOD_NAME, booleanType, null);
     if (!hasIsPresent) {
-      String message = String.format("Class %s does not declare required method %s!", optionalClassname, "isPresent");
+      String message = String.format("Class %s does not declare required method %s!", optionalClassname,
+          OptionalM.IS_PRESENT_METHOD_NAME);
       throw new InvalidElementException(message, output.getInput().getAnnotatedElement());
     }
-    boolean hasGet = javaModelAnalyzerUtil.hasMethod(typeEl, "get", objectType, null);
+    boolean hasGet = javaModelAnalyzerUtil.hasMethod(typeEl, OptionalM.GET_METHOD_NAME, objectType, null);
     if (!hasGet) {
-      String message = String.format("Class %s does not declare required method %s!", optionalClassname, "get");
+      String message =
+          String.format("Class %s does not declare required method %s!", optionalClassname, OptionalM.GET_METHOD_NAME);
       throw new InvalidElementException(message, output.getInput().getAnnotatedElement());
     }
-    output.getBuilderModel().setOptionalType(typeMFactory.getTypeM(typeEl));
+    boolean hasOf = javaModelAnalyzerUtil.hasMethod(typeEl, OptionalM.OF_METHOD_NAME, optionalType, objectType);
+    if (!hasOf) {
+      String message =
+          String.format("Class %s does not declare required method %s!", optionalClassname, OptionalM.OF_METHOD_NAME);
+      throw new InvalidElementException(message, output.getInput().getAnnotatedElement());
+    }
+
+    List<String> potentialAbsentMethodNames = Arrays.asList("absent", "empty");
+    String absentMethodName = null;
+    for (String potentialAbsentMethodName : potentialAbsentMethodNames) {
+      if (javaModelAnalyzerUtil.hasMethod(typeEl, potentialAbsentMethodName, optionalType, null)) {
+        absentMethodName = potentialAbsentMethodName;
+        break;
+      }
+    }
+    if (absentMethodName == null) {
+      String message = String.format("Class %s does not declare one of the required methods %s!", optionalClassname,
+          potentialAbsentMethodNames);
+      throw new InvalidElementException(message, output.getInput().getAnnotatedElement());
+    }
+
+    TypeM optionalTypeM = typeMFactory.getTypeM(typeEl);
+    output.getBuilderModel().setOptional(new OptionalM(optionalTypeM, absentMethodName));
   }
 
   private void processGenericBuilderInterface(Output output) {
@@ -174,10 +204,9 @@ public class JavaModelAnalyzer {
     interfaceType.getTypeParameters().add(output.getBuilderModel().getPojoType());
 
     // Check if the builder interface has a 'build' or a 'get' method
-    boolean hasBuildMethod =
-        javaModelAnalyzerUtil.hasBuildMethod(interfaceTypeElement, output.getInput().getPojoElement().asType());
-    boolean hasGetMethod =
-        javaModelAnalyzerUtil.hasGetMethod(interfaceTypeElement, output.getInput().getPojoElement().asType());
+    TypeMirror objectType = elements.getTypeElement(Object.class.getName()).asType();
+    boolean hasBuildMethod = javaModelAnalyzerUtil.hasBuildMethod(interfaceTypeElement, objectType);
+    boolean hasGetMethod = javaModelAnalyzerUtil.hasGetMethod(interfaceTypeElement, objectType);
     if (hasBuildMethod) {
       output.getBuilderModel().getBuildMethod().setName("build").setOverrides(true);
     } else if (hasGetMethod) {
@@ -185,7 +214,7 @@ public class JavaModelAnalyzer {
     } else {
       String message = String.format(
           "Illegal interface %s! A builder's interface must declare a generic method \"%s build()\" or \"%s get()\"!",
-          interfaceTypeElement.getSimpleName(), typeParamEl.getSimpleName());
+          interfaceTypeElement.getSimpleName(), typeParamEl.getSimpleName(), typeParamEl.getSimpleName());
       throw new InvalidElementException(message, output.getInput().getAnnotatedElement());
     }
     output.getBuilderModel().setInterfaceType(interfaceType);
@@ -217,8 +246,8 @@ public class JavaModelAnalyzer {
       baseType.getTypeParameters().clear();
       baseType.getTypeParameters().add(output.getBuilderModel().getPojoType());
     }
-    boolean hasBuildMethod =
-        javaModelAnalyzerUtil.hasBuildMethod(baseTypeElement, output.getInput().getPojoElement().asType());
+    TypeMirror objectType = elements.getTypeElement(Object.class.getName()).asType();
+    boolean hasBuildMethod = javaModelAnalyzerUtil.hasBuildMethod(baseTypeElement, objectType);
     if (hasBuildMethod) {
       output.getBuilderModel().getBuildMethod().setOverrides(true);
     }

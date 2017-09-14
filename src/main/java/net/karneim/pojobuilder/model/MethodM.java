@@ -14,7 +14,6 @@ public class MethodM {
   private TypeM declaringClass;
 
   public MethodM(String name, Set<Modifier> modifiers) {
-    super();
     this.name = name;
     this.modifiers = modifiers;
   }
@@ -58,8 +57,7 @@ public class MethodM {
 
   @Override
   public String toString() {
-    return "MethodM [name=" + name + ", modifiers=" + modifiers + ", declaringClass="
-        + declaringClass + "]";
+    return "MethodM [name=" + name + ", modifiers=" + modifiers + ", declaringClass=" + declaringClass + "]";
   }
 
 

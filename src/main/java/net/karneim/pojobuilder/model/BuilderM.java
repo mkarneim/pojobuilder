@@ -13,7 +13,7 @@ public class BuilderM {
   private ValidatorM validator;
   private TypeM interfaceType;
   private boolean hasBuilderProperties;
-  private TypeM optionalType;
+  private OptionalM optional;
   private StaticFactoryMethodM staticFactoryMethod;
   private CloneMethodM cloneMethod;
 
@@ -113,12 +113,12 @@ public class BuilderM {
     this.hasBuilderProperties = hasBuilderProperties;
   }
 
-  public TypeM getOptionalType() {
-    return optionalType;
+  public OptionalM getOptional() {
+    return optional;
   }
 
-  public void setOptionalType(TypeM optionalType) {
-    this.optionalType = optionalType;
+  public void setOptional(OptionalM optional) {
+    this.optional = optional;
   }
 
   public StaticFactoryMethodM getStaticFactoryMethod() {
@@ -139,12 +139,11 @@ public class BuilderM {
 
   @Override
   public String toString() {
-    return "BuilderM [type=" + type + ", isAbstract=" + isAbstract + ", selfType=" + selfType
-        + ", baseType=" + baseType + ", pojoType=" + pojoType + ", properties=" + properties
-        + ", factoryMethod=" + factoryMethod + ", copyMethod=" + copyMethod + ", buildMethod="
-        + buildMethod + ", validator=" + validator + ", interfaceType=" + interfaceType
-        + ", hasBuilderProperties=" + hasBuilderProperties + ", optionalType=" + optionalType
-        + ", staticFactoryMethod=" + staticFactoryMethod + ", cloneMethod=" + cloneMethod + "]";
+    return "BuilderM [type=" + type + ", isAbstract=" + isAbstract + ", selfType=" + selfType + ", baseType=" + baseType
+        + ", pojoType=" + pojoType + ", properties=" + properties + ", factoryMethod=" + factoryMethod + ", copyMethod="
+        + copyMethod + ", buildMethod=" + buildMethod + ", validator=" + validator + ", interfaceType=" + interfaceType
+        + ", hasBuilderProperties=" + hasBuilderProperties + ", optional=" + optional + ", staticFactoryMethod="
+        + staticFactoryMethod + ", cloneMethod=" + cloneMethod + "]";
   }
 
 }
