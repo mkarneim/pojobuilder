@@ -1,5 +1,6 @@
 package samples;
 
+import com.google.gwt.core.shared.GwtIncompatible;
 import java.net.URL;
 import java.net.URLStreamHandler;
 import javax.annotation.Generated;
@@ -92,6 +93,7 @@ public class UrlBuilder
    * @return the clone
    */
   @Override
+  @GwtIncompatible
   public Object clone() {
     try {
       UrlBuilder result = (UrlBuilder)super.clone();
@@ -107,6 +109,7 @@ public class UrlBuilder
    *
    * @return the clone
    */
+  @GwtIncompatible
   public UrlBuilder but() {
     return (UrlBuilder)clone();
   }
@@ -123,7 +126,7 @@ public class UrlBuilder
     } catch (RuntimeException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new java.lang.reflect.UndeclaredThrowableException(ex);
+      throw new RuntimeException(ex);
     }
   }
 }

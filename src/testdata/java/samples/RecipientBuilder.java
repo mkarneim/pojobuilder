@@ -1,5 +1,6 @@
 package samples;
 
+import com.google.gwt.core.shared.GwtIncompatible;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
@@ -74,6 +75,7 @@ public class RecipientBuilder
    * @return the clone
    */
   @Override
+  @GwtIncompatible
   public Object clone() {
     try {
       RecipientBuilder result = (RecipientBuilder)super.clone();
@@ -89,6 +91,7 @@ public class RecipientBuilder
    *
    * @return the clone
    */
+  @GwtIncompatible
   public RecipientBuilder but() {
     return (RecipientBuilder)clone();
   }
@@ -116,7 +119,7 @@ public class RecipientBuilder
     } catch (RuntimeException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new java.lang.reflect.UndeclaredThrowableException(ex);
+      throw new RuntimeException(ex);
     }
   }
 }

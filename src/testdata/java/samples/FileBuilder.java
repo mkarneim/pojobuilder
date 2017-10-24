@@ -1,5 +1,6 @@
 package samples;
 
+import com.google.gwt.core.shared.GwtIncompatible;
 import java.io.File;
 import javax.annotation.Generated;
 
@@ -91,6 +92,7 @@ public class FileBuilder
    * @return the clone
    */
   @Override
+  @GwtIncompatible
   public Object clone() {
     try {
       FileBuilder result = (FileBuilder)super.clone();
@@ -106,6 +108,7 @@ public class FileBuilder
    *
    * @return the clone
    */
+  @GwtIncompatible
   public FileBuilder but() {
     return (FileBuilder)clone();
   }
@@ -134,7 +137,7 @@ public class FileBuilder
     } catch (RuntimeException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new java.lang.reflect.UndeclaredThrowableException(ex);
+      throw new RuntimeException(ex);
     }
   }
 }

@@ -1,5 +1,6 @@
 package net.karneim.pojobuilder.processor.with.generics;
 
+import com.google.gwt.core.shared.GwtIncompatible;
 import java.io.File;
 import java.util.List;
 import javax.annotation.Generated;
@@ -92,6 +93,7 @@ public class PojoBuilder<T>
    * @return the clone
    */
   @Override
+  @GwtIncompatible
   public Object clone() {
     try {
       @SuppressWarnings("unchecked")
@@ -109,6 +111,7 @@ public class PojoBuilder<T>
    * @return the clone
    */
   @SuppressWarnings("unchecked")
+  @GwtIncompatible
   public PojoBuilder<T> but() {
     return (PojoBuilder<T>)clone();
   }
@@ -140,7 +143,7 @@ public class PojoBuilder<T>
     } catch (RuntimeException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new java.lang.reflect.UndeclaredThrowableException(ex);
+      throw new RuntimeException(ex);
     }
   }
 }

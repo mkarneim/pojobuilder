@@ -1,5 +1,6 @@
 package samples.dsl;
 
+import com.google.gwt.core.shared.GwtIncompatible;
 import javax.annotation.Generated;
 import samples.Builder;
 
@@ -75,6 +76,7 @@ public class StringBuilder
    * @return the clone
    */
   @Override
+  @GwtIncompatible
   public Object clone() {
     try {
       StringBuilder result = (StringBuilder)super.clone();
@@ -90,6 +92,7 @@ public class StringBuilder
    *
    * @return the clone
    */
+  @GwtIncompatible
   public StringBuilder but() {
     return (StringBuilder)clone();
   }
@@ -119,7 +122,7 @@ public class StringBuilder
     } catch (RuntimeException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new java.lang.reflect.UndeclaredThrowableException(ex);
+      throw new RuntimeException(ex);
     }
   }
 }

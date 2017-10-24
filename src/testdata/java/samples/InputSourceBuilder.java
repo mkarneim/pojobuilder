@@ -1,5 +1,6 @@
 package samples;
 
+import com.google.gwt.core.shared.GwtIncompatible;
 import java.io.InputStream;
 import javax.annotation.Generated;
 import org.xml.sax.InputSource;
@@ -50,6 +51,7 @@ public class InputSourceBuilder
    * @return the clone
    */
   @Override
+  @GwtIncompatible
   public Object clone() {
     try {
       InputSourceBuilder result = (InputSourceBuilder)super.clone();
@@ -65,6 +67,7 @@ public class InputSourceBuilder
    *
    * @return the clone
    */
+  @GwtIncompatible
   public InputSourceBuilder but() {
     return (InputSourceBuilder)clone();
   }
@@ -84,7 +87,7 @@ public class InputSourceBuilder
     } catch (RuntimeException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new java.lang.reflect.UndeclaredThrowableException(ex);
+      throw new RuntimeException(ex);
     }
   }
 }

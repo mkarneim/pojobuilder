@@ -1,5 +1,6 @@
 ﻿package com.example.output;
 
+import com.google.gwt.core.shared.GwtIncompatible;
 import java.util.Map;
 import javax.annotation.Generated;
 
@@ -35,6 +36,7 @@ public class SampleBuilder<K, V extends Number>
    * @return the clone
    */
   @Override
+  @GwtIncompatible
   public Object clone() {
     try {
       @SuppressWarnings("unchecked")
@@ -52,6 +54,7 @@ public class SampleBuilder<K, V extends Number>
    * @return the clone
    */
   @SuppressWarnings("unchecked")
+  @GwtIncompatible
   public SampleBuilder<K, V> but() {
     return (SampleBuilder<K, V>)clone();
   }
@@ -71,7 +74,7 @@ public class SampleBuilder<K, V extends Number>
     } catch (RuntimeException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new java.lang.reflect.UndeclaredThrowableException(ex);
+      throw new RuntimeException(ex);
     }
   }
 }

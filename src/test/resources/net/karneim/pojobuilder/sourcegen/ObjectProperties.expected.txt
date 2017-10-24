@@ -1,5 +1,6 @@
 ﻿package com.example.output;
 
+import com.google.gwt.core.shared.GwtIncompatible;
 import java.io.File;
 import java.math.BigDecimal;
 import javax.annotation.Generated;
@@ -78,6 +79,7 @@ public class SampleBuilder
    * @return the clone
    */
   @Override
+  @GwtIncompatible
   public Object clone() {
     try {
       SampleBuilder result = (SampleBuilder)super.clone();
@@ -93,6 +95,7 @@ public class SampleBuilder
    *
    * @return the clone
    */
+  @GwtIncompatible
   public SampleBuilder but() {
     return (SampleBuilder)clone();
   }
@@ -121,7 +124,7 @@ public class SampleBuilder
     } catch (RuntimeException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new java.lang.reflect.UndeclaredThrowableException(ex);
+      throw new RuntimeException(ex);
     }
   }
 }

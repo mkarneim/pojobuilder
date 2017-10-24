@@ -1,6 +1,7 @@
 package net.karneim.pojobuilder.processor.with.optionals;
 
 import com.google.common.base.Optional;
+import com.google.gwt.core.shared.GwtIncompatible;
 import java.util.List;
 import javax.annotation.Generated;
 import net.karneim.pojobuilder.processor.with.builderinterface.Builder;
@@ -187,6 +188,7 @@ public class PojoWithGuavaOptionalBasicFactoryWithBuilderPropertiesBuilder
    * @return the clone
    */
   @Override
+  @GwtIncompatible
   public Object clone() {
     try {
       PojoWithGuavaOptionalBasicFactoryWithBuilderPropertiesBuilder result = (PojoWithGuavaOptionalBasicFactoryWithBuilderPropertiesBuilder)super.clone();
@@ -202,6 +204,7 @@ public class PojoWithGuavaOptionalBasicFactoryWithBuilderPropertiesBuilder
    *
    * @return the clone
    */
+  @GwtIncompatible
   public PojoWithGuavaOptionalBasicFactoryWithBuilderPropertiesBuilder but() {
     return (PojoWithGuavaOptionalBasicFactoryWithBuilderPropertiesBuilder)clone();
   }
@@ -249,7 +252,7 @@ public class PojoWithGuavaOptionalBasicFactoryWithBuilderPropertiesBuilder
     } catch (RuntimeException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new java.lang.reflect.UndeclaredThrowableException(ex);
+      throw new RuntimeException(ex);
     }
   }
 }

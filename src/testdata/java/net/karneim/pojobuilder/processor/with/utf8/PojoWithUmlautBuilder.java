@@ -1,5 +1,6 @@
 package net.karneim.pojobuilder.processor.with.utf8;
 
+import com.google.gwt.core.shared.GwtIncompatible;
 import java.util.Date;
 import javax.annotation.Generated;
 
@@ -35,6 +36,7 @@ public class PojoWithUmlautBuilder
    * @return the clone
    */
   @Override
+  @GwtIncompatible
   public Object clone() {
     try {
       PojoWithUmlautBuilder result = (PojoWithUmlautBuilder)super.clone();
@@ -50,6 +52,7 @@ public class PojoWithUmlautBuilder
    *
    * @return the clone
    */
+  @GwtIncompatible
   public PojoWithUmlautBuilder but() {
     return (PojoWithUmlautBuilder)clone();
   }
@@ -69,7 +72,7 @@ public class PojoWithUmlautBuilder
     } catch (RuntimeException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new java.lang.reflect.UndeclaredThrowableException(ex);
+      throw new RuntimeException(ex);
     }
   }
 }

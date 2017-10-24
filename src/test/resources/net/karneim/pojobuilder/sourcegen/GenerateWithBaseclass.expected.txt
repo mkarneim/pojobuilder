@@ -1,6 +1,7 @@
 ﻿package com.example.output;
 
 import com.example.base.BaseBuilder;
+import com.google.gwt.core.shared.GwtIncompatible;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
@@ -21,6 +22,7 @@ public class SampleBuilder extends BaseBuilder
    * @return the clone
    */
   @Override
+  @GwtIncompatible
   public Object clone() {
     try {
       SampleBuilder result = (SampleBuilder)super.clone();
@@ -36,6 +38,7 @@ public class SampleBuilder extends BaseBuilder
    *
    * @return the clone
    */
+  @GwtIncompatible
   public SampleBuilder but() {
     return (SampleBuilder)clone();
   }
@@ -52,7 +55,7 @@ public class SampleBuilder extends BaseBuilder
     } catch (RuntimeException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new java.lang.reflect.UndeclaredThrowableException(ex);
+      throw new RuntimeException(ex);
     }
   }
 }

@@ -1,5 +1,6 @@
 package samples;
 
+import com.google.gwt.core.shared.GwtIncompatible;
 import java.util.GregorianCalendar;
 import javax.annotation.Generated;
 
@@ -105,6 +106,7 @@ public class GregorianCalendarBuilder
    * @return the clone
    */
   @Override
+  @GwtIncompatible
   public Object clone() {
     try {
       GregorianCalendarBuilder result = (GregorianCalendarBuilder)super.clone();
@@ -120,6 +122,7 @@ public class GregorianCalendarBuilder
    *
    * @return the clone
    */
+  @GwtIncompatible
   public GregorianCalendarBuilder but() {
     return (GregorianCalendarBuilder)clone();
   }
@@ -136,7 +139,7 @@ public class GregorianCalendarBuilder
     } catch (RuntimeException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new java.lang.reflect.UndeclaredThrowableException(ex);
+      throw new RuntimeException(ex);
     }
   }
 }

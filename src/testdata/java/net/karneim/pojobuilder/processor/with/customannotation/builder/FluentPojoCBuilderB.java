@@ -1,5 +1,6 @@
 package net.karneim.pojobuilder.processor.with.customannotation.builder;
 
+import com.google.gwt.core.shared.GwtIncompatible;
 import javax.annotation.Generated;
 import net.karneim.pojobuilder.processor.with.customannotation.PojoC;
 
@@ -35,6 +36,7 @@ public class FluentPojoCBuilderB
    * @return the clone
    */
   @Override
+  @GwtIncompatible
   public Object clone() {
     try {
       FluentPojoCBuilderB result = (FluentPojoCBuilderB)super.clone();
@@ -50,6 +52,7 @@ public class FluentPojoCBuilderB
    *
    * @return the clone
    */
+  @GwtIncompatible
   public FluentPojoCBuilderB but() {
     return (FluentPojoCBuilderB)clone();
   }
@@ -80,7 +83,7 @@ public class FluentPojoCBuilderB
     } catch (RuntimeException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new java.lang.reflect.UndeclaredThrowableException(ex);
+      throw new RuntimeException(ex);
     }
   }
 }

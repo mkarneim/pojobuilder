@@ -12,6 +12,7 @@ import java.util.List;
 import javax.annotation.Generated;
 import javax.lang.model.element.Modifier;
 
+import com.google.gwt.core.shared.GwtIncompatible;
 import com.squareup.javawriter.JavaWriter;
 
 import net.karneim.pojobuilder.Visibility;
@@ -81,6 +82,7 @@ public class BuilderSourceGenerator {
     }
     properties.getTypes().addToImportTypes(importTypes);
     importTypes.add(Generated.class);
+    importTypes.add(GwtIncompatible.class);
 
     if (optional != null) {
       optional.getType().addToImportTypes(importTypes);
@@ -283,7 +285,7 @@ public class BuilderSourceGenerator {
     }
     writer.emitStatement("return result").nextControlFlow("catch (RuntimeException ex)").emitStatement("throw ex")
         .nextControlFlow("catch (Exception ex)")
-        .emitStatement("throw new java.lang.reflect.UndeclaredThrowableException(ex)").endControlFlow().endMethod();
+        .emitStatement("throw new RuntimeException(ex)").endControlFlow().endMethod();
   }
 
   private String emitParameterAssignments(boolean hasBuilderProperties, OptionalM optional, BuildMethodM buildMethod,
@@ -534,6 +536,7 @@ public class BuilderSourceGenerator {
       .emitAnnotation(SuppressWarnings.class, JavaWriter.stringLiteral("unchecked"));
     }
     writer
+      .emitAnnotation(GwtIncompatible.class)
       .beginMethod(builderTypeStr, "but", EnumSet.of(PUBLIC))
         .emitStatement("return (%s)clone()", builderTypeStr)
       .endMethod();
@@ -549,6 +552,7 @@ public class BuilderSourceGenerator {
           "Returns a clone of this builder.\n\n"
         + "@return the clone")
       .emitAnnotation(Override.class)
+      .emitAnnotation(GwtIncompatible.class)
       .beginMethod("Object", "clone", EnumSet.of(PUBLIC));
     if ( cloneMethod.shouldCatchCloneNotSupportedException()) {
       writer.beginControlFlow("try");

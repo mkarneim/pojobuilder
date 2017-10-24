@@ -1,5 +1,6 @@
 ﻿package net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap;
 
+import com.google.gwt.core.shared.GwtIncompatible;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
@@ -34,6 +35,7 @@ public abstract class AbstractPojo2Builder extends BaseBuilderWithGenericBuildMe
    * @return the clone
    */
   @Override
+  @GwtIncompatible
   public Object clone() {
     try {
       Pojo2Builder result = (Pojo2Builder)super.clone();
@@ -49,6 +51,7 @@ public abstract class AbstractPojo2Builder extends BaseBuilderWithGenericBuildMe
    *
    * @return the clone
    */
+  @GwtIncompatible
   public Pojo2Builder but() {
     return (Pojo2Builder)clone();
   }
@@ -69,7 +72,7 @@ public abstract class AbstractPojo2Builder extends BaseBuilderWithGenericBuildMe
     } catch (RuntimeException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new java.lang.reflect.UndeclaredThrowableException(ex);
+      throw new RuntimeException(ex);
     }
   }
 }

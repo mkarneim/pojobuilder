@@ -1,5 +1,6 @@
 package samples;
 
+import com.google.gwt.core.shared.GwtIncompatible;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
@@ -76,6 +77,7 @@ public class TextEmailBuilder
    * @return the clone
    */
   @Override
+  @GwtIncompatible
   public Object clone() {
     try {
       TextEmailBuilder result = (TextEmailBuilder)super.clone();
@@ -91,6 +93,7 @@ public class TextEmailBuilder
    *
    * @return the clone
    */
+  @GwtIncompatible
   public TextEmailBuilder but() {
     return (TextEmailBuilder)clone();
   }
@@ -133,7 +136,7 @@ public class TextEmailBuilder
     } catch (RuntimeException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new java.lang.reflect.UndeclaredThrowableException(ex);
+      throw new RuntimeException(ex);
     }
   }
 }
