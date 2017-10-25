@@ -2,6 +2,5 @@ sudo: false
 language: java
 jdk:
   - oraclejdk8
-  - oraclejdk7
 after_success:
 - ./gradlew jacocoTestReport coveralls
