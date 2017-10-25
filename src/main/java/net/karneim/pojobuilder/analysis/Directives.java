@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.lang.model.element.AnnotationValue;
+import javax.lang.model.element.Element;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
+import net.karneim.pojobuilder.Visibility;
 
 public class Directives {
   private boolean generateCopyMethod = false;
@@ -19,35 +21,42 @@ public class Directives {
   private boolean generationGap = false;
   private String setterNamePattern = GeneratePojoBuilder.DEFAULT_SETTER_NAME;
   private String staticFactoryMethod = GeneratePojoBuilder.DEFAULT_FACTORY_METHOD;
-  private boolean publicConstructor = true;
+  private Visibility constructor = null;
   private String validatorClassname = Void.class.getName();
   private String optionalClassname = Void.class.getName();
   private List<PropertyPattern> includeProperties = new ArrayList<PropertyPattern>();
   private List<PropertyPattern> excludeProperties = new ArrayList<PropertyPattern>();
 
+  @SuppressWarnings("unchecked")
   public Directives(Map<String, Object> valueMap) {
     if (valueMap == null) {
       throw new NullPointerException("valueMap must not be null!");
     }
-    baseclassName = (String) valueMap.get("withBaseclass");
-    builderInterfaceName = (String) valueMap.get("withBuilderInterface");
-    generateBuilderProperties = (Boolean) valueMap.get("withBuilderProperties");
-    builderName = (String) valueMap.get("withName");
-    intoPackage = (String) valueMap.get("intoPackage");
-    generationGap = (Boolean) valueMap.get("withGenerationGap");
-    generateCopyMethod = (Boolean) valueMap.get("withCopyMethod");
-    if (generateCopyMethod) {
-      copyMethodName = "copy"; // TODO make configurable in annotation!
+    setBaseclassName((String) valueMap.get("withBaseclass"));
+    setBuilderInterfaceName((String) valueMap.get("withBuilderInterface"));
+    setGenerateBuilderProperties((Boolean) valueMap.get("withBuilderProperties"));
+    setBuilderName((String) valueMap.get("withName"));
+    setIntoPackage((String) valueMap.get("intoPackage"));
+    setGenerationGap((Boolean) valueMap.get("withGenerationGap"));
+    setGenerateCopyMethod((Boolean) valueMap.get("withCopyMethod"));
+    setSetterNamePattern((String) valueMap.get("withSetterNamePattern"));
+    setStaticFactoryMethod((String) valueMap.get("withFactoryMethod"));
+    setConstructor(toVisibility((Element) valueMap.get("withConstructor")));
+    setValidatorClassname((String) valueMap.get("withValidator"));
+    setOptionalClassname((String) valueMap.get("withOptionalProperties"));
+    setIncludeProperties(newList((List<AnnotationValue>) valueMap.get("includeProperties")));
+    setExcludeProperties(newList((List<AnnotationValue>) valueMap.get("excludeProperties")));
+
+    if (constructor == Visibility.PRIVATE && staticFactoryMethod.isEmpty()) {
+      throw new AnalysisException(
+          "Value for attribute 'withConstructor' must not be PRIVATE if value for attribute 'withFactoryMethod' is blank.");
     }
-    setterNamePattern = (String) valueMap.get("withSetterNamePattern");
-    staticFactoryMethod = (String) valueMap.get("withFactoryMethod");
-    if (staticFactoryMethod != null) {
-      publicConstructor = (Boolean) valueMap.get("withPublicConstructor");
-    }
-    validatorClassname = (String) valueMap.get("withValidator");
-    optionalClassname = (String) valueMap.get("withOptionalProperties");
-    includeProperties = newList((List<AnnotationValue>) valueMap.get("includeProperties"));
-    excludeProperties = newList((List<AnnotationValue>) valueMap.get("excludeProperties"));
+  }
+
+  private Visibility toVisibility(Element object) {
+    String name = object.getSimpleName().toString();
+    Visibility visibility = Visibility.valueOf(name);
+    return visibility;
   }
 
   private List<PropertyPattern> newList(List<AnnotationValue> array) {
@@ -64,6 +73,11 @@ public class Directives {
 
   public void setGenerateCopyMethod(boolean generateCopyMethod) {
     this.generateCopyMethod = generateCopyMethod;
+    if (generateCopyMethod) {
+      copyMethodName = "copy"; // TODO make configurable in annotation!
+    } else {
+      copyMethodName = null;
+    }
   }
 
   public String getCopyMethodName() {
@@ -163,12 +177,12 @@ public class Directives {
     this.staticFactoryMethod = staticFactoryMethod;
   }
 
-  public boolean isPublicConstructor() {
-    return publicConstructor;
+  public Visibility getConstructor() {
+    return constructor;
   }
 
-  public void setPublicConstructor(boolean publicConstructor) {
-    this.publicConstructor = publicConstructor;
+  public void setConstructor(Visibility constructor) {
+    this.constructor = constructor;
   }
 
   public List<PropertyPattern> getExcludeProperties() {
@@ -193,9 +207,9 @@ public class Directives {
         + ", intoPackage=" + intoPackage + ", builderName=" + builderName + ", baseclassName=" + baseclassName
         + ", builderInterfaceName=" + builderInterfaceName + ", generateBuilderProperties=" + generateBuilderProperties
         + ", generationGap=" + generationGap + ", setterNamePattern=" + setterNamePattern + ", staticFactoryMethod="
-        + staticFactoryMethod + ", validatorClassname=" + validatorClassname + ", optionalClassname="
-        + optionalClassname + ", includeProperties=" + includeProperties + ", excludeProperties=" + excludeProperties
-        + "]";
+        + staticFactoryMethod + ", constructor=" + constructor + ", validatorClassname=" + validatorClassname
+        + ", optionalClassname=" + optionalClassname + ", includeProperties=" + includeProperties
+        + ", excludeProperties=" + excludeProperties + "]";
   }
 
 }

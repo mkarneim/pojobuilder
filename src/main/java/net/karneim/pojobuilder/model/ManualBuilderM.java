@@ -1,11 +1,14 @@
 package net.karneim.pojobuilder.model;
 
+import net.karneim.pojobuilder.Visibility;
+
 public class ManualBuilderM {
 
   private TypeM pojoType;
   private TypeM type;
   private TypeM baseType;
   private StaticFactoryMethodM staticFactoryMethod;
+  private Visibility constructorVisibility = Visibility.PUBLIC;
 
   public TypeM getPojoType() {
     return pojoType;
@@ -39,10 +42,18 @@ public class ManualBuilderM {
     this.staticFactoryMethod = staticFactoryMethod;
   }
 
+  public Visibility getConstructorVisibility() {
+    return constructorVisibility;
+  }
+
+  public void setConstructorVisibility(Visibility visibility) {
+    this.constructorVisibility = visibility;
+  }
+
   @Override
   public String toString() {
     return "ManualBuilderM [pojoType=" + pojoType + ", type=" + type + ", baseType=" + baseType
-        + ", staticFactoryMethod=" + staticFactoryMethod + "]";
+        + ", staticFactoryMethod=" + staticFactoryMethod + ", constructorVisibility=" + constructorVisibility + "]";
   }
 
 }

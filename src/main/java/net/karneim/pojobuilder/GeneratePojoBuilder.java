@@ -19,25 +19,25 @@ public @interface GeneratePojoBuilder {
 
   /**
    * Specifies the base class of the generated builder.
-   * 
+   *
    * @return the base class of the generated builder
    */
   Class<?> withBaseclass() default Object.class;
 
   /**
    * Specifies the generic builder interface of the generated builder. This interface must declare exactly one type
-   * parameter and a <code>build()</code> (or alternatively a <code>get()</code>) method having this type as return type.
+   * parameter and a <code>build()</code> (or alternatively a <code>get()</code>) method having this type as return
+   * type.
    * <p>
    * For example:
-   * 
+   *
    * <pre>
    * <code>
    * public interface Builder{@literal <}T{@literal >} {
    *   T build();
    * }
-   * </code>
-   * </pre>
-   * 
+   * </code> </pre>
+   *
    * @return the generic interface of the generated builder or {@link Void}, if no interface is specified
    */
   Class<?> withBuilderInterface() default Void.class;
@@ -47,7 +47,7 @@ public @interface GeneratePojoBuilder {
    * <p>
    * When set to <code>true</code>, the {@link GeneratePojoBuilder#withBuilderInterface()} must specify a valid
    * interface.
-   * 
+   *
    * @return whether the generated builder should define builder-based setter-methods
    */
   boolean withBuilderProperties() default false;
@@ -57,20 +57,19 @@ public @interface GeneratePojoBuilder {
    * type.
    * <p>
    * The 'Optional' type can have any name but must be interface-compatible with the following interface:
-   * 
+   *
    * <pre>
    * <code>
    * public interface Optional{@literal <}T{@literal >} {
    *   T get();
    *   boolean isPresent();
    * }
-   * </code>
-   * </pre>
-   * 
+   * </code> </pre>
+   *
    * where T is the generic type parameter matching the property's type.
    * <p>
    * Examples are Google Guava's com.google.common.base.Optional and java.util.Optional introduced with Java 8.
-   * 
+   *
    * @return the 'Optional' type used for generating the optional-based setter-methods, or {@link Void} if no
    *         optional-based setter-methods should be generated
    */
@@ -79,7 +78,7 @@ public @interface GeneratePojoBuilder {
   /**
    * Specifies the name of the generated builder. An asterisk will be replaced with the pojos simple name. Default is
    * "*Builder".
-   * 
+   *
    * @return the name of the generated builder
    */
   String withName() default DEFAULT_NAME;
@@ -87,7 +86,7 @@ public @interface GeneratePojoBuilder {
   /**
    * Specifies the name pattern of the generated setter-methods. An asterisk will be replaced with the property's
    * original name. Default is "with*".
-   * 
+   *
    * @return the name pattern of the generated setter-methods.
    */
   String withSetterNamePattern() default DEFAULT_SETTER_NAME;
@@ -95,7 +94,7 @@ public @interface GeneratePojoBuilder {
   /**
    * Specifies the package of the generated builder. An asterisk will be replaced with the pojos package. Default is
    * "*".
-   * 
+   *
    * @return the package of the generated builder
    */
   String intoPackage() default DEFAULT_PACKAGE;
@@ -104,7 +103,7 @@ public @interface GeneratePojoBuilder {
    * Specifies whether the generation gap pattern is used. If enabled this will generate two classes (instead of one),
    * of which one contains the generated code. The other class is for handwritten code. To prevent it from being
    * overwritten please move it out of the generated-sources folder. Default is "false".
-   * 
+   *
    * @return <code>true</code> if the generation gap should be used
    */
   boolean withGenerationGap() default false;
@@ -112,7 +111,7 @@ public @interface GeneratePojoBuilder {
   /**
    * Specifies whether a copy method should be generated. The copy method will take an instance of the built class and
    * will copy all its fields into the builder. This allows it to easily change one or more fields of immutable objects.
-   * 
+   *
    * @return <code>true</code> if a copy method should be generated
    */
   boolean withCopyMethod() default false;
@@ -120,7 +119,7 @@ public @interface GeneratePojoBuilder {
   /**
    * Specifies the name of a static factory method added to the builder. An asterisk will be replaced by the pojos
    * simple name. Default is "" meaning not to generate this method.
-   * 
+   *
    * <pre>
    * <code>
    * public class MyPojoBuilder {
@@ -128,14 +127,18 @@ public @interface GeneratePojoBuilder {
    *     return new MyPojoBuilder();
    *   }
    * }
-   * </code>
-   * </pre>
+   * </code> </pre>
    *
    * @return the factory-method name
    */
   String withFactoryMethod() default DEFAULT_FACTORY_METHOD;
 
-  boolean withPublicConstructor() default true;
+  /**
+   * Specifies the visibility of the builder's constructor.
+   *
+   * @return the constructor's visibility
+   */
+  Visibility withConstructor() default Visibility.PUBLIC;
 
   /**
    * Specifies the validator class that should be used to validate the created pojo. The class must define a
@@ -143,7 +146,7 @@ public @interface GeneratePojoBuilder {
    * the method must throw some runtime exception (or one of its subclasses).
    * <p>
    * This is an example of how a validator could look like:
-   * 
+   *
    * <pre>
    * <code>
    * public class MyPojoValidator {
@@ -153,9 +156,8 @@ public @interface GeneratePojoBuilder {
    *     }
    *   }
    * }
-   * </code>
-   * </pre>
-   * 
+   * </code> </pre>
+   *
    * @return the validator's class, or {@link Void}, if no validator should be used.
    */
   Class<?> withValidator() default Void.class;
@@ -172,7 +174,7 @@ public @interface GeneratePojoBuilder {
    * wildcard character that matches any character.
    * <p>
    * Default is '*'.
-   * 
+   *
    * @return the inclusion patterns
    */
   String[] includeProperties() default {DEFAULT_INCLUSION_PATTERN};
@@ -189,7 +191,7 @@ public @interface GeneratePojoBuilder {
    * wildcard character that matches any character.
    * <p>
    * Default is the empty array.
-   * 
+   *
    * @return the exclusion patterns
    */
   String[] excludeProperties() default {};

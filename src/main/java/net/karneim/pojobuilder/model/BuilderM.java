@@ -1,5 +1,7 @@
 package net.karneim.pojobuilder.model;
 
+import net.karneim.pojobuilder.Visibility;
+
 public class BuilderM {
   private TypeM type;
   private boolean isAbstract;
@@ -15,7 +17,7 @@ public class BuilderM {
   private boolean hasBuilderProperties;
   private OptionalM optional;
   private StaticFactoryMethodM staticFactoryMethod;
-  private boolean hasPublicConstructor = true;
+  private Visibility constructorVisibility = Visibility.PUBLIC;
   private CloneMethodM cloneMethod;
 
   public TypeM getType() {
@@ -130,12 +132,12 @@ public class BuilderM {
     this.staticFactoryMethod = staticFactoryMethod;
   }
 
-  public boolean hasPublicConstructor() {
-    return hasPublicConstructor;
+  public Visibility getConstructorVisibility() {
+    return constructorVisibility;
   }
 
-  public void setHasPublicConstructor(boolean hasPublicConstructor) {
-    this.hasPublicConstructor = hasPublicConstructor;
+  public void setConstructorVisibility(Visibility constructorVisibility) {
+    this.constructorVisibility = constructorVisibility;
   }
 
   public CloneMethodM getCloneMethod() {
@@ -152,7 +154,8 @@ public class BuilderM {
         + ", pojoType=" + pojoType + ", properties=" + properties + ", factoryMethod=" + factoryMethod + ", copyMethod="
         + copyMethod + ", buildMethod=" + buildMethod + ", validator=" + validator + ", interfaceType=" + interfaceType
         + ", hasBuilderProperties=" + hasBuilderProperties + ", optional=" + optional + ", staticFactoryMethod="
-        + staticFactoryMethod + ", cloneMethod=" + cloneMethod + "]";
+        + staticFactoryMethod + ", constructorVisibility=" + constructorVisibility + ", cloneMethod=" + cloneMethod
+        + "]";
   }
 
 }

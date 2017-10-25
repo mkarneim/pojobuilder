@@ -213,6 +213,9 @@ The following elements of [@GeneratePojoBuilder] can be used to configure the ou
   specifies the pattern of the builder's name. An asterisk will be
   replaced with the pojos simple name. For example, the result of the pattern `Fluent*Builder` will become
   `FluentContactBuilder` if the pojo's name is `Contact`. The default pattern is `*Builder`.
+* **withConstructor=&lt;Visibility&gt;**
+  Specifies the visibility of the builder's constructor.
+  Default is `Visibility.PUBLIC`.
 * **intoPackage=&lt;String&gt;**
   specifies the package of the generated builder. An asterisk will be
   replaced with the pojos package. For example, the result of the pattern `*.util` will become
@@ -242,7 +245,7 @@ The following elements of [@GeneratePojoBuilder] can be used to configure the ou
   those which are passed as constructor or factory method arguments. They will never be excluded, neither explicitly
   nor implicitly.
   For an example please see [`CalendarFactory.java`] and [`GregorianCalendarBuilder.java`].
-  Default is the empty array.  
+  Default is the empty array.
 * **withGenerationGap=&lt;boolean&gt;**
   specifies whether the [generation gap pattern] is used. If enabled, this
   will generate two classes (instead of one), of which one contains the
@@ -380,7 +383,7 @@ dependencies {
 ```
 Please note that this not only adds the PojoBuilder and its dependencies to your compile-time class path but also to your run-time class path.
 
-Alternatively you can use the following script to add PojoBuilder only to the compile-time class path:  
+Alternatively you can use the following script to add PojoBuilder only to the compile-time class path:
 ```groovy
 apply plugin: 'java'
 

@@ -16,6 +16,7 @@ import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 
+import net.karneim.pojobuilder.Visibility;
 import net.karneim.pojobuilder.model.BuildMethodM;
 import net.karneim.pojobuilder.model.CloneMethodM;
 import net.karneim.pojobuilder.model.CopyMethodM;
@@ -93,6 +94,7 @@ public class JavaModelAnalyzer {
     setPropertiesMethodNames(result);
     processOptional(result);
     processStaticFactoryMethod(result);
+    processConstructor(result);
 
     result.getBuilderModel().getProperties()
         .retainPropertiesMatchingAnyOf(input.getDirectives().getIncludeProperties());
@@ -271,9 +273,15 @@ public class JavaModelAnalyzer {
       } else {
         output.getBuilderModel().setStaticFactoryMethod(method);
       }
-      output.getBuilderModel().setHasPublicConstructor(output.getInput().getDirectives().isPublicConstructor());
+    }
+  }
+
+  private void processConstructor(Output output) {
+    Visibility visibility = output.getInput().getDirectives().getConstructor();
+    if (output.getManualBuilderModel() != null) {
+      output.getManualBuilderModel().setConstructorVisibility(visibility);
     } else {
-      output.getBuilderModel().setHasPublicConstructor(true);
+      output.getBuilderModel().setConstructorVisibility(visibility);
     }
   }
 

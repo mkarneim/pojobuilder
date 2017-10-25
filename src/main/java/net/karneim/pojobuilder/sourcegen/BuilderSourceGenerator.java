@@ -1,7 +1,6 @@
 package net.karneim.pojobuilder.sourcegen;
 
 import static javax.lang.model.element.Modifier.ABSTRACT;
-import static javax.lang.model.element.Modifier.PRIVATE;
 import static javax.lang.model.element.Modifier.PROTECTED;
 import static javax.lang.model.element.Modifier.PUBLIC;
 
@@ -15,6 +14,7 @@ import javax.lang.model.element.Modifier;
 
 import com.squareup.javawriter.JavaWriter;
 
+import net.karneim.pojobuilder.Visibility;
 import net.karneim.pojobuilder.model.ArgumentListM;
 import net.karneim.pojobuilder.model.ArrayTypeM;
 import net.karneim.pojobuilder.model.BuildMethodM;
@@ -56,7 +56,7 @@ public class BuilderSourceGenerator {
     generateSource(builder.getType(), builder.isAbstract(), builder.getSelfType(), builder.getBaseType(),
         builder.getInterfaceType(), builder.hasBuilderProperties(), builder.getPojoType(), builder.getProperties(),
         builder.getBuildMethod(), builder.getFactoryMethod(), builder.getCopyMethod(), builder.getValidator(),
-        builder.getOptional(), builder.getStaticFactoryMethod(), builder.hasPublicConstructor(),
+        builder.getOptional(), builder.getStaticFactoryMethod(), builder.getConstructorVisibility(),
         builder.getCloneMethod());
 
   }
@@ -70,7 +70,7 @@ public class BuilderSourceGenerator {
   private void generateSource(TypeM builderType, boolean isAbstract, TypeM selfType, TypeM baseType,
       TypeM interfaceType, boolean hasBuilderProperties, TypeM pojoType, PropertyListM properties,
       BuildMethodM buildMethod, FactoryMethodM factoryMethod, CopyMethodM copyMethodM, ValidatorM validator,
-      OptionalM optional, StaticFactoryMethodM staticFactoryMethod, boolean hasPublicConstructor,
+      OptionalM optional, StaticFactoryMethodM staticFactoryMethod, Visibility constructorVisibility,
       CloneMethodM cloneMethod) throws IOException {
     properties = new PropertyListM(properties);
     properties.filterOutNonWritableProperties(builderType);
@@ -137,7 +137,7 @@ public class BuilderSourceGenerator {
       emitStaticFactoryMethod(selfType, staticFactoryMethod, writer);
     }
 
-    emitConstructor(builderType, selfType, hasPublicConstructor ? PUBLIC : PRIVATE);
+    emitConstructor(builderType, selfType, constructorVisibility);
 
     for (PropertyM prop : properties) {
       emitWithMethod(builderType, selfType, pojoType, prop, optional);
@@ -490,13 +490,14 @@ public class BuilderSourceGenerator {
     writer.emitStatement("return self").endMethod();
   }
 
-  private void emitConstructor(TypeM builderType, TypeM selfType, Modifier modifier) throws IOException {
+  private void emitConstructor(TypeM builderType, TypeM selfType, Visibility visibility) throws IOException {
     String selfTypeStr = writer.compressType(selfType.getGenericType());
     String builderTypeName = writer.compressType(builderType.getName());
+    Modifier modifier = visibility.asModifier();
     // @formatter:off
     writer
       .emitEmptyLine()
-      .emitJavadoc("Creates a new {@link %s}.", builderTypeName).beginConstructor(EnumSet.of(modifier))
+      .emitJavadoc("Creates a new {@link %s}.", builderTypeName).beginConstructor(modifier==null?EnumSet.noneOf(Modifier.class):EnumSet.of(modifier))
       .emitStatement("self = (%s)this", selfTypeStr).endConstructor();
     // @formatter:on
   }

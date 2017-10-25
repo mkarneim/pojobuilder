@@ -8,12 +8,13 @@ import java.util.EnumSet;
 import javax.annotation.Generated;
 import javax.lang.model.element.Modifier;
 
+import com.squareup.javawriter.JavaWriter;
+
+import net.karneim.pojobuilder.Visibility;
 import net.karneim.pojobuilder.model.ImportTypesM;
 import net.karneim.pojobuilder.model.ManualBuilderM;
 import net.karneim.pojobuilder.model.StaticFactoryMethodM;
 import net.karneim.pojobuilder.model.TypeM;
-
-import com.squareup.javawriter.JavaWriter;
 
 public class ManualBuilderSourceGenerator {
 
@@ -24,10 +25,12 @@ public class ManualBuilderSourceGenerator {
   }
 
   public void generateSource(ManualBuilderM builder) throws IOException {
-    generateSource(builder.getType(), builder.getBaseType(), builder.getPojoType(), builder.getStaticFactoryMethod());
+    generateSource(builder.getType(), builder.getBaseType(), builder.getPojoType(), builder.getConstructorVisibility(),
+        builder.getStaticFactoryMethod());
   }
 
-  private void generateSource(TypeM builderType, TypeM baseType, TypeM pojoType, StaticFactoryMethodM staticFactoryMethod) throws IOException {
+  private void generateSource(TypeM builderType, TypeM baseType, TypeM pojoType, Visibility constructorVisibility,
+      StaticFactoryMethodM staticFactoryMethod) throws IOException {
     // @formatter:off
     writer
         .emitPackage(builderType.getPackageName());
@@ -59,6 +62,10 @@ public class ManualBuilderSourceGenerator {
       BuilderSourceGenerator.emitStaticFactoryMethod(builderType, staticFactoryMethod, writer);
     }
 
+    if ( constructorVisibility != Visibility.PUBLIC) {
+      emitConstructor(builderType, constructorVisibility);
+    }
+
     writer
         .emitEmptyLine()
         .emitJavadoc("Creates a new {@link %s}.", builderTypeName)
@@ -67,6 +74,17 @@ public class ManualBuilderSourceGenerator {
 
     writer
         .endType();
+    // @formatter:on
+  }
+
+  private void emitConstructor(TypeM builderType, Visibility visibility) throws IOException {
+    String builderTypeName = writer.compressType(builderType.getName());
+    Modifier modifier = visibility.asModifier();
+    // @formatter:off
+    writer
+      .emitEmptyLine()
+      .emitJavadoc("Creates a new {@link %s}.", builderTypeName).beginConstructor(modifier==null?EnumSet.noneOf(Modifier.class):EnumSet.of(modifier))
+      .endConstructor();
     // @formatter:on
   }
 
