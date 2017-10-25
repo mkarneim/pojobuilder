@@ -102,13 +102,13 @@ public class ItemBuilder
   public Item build() {
     try {
       int _amount;
-      if (!isSet$amount$int && builder$amount$int!=null) {
+      if (!isSet$amount$int && builder$amount$int != null) {
         _amount = builder$amount$int.build();
       } else {
         _amount = value$amount$int;
       }
       String _article;
-      if (!isSet$article$java$lang$String && builder$article$java$lang$String!=null) {
+      if (!isSet$article$java$lang$String && builder$article$java$lang$String != null) {
         _article = builder$article$java$lang$String.build();
       } else {
         _article = value$article$java$lang$String;

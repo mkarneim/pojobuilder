@@ -10,6 +10,16 @@ public class ContainerPojo<T extends ItemPojo & Serializable> {
 
   public T element;
 
-  public List<? super T> list;
+  public List<T> list;
+
+  public List<? super T> wildcardList;
+
+  public T[] array;
+
+  public List<T[]> arrayList;
+
+  public int[] primitiveArray;
+
+  public List<int[]> primitiveArrayList;
 
 }

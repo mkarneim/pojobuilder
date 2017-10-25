@@ -25,6 +25,8 @@ import javax.tools.Diagnostic;
 import javax.tools.Diagnostic.Kind;
 import javax.tools.JavaFileObject;
 
+import com.squareup.javawriter.JavaWriter;
+
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import net.karneim.pojobuilder.PojoBuilderException;
 import net.karneim.pojobuilder.analysis.AnnotationHierarchyUtil;
@@ -39,8 +41,6 @@ import net.karneim.pojobuilder.model.BuilderM;
 import net.karneim.pojobuilder.model.ManualBuilderM;
 import net.karneim.pojobuilder.sourcegen.BuilderSourceGenerator;
 import net.karneim.pojobuilder.sourcegen.ManualBuilderSourceGenerator;
-
-import com.squareup.javawriter.JavaWriter;
 
 public class AnnotationProcessor extends AbstractProcessor {
   private static final String POJO_BUILDER_STARTED = "[PojoBuilder] Started";
@@ -80,9 +80,8 @@ public class AnnotationProcessor extends AbstractProcessor {
   private void initHelpers(ProcessingEnvironment env) {
     this.javaModelAnalyzerUtil = new JavaModelAnalyzerUtil(env.getElementUtils(), env.getTypeUtils());
     this.javaModelAnalyzer = new JavaModelAnalyzer(env.getElementUtils(), env.getTypeUtils(), javaModelAnalyzerUtil);
-    this.inputFactory =
-        new InputFactory(env.getTypeUtils(), new DirectivesFactory(env.getElementUtils(), env.getTypeUtils(),
-            javaModelAnalyzerUtil));
+    this.inputFactory = new InputFactory(env.getTypeUtils(),
+        new DirectivesFactory(env.getElementUtils(), env.getTypeUtils(), javaModelAnalyzerUtil));
     this.annotationHierarchyUtil = new AnnotationHierarchyUtil(env.getTypeUtils());
   }
 
@@ -116,9 +115,8 @@ public class AnnotationProcessor extends AbstractProcessor {
       if (!aRoundEnv.processingOver()) {
         note(String.format(POJO_BUILDER_PROCESSING_ANNOTATIONS_S, roundCount));
         if (!aAnnotations.isEmpty()) {
-          Set<TypeElement> triggeringAnnotations =
-              annotationHierarchyUtil.filterTriggeringAnnotations(aAnnotations,
-                  getTypeElement(GeneratePojoBuilder.class));
+          Set<TypeElement> triggeringAnnotations = annotationHierarchyUtil.filterTriggeringAnnotations(aAnnotations,
+              getTypeElement(GeneratePojoBuilder.class));
           List<Element> elementsToProcess = getAnnotatedElements(aRoundEnv, triggeringAnnotations);
           addElementsThatFailedInLastRound(elementsToProcess);
           resetFailedElements();
@@ -166,8 +164,8 @@ public class AnnotationProcessor extends AbstractProcessor {
   }
 
   private void addElementsThatFailedInLastRound(List<Element> elementsToProcess) {
-    elementsToProcess.addAll(javaModelAnalyzerUtil.findAnnotatedElements(getTypeElements(failedTypeNames),
-        GeneratePojoBuilder.class));
+    elementsToProcess.addAll(
+        javaModelAnalyzerUtil.findAnnotatedElements(getTypeElements(failedTypeNames), GeneratePojoBuilder.class));
   }
 
   private void addFailedElement(Element elem, Exception ex) {
@@ -215,7 +213,7 @@ public class AnnotationProcessor extends AbstractProcessor {
     return result;
   }
 
-  private void generateSources(Output output) throws IOException {
+  private void generateSources(Output output) throws IOException, ClassNotFoundException {
     if (!hasAlreadyBeenCreated(getTypeName(output.getBuilderModel()))) {
       generateBuilderImpl(output);
     }
@@ -229,7 +227,7 @@ public class AnnotationProcessor extends AbstractProcessor {
     return this.generatedTypeNames.contains(typename);
   }
 
-  private void generateBuilderImpl(Output output) throws IOException {
+  private void generateBuilderImpl(Output output) throws IOException, ClassNotFoundException {
     BuilderM builderModel = output.getBuilderModel();
     String qualifiedName = getTypeName(builderModel);
     JavaFileObject jobj =

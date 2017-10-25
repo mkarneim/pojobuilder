@@ -1,10 +1,8 @@
 package net.karneim.pojobuilder.model;
 
 public class ConstructorParameterM implements WriteAccess, Positional {
-
   private int pos;
   private boolean varArgs;
-  private String name;
 
   public ConstructorParameterM(int pos) {
     this.pos = pos;
@@ -30,18 +28,8 @@ public class ConstructorParameterM implements WriteAccess, Positional {
     return this;
   }
 
-  public String getName() {
-    return name;
-  }
-
-  public ConstructorParameterM withName(String name) {
-    this.name = name;
-    return this;
-  }
-
   @Override
   public String toString() {
-    return "ConstructorParameterM [pos=" + pos + ", varArgs=" + varArgs + ", name=" + name + "]";
+    return "ConstructorParameterM [pos=" + pos + ", varArgs=" + varArgs + "]";
   }
-
 }

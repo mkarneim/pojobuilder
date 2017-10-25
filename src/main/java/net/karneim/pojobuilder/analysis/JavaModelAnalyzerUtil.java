@@ -28,6 +28,7 @@ import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 
 import net.karneim.pojobuilder.model.BuilderM;
+import net.karneim.pojobuilder.model.OptionalM;
 
 public class JavaModelAnalyzerUtil {
 
@@ -152,8 +153,7 @@ public class JavaModelAnalyzerUtil {
    */
   public boolean isSetterMethod(ExecutableElement el) {
     String methodName = el.getSimpleName().toString();
-    return methodName.startsWith(SET) && methodName.length() > SET.length()
-        && el.getParameters().size() == 1;
+    return methodName.startsWith(SET) && methodName.length() > SET.length() && el.getParameters().size() == 1;
   }
 
   /**
@@ -166,8 +166,8 @@ public class JavaModelAnalyzerUtil {
     String methodName = el.getSimpleName().toString();
     TypeMirror retType = el.getReturnType();
     return ((methodName.startsWith(GET) && methodName.length() > GET.length())
-        || (methodName.startsWith(IS) && methodName.length() > IS.length()))
-        && retType.getKind() != VOID && el.getParameters().size() == 0;
+        || (methodName.startsWith(IS) && methodName.length() > IS.length())) && retType.getKind() != VOID
+        && el.getParameters().size() == 0;
   }
 
   /**
@@ -207,8 +207,7 @@ public class JavaModelAnalyzerUtil {
       name = firstCharToLowerCase(name);
       return name;
     } else {
-      throw new IllegalArgumentException(
-          String.format("Not a setter or getter method name: %s!", name));
+      throw new IllegalArgumentException(String.format("Not a setter or getter method name: %s!", name));
     }
   }
 
@@ -225,8 +224,7 @@ public class JavaModelAnalyzerUtil {
   }
 
   /**
-   * Returns the effective type of the given element when is is viewed as a member of the given
-   * owner type.
+   * Returns the effective type of the given element when is is viewed as a member of the given owner type.
    *
    * @param ownerType the owner type
    * @param element the element
@@ -243,8 +241,8 @@ public class JavaModelAnalyzerUtil {
   }
 
   /**
-   * Returns true, if the given type element has a method called "build" with no parameters and
-   * which has an actual return type that is compatible with the given return type.
+   * Returns true, if the given type element has a method called "build" with no parameters and which has an actual
+   * return type that is compatible with the given return type.
    *
    * @param typeElement the type element
    * @param requiredReturnType the required return type (maybe {@link NoType})
@@ -255,8 +253,8 @@ public class JavaModelAnalyzerUtil {
   }
 
   /**
-   * Returns true, if the given type element has a method called "clone" with no parameters and
-   * which does not throw a {@link CloneNotSupportedException}.
+   * Returns true, if the given type element has a method called "clone" with no parameters and which does not throw a
+   * {@link CloneNotSupportedException}.
    *
    * @param typeElement the type element
    * @return true, if the method is found
@@ -264,8 +262,7 @@ public class JavaModelAnalyzerUtil {
   public boolean hasCloneMethodThatDoesNotThrowACloneNotSupportedException(TypeElement typeElement) {
     ExecutableElement ex = findMethod(typeElement, CLONE_METHOD_NAME, null, null);
     if (ex != null) {
-      TypeElement execptionType =
-          elements.getTypeElement(CloneNotSupportedException.class.getName());
+      TypeElement execptionType = elements.getTypeElement(CloneNotSupportedException.class.getName());
       List<? extends TypeMirror> thrownTypes = ex.getThrownTypes();
       TypeMirror exType = execptionType.asType();
       return (!thrownTypes.contains(exType));
@@ -274,8 +271,8 @@ public class JavaModelAnalyzerUtil {
   }
 
   /**
-   * Returns true, if the given type element has a method called "get" with no parameters and which
-   * has an actual return type that is compatible with the given return type.
+   * Returns true, if the given type element has a method called "get" with no parameters and which has an actual return
+   * type that is compatible with the given return type.
    *
    * @param typeElement the type element
    * @param requiredReturnType the required return type (maybe {@link NoType}).
@@ -286,15 +283,15 @@ public class JavaModelAnalyzerUtil {
   }
 
   /**
-   * Returns true, if the given type element has a method with the given name and has an actual
-   * return type that is compatible with the given return type, and has an actual parameter that is
-   * compatible with the given parameter type.
+   * Returns true, if the given type element has a method with the given name and has an actual return type that is
+   * compatible with the given return type, and has an actual parameter that is compatible with the given parameter
+   * type.
    *
    * @param typeElement the type element
    * @param name the required name of the method
    * @param requiredReturnType the required return type (maybe {@link NoType}).
-   * @param requiredParamType the type of the required (first) parameter, or <code>null</code> if no
-   *        parameter is required
+   * @param requiredParamType the type of the required (first) parameter, or <code>null</code> if no parameter is
+   *        required
    * @return true, if the type element has the required method
    */
   public boolean hasMethod(TypeElement typeElement, String name, TypeMirror requiredReturnType,
@@ -303,20 +300,18 @@ public class JavaModelAnalyzerUtil {
   }
 
   /**
-   * Searches the given type element for a method with the given name and an actual return type that
-   * is compatible with the given return type, and has an actual parameter that is compatible with
-   * the given parameter type.
+   * Searches the given type element for a method with the given name and an actual return type that is compatible with
+   * the given return type, and has an actual parameter that is compatible with the given parameter type.
    *
    * @param typeElement the type element
    * @param name the required name of the method
    * @param requiredReturnType the required return type (maybe {@link NoType}).
-   * @param requiredParamType the type of the required (first) parameter, or <code>null</code> if no
-   *        parameter is required
-   * @return the ExecutableElement repesenting the found method, or <code>null</code> if none if
-   *         found
+   * @param requiredParamType the type of the required (first) parameter, or <code>null</code> if no parameter is
+   *        required
+   * @return the ExecutableElement repesenting the found method, or <code>null</code> if none if found
    */
-  public ExecutableElement findMethod(TypeElement typeElement, String name,
-      TypeMirror requiredReturnType, TypeMirror requiredParamType) {
+  public ExecutableElement findMethod(TypeElement typeElement, String name, TypeMirror requiredReturnType,
+      TypeMirror requiredParamType) {
     List<? extends Element> memberEls = elements.getAllMembers(typeElement);
     List<ExecutableElement> methodEls = ElementFilter.methodsIn(memberEls);
     for (ExecutableElement methodEl : methodEls) {
@@ -329,7 +324,7 @@ public class JavaModelAnalyzerUtil {
         TypeVariable tv = (TypeVariable) actualReturnType;
         actualReturnType = tv.getUpperBound();
       }
-      if (requiredReturnType != null && !types.isSubtype(requiredReturnType, actualReturnType)) {
+      if (requiredReturnType != null && !types.isSubtype(actualReturnType, requiredReturnType)) {
         continue;
       }
       if (requiredParamType == null && methodEl.getParameters().size() > 0) {
@@ -341,7 +336,7 @@ public class JavaModelAnalyzerUtil {
         }
         TypeMirror actParamType = methodEl.getParameters().get(0).asType();
         if (actParamType.getKind() == TypeKind.TYPEVAR) {
-          TypeVariable tv = (TypeVariable) actualReturnType;
+          TypeVariable tv = (TypeVariable) actParamType;
           actParamType = tv.getUpperBound();
         }
         if (!types.isSubtype(requiredParamType, actParamType)) {
@@ -454,8 +449,7 @@ public class JavaModelAnalyzerUtil {
     return result;
   }
 
-  private void findAnnotatedElements(List<Element> result, Element element,
-      Class<?> annotationType) {
+  private void findAnnotatedElements(List<Element> result, Element element, Class<?> annotationType) {
     switch (element.getKind()) {
       case CLASS:
         TypeElement typeEl = (TypeElement) element;
@@ -500,8 +494,6 @@ public class JavaModelAnalyzerUtil {
       return str;
     }
 
-    return new StringBuilder(strLen).append(Character.toLowerCase(firstChar))
-        .append(str.substring(1)).toString();
+    return new StringBuilder(strLen).append(Character.toLowerCase(firstChar)).append(str.substring(1)).toString();
   }
-
 }

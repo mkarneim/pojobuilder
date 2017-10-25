@@ -1,31 +1,45 @@
 package net.karneim.pojobuilder.model;
 
 public class PrimitiveTypeM extends TypeM {
+  public static final TypeM VOID = new PrimitiveTypeM(void.class, Void.class);
+  public static final TypeM DOUBLE = new PrimitiveTypeM(double.class, Double.class);
+  public static final TypeM FLOAT = new PrimitiveTypeM(float.class, Float.class);
+  public static final TypeM LONG = new PrimitiveTypeM(long.class, Long.class);
+  public static final TypeM INT = new PrimitiveTypeM(int.class, Integer.class);
+  public static final TypeM SHORT = new PrimitiveTypeM(short.class, Short.class);
+  public static final TypeM BYTE = new PrimitiveTypeM(byte.class, Byte.class);
+  public static final TypeM CHAR = new PrimitiveTypeM(char.class, Character.class);
+  public static final TypeM BOOLEAN = new PrimitiveTypeM(boolean.class, Boolean.class);
 
-  public static final TypeM VOID = new PrimitiveTypeM("void", new TypeM(Void.class));
-  public static final TypeM DOUBLE = new PrimitiveTypeM("double", new TypeM(Double.class));
-  public static final TypeM FLOAT = new PrimitiveTypeM("float", new TypeM(Float.class));
-  public static final TypeM LONG = new PrimitiveTypeM("long", new TypeM(Long.class));
-  public static final TypeM INT = new PrimitiveTypeM("int", new TypeM(Integer.class));
-  public static final TypeM SHORT = new PrimitiveTypeM("short", new TypeM(Short.class));
-  public static final TypeM BYTE = new PrimitiveTypeM("byte", new TypeM(Byte.class));
-  public static final TypeM CHAR = new PrimitiveTypeM("char", new TypeM(Character.class));
-  public static final TypeM BOOLEAN = new PrimitiveTypeM("boolean", new TypeM(Boolean.class));
+  private final Class<?> type;
+  private final TypeM boxType;
 
-  private final TypeM boxClass;
-
-  public PrimitiveTypeM(String name, TypeM boxClass) {
-    super(name);
-    this.boxClass = boxClass;
+  public PrimitiveTypeM(Class<?> type, Class<?> boxType) {
+    super(type.getName());
+    this.type = type;
+    this.boxType = new TypeM(boxType);
   }
 
-  public TypeM getBoxClass() {
-    return boxClass;
+  /**
+   * Liefert den Wert von {@link #type}.
+   *
+   * @return den Wert von {@link #type}
+   */
+  public Class<?> getType() {
+    return type;
+  }
+
+  /**
+   * Liefert den Wert von {@link #boxType}.
+   *
+   * @return den Wert von {@link #boxType}
+   */
+  public TypeM getBoxType() {
+    return boxType;
   }
 
   @Override
   public boolean isPrimitive() {
     return true;
   }
-
 }

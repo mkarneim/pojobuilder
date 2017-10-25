@@ -104,12 +104,12 @@ public class RecipientBuilder
       Recipient result = new Recipient();
       if (isSet$name$java$lang$String) {
         result.setName(value$name$java$lang$String);
-      } else if (builder$name$java$lang$String!=null) {
+      } else if (builder$name$java$lang$String != null) {
         result.setName(builder$name$java$lang$String.build());
       }
       if (isSet$address$samples$Address) {
         result.setAddress(value$address$samples$Address);
-      } else if (builder$address$samples$Address!=null) {
+      } else if (builder$address$samples$Address != null) {
         result.setAddress(builder$address$samples$Address.build());
       }
       return result;

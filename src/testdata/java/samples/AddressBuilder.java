@@ -131,17 +131,17 @@ public class AddressBuilder
       Address result = new Address();
       if (isSet$street$java$lang$String) {
         result.setStreet(value$street$java$lang$String);
-      } else if (builder$street$java$lang$String!=null) {
+      } else if (builder$street$java$lang$String != null) {
         result.setStreet(builder$street$java$lang$String.build());
       }
       if (isSet$city$java$lang$String) {
         result.setCity(value$city$java$lang$String);
-      } else if (builder$city$java$lang$String!=null) {
+      } else if (builder$city$java$lang$String != null) {
         result.setCity(builder$city$java$lang$String.build());
       }
       if (isSet$postCode$java$lang$String) {
         result.setPostCode(value$postCode$java$lang$String);
-      } else if (builder$postCode$java$lang$String!=null) {
+      } else if (builder$postCode$java$lang$String != null) {
         result.setPostCode(builder$postCode$java$lang$String.build());
       }
       return result;

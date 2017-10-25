@@ -104,7 +104,7 @@ public class GenericPojoBuilder<P extends Number>
   public GenericPojo<P> build() {
     try {
       String _name;
-      if (!isSet$name$java$lang$String && builder$name$java$lang$String!=null) {
+      if (!isSet$name$java$lang$String && builder$name$java$lang$String != null) {
         _name = builder$name$java$lang$String.build();
       } else {
         _name = value$name$java$lang$String;
@@ -112,7 +112,7 @@ public class GenericPojoBuilder<P extends Number>
       GenericPojo<P> result = new GenericPojo<P>(_name);
       if (isSet$content$P) {
         result.setContent(value$content$P);
-      } else if (builder$content$P!=null) {
+      } else if (builder$content$P != null) {
         result.setContent(builder$content$P.build());
       }
       return result;
