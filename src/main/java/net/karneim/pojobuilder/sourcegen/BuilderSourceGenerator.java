@@ -350,28 +350,30 @@ public class BuilderSourceGenerator {
       writer.emitStatement("%s %s", compressedType, parameterFieldName);
       writer.beginControlFlow("if (!%s && %s != null)", prop.getIsSetFieldName(), builderFieldName);
       writer.emitStatement("%s = %s", parameterFieldName, callBuild);
-      writer.nextControlFlow("else").emitStatement("%s = %s", parameterFieldName, valueField);
+      writer.nextControlFlow("else");
+      writer.emitStatement("%s = %s", parameterFieldName, valueField);
       writer.endControlFlow();
     } else {
-      String defaultValue = "null";
-      if (propertyType.isPrimitive()) {
-        Class<?> type = ((PrimitiveTypeM) propertyType).getType();
-        defaultValue = Defaults.defaultValueAsLiteral(type);
-      }
-      writer.emitStatement("%s %s = %s", compressedType, parameterFieldName, defaultValue);
       if (prop.isOptionalProperty(optional)) {
-        writer.beginControlFlow("if (%s == null || %s.isPresent())", valueField, valueField);
-        writer.emitStatement("%s = %s", parameterFieldName, valueField);
+        writer.emitStatement("%s %s = %s", compressedType, parameterFieldName, valueField);
         if (hasBuilderProperties) {
-          writer.nextControlFlow("else if (%s != null)", builderFieldName);
+          writer.beginControlFlow("if (%s != null && !%s.isPresent() && %s != null)", valueField, valueField,
+              builderFieldName);
           String basicType = writer.compressType(prop.getBasicPropertyType(optional).getGenericType());
           String tempFieldName = "builtValue";
           writer.emitStatement("%s %s = %s", basicType, tempFieldName, callBuild);
           writer.beginControlFlow("if (%s != null)", tempFieldName);
           writer.emitStatement("%s = %s", parameterFieldName, optional.of(tempFieldName));
           writer.endControlFlow();
+          writer.endControlFlow();
         }
       } else {
+        String defaultValue = "null";
+        if (propertyType.isPrimitive()) {
+          Class<?> type = ((PrimitiveTypeM) propertyType).getType();
+          defaultValue = Defaults.defaultValueAsLiteral(type);
+        }
+        writer.emitStatement("%s %s = %s", compressedType, parameterFieldName, defaultValue);
         boolean extraControlFlow = false;
         if (propertyType.isPrimitive()) {
           writer.beginControlFlow("if (%s.isPresent())", valueField);
@@ -390,8 +392,8 @@ public class BuilderSourceGenerator {
         if (extraControlFlow) {
           writer.endControlFlow();
         }
+        writer.endControlFlow();
       }
-      writer.endControlFlow();
     }
   }
 
