@@ -176,28 +176,22 @@ public class PojoWithGuavaOptionalOptionalFactoryWithBuilderPropertiesBuilder
   @Override
   public PojoWithGuavaOptionalOptionalFactoryWithBuilderProperties build() {
     try {
-      Optional<Integer> _boxedInt = null;
-      if (value$boxedInt$com$google$common$base$Optional == null || value$boxedInt$com$google$common$base$Optional.isPresent()) {
-        _boxedInt = value$boxedInt$com$google$common$base$Optional;
-      } else if (builder$boxedInt$com$google$common$base$Optional != null) {
+      Optional<Integer> _boxedInt = value$boxedInt$com$google$common$base$Optional;
+      if (value$boxedInt$com$google$common$base$Optional != null && !value$boxedInt$com$google$common$base$Optional.isPresent() && builder$boxedInt$com$google$common$base$Optional != null) {
         Integer builtValue = builder$boxedInt$com$google$common$base$Optional.build();
         if (builtValue != null) {
           _boxedInt = Optional.of(builtValue);
         }
       }
-      Optional<int[]> _array = null;
-      if (value$array$com$google$common$base$Optional == null || value$array$com$google$common$base$Optional.isPresent()) {
-        _array = value$array$com$google$common$base$Optional;
-      } else if (builder$array$com$google$common$base$Optional != null) {
+      Optional<int[]> _array = value$array$com$google$common$base$Optional;
+      if (value$array$com$google$common$base$Optional != null && !value$array$com$google$common$base$Optional.isPresent() && builder$array$com$google$common$base$Optional != null) {
         int[] builtValue = builder$array$com$google$common$base$Optional.build();
         if (builtValue != null) {
           _array = Optional.of(builtValue);
         }
       }
-      Optional<List<Integer>> _list = null;
-      if (value$list$com$google$common$base$Optional == null || value$list$com$google$common$base$Optional.isPresent()) {
-        _list = value$list$com$google$common$base$Optional;
-      } else if (builder$list$com$google$common$base$Optional != null) {
+      Optional<List<Integer>> _list = value$list$com$google$common$base$Optional;
+      if (value$list$com$google$common$base$Optional != null && !value$list$com$google$common$base$Optional.isPresent() && builder$list$com$google$common$base$Optional != null) {
         List<Integer> builtValue = builder$list$com$google$common$base$Optional.build();
         if (builtValue != null) {
           _list = Optional.of(builtValue);

@@ -135,18 +135,9 @@ public class PojoWithGuavaOptionalOptionalFactoryBuilder
    */
   public PojoWithGuavaOptionalOptionalFactory build() {
     try {
-      Optional<Integer> _boxedInt = null;
-      if (value$boxedInt$com$google$common$base$Optional == null || value$boxedInt$com$google$common$base$Optional.isPresent()) {
-        _boxedInt = value$boxedInt$com$google$common$base$Optional;
-      }
-      Optional<int[]> _array = null;
-      if (value$array$com$google$common$base$Optional == null || value$array$com$google$common$base$Optional.isPresent()) {
-        _array = value$array$com$google$common$base$Optional;
-      }
-      Optional<List<Integer>> _list = null;
-      if (value$list$com$google$common$base$Optional == null || value$list$com$google$common$base$Optional.isPresent()) {
-        _list = value$list$com$google$common$base$Optional;
-      }
+      Optional<Integer> _boxedInt = value$boxedInt$com$google$common$base$Optional;
+      Optional<int[]> _array = value$array$com$google$common$base$Optional;
+      Optional<List<Integer>> _list = value$list$com$google$common$base$Optional;
       PojoWithGuavaOptionalOptionalFactory result = PojoWithGuavaOptionalOptionalFactory.create(_boxedInt, _array, _list);
       return result;
     } catch (RuntimeException ex) {
