@@ -21,18 +21,14 @@ public class PrimitiveTypeM extends TypeM {
   }
 
   /**
-   * Liefert den Wert von {@link #type}.
-   *
-   * @return den Wert von {@link #type}
+   * @return the value of {@link #type}
    */
   public Class<?> getType() {
     return type;
   }
 
   /**
-   * Liefert den Wert von {@link #boxType}.
-   *
-   * @return den Wert von {@link #boxType}
+   * @return the value of {@link #boxType}
    */
   public TypeM getBoxType() {
     return boxType;

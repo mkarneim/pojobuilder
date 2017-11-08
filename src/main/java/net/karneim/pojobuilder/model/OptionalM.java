@@ -15,18 +15,14 @@ public class OptionalM {
   }
 
   /**
-   * Liefert den Wert von {@link #type}.
-   *
-   * @return den Wert von {@link #type}
+   * @return the value of {@link #type}
    */
   public TypeM getType() {
     return type;
   }
 
   /**
-   * Liefert den Wert von {@link #absentMethodName}.
-   *
-   * @return den Wert von {@link #absentMethodName}
+   * @return the value of {@link #absentMethodName}
    */
   public String getAbsentMethodName() {
     return absentMethodName;
