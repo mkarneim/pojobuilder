@@ -9,15 +9,17 @@ import java.lang.annotation.Target;
 /**
  * This is a copy of the GwtIncompatible annotation provided by Google.
  * <p>
+ * Any class, method or field with an annotation @GwtIncompatible (with any package prefix) is
+ * ignored by the GWT compiler.
+ * <p>
  * As mentioned at <a href=
  * "http://www.gwtproject.org/javadoc/latest/com/google/gwt/core/shared/GwtIncompatible.html">GwtIncompatible.html</a>,
  * third-party libraries may use their own copy of this annotation class to avoid adding a
  * compile-time dependency on GWT.
- *
- * Any class, method or field with an annotation @GwtIncompatible (with any package prefix) is
- * ignored by the GWT compiler.
- * 
- * @see http://www.gwtproject.org/javadoc/latest/com/google/gwt/core/shared/GwtIncompatible.html
+ * <p>
+ * Please note that the retention policy of this annotation is "CLASS", which means, that you can
+ * ship generated builder classes without the need to include this annotation into the target
+ * application's classpath.
  */
 @Retention(RetentionPolicy.CLASS)
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.FIELD})
