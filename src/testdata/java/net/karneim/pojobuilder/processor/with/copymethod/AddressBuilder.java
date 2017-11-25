@@ -1,5 +1,6 @@
 package net.karneim.pojobuilder.processor.with.copymethod;
 
+import com.google.gwt.core.shared.GwtIncompatible;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
@@ -62,6 +63,7 @@ public class AddressBuilder
    * @return the clone
    */
   @Override
+  @GwtIncompatible
   public Object clone() {
     try {
       AddressBuilder result = (AddressBuilder)super.clone();
@@ -77,6 +79,7 @@ public class AddressBuilder
    *
    * @return the clone
    */
+  @GwtIncompatible
   public AddressBuilder but() {
     return (AddressBuilder)clone();
   }
@@ -115,7 +118,7 @@ public class AddressBuilder
     } catch (RuntimeException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new java.lang.reflect.UndeclaredThrowableException(ex);
+      throw new RuntimeException(ex);
     }
   }
 }

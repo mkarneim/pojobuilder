@@ -1,5 +1,6 @@
 package net.karneim.pojobuilder.processor.with.factorymethodannotation;
 
+import com.google.gwt.core.shared.GwtIncompatible;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
@@ -48,6 +49,7 @@ public class TPairBuilder<T>
    * @return the clone
    */
   @Override
+  @GwtIncompatible
   public Object clone() {
     try {
       @SuppressWarnings("unchecked")
@@ -65,6 +67,7 @@ public class TPairBuilder<T>
    * @return the clone
    */
   @SuppressWarnings("unchecked")
+  @GwtIncompatible
   public TPairBuilder<T> but() {
     return (TPairBuilder<T>)clone();
   }
@@ -81,7 +84,7 @@ public class TPairBuilder<T>
     } catch (RuntimeException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new java.lang.reflect.UndeclaredThrowableException(ex);
+      throw new RuntimeException(ex);
     }
   }
 }

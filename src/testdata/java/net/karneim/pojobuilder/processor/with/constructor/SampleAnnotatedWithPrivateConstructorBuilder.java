@@ -1,5 +1,6 @@
 package net.karneim.pojobuilder.processor.with.constructor;
 
+import com.google.gwt.core.shared.GwtIncompatible;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
@@ -29,6 +30,7 @@ public class SampleAnnotatedWithPrivateConstructorBuilder
    * @return the clone
    */
   @Override
+  @GwtIncompatible
   public Object clone() {
     try {
       SampleAnnotatedWithPrivateConstructorBuilder result = (SampleAnnotatedWithPrivateConstructorBuilder)super.clone();
@@ -44,6 +46,7 @@ public class SampleAnnotatedWithPrivateConstructorBuilder
    *
    * @return the clone
    */
+  @GwtIncompatible
   public SampleAnnotatedWithPrivateConstructorBuilder but() {
     return (SampleAnnotatedWithPrivateConstructorBuilder)clone();
   }
@@ -60,7 +63,7 @@ public class SampleAnnotatedWithPrivateConstructorBuilder
     } catch (RuntimeException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new java.lang.reflect.UndeclaredThrowableException(ex);
+      throw new RuntimeException(ex);
     }
   }
 }

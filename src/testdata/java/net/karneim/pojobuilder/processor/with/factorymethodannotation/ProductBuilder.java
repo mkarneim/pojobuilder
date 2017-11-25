@@ -1,5 +1,6 @@
 package net.karneim.pojobuilder.processor.with.factorymethodannotation;
 
+import com.google.gwt.core.shared.GwtIncompatible;
 import java.math.BigDecimal;
 import javax.annotation.Generated;
 
@@ -49,6 +50,7 @@ public class ProductBuilder
    * @return the clone
    */
   @Override
+  @GwtIncompatible
   public Object clone() {
     try {
       ProductBuilder result = (ProductBuilder)super.clone();
@@ -64,6 +66,7 @@ public class ProductBuilder
    *
    * @return the clone
    */
+  @GwtIncompatible
   public ProductBuilder but() {
     return (ProductBuilder)clone();
   }
@@ -80,7 +83,7 @@ public class ProductBuilder
     } catch (RuntimeException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new java.lang.reflect.UndeclaredThrowableException(ex);
+      throw new RuntimeException(ex);
     }
   }
 }

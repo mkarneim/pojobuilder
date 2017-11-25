@@ -1,5 +1,6 @@
 package net.karneim.pojobuilder.processor.with.factorymethodannotation;
 
+import com.google.gwt.core.shared.GwtIncompatible;
 import java.io.File;
 import javax.annotation.Generated;
 
@@ -35,6 +36,7 @@ public class FileContainerBuilder
    * @return the clone
    */
   @Override
+  @GwtIncompatible
   public Object clone() {
     try {
       FileContainerBuilder result = (FileContainerBuilder)super.clone();
@@ -50,6 +52,7 @@ public class FileContainerBuilder
    *
    * @return the clone
    */
+  @GwtIncompatible
   public FileContainerBuilder but() {
     return (FileContainerBuilder)clone();
   }
@@ -66,7 +69,7 @@ public class FileContainerBuilder
     } catch (RuntimeException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new java.lang.reflect.UndeclaredThrowableException(ex);
+      throw new RuntimeException(ex);
     }
   }
 }

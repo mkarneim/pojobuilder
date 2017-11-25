@@ -1,5 +1,6 @@
 package samples;
 
+import com.google.gwt.core.shared.GwtIncompatible;
 import java.util.List;
 import javax.annotation.Generated;
 
@@ -75,6 +76,7 @@ public class OrderBuilder
    * @return the clone
    */
   @Override
+  @GwtIncompatible
   public Object clone() {
     try {
       OrderBuilder result = (OrderBuilder)super.clone();
@@ -90,6 +92,7 @@ public class OrderBuilder
    *
    * @return the clone
    */
+  @GwtIncompatible
   public OrderBuilder but() {
     return (OrderBuilder)clone();
   }
@@ -117,7 +120,7 @@ public class OrderBuilder
     } catch (RuntimeException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new java.lang.reflect.UndeclaredThrowableException(ex);
+      throw new RuntimeException(ex);
     }
   }
 }

@@ -1,5 +1,6 @@
 package net.karneim.pojobuilder.processor.with.varargs;
 
+import com.google.gwt.core.shared.GwtIncompatible;
 import java.io.File;
 import java.math.BigDecimal;
 import javax.annotation.Generated;
@@ -64,6 +65,7 @@ public class OtherPojoBuilder
    * @return the clone
    */
   @Override
+  @GwtIncompatible
   public Object clone() {
     try {
       OtherPojoBuilder result = (OtherPojoBuilder)super.clone();
@@ -79,6 +81,7 @@ public class OtherPojoBuilder
    *
    * @return the clone
    */
+  @GwtIncompatible
   public OtherPojoBuilder but() {
     return (OtherPojoBuilder)clone();
   }
@@ -101,7 +104,7 @@ public class OtherPojoBuilder
     } catch (RuntimeException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new java.lang.reflect.UndeclaredThrowableException(ex);
+      throw new RuntimeException(ex);
     }
   }
 }
