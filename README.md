@@ -397,6 +397,7 @@ configurations {
 
 dependencies {
   codeGeneration 'net.karneim:pojobuilder:4.1.0'
+  compileOnly 'net.karneim:pojobuilder:4.1.0:annotations'
 }
 compileJava.classpath += configurations.codeGeneration
 compileTestJava.classpath += configurations.codeGeneration
