@@ -1,7 +1,7 @@
 package net.karneim.pojobuilder.processor.with.copymethod;
 
-import com.google.gwt.core.shared.GwtIncompatible;
 import javax.annotation.Generated;
+import net.karneim.pojobuilder.GwtIncompatible;
 
 @Generated("PojoBuilder")
 public class AddressBuilder

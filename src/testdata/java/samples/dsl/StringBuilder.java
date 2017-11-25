@@ -1,7 +1,7 @@
 package samples.dsl;
 
-import com.google.gwt.core.shared.GwtIncompatible;
 import javax.annotation.Generated;
+import net.karneim.pojobuilder.GwtIncompatible;
 import samples.Builder;
 
 @Generated("PojoBuilder")

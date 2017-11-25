@@ -1,8 +1,8 @@
 ﻿package com.example.output;
 
-import com.google.gwt.core.shared.GwtIncompatible;
 import java.util.Map;
 import javax.annotation.Generated;
+import net.karneim.pojobuilder.GwtIncompatible;
 
 @Generated("PojoBuilder")
 public class SampleBuilder<K, V extends Number>

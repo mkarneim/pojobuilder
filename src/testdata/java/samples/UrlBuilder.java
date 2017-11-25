@@ -1,9 +1,9 @@
 package samples;
 
-import com.google.gwt.core.shared.GwtIncompatible;
 import java.net.URL;
 import java.net.URLStreamHandler;
 import javax.annotation.Generated;
+import net.karneim.pojobuilder.GwtIncompatible;
 
 @Generated("PojoBuilder")
 public class UrlBuilder

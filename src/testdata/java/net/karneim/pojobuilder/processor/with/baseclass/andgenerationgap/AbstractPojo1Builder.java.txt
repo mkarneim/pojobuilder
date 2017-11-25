@@ -1,7 +1,7 @@
 ﻿package net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap;
 
-import com.google.gwt.core.shared.GwtIncompatible;
 import javax.annotation.Generated;
+import net.karneim.pojobuilder.GwtIncompatible;
 
 @Generated("PojoBuilder")
 public abstract class AbstractPojo1Builder extends SimpleBaseBuilder

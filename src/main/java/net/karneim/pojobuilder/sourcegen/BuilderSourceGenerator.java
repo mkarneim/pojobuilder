@@ -12,9 +12,9 @@ import java.util.List;
 import javax.annotation.Generated;
 import javax.lang.model.element.Modifier;
 
-import com.google.gwt.core.shared.GwtIncompatible;
 import com.squareup.javawriter.JavaWriter;
 
+import net.karneim.pojobuilder.GwtIncompatible;
 import net.karneim.pojobuilder.Visibility;
 import net.karneim.pojobuilder.model.ArgumentListM;
 import net.karneim.pojobuilder.model.ArrayTypeM;

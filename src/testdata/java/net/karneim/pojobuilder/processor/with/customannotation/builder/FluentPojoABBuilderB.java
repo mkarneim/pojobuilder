@@ -1,7 +1,7 @@
 package net.karneim.pojobuilder.processor.with.customannotation.builder;
 
-import com.google.gwt.core.shared.GwtIncompatible;
 import javax.annotation.Generated;
+import net.karneim.pojobuilder.GwtIncompatible;
 import net.karneim.pojobuilder.processor.with.customannotation.PojoAB;
 
 @Generated("PojoBuilder")

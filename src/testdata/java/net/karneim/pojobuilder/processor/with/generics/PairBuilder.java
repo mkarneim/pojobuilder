@@ -1,7 +1,7 @@
 package net.karneim.pojobuilder.processor.with.generics;
 
-import com.google.gwt.core.shared.GwtIncompatible;
 import javax.annotation.Generated;
+import net.karneim.pojobuilder.GwtIncompatible;
 
 @Generated("PojoBuilder")
 public class PairBuilder<A extends Comparable<A>, B extends Number>

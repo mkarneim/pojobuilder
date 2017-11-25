@@ -1,9 +1,9 @@
 package net.karneim.pojobuilder.processor.with.varargs;
 
-import com.google.gwt.core.shared.GwtIncompatible;
 import java.io.File;
 import java.math.BigDecimal;
 import javax.annotation.Generated;
+import net.karneim.pojobuilder.GwtIncompatible;
 
 @Generated("PojoBuilder")
 public class PojoBuilder

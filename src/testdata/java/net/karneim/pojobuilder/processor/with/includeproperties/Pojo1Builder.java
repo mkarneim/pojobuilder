@@ -1,9 +1,9 @@
 package net.karneim.pojobuilder.processor.with.includeproperties;
 
-import com.google.gwt.core.shared.GwtIncompatible;
 import java.net.URL;
 import java.util.List;
 import javax.annotation.Generated;
+import net.karneim.pojobuilder.GwtIncompatible;
 
 @Generated("PojoBuilder")
 public class Pojo1Builder
