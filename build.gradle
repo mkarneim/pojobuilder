@@ -36,7 +36,7 @@ apply plugin: 'com.github.kt3k.coveralls'
 
 group = 'net.karneim'
 archivesBaseName = "pojobuilder"
-version = '4.0.1'
+version = '4.1.0'
 sourceCompatibility = 1.6
 eclipse.jdt.sourceCompatibility = 1.7
 
@@ -92,6 +92,7 @@ task annotationsJar(type: Jar, dependsOn:['compileJava']) {
   include '**/GeneratePojoBuilder.class'
   include '**/FactoryProperties.class'
   include '**/Visibility.class'
+  include '**/GwtIncompatible.class'
   from files(sourceSets.main.output.resourcesDir)
 }
 
