@@ -28,7 +28,6 @@ import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 
 import net.karneim.pojobuilder.model.BuilderM;
-import net.karneim.pojobuilder.model.OptionalM;
 
 public class JavaModelAnalyzerUtil {
 

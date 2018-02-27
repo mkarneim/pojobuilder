@@ -2,6 +2,7 @@ package net.karneim.pojobuilder.processor.with;
 
 import com.google.common.base.Throwables;
 import net.karneim.pojobuilder.processor.AnnotationProcessor;
+import net.karneim.pojobuilder.testenv.Extension;
 import net.karneim.pojobuilder.testenv.JavaProject;
 import net.karneim.pojobuilder.testenv.TestBase;
 import net.karneim.pojobuilder.testenv.Util;
@@ -50,7 +51,7 @@ public abstract class ProcessorTestSupport extends TestBase {
   protected void sourceFor( String... classnames ) {
     try {
       for( String classname: classnames) {
-        prj.addSourceFile(classname, loadResourceFromFilesystem(TestBase.TESTDATA_DIRECTORY, getSourceFilename(classname) + ".txt"));
+        prj.addSourceFile(classname, loadJavaSourceFromFilesystem(TestBase.TESTDATA_DIRECTORY, classname, Extension.JAVA_TXT));
       }
     } catch (IOException e) {
       throw Throwables.propagate(e);

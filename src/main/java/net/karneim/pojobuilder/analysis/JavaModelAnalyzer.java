@@ -50,6 +50,20 @@ public class JavaModelAnalyzer {
     this.pojoPropertiesScanner = new PojoPropertiesScanner(elements, javaModelAnalyzerUtil, typeMFactory);
   }
 
+  public TypeM getGeneratedAnnotationType() {
+    return typeMFactory.getTypeM(getGeneratedAnnotationTypeElement());
+  }
+
+  private TypeElement getGeneratedAnnotationTypeElement() {
+    // since Java 9
+    TypeElement result = elements.getTypeElement("javax.annotation.processing.Generated");
+    if (result == null) {
+      // before Java 9
+      result = elements.getTypeElement("javax.annotation.Generated");
+    }
+    return result;
+  }
+
   public Output analyze(Input input) {
     LOG.fine(String.format("elem=%s", input));
     Output result = new Output(input);

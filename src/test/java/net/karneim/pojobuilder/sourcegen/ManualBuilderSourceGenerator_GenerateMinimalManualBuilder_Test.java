@@ -4,15 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.StringWriter;
 
+import com.squareup.javawriter.JavaWriter;
 import net.karneim.pojobuilder.model.ManualBuilderM;
 import net.karneim.pojobuilder.model.TypeM;
 import net.karneim.pojobuilder.model.TypeVariableM;
 import net.karneim.pojobuilder.testenv.TestBase;
-
 import org.junit.Before;
 import org.junit.Test;
-
-import com.squareup.javawriter.JavaWriter;
 
 public class ManualBuilderSourceGenerator_GenerateMinimalManualBuilder_Test extends TestBase {
   StringWriter out;
@@ -23,7 +21,7 @@ public class ManualBuilderSourceGenerator_GenerateMinimalManualBuilder_Test exte
   public void init() {
     out = new StringWriter();
     writer = new JavaWriter(out);
-    underTest = new ManualBuilderSourceGenerator(writer);
+    underTest = new ManualBuilderSourceGenerator(writer, new TypeM("javax.annotation.processing", "Generated"));
   }
 
   @Test
@@ -33,10 +31,10 @@ public class ManualBuilderSourceGenerator_GenerateMinimalManualBuilder_Test exte
     builder.setPojoType(new TypeM("com.example.output", "Sample"));
     builder.setType(new TypeM("com.example.output","SampleBuilder"));
     builder.setBaseType(new TypeM("com.example.output","AbstractSampleBuilder"));
-    
+
     // When:
     underTest.generateSource(builder);
-    
+
     // Then: @formatter:on
     String actual = out.toString().replace("\r", "");
     logDebug(actual);
@@ -60,10 +58,10 @@ public class ManualBuilderSourceGenerator_GenerateMinimalManualBuilder_Test exte
     builder.setBaseType(new TypeM("com.example.output","AbstractSampleBuilder")
       .withTypeParameter(T)
     );
-    
+
     // When:
     underTest.generateSource(builder);
-    
+
     // Then: @formatter:on
     String actual = out.toString().replace("\r", "");
     logDebug(actual);

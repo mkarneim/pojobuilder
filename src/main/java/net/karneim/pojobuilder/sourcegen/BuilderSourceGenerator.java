@@ -9,11 +9,9 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
-import javax.annotation.Generated;
 import javax.lang.model.element.Modifier;
 
 import com.squareup.javawriter.JavaWriter;
-
 import net.karneim.pojobuilder.GwtIncompatible;
 import net.karneim.pojobuilder.Visibility;
 import net.karneim.pojobuilder.model.ArgumentListM;
@@ -36,10 +34,12 @@ import net.karneim.pojobuilder.model.WriteAccess.Type;
 public class BuilderSourceGenerator {
 
   private JavaWriter writer;
+  private TypeM generatedAnnotationType;
   private List<String> warnings = new ArrayList<String>();
 
-  public BuilderSourceGenerator(JavaWriter writer) {
+  public BuilderSourceGenerator(JavaWriter writer, TypeM generatedAnnotationType) {
     this.writer = writer;
+    this.generatedAnnotationType = generatedAnnotationType;
   }
 
   public List<String> getWarnings() {
@@ -81,7 +81,6 @@ public class BuilderSourceGenerator {
       factoryMethod.getDeclaringClass().addToImportTypes(importTypes);
     }
     properties.getTypes().addToImportTypes(importTypes);
-    importTypes.add(Generated.class);
     importTypes.add(GwtIncompatible.class);
 
     if (optional != null) {
@@ -115,6 +114,7 @@ public class BuilderSourceGenerator {
     if ( validator != null) {
       validator.getType().addToImportTypes(importTypes);
     }
+    generatedAnnotationType.addToImportTypes(importTypes);
 
     importTypes.removePackage(builderType.getPackageName());
     importTypes.removePackage("java.lang");
@@ -123,7 +123,7 @@ public class BuilderSourceGenerator {
         .emitPackage(builderType.getPackageName())
         .emitImports(importTypes.getSortedDistinctClassnames())
         .emitEmptyLine()
-        .emitAnnotation(Generated.class, JavaWriter.stringLiteral("PojoBuilder"))
+        .emitAnnotation(generatedAnnotationType.getName(), JavaWriter.stringLiteral("PojoBuilder"))
         .beginType(builderType.getGenericTypeDefinition(), "class", builderTypeModifier, baseclass, interfaces)
         .emitField(selfType.getGenericType(), "self", EnumSet.of(PROTECTED));
 
@@ -284,8 +284,8 @@ public class BuilderSourceGenerator {
       writer.emitStatement("%s.%s(result)", validator.getFieldName(), validator.getMethodName());
     }
     writer.emitStatement("return result").nextControlFlow("catch (RuntimeException ex)").emitStatement("throw ex")
-        .nextControlFlow("catch (Exception ex)")
-        .emitStatement("throw new RuntimeException(ex)").endControlFlow().endMethod();
+        .nextControlFlow("catch (Exception ex)").emitStatement("throw new RuntimeException(ex)").endControlFlow()
+        .endMethod();
   }
 
   private String emitParameterAssignments(boolean hasBuilderProperties, OptionalM optional, BuildMethodM buildMethod,
@@ -406,10 +406,9 @@ public class BuilderSourceGenerator {
     String parameterTypeStr = prop.getParameterizedBuilderInterfaceType(interfaceType, optional).getGenericType();
 
     writer.emitEmptyLine();
-    writer.emitJavadoc(
-        "Sets the default builder for the {@link %s#%s} property.\n\n"//
-            + "@param builder the default builder\n"//
-            + "@return this builder"//
+    writer.emitJavadoc("Sets the default builder for the {@link %s#%s} property.\n\n"//
+        + "@param builder the default builder\n"//
+        + "@return this builder"//
         , pojoTypeStr, prop.getPropertyName());
     writer.beginMethod(selfType.getGenericType(), withMethodName, EnumSet.of(PUBLIC), parameterTypeStr, "builder");
     writer.emitStatement("this.%s = builder", prop.getBuilderFieldName());
@@ -440,10 +439,9 @@ public class BuilderSourceGenerator {
       parameterTypeStr = propertyType.getGenericType();
     }
     writer.emitEmptyLine();
-    writer.emitJavadoc(
-        "Sets the default value for the {@link %s#%s} property.\n\n"//
-            + "@param value the default value\n"//
-            + "@return this builder"//
+    writer.emitJavadoc("Sets the default value for the {@link %s#%s} property.\n\n"//
+        + "@param value the default value\n"//
+        + "@return this builder"//
         , pojoTypeStr, prop.getPropertyName());
     writer.beginMethod(selfType.getGenericType(), withMethodName, EnumSet.of(PUBLIC), parameterTypeStr, "value");
     if (optional == null) {
@@ -472,10 +470,9 @@ public class BuilderSourceGenerator {
     optionalParameterTypeStr = writer.compressType(optionalParameterTypeStr);
 
     writer.emitEmptyLine();
-    writer.emitJavadoc(
-        "Optionally sets the default value for the {@link %s#%s} property.\n\n"//
-            + "@param optionalValue the optional default value\n"//
-            + "@return this builder"//
+    writer.emitJavadoc("Optionally sets the default value for the {@link %s#%s} property.\n\n"//
+        + "@param optionalValue the optional default value\n"//
+        + "@return this builder"//
         , pojoTypeStr, prop.getPropertyName());
     writer.beginMethod(selfType.getGenericType(), withMethodName, EnumSet.of(PUBLIC), optionalParameterTypeStr,
         "optionalValue");

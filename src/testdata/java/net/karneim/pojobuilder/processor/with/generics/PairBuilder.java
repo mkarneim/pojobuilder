@@ -1,6 +1,6 @@
 package net.karneim.pojobuilder.processor.with.generics;
 
-import javax.annotation.Generated;
+import javaxfake.annotation.Generated;
 import net.karneim.pojobuilder.GwtIncompatible;
 
 @Generated("PojoBuilder")

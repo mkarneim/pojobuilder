@@ -1,6 +1,6 @@
 package net.karneim.pojobuilder.processor.with.generationgap;
 
-import javax.annotation.Generated;
+import javaxfake.annotation.Generated;
 
 /**
  * The {@link PlayerBuilder} is a Builder for {@link Player} objects.

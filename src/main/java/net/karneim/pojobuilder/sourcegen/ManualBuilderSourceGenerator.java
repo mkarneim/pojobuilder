@@ -5,11 +5,9 @@ import static javax.lang.model.element.Modifier.PUBLIC;
 import java.io.IOException;
 import java.util.EnumSet;
 
-import javax.annotation.Generated;
 import javax.lang.model.element.Modifier;
 
 import com.squareup.javawriter.JavaWriter;
-
 import net.karneim.pojobuilder.Visibility;
 import net.karneim.pojobuilder.model.ImportTypesM;
 import net.karneim.pojobuilder.model.ManualBuilderM;
@@ -19,9 +17,11 @@ import net.karneim.pojobuilder.model.TypeM;
 public class ManualBuilderSourceGenerator {
 
   private JavaWriter writer;
+  private TypeM generatedAnnotationType;
 
-  public ManualBuilderSourceGenerator(JavaWriter writer) {
+  public ManualBuilderSourceGenerator(JavaWriter writer, TypeM generatedAnnotationType) {
     this.writer = writer;
+    this.generatedAnnotationType = generatedAnnotationType;
   }
 
   public void generateSource(ManualBuilderM builder) throws IOException {
@@ -35,10 +35,10 @@ public class ManualBuilderSourceGenerator {
     writer
         .emitPackage(builderType.getPackageName());
     ImportTypesM importTypes = pojoType.addToImportTypes(new ImportTypesM());
-    importTypes.add(Generated.class);
     baseType.addToImportTypes(importTypes);
     importTypes.removePackage(builderType.getPackageName());
     importTypes.removePackage("java.lang");
+    generatedAnnotationType.addToImportTypes(importTypes);
 
     String builderTypeName = writer.compressType(builderType.getName());
     String pojoTypeName = writer.compressType(pojoType.getName());
@@ -55,7 +55,7 @@ public class ManualBuilderSourceGenerator {
             +"    in order to prevent it from being overwritten by the\n"
             +"    PojoBuilder generator!\n"
             +"</p>\n", builderTypeName, pojoTypeName)
-        .emitAnnotation(Generated.class, JavaWriter.stringLiteral("PojoBuilder"))
+        .emitAnnotation(generatedAnnotationType.getName(), JavaWriter.stringLiteral("PojoBuilder"))
         .beginType(builderType.getGenericTypeDefinition(), "class", EnumSet.of(PUBLIC), baseType.getGenericType());
 
     if (staticFactoryMethod != null) {

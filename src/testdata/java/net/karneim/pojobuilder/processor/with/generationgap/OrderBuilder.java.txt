@@ -1,6 +1,6 @@
 ﻿package net.karneim.pojobuilder.processor.with.generationgap;
 
-import javax.annotation.Generated;
+import javaxfake.annotation.Generated;
 
 /**
  * The {@link OrderBuilder} is a Builder for {@link Order} objects.

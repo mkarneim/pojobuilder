@@ -7,6 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.StringWriter;
 import java.util.EnumSet;
 
+import com.squareup.javawriter.JavaWriter;
 import net.karneim.pojobuilder.model.BuildMethodM;
 import net.karneim.pojobuilder.model.BuilderM;
 import net.karneim.pojobuilder.model.CloneMethodM;
@@ -20,11 +21,8 @@ import net.karneim.pojobuilder.model.PropertyM;
 import net.karneim.pojobuilder.model.SetterMethodM;
 import net.karneim.pojobuilder.model.TypeM;
 import net.karneim.pojobuilder.testenv.TestBase;
-
 import org.junit.Before;
 import org.junit.Test;
-
-import com.squareup.javawriter.JavaWriter;
 
 public class BuilderSourceGenerator_GenerateCopyMethod_Test extends TestBase {
   StringWriter out;
@@ -35,7 +33,7 @@ public class BuilderSourceGenerator_GenerateCopyMethod_Test extends TestBase {
   public void init() {
     out = new StringWriter();
     writer = new JavaWriter(out);
-    underTest = new BuilderSourceGenerator(writer);
+    underTest = new BuilderSourceGenerator(writer, new TypeM("javax.annotation.processing", "Generated"));
   }
 
   @Test

@@ -1,6 +1,6 @@
 ﻿package net.karneim.pojobuilder.processor.with.baseclass.andgenerationgap;
 
-import javax.annotation.Generated;
+import javaxfake.annotation.Generated;
 
 /**
  * The {@link Pojo2Builder} is a Builder for {@link Pojo2} objects.

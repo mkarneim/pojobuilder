@@ -1,31 +1,37 @@
 package net.karneim.pojobuilder.processor.with;
 
+import java.io.IOException;
+
 import com.google.common.base.Throwables;
+import net.karneim.pojobuilder.testenv.Extension;
+import net.karneim.pojobuilder.testenv.FileHelper;
 import net.karneim.pojobuilder.testenv.JavaProject;
-import net.karneim.pojobuilder.testenv.TestBase;
+import net.karneim.pojobuilder.testenv.FileHelper.FakeAnnotationReplacement;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
-
-import java.io.IOException;
 
 /**
  * FEST assertion for PojoBuilder compilation environment
  */
 public class JavaProjectAssert extends AbstractAssert<JavaProjectAssert, JavaProject> {
 
-  private TestBase base = new TestBase() {
-  };
+  private FileHelper fileHelper;
+  private final String srcDir;
 
-  public JavaProjectAssert(JavaProject javaProject) {
+  public JavaProjectAssert(JavaProject javaProject, String srcDir) {
     super(javaProject, JavaProjectAssert.class);
+    this.srcDir = srcDir;
+    this.fileHelper = new FileHelper(javaProject.isSourceVersionJava9OrGreater()
+        ? FakeAnnotationReplacement.JAVA_9
+        : FakeAnnotationReplacement.CLASSIC);
   }
 
   public JavaProjectAssert generatedSameSourceAs(Class<?> target) {
     String actualSource = null;
     String expectedSource = null;
     try {
-      actualSource = TestBase.getContent(actual.findGeneratedSource(target.getName()));
-      expectedSource = base.loadResourceFromFilesystem(TestBase.TESTDATA_DIRECTORY, base.getSourceFilename(target.getName()));
+      actualSource = fileHelper.getContent(actual.findGeneratedSource(target.getName()));
+      expectedSource = fileHelper.loadJavaSourceFromFilesystem(srcDir, target.getName());
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
@@ -35,17 +41,18 @@ public class JavaProjectAssert extends AbstractAssert<JavaProjectAssert, JavaPro
 
   /**
    * For generation gap where the pre-existence of the manual class stops its from being generated we must assert the
-   * content against a file. This is done by a simple naming contract - there <b>must</b> be a file called [classname].java.txt.
+   * content against a file. This is done by a simple naming contract - there <b>must</b> be a file called
+   * [classname].java.txt.
    *
    * @param classname The full classname of the builder class
    */
   public JavaProjectAssert generatedSameSourceAs(String classname) {
-//    assert filename.endsWith(".java.txt") : "this assertion only for .java.txt pattern, see others usages!";
+    // assert filename.endsWith(".java.txt") : "this assertion only for .java.txt pattern, see others usages!";
     String actualSource = null;
     String expectedSource = null;
     try {
-      actualSource = TestBase.getContent(actual.findGeneratedSource(classname));
-      expectedSource = base.loadResourceFromFilesystem(TestBase.TESTDATA_DIRECTORY, base.getSourceFilename(classname) + ".txt");
+      actualSource = fileHelper.getContent(actual.findGeneratedSource(classname));
+      expectedSource = fileHelper.loadJavaSourceFromFilesystem(srcDir, classname, Extension.JAVA_TXT);
     } catch (Exception e) {
       throw new RuntimeException(e);
     }

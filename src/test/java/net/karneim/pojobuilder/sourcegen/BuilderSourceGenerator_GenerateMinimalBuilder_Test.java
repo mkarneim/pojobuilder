@@ -24,14 +24,14 @@ public class BuilderSourceGenerator_GenerateMinimalBuilder_Test extends TestBase
   public void init() {
     out = new StringWriter();
     writer = new JavaWriter(out);
-    underTest = new BuilderSourceGenerator(writer);
+    underTest = new BuilderSourceGenerator(writer, new TypeM("javax.annotation.processing", "Generated"));
   }
 
   @Test
   public void test() throws Exception {
     // Given:  @formatter:off
     TypeM pojoType = new TypeM("com.example.output", "Sample");
-    
+
     BuilderM builder = new BuilderM();
     builder.setPojoType(pojoType);
     builder.setType(new TypeM("com.example.output","SampleBuilder"));
@@ -41,7 +41,7 @@ public class BuilderSourceGenerator_GenerateMinimalBuilder_Test extends TestBase
 
     // When:
     underTest.generateSource(builder);
-    
+
     // Then: @formatter:on
     String actual = out.toString().replace("\r", "");
     logDebug(actual);

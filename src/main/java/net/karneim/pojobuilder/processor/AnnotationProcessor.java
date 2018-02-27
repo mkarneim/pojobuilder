@@ -26,7 +26,6 @@ import javax.tools.Diagnostic.Kind;
 import javax.tools.JavaFileObject;
 
 import com.squareup.javawriter.JavaWriter;
-
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import net.karneim.pojobuilder.PojoBuilderException;
 import net.karneim.pojobuilder.analysis.AnnotationHierarchyUtil;
@@ -234,7 +233,8 @@ public class AnnotationProcessor extends AbstractProcessor {
         processingEnv.getFiler().createSourceFile(qualifiedName, asArray(output.getInput().getOrginatingElements()));
     Writer writer = jobj.openWriter();
     JavaWriter javaWriter = new JavaWriter(writer);
-    BuilderSourceGenerator generator = new BuilderSourceGenerator(javaWriter);
+    BuilderSourceGenerator generator =
+        new BuilderSourceGenerator(javaWriter, javaModelAnalyzer.getGeneratedAnnotationType());
     generator.generateSource(builderModel);
     writer.close();
     for (String warning : generator.getWarnings()) {
@@ -260,7 +260,8 @@ public class AnnotationProcessor extends AbstractProcessor {
         processingEnv.getFiler().createSourceFile(qualifiedName, asArray(output.getInput().getOrginatingElements()));
     Writer writer = jobj.openWriter();
     JavaWriter javaWriter = new JavaWriter(writer);
-    ManualBuilderSourceGenerator generator = new ManualBuilderSourceGenerator(javaWriter);
+    ManualBuilderSourceGenerator generator =
+        new ManualBuilderSourceGenerator(javaWriter, javaModelAnalyzer.getGeneratedAnnotationType());
     generator.generateSource(manualBuilderModel);
     writer.close();
 

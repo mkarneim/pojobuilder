@@ -34,7 +34,7 @@ public class BuilderSourceGenerator_GenerateFieldPairsForEachProperty_Test exten
   public void init() {
     out = new StringWriter();
     writer = new JavaWriter(out);
-    underTest = new BuilderSourceGenerator(writer);
+    underTest = new BuilderSourceGenerator(writer, new TypeM("javax.annotation.processing", "Generated"));
   }
 
   /**

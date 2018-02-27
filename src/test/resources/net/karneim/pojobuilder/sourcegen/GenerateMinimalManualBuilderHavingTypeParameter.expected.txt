@@ -1,6 +1,6 @@
 ﻿package com.example.output;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 /**
  * The {@link SampleBuilder} is a Builder for {@link Sample} objects.

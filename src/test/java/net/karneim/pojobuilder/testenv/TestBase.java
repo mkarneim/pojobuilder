@@ -1,14 +1,29 @@
 package net.karneim.pojobuilder.testenv;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class TestBase {
-  public static final File TESTDATA_DIRECTORY = new File("src/testdata/java");;
+import net.karneim.pojobuilder.testenv.FileHelper.FakeAnnotationReplacement;
+
+public abstract class TestBase {
+  public static final String TESTDATA_DIRECTORY = "src/testdata/java";
 
   private static final boolean DEBUG_LOG_ENABLED = false;
+
+  private final FileHelper fileHelper;
+
+  public TestBase() {
+    fileHelper =
+        new FileHelper(hasJava9Annotation() ? FakeAnnotationReplacement.JAVA_9 : FakeAnnotationReplacement.CLASSIC);
+  }
+
+  private static boolean hasJava9Annotation() {
+    try {
+      Class.forName(FakeAnnotationReplacement.JAVA_9.getText());
+    } catch (ClassNotFoundException e) {
+      return false;
+    }
+    return true;
+  }
 
   protected void logDebug(String message) {
     if (DEBUG_LOG_ENABLED) {
@@ -16,48 +31,24 @@ public class TestBase {
     }
   }
 
-  public String loadResourceFromClasspath(String name) throws IOException {
-    return getContent(this.getClass().getResourceAsStream(name));
+  protected String loadResourceFromClasspath(String name) throws IOException {
+    return fileHelper.getContent(this.getClass().getResourceAsStream(name));
   }
 
-  public String loadResourceFromFilesystem(File directory, String name) throws IOException {
-    File file = new File(directory, name);
-    return loadResource(file);
+  protected String loadJavaSourceFromFilesystem(String directory, String javaClassName) throws IOException {
+    return fileHelper.loadJavaSourceFromFilesystem(directory, javaClassName, Extension.JAVA);
   }
 
-  private String loadResource(File file) throws FileNotFoundException {
-    return getContent(new FileInputStream(file));
+  protected String loadJavaSourceFromFilesystem(String directory, String javaClassName, Extension extension)
+      throws IOException {
+    return fileHelper.loadJavaSourceFromFilesystem(directory, javaClassName, extension);
   }
 
-  protected String getSourceFilename(File srcDir, Class<?> aClass) {
-    return new File(srcDir, getSourceFilename(aClass.getName())).getPath();
+  protected String getSourceFilename(String srcDir, String fullQualifiedClassname) {
+    return fileHelper.getSourceFilename(srcDir, fullQualifiedClassname, Extension.JAVA);
   }
 
-  protected String getSourceFilename(File srcDir, String fullQualifiedClassname) {
-    return new File(srcDir, getSourceFilename(fullQualifiedClassname)).getPath();
-  }
-
-  protected String getSourceFilename(Class<?> aClass) {
-    return getSourceFilename(aClass.getName());
-  }
-
-  public String getSourceFilename(String fullQualifiedClassname) {
-    String result = fullQualifiedClassname.replace('.', '/').concat(".java");
-    return result;
-  }
-
-  public static String getContent(java.io.InputStream is) {
-    if (is == null) {
-      return null;
-    }
-    @SuppressWarnings("resource")
-    java.util.Scanner scanner = new java.util.Scanner(is, "UTF-8").useDelimiter("\\A");
-    try {
-      String result = scanner.hasNext() ? scanner.next() : "";
-      result = result.replaceAll("\r\n", "\n").replaceAll(String.valueOf((char) 65279), "");
-      return result;
-    } finally {
-      scanner.close();
-    }
+  protected String getContent(java.io.InputStream is) {
+    return fileHelper.getContent(is);
   }
 }

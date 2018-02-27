@@ -5,6 +5,7 @@ import net.karneim.pojobuilder.analysis.Input;
 import net.karneim.pojobuilder.analysis.Output;
 import net.karneim.pojobuilder.analysis.with.AnalysisTestSupport;
 import net.karneim.pojobuilder.testenv.AddToSourceTree;
+import net.karneim.pojobuilder.testenv.TestBase;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * {@link GeneratePojoBuilder} itself. This can be done even in multiple hierarchies. The annotation attributes are read
  * in the order of appearance in the source code and override their values.
  */
-@AddToSourceTree({"src/testdata/java"})
+@AddToSourceTree({TestBase.TESTDATA_DIRECTORY})
 public class JavaModelAnalyzer_CustomAnnotation_Test extends AnalysisTestSupport {
 
   @Test

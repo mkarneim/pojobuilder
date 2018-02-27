@@ -1,10 +1,5 @@
 package net.karneim.pojobuilder.testenv;
 
-import com.google.common.base.Throwables;
-
-import javax.annotation.processing.Processor;
-import javax.tools.*;
-import javax.tools.JavaFileObject.Kind;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,6 +8,20 @@ import java.lang.reflect.UndeclaredThrowableException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+
+import javax.annotation.processing.Processor;
+import javax.lang.model.SourceVersion;
+import javax.tools.Diagnostic;
+import javax.tools.DiagnosticCollector;
+import javax.tools.JavaCompiler;
+import javax.tools.JavaFileObject;
+import javax.tools.JavaFileObject.Kind;
+import javax.tools.StandardJavaFileManager;
+import javax.tools.StandardLocation;
+import javax.tools.ToolProvider;
+
+import com.google.common.base.Throwables;
 
 /**
  * The {@link JavaProject} is a driver for controlling a simple java project. This includes adding source files,
@@ -22,7 +31,9 @@ import java.util.List;
  */
 public class JavaProject {
 
-  public enum Compilation {NotStarted, Success, Failure}
+  public enum Compilation {
+    NotStarted, Success, Failure
+  }
 
   private Compilation status = Compilation.NotStarted;
 
@@ -60,6 +71,18 @@ public class JavaProject {
       fileManager.setLocation(StandardLocation.SOURCE_OUTPUT, Arrays.asList(outputRoot));
     } catch (IOException e) {
       throw new UndeclaredThrowableException(e);
+    }
+
+    Set<SourceVersion> v = this.compiler.getSourceVersions();
+    System.out.println(v);
+  }
+
+  public boolean isSourceVersionJava9OrGreater() {
+    try {
+      SourceVersion version = SourceVersion.valueOf("RELEASE_9");
+      return this.compiler.getSourceVersions().contains(version);
+    } catch (IllegalArgumentException e) {
+      return false;
     }
   }
 
@@ -107,7 +130,7 @@ public class JavaProject {
    * that directory are added (recursively).
    *
    * @param filepath the filepath must be absolute or relative to the current directory (that is the directory this JVM
-   *                 has been started from as stored in System.getProperty("user.dir"))
+   *        has been started from as stored in System.getProperty("user.dir"))
    */
   public void addSourceFile(String filepath) {
     File file = new File(filepath);
@@ -124,7 +147,7 @@ public class JavaProject {
    * Adds a source file for the given qualified class name and the given content to the source tree.
    *
    * @param qualifiedClassname the qualified name of the Java class
-   * @param content            the source code of the Java class
+   * @param content the source code of the Java class
    * @throws IOException
    */
   public void addSourceFile(String qualifiedClassname, String content) throws IOException {
@@ -207,7 +230,7 @@ public class JavaProject {
   public boolean compile() {
     try {
       return _compile();
-    } catch( Exception e) {
+    } catch (Exception e) {
       throw Throwables.propagate(e);
     }
   }

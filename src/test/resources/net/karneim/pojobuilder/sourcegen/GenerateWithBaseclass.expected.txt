@@ -1,7 +1,7 @@
 ﻿package com.example.output;
 
 import com.example.base.BaseBuilder;
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import net.karneim.pojobuilder.GwtIncompatible;
 
 @Generated("PojoBuilder")

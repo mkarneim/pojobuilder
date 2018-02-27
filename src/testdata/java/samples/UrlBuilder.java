@@ -2,7 +2,7 @@ package samples;
 
 import java.net.URL;
 import java.net.URLStreamHandler;
-import javax.annotation.Generated;
+import javaxfake.annotation.Generated;
 import net.karneim.pojobuilder.GwtIncompatible;
 
 @Generated("PojoBuilder")

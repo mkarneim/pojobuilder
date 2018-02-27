@@ -148,6 +148,11 @@ public class BuilderM {
     this.cloneMethod = cloneMethod;
   }
 
+  /*
+   * (non-Javadoc)
+   *
+   * @see java.lang.Object#toString()
+   */
   @Override
   public String toString() {
     return "BuilderM [type=" + type + ", isAbstract=" + isAbstract + ", selfType=" + selfType + ", baseType=" + baseType
