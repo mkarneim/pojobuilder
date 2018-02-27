@@ -10,7 +10,7 @@
  *
  */
 
-task wrapper(type: Wrapper) { gradleVersion = '2.13' }
+task wrapper(type: Wrapper) { gradleVersion = '4.5.1' }
 
 buildscript {
   repositories { mavenCentral() }
@@ -37,7 +37,7 @@ apply plugin: 'com.github.kt3k.coveralls'
 group = 'net.karneim'
 archivesBaseName = "pojobuilder"
 version = '4.1.0'
-sourceCompatibility = 1.6
+sourceCompatibility = 1.7
 eclipse.jdt.sourceCompatibility = 1.7
 
 repositories.mavenCentral()
@@ -78,7 +78,7 @@ jar { from 'src/jar/resources' }
 
 task dependenciesJar(type: Jar, dependsOn:['compileJava']) {
   classifier = "jar-with-dependencies"
-  from files(sourceSets.main.output.classesDir)
+  from files(sourceSets.main.output.classesDirs)
   from files(sourceSets.main.output.resourcesDir)
   from 'src/jar/resources'
   from {configurations.compile.collect {zipTree(it)}}
@@ -87,7 +87,7 @@ task dependenciesJar(type: Jar, dependsOn:['compileJava']) {
 
 task annotationsJar(type: Jar, dependsOn:['compileJava']) {
   classifier = "annotations"
-  from files(sourceSets.main.output.classesDir)
+  from files(sourceSets.main.output.classesDirs)
   includeEmptyDirs false
   include '**/GeneratePojoBuilder.class'
   include '**/FactoryProperties.class'
