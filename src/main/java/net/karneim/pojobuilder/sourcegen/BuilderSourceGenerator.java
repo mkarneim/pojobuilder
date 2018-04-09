@@ -508,7 +508,8 @@ public class BuilderSourceGenerator {
     String valueFieldName = prop.getValueFieldName();
     if (optional == null) {
       String isSetFieldName = prop.getIsSetFieldName();
-      writer.emitField(prop.getPropertyType().getGenericType(), valueFieldName, EnumSet.of(PROTECTED));
+      String genericType = prop.getPropertyType().getGenericType();
+      writer.emitField(genericType, valueFieldName, EnumSet.of(PROTECTED));
       writer.emitField("boolean", isSetFieldName, EnumSet.of(PROTECTED));
     } else {
       writer.emitField(prop.getOptionalPropertyType(optional).getGenericType(), valueFieldName, EnumSet.of(PROTECTED),
