@@ -22,7 +22,7 @@ public class Pojo3Builder
   }
 
   /**
-   * Sets the default value for the {@link Pojo3#login} property.
+   * Sets the default value for the login property.
    *
    * @param value the default value
    * @return this builder
@@ -34,7 +34,7 @@ public class Pojo3Builder
   }
 
   /**
-   * Sets the default value for the {@link Pojo3#firstname} property.
+   * Sets the default value for the firstname property.
    *
    * @param value the default value
    * @return this builder
@@ -46,7 +46,7 @@ public class Pojo3Builder
   }
 
   /**
-   * Sets the default value for the {@link Pojo3#surname} property.
+   * Sets the default value for the surname property.
    *
    * @param value the default value
    * @return this builder

@@ -47,7 +47,7 @@ public class InnerPojoBuilder
   }
 
   /**
-   * Sets the default value for the {@link OuterPojo.InnerPojo#name} property.
+   * Sets the default value for the name property.
    *
    * @param value the default value
    * @return this builder

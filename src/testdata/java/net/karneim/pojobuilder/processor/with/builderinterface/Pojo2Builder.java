@@ -23,7 +23,7 @@ public class Pojo2Builder
   }
 
   /**
-   * Sets the default value for the {@link Pojo2#file} property.
+   * Sets the default value for the file property.
    *
    * @param value the default value
    * @return this builder
@@ -47,7 +47,7 @@ public class Pojo2Builder
   }
 
   /**
-   * Sets the default value for the {@link Pojo2#age} property.
+   * Sets the default value for the age property.
    *
    * @param value the default value
    * @return this builder

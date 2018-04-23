@@ -24,7 +24,7 @@ public class OtherPojoBuilder
   }
 
   /**
-   * Sets the default value for the {@link Pojo#someNumbers} property.
+   * Sets the default value for the someNumbers property.
    *
    * @param value the default value
    * @return this builder
@@ -36,7 +36,7 @@ public class OtherPojoBuilder
   }
 
   /**
-   * Sets the default value for the {@link Pojo#someStrings} property.
+   * Sets the default value for the someStrings property.
    *
    * @param value the default value
    * @return this builder
@@ -48,7 +48,7 @@ public class OtherPojoBuilder
   }
 
   /**
-   * Sets the default value for the {@link Pojo#someFiles} property.
+   * Sets the default value for the someFiles property.
    *
    * @param value the default value
    * @return this builder

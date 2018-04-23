@@ -22,7 +22,7 @@ public class RecipientBuilder
   }
 
   /**
-   * Sets the default value for the {@link Recipient#name} property.
+   * Sets the default value for the name property.
    *
    * @param value the default value
    * @return this builder
@@ -34,7 +34,7 @@ public class RecipientBuilder
   }
 
   /**
-   * Sets the default builder for the {@link Recipient#name} property.
+   * Sets the default builder for the name property.
    *
    * @param builder the default builder
    * @return this builder
@@ -46,7 +46,7 @@ public class RecipientBuilder
   }
 
   /**
-   * Sets the default value for the {@link Recipient#address} property.
+   * Sets the default value for the address property.
    *
    * @param value the default value
    * @return this builder
@@ -58,7 +58,7 @@ public class RecipientBuilder
   }
 
   /**
-   * Sets the default builder for the {@link Recipient#address} property.
+   * Sets the default builder for the address property.
    *
    * @param builder the default builder
    * @return this builder

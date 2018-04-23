@@ -20,7 +20,7 @@ public class UserBuilder
   }
 
   /**
-   * Sets the default value for the {@link User#name} property.
+   * Sets the default value for the name property.
    *
    * @param value the default value
    * @return this builder
@@ -32,7 +32,7 @@ public class UserBuilder
   }
 
   /**
-   * Sets the default value for the {@link User#password} property.
+   * Sets the default value for the password property.
    *
    * @param value the default value
    * @return this builder

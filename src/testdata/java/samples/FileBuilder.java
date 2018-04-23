@@ -27,7 +27,7 @@ public class FileBuilder
   }
 
   /**
-   * Sets the default value for the {@link File#path} property.
+   * Sets the default value for the path property.
    *
    * @param value the default value
    * @return this builder
@@ -39,7 +39,7 @@ public class FileBuilder
   }
 
   /**
-   * Sets the default value for the {@link File#lastModified} property.
+   * Sets the default value for the lastModified property.
    *
    * @param value the default value
    * @return this builder
@@ -51,7 +51,7 @@ public class FileBuilder
   }
 
   /**
-   * Sets the default value for the {@link File#writable} property.
+   * Sets the default value for the writable property.
    *
    * @param value the default value
    * @return this builder
@@ -63,7 +63,7 @@ public class FileBuilder
   }
 
   /**
-   * Sets the default value for the {@link File#readable} property.
+   * Sets the default value for the readable property.
    *
    * @param value the default value
    * @return this builder
@@ -75,7 +75,7 @@ public class FileBuilder
   }
 
   /**
-   * Sets the default value for the {@link File#executable} property.
+   * Sets the default value for the executable property.
    *
    * @param value the default value
    * @return this builder

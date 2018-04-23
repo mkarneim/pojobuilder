@@ -22,7 +22,7 @@ public class InputSourceBuilder
   }
 
   /**
-   * Sets the default value for the {@link InputSource#byteStream} property.
+   * Sets the default value for the byteStream property.
    *
    * @param value the default value
    * @return this builder
@@ -34,7 +34,7 @@ public class InputSourceBuilder
   }
 
   /**
-   * Sets the default value for the {@link InputSource#encoding} property.
+   * Sets the default value for the encoding property.
    *
    * @param value the default value
    * @return this builder

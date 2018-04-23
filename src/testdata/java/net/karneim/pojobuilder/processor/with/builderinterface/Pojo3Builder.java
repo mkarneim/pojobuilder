@@ -26,7 +26,7 @@ public class Pojo3Builder
   }
 
   /**
-   * Sets the default value for the {@link Pojo3#file} property.
+   * Sets the default value for the file property.
    *
    * @param value the default value
    * @return this builder
@@ -38,7 +38,7 @@ public class Pojo3Builder
   }
 
   /**
-   * Sets the default builder for the {@link Pojo3#file} property.
+   * Sets the default builder for the file property.
    *
    * @param builder the default builder
    * @return this builder
@@ -74,7 +74,7 @@ public class Pojo3Builder
   }
 
   /**
-   * Sets the default value for the {@link Pojo3#age} property.
+   * Sets the default value for the age property.
    *
    * @param value the default value
    * @return this builder
@@ -86,7 +86,7 @@ public class Pojo3Builder
   }
 
   /**
-   * Sets the default builder for the {@link Pojo3#age} property.
+   * Sets the default builder for the age property.
    *
    * @param builder the default builder
    * @return this builder

@@ -48,7 +48,7 @@ public class Pojo1Builder
   }
 
   /**
-   * Sets the default value for the {@link Pojo1#postCode} property.
+   * Sets the default value for the postCode property.
    *
    * @param value the default value
    * @return this builder
@@ -60,7 +60,7 @@ public class Pojo1Builder
   }
 
   /**
-   * Sets the default value for the {@link Pojo1#url} property.
+   * Sets the default value for the url property.
    *
    * @param value the default value
    * @return this builder

@@ -24,7 +24,7 @@ public class TextEmailBuilder
   }
 
   /**
-   * Sets the default value for the {@link TextEmail#from} property.
+   * Sets the default value for the from property.
    *
    * @param value the default value
    * @return this builder
@@ -36,7 +36,7 @@ public class TextEmailBuilder
   }
 
   /**
-   * Sets the default value for the {@link TextEmail#recipients} property.
+   * Sets the default value for the recipients property.
    *
    * @param value the default value
    * @return this builder
@@ -48,7 +48,7 @@ public class TextEmailBuilder
   }
 
   /**
-   * Sets the default value for the {@link TextEmail#subject} property.
+   * Sets the default value for the subject property.
    *
    * @param value the default value
    * @return this builder
@@ -60,7 +60,7 @@ public class TextEmailBuilder
   }
 
   /**
-   * Sets the default value for the {@link TextEmail#body} property.
+   * Sets the default value for the body property.
    *
    * @param value the default value
    * @return this builder

@@ -20,7 +20,7 @@ public abstract class AbstractPlayerBuilder
   }
 
   /**
-   * Sets the default value for the {@link Player#name} property.
+   * Sets the default value for the name property.
    *
    * @param value the default value
    * @return this builder
@@ -32,7 +32,7 @@ public abstract class AbstractPlayerBuilder
   }
 
   /**
-   * Sets the default value for the {@link Player#points} property.
+   * Sets the default value for the points property.
    *
    * @param value the default value
    * @return this builder

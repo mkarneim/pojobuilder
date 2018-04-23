@@ -20,7 +20,7 @@ public class PairBuilder<A extends Comparable<A>, B extends Number>
   }
 
   /**
-   * Sets the default value for the {@link Pair#valueA} property.
+   * Sets the default value for the valueA property.
    *
    * @param value the default value
    * @return this builder
@@ -32,7 +32,7 @@ public class PairBuilder<A extends Comparable<A>, B extends Number>
   }
 
   /**
-   * Sets the default value for the {@link Pair#valueB} property.
+   * Sets the default value for the valueB property.
    *
    * @param value the default value
    * @return this builder

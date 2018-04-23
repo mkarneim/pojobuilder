@@ -27,7 +27,7 @@ public class PojoWithGuavaOptionalBasicConstructorWithBuilderPropertiesBuilder
   }
 
   /**
-   * Sets the default value for the {@link PojoWithGuavaOptionalBasicConstructorWithBuilderProperties#primitiveInt} property.
+   * Sets the default value for the primitiveInt property.
    *
    * @param value the default value
    * @return this builder
@@ -38,7 +38,7 @@ public class PojoWithGuavaOptionalBasicConstructorWithBuilderPropertiesBuilder
   }
 
   /**
-   * Optionally sets the default value for the {@link PojoWithGuavaOptionalBasicConstructorWithBuilderProperties#primitiveInt} property.
+   * Optionally sets the default value for the primitiveInt property.
    *
    * @param optionalValue the optional default value
    * @return this builder
@@ -51,7 +51,7 @@ public class PojoWithGuavaOptionalBasicConstructorWithBuilderPropertiesBuilder
   }
 
   /**
-   * Sets the default builder for the {@link PojoWithGuavaOptionalBasicConstructorWithBuilderProperties#primitiveInt} property.
+   * Sets the default builder for the primitiveInt property.
    *
    * @param builder the default builder
    * @return this builder
@@ -63,7 +63,7 @@ public class PojoWithGuavaOptionalBasicConstructorWithBuilderPropertiesBuilder
   }
 
   /**
-   * Sets the default value for the {@link PojoWithGuavaOptionalBasicConstructorWithBuilderProperties#boxedInt} property.
+   * Sets the default value for the boxedInt property.
    *
    * @param value the default value
    * @return this builder
@@ -78,7 +78,7 @@ public class PojoWithGuavaOptionalBasicConstructorWithBuilderPropertiesBuilder
   }
 
   /**
-   * Optionally sets the default value for the {@link PojoWithGuavaOptionalBasicConstructorWithBuilderProperties#boxedInt} property.
+   * Optionally sets the default value for the boxedInt property.
    *
    * @param optionalValue the optional default value
    * @return this builder
@@ -91,7 +91,7 @@ public class PojoWithGuavaOptionalBasicConstructorWithBuilderPropertiesBuilder
   }
 
   /**
-   * Sets the default builder for the {@link PojoWithGuavaOptionalBasicConstructorWithBuilderProperties#boxedInt} property.
+   * Sets the default builder for the boxedInt property.
    *
    * @param builder the default builder
    * @return this builder
@@ -103,7 +103,7 @@ public class PojoWithGuavaOptionalBasicConstructorWithBuilderPropertiesBuilder
   }
 
   /**
-   * Sets the default value for the {@link PojoWithGuavaOptionalBasicConstructorWithBuilderProperties#array} property.
+   * Sets the default value for the array property.
    *
    * @param value the default value
    * @return this builder
@@ -118,7 +118,7 @@ public class PojoWithGuavaOptionalBasicConstructorWithBuilderPropertiesBuilder
   }
 
   /**
-   * Optionally sets the default value for the {@link PojoWithGuavaOptionalBasicConstructorWithBuilderProperties#array} property.
+   * Optionally sets the default value for the array property.
    *
    * @param optionalValue the optional default value
    * @return this builder
@@ -131,7 +131,7 @@ public class PojoWithGuavaOptionalBasicConstructorWithBuilderPropertiesBuilder
   }
 
   /**
-   * Sets the default builder for the {@link PojoWithGuavaOptionalBasicConstructorWithBuilderProperties#array} property.
+   * Sets the default builder for the array property.
    *
    * @param builder the default builder
    * @return this builder
@@ -143,7 +143,7 @@ public class PojoWithGuavaOptionalBasicConstructorWithBuilderPropertiesBuilder
   }
 
   /**
-   * Sets the default value for the {@link PojoWithGuavaOptionalBasicConstructorWithBuilderProperties#list} property.
+   * Sets the default value for the list property.
    *
    * @param value the default value
    * @return this builder
@@ -158,7 +158,7 @@ public class PojoWithGuavaOptionalBasicConstructorWithBuilderPropertiesBuilder
   }
 
   /**
-   * Optionally sets the default value for the {@link PojoWithGuavaOptionalBasicConstructorWithBuilderProperties#list} property.
+   * Optionally sets the default value for the list property.
    *
    * @param optionalValue the optional default value
    * @return this builder
@@ -171,7 +171,7 @@ public class PojoWithGuavaOptionalBasicConstructorWithBuilderPropertiesBuilder
   }
 
   /**
-   * Sets the default builder for the {@link PojoWithGuavaOptionalBasicConstructorWithBuilderProperties#list} property.
+   * Sets the default builder for the list property.
    *
    * @param builder the default builder
    * @return this builder

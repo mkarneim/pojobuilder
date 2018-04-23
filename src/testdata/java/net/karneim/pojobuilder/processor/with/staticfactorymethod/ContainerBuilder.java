@@ -27,7 +27,7 @@ public class ContainerBuilder<T>
   }
 
   /**
-   * Sets the default value for the {@link Container#value} property.
+   * Sets the default value for the value property.
    *
    * @param value the default value
    * @return this builder
