@@ -22,7 +22,7 @@ public class ContactBuilder
   }
 
   /**
-   * Sets the default value for the {@link Contact#surname} property.
+   * Sets the default value for the surname property.
    *
    * @param value the default value
    * @return this builder
@@ -34,7 +34,7 @@ public class ContactBuilder
   }
 
   /**
-   * Sets the default value for the {@link Contact#firstname} property.
+   * Sets the default value for the firstname property.
    *
    * @param value the default value
    * @return this builder
@@ -46,7 +46,7 @@ public class ContactBuilder
   }
 
   /**
-   * Sets the default value for the {@link Contact#email} property.
+   * Sets the default value for the email property.
    *
    * @param value the default value
    * @return this builder

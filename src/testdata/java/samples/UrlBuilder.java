@@ -28,7 +28,7 @@ public class UrlBuilder
   }
 
   /**
-   * Sets the default value for the {@link URL#protocol} property.
+   * Sets the default value for the protocol property.
    *
    * @param value the default value
    * @return this builder
@@ -40,7 +40,7 @@ public class UrlBuilder
   }
 
   /**
-   * Sets the default value for the {@link URL#host} property.
+   * Sets the default value for the host property.
    *
    * @param value the default value
    * @return this builder
@@ -52,7 +52,7 @@ public class UrlBuilder
   }
 
   /**
-   * Sets the default value for the {@link URL#port} property.
+   * Sets the default value for the port property.
    *
    * @param value the default value
    * @return this builder
@@ -64,7 +64,7 @@ public class UrlBuilder
   }
 
   /**
-   * Sets the default value for the {@link URL#file} property.
+   * Sets the default value for the file property.
    *
    * @param value the default value
    * @return this builder
@@ -76,7 +76,7 @@ public class UrlBuilder
   }
 
   /**
-   * Sets the default value for the {@link URL#handler} property.
+   * Sets the default value for the handler property.
    *
    * @param value the default value
    * @return this builder

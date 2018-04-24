@@ -23,7 +23,7 @@ public abstract class AbstractOrderBuilder
   }
 
   /**
-   * Sets the default value for the {@link Order#customerNo} property.
+   * Sets the default value for the customerNo property.
    *
    * @param value the default value
    * @return this builder
@@ -35,7 +35,7 @@ public abstract class AbstractOrderBuilder
   }
 
   /**
-   * Sets the default value for the {@link Order#orderNo} property.
+   * Sets the default value for the orderNo property.
    *
    * @param value the default value
    * @return this builder
@@ -47,7 +47,7 @@ public abstract class AbstractOrderBuilder
   }
 
   /**
-   * Sets the default value for the {@link Order#items} property.
+   * Sets the default value for the items property.
    *
    * @param value the default value
    * @return this builder

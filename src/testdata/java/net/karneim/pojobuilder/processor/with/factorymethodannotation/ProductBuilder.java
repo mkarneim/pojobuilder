@@ -21,7 +21,7 @@ public class ProductBuilder
   }
 
   /**
-   * Sets the default value for the {@link Product#name} property.
+   * Sets the default value for the name property.
    *
    * @param value the default value
    * @return this builder
@@ -33,7 +33,7 @@ public class ProductBuilder
   }
 
   /**
-   * Sets the default value for the {@link Product#price} property.
+   * Sets the default value for the price property.
    *
    * @param value the default value
    * @return this builder

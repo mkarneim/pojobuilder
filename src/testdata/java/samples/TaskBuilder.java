@@ -31,7 +31,7 @@ public class TaskBuilder
   }
 
   /**
-   * Sets the default value for the {@link Task#name} property.
+   * Sets the default value for the name property.
    *
    * @param value the default value
    * @return this builder
@@ -43,7 +43,7 @@ public class TaskBuilder
   }
 
   /**
-   * Sets the default value for the {@link Task#assignee} property.
+   * Sets the default value for the assignee property.
    *
    * @param value the default value
    * @return this builder
@@ -55,7 +55,7 @@ public class TaskBuilder
   }
 
   /**
-   * Sets the default value for the {@link Task#description} property.
+   * Sets the default value for the description property.
    *
    * @param value the default value
    * @return this builder

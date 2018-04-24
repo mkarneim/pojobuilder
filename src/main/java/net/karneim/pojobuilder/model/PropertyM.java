@@ -30,6 +30,10 @@ public class PropertyM {
     return propertyName;
   }
 
+  public boolean isField() {
+    return isAccessibleViaFieldAccess();
+  }
+
   public String getWithMethodName() {
     return withMethodName;
   }
@@ -260,4 +264,5 @@ public class PropertyM {
         + readableViaGetterMethod + ", writableViaFactoryMethodParameter=" + writableViaFactoryMethodParameter
         + ", fieldAccess=" + fieldAccess + "]";
   }
+
 }

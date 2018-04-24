@@ -20,7 +20,7 @@ public class ResourceBuilder
   }
 
   /**
-   * Sets the default value for the {@link Resource#name} property.
+   * Sets the default value for the name property.
    *
    * @param value the default value
    * @return this builder
@@ -32,7 +32,7 @@ public class ResourceBuilder
   }
 
   /**
-   * Sets the default value for the {@link Resource#content} property.
+   * Sets the default value for the content property.
    *
    * @param value the default value
    * @return this builder

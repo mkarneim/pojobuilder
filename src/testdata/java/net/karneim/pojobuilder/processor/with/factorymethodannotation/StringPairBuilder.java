@@ -20,7 +20,7 @@ public class StringPairBuilder
   }
 
   /**
-   * Sets the default value for the {@link Pair#left} property.
+   * Sets the default value for the left property.
    *
    * @param value the default value
    * @return this builder
@@ -32,7 +32,7 @@ public class StringPairBuilder
   }
 
   /**
-   * Sets the default value for the {@link Pair#right} property.
+   * Sets the default value for the right property.
    *
    * @param value the default value
    * @return this builder

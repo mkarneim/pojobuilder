@@ -46,7 +46,7 @@ public class GenericPojoBuilder<P extends Number>
   }
 
   /**
-   * Sets the default value for the {@link GenericPojo#content} property.
+   * Sets the default value for the content property.
    *
    * @param value the default value
    * @return this builder
@@ -58,7 +58,7 @@ public class GenericPojoBuilder<P extends Number>
   }
 
   /**
-   * Sets the default builder for the {@link GenericPojo#content} property.
+   * Sets the default builder for the content property.
    *
    * @param builder the default builder
    * @return this builder

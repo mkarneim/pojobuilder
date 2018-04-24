@@ -29,7 +29,7 @@ public class GregorianCalendarBuilder
   }
 
   /**
-   * Sets the default value for the {@link GregorianCalendar#year} property.
+   * Sets the default value for the year property.
    *
    * @param value the default value
    * @return this builder
@@ -41,7 +41,7 @@ public class GregorianCalendarBuilder
   }
 
   /**
-   * Sets the default value for the {@link GregorianCalendar#month} property.
+   * Sets the default value for the month property.
    *
    * @param value the default value
    * @return this builder
@@ -53,7 +53,7 @@ public class GregorianCalendarBuilder
   }
 
   /**
-   * Sets the default value for the {@link GregorianCalendar#dayOfMonth} property.
+   * Sets the default value for the dayOfMonth property.
    *
    * @param value the default value
    * @return this builder
@@ -65,7 +65,7 @@ public class GregorianCalendarBuilder
   }
 
   /**
-   * Sets the default value for the {@link GregorianCalendar#hourOfDay} property.
+   * Sets the default value for the hourOfDay property.
    *
    * @param value the default value
    * @return this builder
@@ -77,7 +77,7 @@ public class GregorianCalendarBuilder
   }
 
   /**
-   * Sets the default value for the {@link GregorianCalendar#minute} property.
+   * Sets the default value for the minute property.
    *
    * @param value the default value
    * @return this builder
@@ -89,7 +89,7 @@ public class GregorianCalendarBuilder
   }
 
   /**
-   * Sets the default value for the {@link GregorianCalendar#second} property.
+   * Sets the default value for the second property.
    *
    * @param value the default value
    * @return this builder

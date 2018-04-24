@@ -25,7 +25,7 @@ public class AddressBuilder
   }
 
   /**
-   * Sets the default value for the {@link Address#street} property.
+   * Sets the default value for the street property.
    *
    * @param value the default value
    * @return this builder
@@ -37,7 +37,7 @@ public class AddressBuilder
   }
 
   /**
-   * Sets the default builder for the {@link Address#street} property.
+   * Sets the default builder for the street property.
    *
    * @param builder the default builder
    * @return this builder
@@ -49,7 +49,7 @@ public class AddressBuilder
   }
 
   /**
-   * Sets the default value for the {@link Address#city} property.
+   * Sets the default value for the city property.
    *
    * @param value the default value
    * @return this builder
@@ -61,7 +61,7 @@ public class AddressBuilder
   }
 
   /**
-   * Sets the default builder for the {@link Address#city} property.
+   * Sets the default builder for the city property.
    *
    * @param builder the default builder
    * @return this builder
@@ -73,7 +73,7 @@ public class AddressBuilder
   }
 
   /**
-   * Sets the default value for the {@link Address#postCode} property.
+   * Sets the default value for the postCode property.
    *
    * @param value the default value
    * @return this builder
@@ -85,7 +85,7 @@ public class AddressBuilder
   }
 
   /**
-   * Sets the default builder for the {@link Address#postCode} property.
+   * Sets the default builder for the postCode property.
    *
    * @param builder the default builder
    * @return this builder

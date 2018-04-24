@@ -37,5 +37,5 @@ public class Pojo {
   public List<BigDecimal> getSomeNumbers() {
     return someNumbers;
   }
-  
+
 }

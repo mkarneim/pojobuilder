@@ -23,7 +23,7 @@ public class StringBuilder
   }
 
   /**
-   * Sets the default value for the {@link String#format} property.
+   * Sets the default value for the format property.
    *
    * @param value the default value
    * @return this builder
@@ -35,7 +35,7 @@ public class StringBuilder
   }
 
   /**
-   * Sets the default builder for the {@link String#format} property.
+   * Sets the default builder for the format property.
    *
    * @param builder the default builder
    * @return this builder
@@ -47,7 +47,7 @@ public class StringBuilder
   }
 
   /**
-   * Sets the default value for the {@link String#nextNumber} property.
+   * Sets the default value for the nextNumber property.
    *
    * @param value the default value
    * @return this builder
@@ -59,7 +59,7 @@ public class StringBuilder
   }
 
   /**
-   * Sets the default builder for the {@link String#nextNumber} property.
+   * Sets the default builder for the nextNumber property.
    *
    * @param builder the default builder
    * @return this builder

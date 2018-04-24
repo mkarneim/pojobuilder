@@ -404,12 +404,15 @@ public class BuilderSourceGenerator {
     String withMethodName = prop.getWithMethodName();
     String pojoTypeStr = writer.compressType(pojoType.getName());
     String parameterTypeStr = prop.getParameterizedBuilderInterfaceType(interfaceType, optional).getGenericType();
+    String propertyLink = prop.isAccessibleViaFieldAccess()
+        ? String.format("{@link %s#%s}", pojoTypeStr, prop.getPropertyName())
+        : prop.getPropertyName();
 
     writer.emitEmptyLine();
-    writer.emitJavadoc("Sets the default builder for the {@link %s#%s} property.\n\n"//
+    writer.emitJavadoc("Sets the default builder for the %s property.\n\n"//
         + "@param builder the default builder\n"//
         + "@return this builder"//
-        , pojoTypeStr, prop.getPropertyName());
+        , propertyLink);
     writer.beginMethod(selfType.getGenericType(), withMethodName, EnumSet.of(PUBLIC), parameterTypeStr, "builder");
     writer.emitStatement("this.%s = builder", prop.getBuilderFieldName());
     if (optional == null) {
@@ -438,11 +441,15 @@ public class BuilderSourceGenerator {
     } else {
       parameterTypeStr = propertyType.getGenericType();
     }
+    String propertyLink = prop.isAccessibleViaFieldAccess()
+        ? String.format("{@link %s#%s}", pojoTypeStr, prop.getPropertyName())
+        : prop.getPropertyName();
+
     writer.emitEmptyLine();
-    writer.emitJavadoc("Sets the default value for the {@link %s#%s} property.\n\n"//
+    writer.emitJavadoc("Sets the default value for the %s property.\n\n"//
         + "@param value the default value\n"//
         + "@return this builder"//
-        , pojoTypeStr, prop.getPropertyName());
+        , propertyLink);
     writer.beginMethod(selfType.getGenericType(), withMethodName, EnumSet.of(PUBLIC), parameterTypeStr, "value");
     if (optional == null) {
       writer.emitStatement("this.%s = value", valueFieldName);
@@ -468,12 +475,14 @@ public class BuilderSourceGenerator {
     String pojoTypeStr = writer.compressType(pojoType.getName());
     String optionalParameterTypeStr = prop.getOptionalPropertyType(optional).getGenericType();
     optionalParameterTypeStr = writer.compressType(optionalParameterTypeStr);
-
+    String propertyLink = prop.isAccessibleViaFieldAccess()
+        ? String.format("{@link %s#%s}", pojoTypeStr, prop.getPropertyName())
+        : prop.getPropertyName();
     writer.emitEmptyLine();
-    writer.emitJavadoc("Optionally sets the default value for the {@link %s#%s} property.\n\n"//
+    writer.emitJavadoc("Optionally sets the default value for the %s property.\n\n"//
         + "@param optionalValue the optional default value\n"//
         + "@return this builder"//
-        , pojoTypeStr, prop.getPropertyName());
+        , propertyLink);
     writer.beginMethod(selfType.getGenericType(), withMethodName, EnumSet.of(PUBLIC), optionalParameterTypeStr,
         "optionalValue");
     String condition;

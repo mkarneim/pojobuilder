@@ -18,7 +18,7 @@ public class Pojo5Builder
   }
 
   /**
-   * Sets the default value for the {@link Pojo5#name} property.
+   * Sets the default value for the name property.
    *
    * @param value the default value
    * @return this builder

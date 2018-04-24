@@ -106,7 +106,7 @@ public class Pojo1Builder
   }
 
   /**
-   * Sets the default value for the {@link Pojo1#country} property.
+   * Sets the default value for the country property.
    *
    * @param value the default value
    * @return this builder
@@ -118,7 +118,7 @@ public class Pojo1Builder
   }
 
   /**
-   * Sets the default value for the {@link Pojo1#url} property.
+   * Sets the default value for the url property.
    *
    * @param value the default value
    * @return this builder

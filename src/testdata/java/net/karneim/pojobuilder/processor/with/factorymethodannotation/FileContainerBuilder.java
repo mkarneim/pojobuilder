@@ -19,7 +19,7 @@ public class FileContainerBuilder
   }
 
   /**
-   * Sets the default value for the {@link Container#content} property.
+   * Sets the default value for the content property.
    *
    * @param value the default value
    * @return this builder
