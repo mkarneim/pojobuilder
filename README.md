@@ -414,6 +414,17 @@ The wiki contains an [extended Gradle script] that distinguishes completely betw
 
 There is [another Gradle script] that enables PojoBuilder for Eclipse IDE.
 
+#### Gradle 5.0
+
+With Gradle 5.0 any annotation processor in the classpath don't get executed anymore.
+To make pojobuilder work again, replace the used dependency scope with `annotationProcessor`
+
+```groovy
+dependencies {
+  annotationProcessor 'net.karneim:pojobuilder:4.2.2'
+}
+```
+
 ### Using Ant
 
 Here is a code snippet of some [sample ANT build script] that runs the PojoBuilder annotation processor within the `javac` task.
