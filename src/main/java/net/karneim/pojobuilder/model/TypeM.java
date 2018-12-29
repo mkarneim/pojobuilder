@@ -3,6 +3,7 @@ package net.karneim.pojobuilder.model;
 public class TypeM {
   private final String packageName;
   private final String simpleName;
+  private final String simpleNames;
   private final String name;
   private final TypeListM typeParameters = new TypeListM();
 
@@ -10,17 +11,17 @@ public class TypeM {
     this("", name);
   }
 
-  public TypeM(String packageName, String simpleName) {
+  public TypeM(String packageName, String simpleNames) {
     if (packageName == null) {
-      this.packageName = "";
-    } else {
-      this.packageName = packageName;
+      packageName = "";
     }
-    this.simpleName = simpleName;
-    if (this.packageName.isEmpty()) {
-      this.name = simpleName;
+    this.packageName = packageName;
+    this.simpleNames = simpleNames;
+    this.simpleName = simpleNames.substring(simpleNames.lastIndexOf('.') + 1);
+    if (packageName.isEmpty()) {
+      this.name = simpleNames;
     } else {
-      this.name = this.packageName + "." + this.simpleName;
+      this.name = packageName + "." + simpleNames;
     }
   }
 
@@ -41,6 +42,10 @@ public class TypeM {
 
   public String getSimpleName() {
     return simpleName;
+  }
+
+  public String getSimpleNames() {
+    return simpleNames;
   }
 
   public String getName() {
@@ -126,8 +131,6 @@ public class TypeM {
     final int prime = 31;
     int result = 1;
     result = prime * result + ((name == null) ? 0 : name.hashCode());
-    result = prime * result + ((packageName == null) ? 0 : packageName.hashCode());
-    result = prime * result + ((simpleName == null) ? 0 : simpleName.hashCode());
     return result;
   }
 
@@ -144,16 +147,6 @@ public class TypeM {
       if (other.name != null)
         return false;
     } else if (!name.equals(other.name))
-      return false;
-    if (packageName == null) {
-      if (other.packageName != null)
-        return false;
-    } else if (!packageName.equals(other.packageName))
-      return false;
-    if (simpleName == null) {
-      if (other.simpleName != null)
-        return false;
-    } else if (!simpleName.equals(other.simpleName))
       return false;
     if (typeParameters == null) {
       if (other.typeParameters != null)
