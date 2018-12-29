@@ -2,6 +2,8 @@ package net.karneim.pojobuilder.processor.with.ambiguousimports;
 
 import net.karneim.pojobuilder.processor.AnnotationProcessor;
 import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
+import net.karneim.pojobuilder.processor.with.ambiguousimports.optional.PojoWithAmbiguousOptionalImports;
+import net.karneim.pojobuilder.processor.with.ambiguousimports.optional.PojoWithAmbiguousOptionalImportsBuilder;
 import net.karneim.pojobuilder.testenv.JavaProject.Compilation;
 import org.junit.Test;
 
@@ -26,6 +28,24 @@ public class AnnotationProcessor_Import_Test extends ProcessorTestSupport {
     assertThat(prj)
         .generatedSameSourceAs(PojoBuilder.class)
         .compiled(PojoBuilder.class)
+        .reported(Compilation.Success);
+  }
+
+  /**
+   * Test for issue <a href="https://github.com/mkarneim/pojobuilder/issues/156">#156</a>.
+   */
+  @Test
+  public void test_ambiguous_optional_import() {
+    // given:
+    sourceFor(PojoWithAmbiguousOptionalImports.class);
+
+    // when:
+    prj.compile();
+
+    // then:
+    assertThat(prj)
+        .generatedSameSourceAs(PojoWithAmbiguousOptionalImportsBuilder.class)
+        .compiled(PojoWithAmbiguousOptionalImportsBuilder.class)
         .reported(Compilation.Success);
   }
 

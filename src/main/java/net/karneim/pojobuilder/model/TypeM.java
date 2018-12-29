@@ -105,9 +105,7 @@ public class TypeM {
   }
 
   public ImportTypesM addToImportTypes(ImportTypesM result) {
-    if (result.canAdd(this)) {
-      result.add(this);
-    }
+    result.add(this);
     typeParameters.addToImportTypes(result);
     return result;
   }
