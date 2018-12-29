@@ -1,6 +1,6 @@
 package net.karneim.pojobuilder.processor.with.ambiguousimports.innerclasses;
 
-import javax.annotation.processing.Generated;
+import javaxfake.annotation.Generated;
 import net.karneim.pojobuilder.GwtIncompatible;
 import net.karneim.pojobuilder.processor.with.ambiguousimports.innerclasses.pack1.Outer1.Inner;
 
