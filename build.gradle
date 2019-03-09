@@ -4,17 +4,25 @@
  *
  * To build the PojoBuilder:
  *  ./gradlew build
+ *  
+ * To collect performance numbers:
+ *  ./gradlew jmh
  *
  * To publish a new release of PojoBuilder to Sonatype OSS Maven Repo:
  *  ./gradlew clean uploadArchives
- *
  */
 
 task wrapper(type: Wrapper) { gradleVersion = '4.5.1' }
 
 buildscript {
-  repositories { mavenCentral() }
-  dependencies { classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.1' }
+  repositories {
+    mavenCentral()
+    gradlePluginPortal()
+  }
+  dependencies {
+    classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.1'
+    classpath 'me.champeau.gradle:jmh-gradle-plugin:0.4.8'
+  }
 }
 
 if (!project.hasProperty('ossrhUsername') || !project.hasProperty('ossrhPassword')) {
@@ -33,6 +41,7 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 apply plugin: 'jacoco'
 apply plugin: 'com.github.kt3k.coveralls'
+apply plugin: 'me.champeau.gradle.jmh'
 
 group = 'net.karneim'
 archivesBaseName = "pojobuilder"
@@ -63,6 +72,11 @@ eclipse {
   }
 }
 
+jmh {
+  // https://github.com/melix/jmh-gradle-plugin
+  includeTests = true // Allows to include test sources into generate JMH jar
+}
+
 tasks.withType(JavaCompile) { options.encoding = "UTF-8" }
 
 sourceSets {
@@ -71,8 +85,15 @@ sourceSets {
       srcDir 'src/testdata/java'
       srcDir 'src/test/java'
     }
+    resources {
+      srcDir 'src/jar/resources' // Allow src/jmh to use @GeneratePojoBuilder
+    }
+  }
+  jmh {
+    sourceCompatibility = 1.8
   }
 }
+
 
 jar { from 'src/jar/resources' }
 
