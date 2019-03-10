@@ -45,7 +45,7 @@ apply plugin: 'me.champeau.gradle.jmh'
 
 group = 'net.karneim'
 archivesBaseName = "pojobuilder"
-version = '4.2.2'
+version = '4.2.3'
 sourceCompatibility = 1.7
 eclipse.jdt.sourceCompatibility = 1.7
 
