@@ -28,11 +28,12 @@ public class OptionalM {
     return absentMethodName;
   }
 
-  public String absent() {
-    return type.getSimpleName() + "." + absentMethodName + "()";
+  public String absent(ImportTypesM importTypes) {
+    return importTypes.getCompressedTypeName(type) + "." + absentMethodName + "()";
+
   }
 
-  public String of(String string) {
-    return type.getSimpleName() + "." + OF_METHOD_NAME + "(" + string + ")";
+  public String of(String string, ImportTypesM importTypes) {
+    return importTypes.getCompressedTypeName(type) + "." + OF_METHOD_NAME + "(" + string + ")";
   }
 }
