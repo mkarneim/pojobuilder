@@ -87,7 +87,7 @@ public class PropertyM {
     } else {
       typeParam = basicType;
     }
-    return new TypeM(interfaceType.getPackageName(), interfaceType.getSimpleName())
+    return new TypeM(interfaceType.getPackageName(), interfaceType.getSimpleNames())
         .withTypeParameter(new TypeWildcardM().whichExtends(typeParam));
   }
 
@@ -111,7 +111,7 @@ public class PropertyM {
       typeParam = propertyType;
     }
     TypeM optionalType = optional.getType();
-    TypeM result = new TypeM(optionalType.getPackageName(), optionalType.getSimpleName())
+    TypeM result = new TypeM(optionalType.getPackageName(), optionalType.getSimpleNames())
         .withTypeParameter(new TypeWildcardM().whichExtends(typeParam));
     return result;
   }
