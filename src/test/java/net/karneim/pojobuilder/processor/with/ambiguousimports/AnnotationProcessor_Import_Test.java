@@ -2,6 +2,8 @@ package net.karneim.pojobuilder.processor.with.ambiguousimports;
 
 import net.karneim.pojobuilder.processor.AnnotationProcessor;
 import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
+import net.karneim.pojobuilder.processor.with.ambiguousimports.innerclasses.PojoWithAmbiguousInnerClassImports;
+import net.karneim.pojobuilder.processor.with.ambiguousimports.innerclasses.PojoWithAmbiguousInnerClassImportsBuilder;
 import net.karneim.pojobuilder.testenv.JavaProject.Compilation;
 import org.junit.Test;
 
@@ -17,7 +19,7 @@ public class AnnotationProcessor_Import_Test extends ProcessorTestSupport {
    * @scenario the builder is created with appropriate import statements.
    */
   @Test
-  public void testShouldGenerateBuilderWithAppropriateInportProperties() {
+  public void testShouldGenerateBuilderWithAppropriateImportProperties() {
     // Given:
     sourceFor(Pojo.class);
     // When:
@@ -26,6 +28,24 @@ public class AnnotationProcessor_Import_Test extends ProcessorTestSupport {
     assertThat(prj)
         .generatedSameSourceAs(PojoBuilder.class)
         .compiled(PojoBuilder.class)
+        .reported(Compilation.Success);
+  }
+
+  /**
+   * Test for issue <a href="https://github.com/mkarneim/pojobuilder/issues/154">#154</a>.
+   */
+  @Test
+  public void test_ambiguous_inner_class_imports() {
+    // given:
+    sourceFor(PojoWithAmbiguousInnerClassImports.class);
+
+    // when:
+    prj.compile();
+
+    // then:
+    assertThat(prj)
+        .generatedSameSourceAs(PojoWithAmbiguousInnerClassImportsBuilder.class)
+        .compiled(PojoWithAmbiguousInnerClassImportsBuilder.class)
         .reported(Compilation.Success);
   }
 
