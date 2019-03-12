@@ -42,7 +42,6 @@ apply plugin: 'com.github.kt3k.coveralls'
 apply plugin: 'me.champeau.gradle.jmh'
 
 group = 'net.karneim'
-archivesBaseName = "pojobuilder"
 version = '4.2.3'
 sourceCompatibility = 1.7
 eclipse.jdt.sourceCompatibility = 1.7
@@ -130,8 +129,8 @@ tasks.withType(Jar) {
   into('META-INF') { from 'COPYING' }
   manifest {
     attributes(
-        'Implementation-Title': 'PojoBuilder',
-        'Implementation-Version': version
+        'Implementation-Title': project.name,
+        'Implementation-Version': project.version
         )
   }
 }
@@ -151,7 +150,7 @@ uploadArchives {
       beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
       beforeDeployment {
         if ( project.ossrhUsername == "" || project.ossrhPassword == "")
-          throw new GradleException('Missing ossrhUsername or ossrhPassword');
+          throw new GradleException('Missing ossrhUsername or ossrhPassword')
       }
 
       repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
