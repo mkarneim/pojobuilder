@@ -12,8 +12,6 @@
  *  ./gradlew clean uploadArchives
  */
 
-task wrapper(type: Wrapper) { gradleVersion = '4.5.1' }
-
 buildscript {
   repositories {
     mavenCentral()
@@ -51,11 +49,17 @@ eclipse.jdt.sourceCompatibility = 1.7
 
 repositories.mavenCentral()
 
+configurations {
+  jmhAnnotationProcessor.extendsFrom implementation
+}
+
 dependencies {
-  compile 'com.squareup:javawriter:2.5.0'
-  testCompile 'com.google.guava:guava:15.0'
-  testCompile 'junit:junit:4.11'
-  testCompile 'org.assertj:assertj-core:1.6.1'
+  implementation 'com.squareup:javawriter:2.5.0'
+  testImplementation 'com.google.guava:guava:15.0'
+  testImplementation 'junit:junit:4.11'
+  testImplementation 'org.assertj:assertj-core:1.6.1'
+
+  jmhAnnotationProcessor sourceSets.main.output
 }
 
 jacocoTestReport {
@@ -75,6 +79,8 @@ eclipse {
 jmh {
   // https://github.com/melix/jmh-gradle-plugin
   includeTests = true // Allows to include test sources into generate JMH jar
+  // profilers = ['perfnorm', 'gc']
+  // include = ['.*OptionalBuilder.*']
 }
 
 tasks.withType(JavaCompile) { options.encoding = "UTF-8" }
@@ -85,29 +91,22 @@ sourceSets {
       srcDir 'src/testdata/java'
       srcDir 'src/test/java'
     }
-    resources {
-      srcDir 'src/jar/resources' // Allow src/jmh to use @GeneratePojoBuilder
-    }
   }
   jmh {
     sourceCompatibility = 1.8
   }
 }
 
-
-jar { from 'src/jar/resources' }
-
 task dependenciesJar(type: Jar, dependsOn:['compileJava']) {
-  classifier = "jar-with-dependencies"
+  archiveClassifier = "jar-with-dependencies"
   from files(sourceSets.main.output.classesDirs)
   from files(sourceSets.main.output.resourcesDir)
-  from 'src/jar/resources'
   from {configurations.compile.collect {zipTree(it)}}
   into('META-INF/license') { from 'license' }
 }
 
 task annotationsJar(type: Jar, dependsOn:['compileJava']) {
-  classifier = "annotations"
+  archiveClassifier = "annotations"
   from files(sourceSets.main.output.classesDirs)
   includeEmptyDirs false
   include '**/GeneratePojoBuilder.class'
@@ -118,12 +117,12 @@ task annotationsJar(type: Jar, dependsOn:['compileJava']) {
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
-  classifier = 'sources'
+  archiveClassifier = 'sources'
   from sourceSets.main.allSource
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-  classifier = 'javadoc'
+  archiveClassifier = 'javadoc'
   from javadoc.destinationDir
 }
 
