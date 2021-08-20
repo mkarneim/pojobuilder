@@ -5,3 +5,8 @@ jdk:
   - oraclejdk9
 after_success:
 - ./gradlew jacocoTestReport coveralls
+
+cache:
+  directories:
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/wrapper/
