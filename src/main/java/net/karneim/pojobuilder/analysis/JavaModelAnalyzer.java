@@ -305,7 +305,8 @@ public class JavaModelAnalyzer {
       pojoConstructorScanner.scan((ExecutableElement) input.getAnnotatedElement(), result);
     } else if (input.getAnnotatedElement().getKind() == ElementKind.METHOD) {
       factoryMethodScanner.scan((ExecutableElement) input.getAnnotatedElement(), result);
-    } else if (input.getAnnotatedElement().getKind() == ElementKind.CLASS) {
+    } else if (input.getAnnotatedElement().getKind() == ElementKind.CLASS 
+        || "RECORD".equals(input.getAnnotatedElement().getKind().name())) {
       TypeElement cls = (TypeElement) input.getAnnotatedElement();
       pojoConstructorScanner.scan(cls, result);
     }

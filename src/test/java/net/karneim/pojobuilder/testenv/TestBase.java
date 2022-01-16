@@ -6,6 +6,7 @@ import net.karneim.pojobuilder.testenv.FileHelper.FakeAnnotationReplacement;
 
 public abstract class TestBase {
   public static final String TESTDATA_DIRECTORY = "src/testdata/java";
+  public static final String TESTDATA_DIRECTORY_JAVA16 = "src/testdata-java16/resources";
 
   private static final boolean DEBUG_LOG_ENABLED = false;
 

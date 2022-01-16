@@ -1,9 +1,13 @@
 package samples;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.lang.model.SourceVersion;
 
 import net.karneim.pojobuilder.processor.AnnotationProcessor;
 import net.karneim.pojobuilder.processor.with.ProcessorTestSupport;
@@ -344,5 +348,85 @@ public class AnnotationProcessor_Samples_Test extends ProcessorTestSupport {
     String expected = loadJavaSourceFromFilesystem(TESTDATA_DIRECTORY, builderClassname);
     assertThat(actual).isEqualTo(expected);
     assertThat(prj.findClass(builderClassname)).isNotNull();
+  }
+
+
+  private void assumeJdkSupportsAtLeastSourceVersion(int minimumSourceVersion) {
+    String latestSourceVersion = SourceVersion.latest().name();
+    Matcher m = Pattern.compile("^RELEASE_(\\d+)$").matcher(latestSourceVersion);
+    if (m.find()) {
+      int sourceVersion = Integer.valueOf(m.group(1));
+      if (sourceVersion >= minimumSourceVersion) {
+        return;
+      }
+    }
+    String jreVersion = System.getProperty("java.version");
+    String msg = "JRE " + jreVersion + " does not support records";
+    // better than throwing a Junit4 internal exception
+    assumeTrue(msg, false);
+  }
+
+  /**
+   * @scenario Generating a builder for a record.
+   * <p>
+   * This test will be skipped if the current JRE does not support RELEASE_16 
+   * as source version.
+   * @throws Exception
+   */
+  @Test
+  public void testShouldGenerateRecordBuilder() throws Exception {
+    assumeJdkSupportsAtLeastSourceVersion(16);
+
+    // Given:
+    String pojoClassname = "samples.Record";
+    String builderClassname = "samples.RecordBuilder";
+    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY_JAVA16, pojoClassname));
+
+    // When:
+    boolean success = prj.compile();
+
+    // Then:
+    assertThat(success).isTrue();
+    String actual = getContent(prj.findGeneratedSource(builderClassname));
+    logDebug(actual);
+
+    String expected = loadJavaSourceFromFilesystem(TESTDATA_DIRECTORY_JAVA16, builderClassname);
+    assertThat(actual).isEqualTo(expected);
+    assertThat(prj.findClass(builderClassname)).isNotNull();
+  }
+
+  /**
+   * @scenario Generating a builder for a record.
+   * <p>
+   * This test will be skipped if the current JRE does not support RELEASE_16 
+   * as source version.
+   * @throws Exception
+   */
+  @Test
+  public void testShouldGenerateRecordsInUmbrellaClass() throws Exception {
+    assumeJdkSupportsAtLeastSourceVersion(16);
+
+    // Given:
+    String umbrellaClassname = "samples.RecordsInUmbrellaClass";
+    String fooBuilderClassname = "samples.FooBuilder";
+    String barBuilderClassname = "samples.BarBuilder";
+    prj.addSourceFile(getSourceFilename(TESTDATA_DIRECTORY_JAVA16, umbrellaClassname));
+
+    // When:
+    boolean success = prj.compile();
+
+    // Then:
+    assertThat(success).isTrue();
+    String actualFooBuilder = getContent(prj.findGeneratedSource(fooBuilderClassname));
+    logDebug(actualFooBuilder);
+    String expectedFooBuilder = loadJavaSourceFromFilesystem(TESTDATA_DIRECTORY_JAVA16, fooBuilderClassname);
+    assertThat(actualFooBuilder).isEqualTo(expectedFooBuilder);
+    assertThat(prj.findClass(fooBuilderClassname)).isNotNull();
+
+    String actualBarBuilder = getContent(prj.findGeneratedSource(barBuilderClassname));
+    logDebug(actualBarBuilder);
+    String expectedBarBuilder = loadJavaSourceFromFilesystem(TESTDATA_DIRECTORY_JAVA16, barBuilderClassname);
+    assertThat(actualBarBuilder).isEqualTo(expectedBarBuilder);
+    assertThat(prj.findClass(barBuilderClassname)).isNotNull();
   }
 }

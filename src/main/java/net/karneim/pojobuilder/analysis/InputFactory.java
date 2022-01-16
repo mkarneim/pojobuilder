@@ -24,7 +24,7 @@ public class InputFactory {
   }
 
   public Input getInput(Element annotatedElement) {
-    if (annotatedElement.getKind() == ElementKind.CLASS) {
+    if (annotatedElement.getKind() == ElementKind.CLASS || "RECORD".equals(annotatedElement.getKind().name())) {
       TypeElement typeEl = (TypeElement) annotatedElement;
       if (typeEl.getModifiers().contains(Modifier.PRIVATE)) {
         throw new InvalidElementException(String.format("Pojo %s must not be private!", annotatedElement),
