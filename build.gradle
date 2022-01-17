@@ -100,7 +100,9 @@ task dependenciesJar(type: Jar, dependsOn:['compileJava']) {
   archiveClassifier = "jar-with-dependencies"
   from files(sourceSets.main.output.classesDirs)
   from files(sourceSets.main.output.resourcesDir)
-  from {configurations.compile.collect {zipTree(it)}}
+  from {
+    configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+  }
   into('META-INF/license') { from 'license' }
 }
 
