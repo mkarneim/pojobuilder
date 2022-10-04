@@ -3,14 +3,13 @@ package net.karneim.pojobuilder.testenv;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.UndeclaredThrowableException;
+import java.nio.file.Files;
 
 public class Util {
 
   public static File createTempDir() {
     try {
-      File tempFile = File.createTempFile("temp", "project");
-      tempFile.delete();
-      tempFile.mkdir();
+      File tempFile = Files.createTempDirectory("temp" + "project").toFile();
       if (!tempFile.exists()) {
         throw new IllegalStateException(String.format("Directory '%s' could not be created.", tempFile));
       }
