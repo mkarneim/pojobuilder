@@ -20,6 +20,7 @@ public class PojoWithGuavaOptionalOptionalSettersWithBuilderPropertiesBuilder
   /**
    * Creates a new {@link PojoWithGuavaOptionalOptionalSettersWithBuilderPropertiesBuilder}.
    */
+  @SuppressWarnings("cast")
   public PojoWithGuavaOptionalOptionalSettersWithBuilderPropertiesBuilder() {
     self = (PojoWithGuavaOptionalOptionalSettersWithBuilderPropertiesBuilder)this;
   }

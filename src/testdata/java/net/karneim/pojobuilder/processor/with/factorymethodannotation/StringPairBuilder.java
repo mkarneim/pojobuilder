@@ -15,6 +15,7 @@ public class StringPairBuilder
   /**
    * Creates a new {@link StringPairBuilder}.
    */
+  @SuppressWarnings("cast")
   public StringPairBuilder() {
     self = (StringPairBuilder)this;
   }

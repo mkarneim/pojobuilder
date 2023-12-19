@@ -13,6 +13,7 @@ public abstract class AbstractPojo2Builder extends BaseBuilderWithGenericBuildMe
   /**
    * Creates a new {@link AbstractPojo2Builder}.
    */
+  @SuppressWarnings("cast")
   public AbstractPojo2Builder() {
     self = (Pojo2Builder)this;
   }

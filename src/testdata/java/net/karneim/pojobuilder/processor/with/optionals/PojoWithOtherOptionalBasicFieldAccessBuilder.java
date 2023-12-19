@@ -16,6 +16,7 @@ public class PojoWithOtherOptionalBasicFieldAccessBuilder
   /**
    * Creates a new {@link PojoWithOtherOptionalBasicFieldAccessBuilder}.
    */
+  @SuppressWarnings("cast")
   public PojoWithOtherOptionalBasicFieldAccessBuilder() {
     self = (PojoWithOtherOptionalBasicFieldAccessBuilder)this;
   }

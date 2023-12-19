@@ -22,6 +22,7 @@ public class PojoWithGuavaOptionalBasicFactoryWithBuilderPropertiesBuilder
   /**
    * Creates a new {@link PojoWithGuavaOptionalBasicFactoryWithBuilderPropertiesBuilder}.
    */
+  @SuppressWarnings("cast")
   public PojoWithGuavaOptionalBasicFactoryWithBuilderPropertiesBuilder() {
     self = (PojoWithGuavaOptionalBasicFactoryWithBuilderPropertiesBuilder)this;
   }

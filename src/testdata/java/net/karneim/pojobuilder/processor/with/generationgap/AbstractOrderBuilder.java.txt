@@ -18,6 +18,7 @@ public abstract class AbstractOrderBuilder
   /**
    * Creates a new {@link AbstractOrderBuilder}.
    */
+  @SuppressWarnings("cast")
   public AbstractOrderBuilder() {
     self = (OrderBuilder)this;
   }

@@ -13,6 +13,7 @@ public class PojoWithAmbiguousOptionalImportsBuilder
   /**
    * Creates a new {@link PojoWithAmbiguousOptionalImportsBuilder}.
    */
+  @SuppressWarnings("cast")
   public PojoWithAmbiguousOptionalImportsBuilder() {
     self = (PojoWithAmbiguousOptionalImportsBuilder)this;
   }

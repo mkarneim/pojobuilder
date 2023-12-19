@@ -17,6 +17,7 @@ public class PojoWithGuavaOptionalBasicFieldAccessBuilder
   /**
    * Creates a new {@link PojoWithGuavaOptionalBasicFieldAccessBuilder}.
    */
+  @SuppressWarnings("cast")
   public PojoWithGuavaOptionalBasicFieldAccessBuilder() {
     self = (PojoWithGuavaOptionalBasicFieldAccessBuilder)this;
   }

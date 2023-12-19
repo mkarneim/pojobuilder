@@ -15,6 +15,7 @@ public class UserBuilder
   /**
    * Creates a new {@link UserBuilder}.
    */
+  @SuppressWarnings("cast")
   public UserBuilder() {
     self = (UserBuilder)this;
   }
