@@ -17,6 +17,7 @@ public class InputSourceBuilder
   /**
    * Creates a new {@link InputSourceBuilder}.
    */
+  @SuppressWarnings("cast")
   public InputSourceBuilder() {
     self = (InputSourceBuilder)this;
   }

@@ -18,6 +18,7 @@ public class StringBuilder
   /**
    * Creates a new {@link StringBuilder}.
    */
+  @SuppressWarnings("cast")
   public StringBuilder() {
     self = (StringBuilder)this;
   }

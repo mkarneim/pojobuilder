@@ -22,6 +22,7 @@ public class ContainerBuilder<T>
   /**
    * Creates a new {@link ContainerBuilder}.
    */
+  @SuppressWarnings("cast")
   public ContainerBuilder() {
     self = (ContainerBuilder<T>)this;
   }

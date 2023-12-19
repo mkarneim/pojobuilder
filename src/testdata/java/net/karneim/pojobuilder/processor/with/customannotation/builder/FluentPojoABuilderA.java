@@ -14,6 +14,7 @@ public class FluentPojoABuilderA
   /**
    * Creates a new {@link FluentPojoABuilderA}.
    */
+  @SuppressWarnings("cast")
   public FluentPojoABuilderA() {
     self = (FluentPojoABuilderA)this;
   }

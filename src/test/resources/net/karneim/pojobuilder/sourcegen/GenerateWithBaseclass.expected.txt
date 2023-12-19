@@ -12,6 +12,7 @@ public class SampleBuilder extends BaseBuilder
   /**
    * Creates a new {@link SampleBuilder}.
    */
+  @SuppressWarnings("cast")
   public SampleBuilder() {
     self = (SampleBuilder)this;
   }

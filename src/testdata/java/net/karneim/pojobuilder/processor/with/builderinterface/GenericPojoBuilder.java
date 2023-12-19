@@ -17,6 +17,7 @@ public class GenericPojoBuilder<P extends Number>
   /**
    * Creates a new {@link GenericPojoBuilder}.
    */
+  @SuppressWarnings("cast")
   public GenericPojoBuilder() {
     self = (GenericPojoBuilder<P>)this;
   }

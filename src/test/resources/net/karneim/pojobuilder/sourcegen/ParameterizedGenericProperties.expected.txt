@@ -14,6 +14,7 @@ public class SampleBuilder<K, V extends Number>
   /**
    * Creates a new {@link SampleBuilder}.
    */
+  @SuppressWarnings("cast")
   public SampleBuilder() {
     self = (SampleBuilder<K, V>)this;
   }

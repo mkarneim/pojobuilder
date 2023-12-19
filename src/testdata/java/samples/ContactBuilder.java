@@ -17,6 +17,7 @@ public class ContactBuilder
   /**
    * Creates a new {@link ContactBuilder}.
    */
+  @SuppressWarnings("cast")
   public ContactBuilder() {
     self = (ContactBuilder)this;
   }

@@ -22,6 +22,7 @@ public class FileBuilder
   /**
    * Creates a new {@link FileBuilder}.
    */
+  @SuppressWarnings("cast")
   public FileBuilder() {
     self = (FileBuilder)this;
   }

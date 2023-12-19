@@ -23,6 +23,7 @@ public class UrlBuilder
   /**
    * Creates a new {@link UrlBuilder}.
    */
+  @SuppressWarnings("cast")
   public UrlBuilder() {
     self = (UrlBuilder)this;
   }
