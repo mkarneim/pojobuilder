@@ -507,8 +507,11 @@ public class BuilderSourceGenerator {
     // @formatter:off
     writer
       .emitEmptyLine()
-      .emitJavadoc("Creates a new {@link %s}.", builderTypeName).beginConstructor(modifier==null?EnumSet.noneOf(Modifier.class):EnumSet.of(modifier))
-      .emitStatement("self = (%s)this", selfTypeStr).endConstructor();
+      .emitJavadoc("Creates a new {@link %s}.", builderTypeName)
+      .emitAnnotation(SuppressWarnings.class, JavaWriter.stringLiteral("cast"))
+      .beginConstructor(modifier==null?EnumSet.noneOf(Modifier.class):EnumSet.of(modifier))
+        .emitStatement("self = (%s)this", selfTypeStr)
+      .endConstructor();
     // @formatter:on
   }
 

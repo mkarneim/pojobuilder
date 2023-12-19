@@ -26,6 +26,7 @@ public class TaskBuilder
   /**
    * Creates a new {@link TaskBuilder}.
    */
+  @SuppressWarnings("cast")
   public TaskBuilder() {
     self = (TaskBuilder)this;
   }

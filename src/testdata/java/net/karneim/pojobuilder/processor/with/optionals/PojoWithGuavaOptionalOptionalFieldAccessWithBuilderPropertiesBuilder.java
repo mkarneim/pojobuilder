@@ -20,6 +20,7 @@ public class PojoWithGuavaOptionalOptionalFieldAccessWithBuilderPropertiesBuilde
   /**
    * Creates a new {@link PojoWithGuavaOptionalOptionalFieldAccessWithBuilderPropertiesBuilder}.
    */
+  @SuppressWarnings("cast")
   public PojoWithGuavaOptionalOptionalFieldAccessWithBuilderPropertiesBuilder() {
     self = (PojoWithGuavaOptionalOptionalFieldAccessWithBuilderPropertiesBuilder)this;
   }

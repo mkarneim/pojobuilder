@@ -13,6 +13,7 @@ public class ContainerBuilder<X extends Number>
   /**
    * Creates a new {@link ContainerBuilder}.
    */
+  @SuppressWarnings("cast")
   public ContainerBuilder() {
     self = (ContainerBuilder<X>)this;
   }

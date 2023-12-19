@@ -14,6 +14,7 @@ public class FileContainerBuilder
   /**
    * Creates a new {@link FileContainerBuilder}.
    */
+  @SuppressWarnings("cast")
   public FileContainerBuilder() {
     self = (FileContainerBuilder)this;
   }

@@ -17,6 +17,7 @@ public class RecipientBuilder
   /**
    * Creates a new {@link RecipientBuilder}.
    */
+  @SuppressWarnings("cast")
   public RecipientBuilder() {
     self = (RecipientBuilder)this;
   }

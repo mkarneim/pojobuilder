@@ -11,6 +11,7 @@ public class SampleAnnotatedWithPublicConstructorBuilder
   /**
    * Creates a new {@link SampleAnnotatedWithPublicConstructorBuilder}.
    */
+  @SuppressWarnings("cast")
   public SampleAnnotatedWithPublicConstructorBuilder() {
     self = (SampleAnnotatedWithPublicConstructorBuilder)this;
   }

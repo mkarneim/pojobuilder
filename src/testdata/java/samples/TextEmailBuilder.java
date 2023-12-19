@@ -19,6 +19,7 @@ public class TextEmailBuilder
   /**
    * Creates a new {@link TextEmailBuilder}.
    */
+  @SuppressWarnings("cast")
   public TextEmailBuilder() {
     self = (TextEmailBuilder)this;
   }

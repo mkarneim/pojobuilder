@@ -13,6 +13,7 @@ public abstract class AbstractStrifeBuilder
   /**
    * Creates a new {@link AbstractStrifeBuilder}.
    */
+  @SuppressWarnings("cast")
   public AbstractStrifeBuilder() {
     self = (StrifeBuilder)this;
   }

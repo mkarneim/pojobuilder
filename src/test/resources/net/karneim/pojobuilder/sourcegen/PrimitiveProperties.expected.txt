@@ -27,6 +27,7 @@ public class SampleBuilder
   /**
    * Creates a new {@link SampleBuilder}.
    */
+  @SuppressWarnings("cast")
   public SampleBuilder() {
     self = (SampleBuilder)this;
   }

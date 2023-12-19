@@ -24,6 +24,7 @@ public class GregorianCalendarBuilder
   /**
    * Creates a new {@link GregorianCalendarBuilder}.
    */
+  @SuppressWarnings("cast")
   public GregorianCalendarBuilder() {
     self = (GregorianCalendarBuilder)this;
   }

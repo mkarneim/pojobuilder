@@ -17,6 +17,7 @@ public class ItemBuilder
   /**
    * Creates a new {@link ItemBuilder}.
    */
+  @SuppressWarnings("cast")
   public ItemBuilder() {
     self = (ItemBuilder)this;
   }

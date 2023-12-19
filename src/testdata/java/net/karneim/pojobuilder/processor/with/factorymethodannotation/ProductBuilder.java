@@ -16,6 +16,7 @@ public class ProductBuilder
   /**
    * Creates a new {@link ProductBuilder}.
    */
+  @SuppressWarnings("cast")
   public ProductBuilder() {
     self = (ProductBuilder)this;
   }

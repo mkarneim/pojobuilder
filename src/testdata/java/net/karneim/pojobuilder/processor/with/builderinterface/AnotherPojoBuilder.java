@@ -21,6 +21,7 @@ public class AnotherPojoBuilder
   /**
    * Creates a new {@link AnotherPojoBuilder}.
    */
+  @SuppressWarnings("cast")
   public AnotherPojoBuilder() {
     self = (AnotherPojoBuilder)this;
   }
