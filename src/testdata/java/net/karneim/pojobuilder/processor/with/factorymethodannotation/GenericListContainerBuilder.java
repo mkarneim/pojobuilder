@@ -14,6 +14,7 @@ public class GenericListContainerBuilder<T>
   /**
    * Creates a new {@link GenericListContainerBuilder}.
    */
+  @SuppressWarnings("cast")
   public GenericListContainerBuilder() {
     self = (GenericListContainerBuilder<T>)this;
   }

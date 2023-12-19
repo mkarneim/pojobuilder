@@ -13,6 +13,7 @@ public class FluentSampleBean4Builder
   /**
    * Creates a new {@link FluentSampleBean4Builder}.
    */
+  @SuppressWarnings("cast")
   public FluentSampleBean4Builder() {
     self = (FluentSampleBean4Builder)this;
   }

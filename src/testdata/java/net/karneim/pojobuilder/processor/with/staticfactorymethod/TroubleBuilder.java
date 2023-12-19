@@ -22,6 +22,7 @@ public class TroubleBuilder
   /**
    * Creates a new {@link TroubleBuilder}.
    */
+  @SuppressWarnings("cast")
   private TroubleBuilder() {
     self = (TroubleBuilder)this;
   }

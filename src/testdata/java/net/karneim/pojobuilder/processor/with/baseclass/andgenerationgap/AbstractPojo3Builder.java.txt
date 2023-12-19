@@ -13,6 +13,7 @@ public abstract class AbstractPojo3Builder extends BaseBuilderWithRawBuildMethod
   /**
    * Creates a new {@link AbstractPojo3Builder}.
    */
+  @SuppressWarnings("cast")
   public AbstractPojo3Builder() {
     self = (Pojo3Builder)this;
   }

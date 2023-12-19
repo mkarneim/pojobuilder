@@ -16,6 +16,7 @@ public class PojoWithAmbiguousInnerClassImportsBuilder
   /**
    * Creates a new {@link PojoWithAmbiguousInnerClassImportsBuilder}.
    */
+  @SuppressWarnings("cast")
   public PojoWithAmbiguousInnerClassImportsBuilder() {
     self = (PojoWithAmbiguousInnerClassImportsBuilder)this;
   }

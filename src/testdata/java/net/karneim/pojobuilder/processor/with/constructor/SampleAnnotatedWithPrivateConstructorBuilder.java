@@ -20,6 +20,7 @@ public class SampleAnnotatedWithPrivateConstructorBuilder
   /**
    * Creates a new {@link SampleAnnotatedWithPrivateConstructorBuilder}.
    */
+  @SuppressWarnings("cast")
   private SampleAnnotatedWithPrivateConstructorBuilder() {
     self = (SampleAnnotatedWithPrivateConstructorBuilder)this;
   }

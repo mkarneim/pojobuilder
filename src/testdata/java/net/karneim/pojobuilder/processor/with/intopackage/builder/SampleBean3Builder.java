@@ -14,6 +14,7 @@ public class SampleBean3Builder
   /**
    * Creates a new {@link SampleBean3Builder}.
    */
+  @SuppressWarnings("cast")
   public SampleBean3Builder() {
     self = (SampleBean3Builder)this;
   }

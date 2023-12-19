@@ -13,6 +13,7 @@ public class Pojo2Builder extends BaseBuilderWithGenericBuildMethod<Pojo2>
   /**
    * Creates a new {@link Pojo2Builder}.
    */
+  @SuppressWarnings("cast")
   public Pojo2Builder() {
     self = (Pojo2Builder)this;
   }

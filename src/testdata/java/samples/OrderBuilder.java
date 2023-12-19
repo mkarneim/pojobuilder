@@ -18,6 +18,7 @@ public class OrderBuilder
   /**
    * Creates a new {@link OrderBuilder}.
    */
+  @SuppressWarnings("cast")
   public OrderBuilder() {
     self = (OrderBuilder)this;
   }
