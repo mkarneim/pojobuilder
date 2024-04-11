@@ -23,12 +23,6 @@ buildscript {
   }
 }
 
-if (!project.hasProperty('ossrhUsername') || !project.hasProperty('ossrhPassword')) {
-  println 'OSS repository hosting username or password not set'
-  ext.ossrhUsername = ''
-  ext.ossrhPassword = ''
-}
-
 ext {
   isReleaseVersion = !version.endsWith('SNAPSHOT')
 }
@@ -41,7 +35,7 @@ apply plugin: 'jacoco'
 apply plugin: 'com.github.kt3k.coveralls'
 apply plugin: 'me.champeau.gradle.jmh'
 
-group = 'net.karneim'
+group = 'io.github.rpost'
 version = '4.2.3'
 sourceCompatibility = 1.7
 eclipse.jdt.sourceCompatibility = 1.7
@@ -150,44 +144,33 @@ uploadArchives {
   repositories {
     mavenDeployer {
       beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-      beforeDeployment {
-        if ( project.ossrhUsername == "" || project.ossrhPassword == "")
-          throw new GradleException('Missing ossrhUsername or ossrhPassword')
-      }
 
-      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-        authentication(userName: ossrhUsername, password: ossrhPassword)
-      }
-
-      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-        authentication(userName: ossrhUsername, password: ossrhPassword)
-      }
+      repository(url: "file://localhost/tmp/local-maven-repo")
 
       pom.project {
         name 'PojoBuilder'
         packaging 'jar'
         description 'The PojoBuilder Generator is a Java 6 compliant annotation processor that generates a fluent builder class for POJOs (Plain Old Java Object)'
-        url 'http://github.com/mkarneim/pojobuilder'
+        url 'https://github.com/rpost/pojobuilder'
 
         scm {
-          url 'git@github.com:mkarneim/pojobuilder.git'
-          connection 'scm:git:git@github.com:mkarneim/pojobuilder.git'
-          developerConnection 'scm:git:git@github.com:mkarneim/pojobuilder.git'
+          url 'git@github.com:rpost/pojobuilder.git'
+          connection 'scm:git:git@github.com:rpost/pojobuilder.git'
+          developerConnection 'scm:git:git@github.com:rpost/pojobuilder.git'
           tag 'HEAD'
         }
         licenses {
           license {
             name 'PUBLIC DOMAIN'
-            url 'http://github.com/mkarneim/pojobuilder/blob/master/COPYING'
+            url 'http://github.com/rpost/pojobuilder/blob/master/COPYING'
             distribution 'repo'
             comments 'Do-whatever-you-want license'
           }
         }
         developers {
           developer {
-            id 'mkarneim'
-            name 'Michael Karneim'
-            timezone 'GMT+1'
+            id 'rpost'
+            name 'Radosław Postołowicz'
           }
         }
       }
