@@ -13,6 +13,7 @@ public class Pojo1Builder
   /**
    * Creates a new {@link Pojo1Builder}.
    */
+  @SuppressWarnings("cast")
   public Pojo1Builder() {
     self = (Pojo1Builder)this;
   }

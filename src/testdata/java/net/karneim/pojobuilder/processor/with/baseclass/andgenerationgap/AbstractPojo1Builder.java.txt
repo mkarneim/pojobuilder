@@ -13,6 +13,7 @@ public abstract class AbstractPojo1Builder extends SimpleBaseBuilder
   /**
    * Creates a new {@link AbstractPojo1Builder}.
    */
+  @SuppressWarnings("cast")
   public AbstractPojo1Builder() {
     self = (Pojo1Builder)this;
   }

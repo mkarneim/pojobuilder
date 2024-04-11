@@ -16,6 +16,7 @@ public class PojoWithGuavaOptionalOptionalFactoryBuilder
   /**
    * Creates a new {@link PojoWithGuavaOptionalOptionalFactoryBuilder}.
    */
+  @SuppressWarnings("cast")
   public PojoWithGuavaOptionalOptionalFactoryBuilder() {
     self = (PojoWithGuavaOptionalOptionalFactoryBuilder)this;
   }

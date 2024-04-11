@@ -17,6 +17,7 @@ public class GenericPojoBuilder<T>
   /**
    * Creates a new {@link GenericPojoBuilder}.
    */
+  @SuppressWarnings("cast")
   public GenericPojoBuilder() {
     self = (GenericPojoBuilder<T>)this;
   }

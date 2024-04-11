@@ -14,6 +14,7 @@ public class PojoWithUmlautBuilder
   /**
    * Creates a new {@link PojoWithUmlautBuilder}.
    */
+  @SuppressWarnings("cast")
   public PojoWithUmlautBuilder() {
     self = (PojoWithUmlautBuilder)this;
   }

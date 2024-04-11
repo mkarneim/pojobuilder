@@ -15,6 +15,7 @@ public abstract class AbstractPlayerBuilder
   /**
    * Creates a new {@link AbstractPlayerBuilder}.
    */
+  @SuppressWarnings("cast")
   public AbstractPlayerBuilder() {
     self = (PlayerBuilder)this;
   }
