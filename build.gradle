@@ -29,7 +29,7 @@ if (!project.hasProperty('ossrhUsername') || !project.hasProperty('ossrhPassword
 }
 
 group = 'net.karneim'
-version = '4.2.3'
+version = '4.3.1-SNAPSHOT'
 
 ext {
   isReleaseVersion = !version.endsWith('SNAPSHOT')
@@ -43,8 +43,9 @@ apply plugin: 'signing'
 apply plugin: 'jacoco'
 
 java {
-  toolchain {
-    languageVersion = JavaLanguageVersion.of(8)
+  java {
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
   }
 }
 
@@ -174,8 +175,13 @@ publishing {
   }
 }
 
+def hasSigningKeys =
+  project.hasProperty('signing.secretKeyRingFile') &&
+  project.hasProperty('signing.keyId') &&
+  project.hasProperty('signing.password')
+
 tasks.withType(Sign) {
-  onlyIf { isReleaseVersion }
+  onlyIf { isReleaseVersion && hasSigningKeys }
 }
 
 signing {

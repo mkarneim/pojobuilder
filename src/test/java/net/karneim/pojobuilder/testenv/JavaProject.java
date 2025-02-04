@@ -8,8 +8,6 @@ import java.lang.reflect.UndeclaredThrowableException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
-
 import javax.annotation.processing.Processor;
 import javax.lang.model.SourceVersion;
 import javax.tools.Diagnostic;
@@ -20,7 +18,6 @@ import javax.tools.JavaFileObject.Kind;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.StandardLocation;
 import javax.tools.ToolProvider;
-
 import com.google.common.base.Throwables;
 
 /**
@@ -41,10 +38,10 @@ public class JavaProject {
   private final File outputRoot;
   private final File localTempDir;
 
-  private final List<File> sourceFiles = new ArrayList<File>();
-  private final List<String> classnamesForProcessing = new ArrayList<String>();
-  private final List<Class<? extends Processor>> processorClasses = new ArrayList<Class<? extends Processor>>();
-  private final List<Processor> processors = new ArrayList<Processor>();
+  private final List<File> sourceFiles = new ArrayList<>();
+  private final List<String> classnamesForProcessing = new ArrayList<>();
+  private final List<Class<? extends Processor>> processorClasses = new ArrayList<>();
+  private final List<Processor> processors = new ArrayList<>();
   private final JavaCompiler compiler;
   private final DiagnosticCollector<JavaFileObject> diagnostics;
   private final StandardJavaFileManager fileManager;
@@ -57,13 +54,13 @@ public class JavaProject {
    */
   public JavaProject(File workingDirectory) {
     this.workingDirectory = workingDirectory;
-    this.outputRoot = new File(workingDirectory, "output");
-    this.outputRoot.mkdir();
-    this.localTempDir = new File(workingDirectory, "temp");
-    this.localTempDir.mkdir();
-    this.compiler = ToolProvider.getSystemJavaCompiler();
-    this.diagnostics = new DiagnosticCollector<JavaFileObject>();
-    this.fileManager = compiler.getStandardFileManager(diagnostics, null, null);
+    outputRoot = new File(workingDirectory, "output");
+    outputRoot.mkdir();
+    localTempDir = new File(workingDirectory, "temp");
+    localTempDir.mkdir();
+    compiler = ToolProvider.getSystemJavaCompiler();
+    diagnostics = new DiagnosticCollector<>();
+    fileManager = compiler.getStandardFileManager(diagnostics, null, null);
 
     try {
       // Define the output locations
@@ -73,14 +70,14 @@ public class JavaProject {
       throw new UndeclaredThrowableException(e);
     }
 
-    Set<SourceVersion> v = this.compiler.getSourceVersions();
-    System.out.println(v);
+    // Set<SourceVersion> v = this.compiler.getSourceVersions();
+    // System.out.println(v);
   }
 
   public boolean isSourceVersionJava9OrGreater() {
     try {
       SourceVersion version = SourceVersion.valueOf("RELEASE_9");
-      return this.compiler.getSourceVersions().contains(version);
+      return compiler.getSourceVersions().contains(version);
     } catch (IllegalArgumentException e) {
       return false;
     }
@@ -153,11 +150,8 @@ public class JavaProject {
   public void addSourceFile(String qualifiedClassname, String content) throws IOException {
     File file = new File(localTempDir, getSourceFilename(qualifiedClassname));
     file.getParentFile().mkdirs();
-    PrintWriter out = new PrintWriter(file);
-    try {
+    try (PrintWriter out = new PrintWriter(file)) {
       out.print(content);
-    } finally {
-      out.close();
     }
     addSourceFile(file);
   }
@@ -236,9 +230,9 @@ public class JavaProject {
   }
 
   private boolean _compile() throws Exception {
-    Iterable<? extends JavaFileObject> compilationUnits = fileManager.getJavaFileObjectsFromFiles(this.sourceFiles);
+    Iterable<? extends JavaFileObject> compilationUnits = fileManager.getJavaFileObjectsFromFiles(sourceFiles);
 
-    List<String> optionList = new ArrayList<String>();
+    List<String> optionList = new ArrayList<>();
     // set compiler's class path to be same as the runtime's
     // optionList.addAll(Arrays.asList("-classpath",System.getProperty("java.class.path")));
 
