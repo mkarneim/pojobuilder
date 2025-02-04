@@ -1,15 +1,15 @@
 /**
  * To create the Eclipse project and classpath files:
- *  ./gradlew cleanEclipse eclipse
+ *   ./gradlew cleanEclipse eclipse
  *
  * To build the PojoBuilder:
- *  ./gradlew build
- *  
- * To collect performance numbers:
- *  ./gradlew jmh
+ *   ./gradlew build
  *
  * To publish a new release of PojoBuilder to Sonatype OSS Maven Repo:
- *  ./gradlew clean uploadArchives
+ *   ./gradlew clean publish
+ *
+ * To publish a new release of PojoBuilder to the local maven repo:
+ *   ./gradlew clean publishToMavenLocal
  */
 
 buildscript {
@@ -18,8 +18,7 @@ buildscript {
     gradlePluginPortal()
   }
   dependencies {
-    classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.1'
-    classpath 'me.champeau.gradle:jmh-gradle-plugin:0.4.8'
+    // (No plugins for jmh or coveralls)
   }
 }
 
@@ -29,27 +28,33 @@ if (!project.hasProperty('ossrhUsername') || !project.hasProperty('ossrhPassword
   ext.ossrhPassword = ''
 }
 
+group = 'net.karneim'
+version = '4.2.3'
+
 ext {
   isReleaseVersion = !version.endsWith('SNAPSHOT')
+  buildDate = new Date().format("yyyy-MM-dd HH:mm:ss")
 }
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 apply plugin: 'signing'
 apply plugin: 'jacoco'
-apply plugin: 'com.github.kt3k.coveralls'
-apply plugin: 'me.champeau.gradle.jmh'
 
-group = 'net.karneim'
-version = '4.2.3'
-sourceCompatibility = 1.7
-eclipse.jdt.sourceCompatibility = 1.7
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(8)
+  }
+}
 
-repositories.mavenCentral()
+tasks.withType(JavaCompile) {
+  options.encoding = "UTF-8"
+}
 
-configurations {
-  jmhAnnotationProcessor.extendsFrom implementation
+repositories {
+  mavenCentral()
+  mavenLocal()
 }
 
 dependencies {
@@ -57,14 +62,12 @@ dependencies {
   testImplementation 'com.google.guava:guava:15.0'
   testImplementation 'junit:junit:4.11'
   testImplementation 'org.assertj:assertj-core:1.6.1'
-
-  jmhAnnotationProcessor sourceSets.main.output
 }
 
 jacocoTestReport {
   reports {
-    xml.enabled = true
-    html.enabled = true
+    xml.required.set(true)
+    html.required.set(true)
   }
 }
 
@@ -75,15 +78,6 @@ eclipse {
   }
 }
 
-jmh {
-  // https://github.com/melix/jmh-gradle-plugin
-  includeTests = true // Allows to include test sources into generate JMH jar
-  // profilers = ['perfnorm', 'gc']
-  // include = ['.*OptionalBuilder.*']
-}
-
-tasks.withType(JavaCompile) { options.encoding = "UTF-8" }
-
 sourceSets {
   test {
     java {
@@ -91,106 +85,99 @@ sourceSets {
       srcDir 'src/test/java'
     }
   }
-  jmh {
-    sourceCompatibility = 1.8
-  }
-}
-
-task dependenciesJar(type: Jar, dependsOn:['compileJava']) {
-  archiveClassifier = "jar-with-dependencies"
-  from files(sourceSets.main.output.classesDirs)
-  from files(sourceSets.main.output.resourcesDir)
-  from {
-    configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
-  }
-  into('META-INF/license') { from 'license' }
-}
-
-task annotationsJar(type: Jar, dependsOn:['compileJava']) {
-  archiveClassifier = "annotations"
-  from files(sourceSets.main.output.classesDirs)
-  includeEmptyDirs false
-  include '**/GeneratePojoBuilder.class'
-  include '**/FactoryProperties.class'
-  include '**/Visibility.class'
-  include '**/GwtIncompatible.class'
-  from files(sourceSets.main.output.resourcesDir)
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
-  archiveClassifier = 'sources'
+  archiveClassifier.set('sources')
   from sourceSets.main.allSource
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-  archiveClassifier = 'javadoc'
+  archiveClassifier.set('javadoc')
   from javadoc.destinationDir
 }
 
+task annotationsJar(type: Jar, dependsOn: classes) {
+  archiveClassifier.set('annotations')
+  from sourceSets.main.output.classesDirs
+  includeEmptyDirs = false
+  include '**/GeneratePojoBuilder.class'
+  include '**/FactoryProperties.class'
+  include '**/Visibility.class'
+  include '**/GwtIncompatible.class'
+  from sourceSets.main.output.resourcesDir
+}
+
 tasks.withType(Jar) {
-  into('META-INF') { from 'COPYING' }
+  into('META-INF') {
+    from 'COPYING'
+  }
   manifest {
     attributes(
-        'Implementation-Title': project.name,
-        'Implementation-Version': project.version
-        )
+      'Implementation-Title': project.name,
+      'Implementation-Version': project.version,
+      'Created-Date': buildDate
+    )
   }
 }
 
-artifacts {
-  archives dependenciesJar, annotationsJar, javadocJar, sourcesJar
-}
+publishing {
+  publications {
+    mavenJava(MavenPublication) {
+      from components.java
 
-signing {
-  required { isReleaseVersion && gradle.taskGraph.hasTask('uploadArchives') }
-  sign configurations.archives
-}
+      artifact sourcesJar
+      artifact javadocJar
+      artifact annotationsJar
 
-uploadArchives {
-  repositories {
-    mavenDeployer {
-      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-      beforeDeployment {
-        if ( project.ossrhUsername == "" || project.ossrhPassword == "")
-          throw new GradleException('Missing ossrhUsername or ossrhPassword')
-      }
-
-      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-        authentication(userName: ossrhUsername, password: ossrhPassword)
-      }
-
-      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-        authentication(userName: ossrhUsername, password: ossrhPassword)
-      }
-
-      pom.project {
-        name 'PojoBuilder'
-        packaging 'jar'
-        description 'The PojoBuilder Generator is a Java 6 compliant annotation processor that generates a fluent builder class for POJOs (Plain Old Java Object)'
-        url 'http://github.com/mkarneim/pojobuilder'
+      pom {
+        name.set('PojoBuilder')
+        description.set('The PojoBuilder Generator is a Java 6 compliant annotation processor that generates a fluent builder class for POJOs (Plain Old Java Object)')
+        url.set('http://github.com/mkarneim/pojobuilder')
+        packaging = 'jar'
 
         scm {
-          url 'git@github.com:mkarneim/pojobuilder.git'
-          connection 'scm:git:git@github.com:mkarneim/pojobuilder.git'
-          developerConnection 'scm:git:git@github.com:mkarneim/pojobuilder.git'
-          tag 'HEAD'
+          url.set('git@github.com:mkarneim/pojobuilder.git')
+          connection.set('scm:git:git@github.com:mkarneim/pojobuilder.git')
+          developerConnection.set('scm:git:git@github.com:mkarneim/pojobuilder.git')
+          tag.set('HEAD')
         }
         licenses {
           license {
-            name 'PUBLIC DOMAIN'
-            url 'http://github.com/mkarneim/pojobuilder/blob/master/COPYING'
-            distribution 'repo'
-            comments 'Do-whatever-you-want license'
+            name.set('PUBLIC DOMAIN')
+            url.set('http://github.com/mkarneim/pojobuilder/blob/master/COPYING')
+            distribution.set('repo')
+            comments.set('Do-whatever-you-want license')
           }
         }
         developers {
           developer {
-            id 'mkarneim'
-            name 'Michael Karneim'
-            timezone 'GMT+1'
+            id.set('mkarneim')
+            name.set('Michael Karneim')
+            timezone.set('GMT+1')
           }
         }
       }
     }
   }
+  repositories {
+    maven {
+      name = "sonatype"
+      url = isReleaseVersion
+            ? uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+            : uri("https://oss.sonatype.org/content/repositories/snapshots/")
+      credentials {
+        username = project.ossrhUsername
+        password = project.ossrhPassword
+      }
+    }
+  }
+}
+
+tasks.withType(Sign) {
+  onlyIf { isReleaseVersion }
+}
+
+signing {
+  sign publishing.publications.mavenJava
 }
