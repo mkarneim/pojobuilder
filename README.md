@@ -54,7 +54,7 @@ For older versions and a change log, see the [release history page].
 
 PojoBuilder binaries are available at [Sonatype OSS Maven Repository] and [Maven Central].
 
-If you do not use a build automation tool that supports Maven repos, download the [`pojobuilder-4.3.1-jar-with-dependencies.jar`] o get PojoBuilder with all its dependencies.
+If you do not use a build automation tool that supports Maven repos, download the [`pojobuilder-4.3.1-jar-with-dependencies.jar`] to get PojoBuilder with all its dependencies.
 
 How To Use
 ----------
