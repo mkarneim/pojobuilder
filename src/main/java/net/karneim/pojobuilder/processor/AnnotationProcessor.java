@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
-
 import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.FilerException;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
@@ -24,7 +24,6 @@ import javax.lang.model.type.TypeKind;
 import javax.tools.Diagnostic;
 import javax.tools.Diagnostic.Kind;
 import javax.tools.JavaFileObject;
-
 import com.squareup.javawriter.JavaWriter;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import net.karneim.pojobuilder.PojoBuilderException;
@@ -51,6 +50,8 @@ public class AnnotationProcessor extends AbstractProcessor {
       "PojoBuilder caught unexpected exception on element %s!%s";
   private static final String POJO_BUILDER_CAUGHT_EXCEPTION_ON_ELEMENT_S_S =
       "PojoBuilder caught exception on element %s!%s";
+  private static final String POJO_BUILDER_IGNORING_FILER_EXCEPTION_S_S =
+      "[PojoBuilder] Ignoring filer exception when processing element %s.\nMessage was: %s";
 
   private static final Logger LOG = Logger.getLogger(AnnotationProcessor.class.getName());
   private JavaModelAnalyzer javaModelAnalyzer;
@@ -60,13 +61,13 @@ public class AnnotationProcessor extends AbstractProcessor {
 
   private long started = 0;
   private int roundCount = 0;
-  private final Set<String> failedTypeNames = new HashSet<String>();
-  private final Set<String> generatedTypeNames = new HashSet<String>();
-  private final Map<Element, Exception> failedElementsMap = new HashMap<Element, Exception>();
+  private final Set<String> failedTypeNames = new HashSet<>();
+  private final Set<String> generatedTypeNames = new HashSet<>();
+  private final Map<Element, Exception> failedElementsMap = new HashMap<>();
 
   @Override
   public Set<String> getSupportedAnnotationTypes() {
-    HashSet<String> result = new HashSet<String>();
+    HashSet<String> result = new HashSet<>();
     result.add("*");
     return result;
   }
@@ -77,11 +78,11 @@ public class AnnotationProcessor extends AbstractProcessor {
   }
 
   private void initHelpers(ProcessingEnvironment env) {
-    this.javaModelAnalyzerUtil = new JavaModelAnalyzerUtil(env.getElementUtils(), env.getTypeUtils());
-    this.javaModelAnalyzer = new JavaModelAnalyzer(env.getElementUtils(), env.getTypeUtils(), javaModelAnalyzerUtil);
-    this.inputFactory = new InputFactory(env.getTypeUtils(),
+    javaModelAnalyzerUtil = new JavaModelAnalyzerUtil(env.getElementUtils(), env.getTypeUtils());
+    javaModelAnalyzer = new JavaModelAnalyzer(env.getElementUtils(), env.getTypeUtils(), javaModelAnalyzerUtil);
+    inputFactory = new InputFactory(env.getTypeUtils(),
         new DirectivesFactory(env.getElementUtils(), env.getTypeUtils(), javaModelAnalyzerUtil));
-    this.annotationHierarchyUtil = new AnnotationHierarchyUtil(env.getTypeUtils());
+    annotationHierarchyUtil = new AnnotationHierarchyUtil(env.getTypeUtils());
   }
 
   private void clearState() {
@@ -120,7 +121,7 @@ public class AnnotationProcessor extends AbstractProcessor {
           addElementsThatFailedInLastRound(elementsToProcess);
           resetFailedElements();
 
-          List<Output> outputList = new ArrayList<Output>();
+          List<Output> outputList = new ArrayList<>();
           for (Element elem : elementsToProcess) {
             try {
               // note(String.format("Processing %s", elem), elem);
@@ -179,7 +180,7 @@ public class AnnotationProcessor extends AbstractProcessor {
   }
 
   private List<Element> getAnnotatedElements(RoundEnvironment aRoundEnv, Set<TypeElement> triggeringAnnotations) {
-    List<Element> elementsToProcess = new ArrayList<Element>();
+    List<Element> elementsToProcess = new ArrayList<>();
     for (TypeElement annoTypeEl : triggeringAnnotations) {
       elementsToProcess.addAll(aRoundEnv.getElementsAnnotatedWith(annoTypeEl));
     }
@@ -187,7 +188,7 @@ public class AnnotationProcessor extends AbstractProcessor {
   }
 
   private List<Element> removeAnnotationElements(List<Element> elements) {
-    List<Element> result = new ArrayList<Element>();
+    List<Element> result = new ArrayList<>();
     for (Element el : elements) {
       if (el.getKind() != ElementKind.ANNOTATION_TYPE) {
         result.add(el);
@@ -205,7 +206,7 @@ public class AnnotationProcessor extends AbstractProcessor {
   }
 
   private Collection<TypeElement> getTypeElements(Collection<String> typeNames) {
-    List<TypeElement> result = new ArrayList<TypeElement>();
+    List<TypeElement> result = new ArrayList<>();
     for (String typeName : typeNames) {
       result.add(getTypeElement(typeName));
     }
@@ -223,29 +224,32 @@ public class AnnotationProcessor extends AbstractProcessor {
   }
 
   private boolean hasAlreadyBeenCreated(String typename) {
-    return this.generatedTypeNames.contains(typename);
+    return generatedTypeNames.contains(typename);
   }
 
   private void generateBuilderImpl(Output output) throws IOException, ClassNotFoundException {
     BuilderM builderModel = output.getBuilderModel();
     String qualifiedName = getTypeName(builderModel);
-    JavaFileObject jobj =
-        processingEnv.getFiler().createSourceFile(qualifiedName, asArray(output.getInput().getOrginatingElements()));
-    Writer writer = jobj.openWriter();
-    JavaWriter javaWriter = new JavaWriter(writer);
-    BuilderSourceGenerator generator =
-        new BuilderSourceGenerator(javaWriter, javaModelAnalyzer.getGeneratedAnnotationType());
-    generator.generateSource(builderModel);
-    writer.close();
-    for (String warning : generator.getWarnings()) {
-      warn(warning, output.getInput().getAnnotatedElement());
+    try {
+      JavaFileObject jobj =
+          processingEnv.getFiler().createSourceFile(qualifiedName, asArray(output.getInput().getOrginatingElements()));
+      Writer writer = jobj.openWriter();
+      JavaWriter javaWriter = new JavaWriter(writer);
+      BuilderSourceGenerator generator =
+          new BuilderSourceGenerator(javaWriter, javaModelAnalyzer.getGeneratedAnnotationType());
+      generator.generateSource(builderModel);
+      writer.close();
+      for (String warning : generator.getWarnings()) {
+        warn(warning, output.getInput().getAnnotatedElement());
+      }
+
+      generatedTypeNames.add(qualifiedName);
+      note(String.format(POJO_BUILDER_GENERATED_CLASS_S, qualifiedName), null);
+      LOG.fine(String.format(GENERATED_S, jobj.toUri()));
+    } catch (FilerException ex) {
+      maybeHandleFilerException(output.getInput().getAnnotatedElement(), ex);
     }
-
-    generatedTypeNames.add(qualifiedName);
-    note(String.format(POJO_BUILDER_GENERATED_CLASS_S, qualifiedName), null);
-    LOG.fine(String.format(GENERATED_S, jobj.toUri()));
   }
-
 
   private Element[] asArray(Collection<Element> elements) {
     Element[] result = new Element[elements.size()];
@@ -256,18 +260,33 @@ public class AnnotationProcessor extends AbstractProcessor {
   private void generateManualBuilder(Output output) throws IOException {
     ManualBuilderM manualBuilderModel = output.getManualBuilderModel();
     String qualifiedName = getTypeName(manualBuilderModel);
-    JavaFileObject jobj =
-        processingEnv.getFiler().createSourceFile(qualifiedName, asArray(output.getInput().getOrginatingElements()));
-    Writer writer = jobj.openWriter();
-    JavaWriter javaWriter = new JavaWriter(writer);
-    ManualBuilderSourceGenerator generator =
-        new ManualBuilderSourceGenerator(javaWriter, javaModelAnalyzer.getGeneratedAnnotationType());
-    generator.generateSource(manualBuilderModel);
-    writer.close();
+    try {
+      JavaFileObject jobj =
+          processingEnv.getFiler().createSourceFile(qualifiedName, asArray(output.getInput().getOrginatingElements()));
+      Writer writer = jobj.openWriter();
+      JavaWriter javaWriter = new JavaWriter(writer);
+      ManualBuilderSourceGenerator generator =
+          new ManualBuilderSourceGenerator(javaWriter, javaModelAnalyzer.getGeneratedAnnotationType());
+      generator.generateSource(manualBuilderModel);
+      writer.close();
 
-    generatedTypeNames.add(qualifiedName);
-    note(String.format(POJO_BUILDER_GENERATED_CLASS_S, qualifiedName), null);
-    LOG.fine(String.format(GENERATED_S, jobj.toUri()));
+      generatedTypeNames.add(qualifiedName);
+      note(String.format(POJO_BUILDER_GENERATED_CLASS_S, qualifiedName), null);
+      LOG.fine(String.format(GENERATED_S, jobj.toUri()));
+    } catch (FilerException ex) {
+      maybeHandleFilerException(output.getInput().getAnnotatedElement(), ex);
+    }
+  }
+
+  private void maybeHandleFilerException(Element processedElement, FilerException ex) throws FilerException {
+    // If the exception indicates that the file was already created,
+    // we can safely ignore it.
+    if(ex.getMessage() != null && ex.getMessage().contains("already created")) {
+      String message = String.format(POJO_BUILDER_IGNORING_FILER_EXCEPTION_S_S, processedElement, ex.getMessage());
+      note(message, processedElement);
+    } else {
+      throw ex;
+    }
   }
 
   private boolean typeExists(String qualifiedName) {
