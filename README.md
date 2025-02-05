@@ -62,9 +62,9 @@ How To Use
 PojoBuilder uses an annotation processor to generate pojo builders.
 You can trigger code generation during compilation by:
 
-* by [annotating a pojo's constructor](#annotating-a-constructor)
-* by [annotating the pojo class](#annotating-the-pojo)
-* by [annotating a factory method](#annotating-a-factory-method)
+* [annotating a pojo's constructor](#annotating-a-constructor)
+* [annotating the pojo class](#annotating-the-pojo)
+* [annotating a factory method](#annotating-a-factory-method)
 
 ### Annotating a Constructor ###
 
