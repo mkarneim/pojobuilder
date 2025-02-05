@@ -418,7 +418,7 @@ To run PojoBuilder in Eclipse:
 
 How To Build
 ------------
-o compile this project's sources, use Gradle (see [build.gradle]).
+To compile this project's sources, use Gradle (see [build.gradle]).
 
 [Java]: http://www.oracle.com/technetwork/java/
 [generation gap pattern]: http://martinfowler.com/dslCatalog/generationGap.html
