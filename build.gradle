@@ -17,9 +17,7 @@ buildscript {
     mavenCentral()
     gradlePluginPortal()
   }
-  dependencies {
-    // (No plugins for jmh or coveralls)
-  }
+  dependencies {}
 }
 
 if (!project.hasProperty('ossrhUsername') || !project.hasProperty('ossrhPassword')) {
@@ -29,7 +27,7 @@ if (!project.hasProperty('ossrhUsername') || !project.hasProperty('ossrhPassword
 }
 
 group = 'net.karneim'
-version = '4.3.1-SNAPSHOT'
+version = '4.3.1'
 
 ext {
   isReleaseVersion = !version.endsWith('SNAPSHOT')
@@ -122,10 +120,38 @@ tasks.withType(Jar) {
   }
 }
 
+task fatJar(type: Jar) {
+  group = 'build'
+  description = 'Assembles a jar archive containing the main classes and all dependencies.'
+
+  archiveBaseName.set('pojobuilder')
+  archiveVersion.set(project.version)
+  archiveClassifier.set('jar-with-dependencies')
+  duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+  manifest {
+    attributes(
+      'Implementation-Title': project.name,
+      'Implementation-Version': project.version,
+      'Created-Date': buildDate
+    )
+  }
+
+  from {
+    configurations.runtimeClasspath.collect { 
+      it.isDirectory() ? it : zipTree(it) 
+    }
+  }
+
+  with jar
+}
+
 publishing {
   publications {
     mavenJava(MavenPublication) {
       from components.java
+
+      artifact fatJar
 
       artifact sourcesJar
       artifact javadocJar
