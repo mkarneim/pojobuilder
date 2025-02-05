@@ -140,7 +140,7 @@ public class Contact {
 
 ### Annotating the Pojo ###
 
-If your pojo lacks a specific constructor (or has a public default constructor), annotate the class with `@GeneratePojoBuilder`.
+If your pojo does not define a specific constructor, has only a public default constructor, or defines exactly one constructor, annotate the class with @GeneratePojoBuilder..
 
 Example:
 ```java
