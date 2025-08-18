@@ -1,16 +1,10 @@
 package net.karneim.pojobuilder.sourcegen;
 
-import static javax.lang.model.element.Modifier.ABSTRACT;
-import static javax.lang.model.element.Modifier.PROTECTED;
-import static javax.lang.model.element.Modifier.PUBLIC;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
-
 import javax.lang.model.element.Modifier;
-
 import com.squareup.javawriter.JavaWriter;
 import net.karneim.pojobuilder.GwtIncompatible;
 import net.karneim.pojobuilder.Visibility;
@@ -38,8 +32,8 @@ public class BuilderSourceGenerator {
   private List<String> warnings = new ArrayList<String>();
 
   public BuilderSourceGenerator(JavaWriter writer, TypeM generatedAnnotationType) {
-    this.writer = writer;
-    this.generatedAnnotationType = generatedAnnotationType;
+    writer = writer;
+    generatedAnnotationType = generatedAnnotationType;
   }
 
   public List<String> getWarnings() {
@@ -73,7 +67,7 @@ public class BuilderSourceGenerator {
       BuildMethodM buildMethod, FactoryMethodM factoryMethod, CopyMethodM copyMethodM, ValidatorM validator,
       OptionalM optional, StaticFactoryMethodM staticFactoryMethod, Visibility constructorVisibility,
       CloneMethodM cloneMethod) throws IOException {
-    properties = new PropertyListM(properties);
+    properties = new PropertyListM(properties.getSortedByName());
     properties.filterOutNonWritableProperties(builderType);
 
     ImportTypesM importTypes = pojoType.addToImportTypes(new ImportTypesM());
@@ -257,11 +251,13 @@ public class BuilderSourceGenerator {
     } else {
       if (factoryMethod == null) {
         ArgumentListM argumentMs = properties.filterOutPropertiesWritableViaConstructorParameter(builderType);
-        String arguments = emitParameterAssignments(hasBuilderProperties, optional, buildMethod, argumentMs, importTypes);
+        String arguments =
+            emitParameterAssignments(hasBuilderProperties, optional, buildMethod, argumentMs, importTypes);
         writer.emitStatement("%s result = new %s(%s)", pojoTypeDeclaration, pojoTypeDeclaration, arguments);
       } else {
         ArgumentListM argumentMs = properties.filterOutPropertiesWritableViaFactoryMethodParameter(builderType);
-        String arguments = emitParameterAssignments(hasBuilderProperties, optional, buildMethod, argumentMs, importTypes);
+        String arguments =
+            emitParameterAssignments(hasBuilderProperties, optional, buildMethod, argumentMs, importTypes);
         String factoryClass = writer.compressType(factoryMethod.getDeclaringClass().getName());
         writer.emitStatement("%s result = %s.%s(%s)", pojoTypeDeclaration, factoryClass, factoryMethod.getName(),
             arguments);
@@ -404,9 +400,9 @@ public class BuilderSourceGenerator {
     String withMethodName = prop.getWithMethodName();
     String pojoTypeStr = writer.compressType(pojoType.getName());
     String parameterTypeStr = prop.getParameterizedBuilderInterfaceType(interfaceType, optional).getGenericType();
-    String propertyLink = prop.isAccessibleViaFieldAccess()
-        ? String.format("{@link %s#%s}", pojoTypeStr, prop.getPropertyName())
-        : prop.getPropertyName();
+    String propertyLink =
+        prop.isAccessibleViaFieldAccess() ? String.format("{@link %s#%s}", pojoTypeStr, prop.getPropertyName())
+            : prop.getPropertyName();
 
     writer.emitEmptyLine();
     writer.emitJavadoc("Sets the default builder for the %s property.\n\n"//
@@ -423,8 +419,8 @@ public class BuilderSourceGenerator {
     writer.emitStatement("return self").endMethod();
   }
 
-  private void emitWithMethod(TypeM builderType, TypeM selfType, TypeM pojoType, PropertyM prop, OptionalM optional, ImportTypesM importTypes)
-      throws IOException {
+  private void emitWithMethod(TypeM builderType, TypeM selfType, TypeM pojoType, PropertyM prop, OptionalM optional,
+      ImportTypesM importTypes) throws IOException {
     String valueFieldName = prop.getValueFieldName();
     String isSetFieldName = prop.getIsSetFieldName();
     String withMethodName = prop.getWithMethodName();
@@ -441,9 +437,9 @@ public class BuilderSourceGenerator {
     } else {
       parameterTypeStr = propertyType.getGenericType();
     }
-    String propertyLink = prop.isAccessibleViaFieldAccess()
-        ? String.format("{@link %s#%s}", pojoTypeStr, prop.getPropertyName())
-        : prop.getPropertyName();
+    String propertyLink =
+        prop.isAccessibleViaFieldAccess() ? String.format("{@link %s#%s}", pojoTypeStr, prop.getPropertyName())
+            : prop.getPropertyName();
 
     writer.emitEmptyLine();
     writer.emitJavadoc("Sets the default value for the %s property.\n\n"//
@@ -475,9 +471,9 @@ public class BuilderSourceGenerator {
     String pojoTypeStr = writer.compressType(pojoType.getName());
     String optionalParameterTypeStr = prop.getOptionalPropertyType(optional).getGenericType();
     optionalParameterTypeStr = writer.compressType(optionalParameterTypeStr);
-    String propertyLink = prop.isAccessibleViaFieldAccess()
-        ? String.format("{@link %s#%s}", pojoTypeStr, prop.getPropertyName())
-        : prop.getPropertyName();
+    String propertyLink =
+        prop.isAccessibleViaFieldAccess() ? String.format("{@link %s#%s}", pojoTypeStr, prop.getPropertyName())
+            : prop.getPropertyName();
     writer.emitEmptyLine();
     writer.emitJavadoc("Optionally sets the default value for the %s property.\n\n"//
         + "@param optionalValue the optional default value\n"//
@@ -512,8 +508,8 @@ public class BuilderSourceGenerator {
     // @formatter:on
   }
 
-  private void emitPropertyFields(PropertyM prop, TypeM interfaceType, boolean hasBuilderProperties, OptionalM optional, ImportTypesM importTypes)
-      throws IOException {
+  private void emitPropertyFields(PropertyM prop, TypeM interfaceType, boolean hasBuilderProperties, OptionalM optional,
+      ImportTypesM importTypes) throws IOException {
     String valueFieldName = prop.getValueFieldName();
     if (optional == null) {
       String isSetFieldName = prop.getIsSetFieldName();

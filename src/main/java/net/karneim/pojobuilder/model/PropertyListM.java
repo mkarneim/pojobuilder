@@ -1,10 +1,12 @@
 package net.karneim.pojobuilder.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-
+import java.util.Objects;
 import net.karneim.pojobuilder.analysis.PropertyPattern;
 import net.karneim.pojobuilder.model.WriteAccess.Type;
 
@@ -54,6 +56,26 @@ public class PropertyListM implements Iterable<PropertyM> {
 
   private Key keyOf(PropertyM prop) {
     Key result = new Key(prop.getPropertyName(), prop.getPropertyType());
+    return result;
+  }
+
+  public PropertyListM getSortedByName() {
+    ArrayList<Key> keySet = new ArrayList<Key>(elements.keySet());
+    keySet.sort(new Comparator<Key>() {
+      @Override
+      public int compare(Key o1, Key o2) {
+        int result = o1.propertyName.compareTo(o2.propertyName);
+        if (result == 0) {
+          result = o1.propertyType.compareTo(o2.propertyType);
+        }
+        return result;
+      }
+    });
+    PropertyListM result = new PropertyListM();
+    for (Key key : keySet) {
+      PropertyM p = get(key);
+      result.add(p);
+    }
     return result;
   }
 
@@ -222,8 +244,8 @@ public class PropertyListM implements Iterable<PropertyM> {
     }
 
     public Key(String propertyName, String propertyType) {
-      this.propertyName = propertyName;
-      this.propertyType = propertyType;
+      propertyName = propertyName;
+      propertyType = propertyType;
     }
 
     @Override
@@ -235,23 +257,29 @@ public class PropertyListM implements Iterable<PropertyM> {
     public int hashCode() {
       final int prime = 31;
       int result = 1;
-      result = prime * result + ((propertyName == null) ? 0 : propertyName.hashCode());
-      result = prime * result + ((propertyType == null) ? 0 : propertyType.hashCode());
+      result = prime * result + (propertyName == null ? 0 : propertyName.hashCode());
+      result = prime * result + (propertyType == null ? 0 : propertyType.hashCode());
       return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-      if (this == obj) return true;
-      if (obj == null) return false;
-      if (getClass() != obj.getClass()) return false;
+      if (this == obj) {
+        return true;
+      }
+      if (obj == null) {
+        return false;
+      }
+      if (getClass() != obj.getClass()) {
+        return false;
+      }
       Key other = (Key) obj;
-      if (propertyName == null) {
-        if (other.propertyName != null) return false;
-      } else if (!propertyName.equals(other.propertyName)) return false;
-      if (propertyType == null) {
-        if (other.propertyType != null) return false;
-      } else if (!propertyType.equals(other.propertyType)) return false;
+      if (!Objects.equals(propertyName, other.propertyName)) {
+        return false;
+      }
+      if (!Objects.equals(propertyType, other.propertyType)) {
+        return false;
+      }
       return true;
     }
   }
