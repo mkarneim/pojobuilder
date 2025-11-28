@@ -18,6 +18,7 @@ public class InnerPojoBuilder
   /**
    * Creates a new {@link InnerPojoBuilder}.
    */
+  @SuppressWarnings("cast")
   public InnerPojoBuilder() {
     self = (InnerPojoBuilder)this;
   }

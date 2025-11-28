@@ -16,6 +16,7 @@ public class PojoWithGuavaOptionalOptionalConstructorBuilder
   /**
    * Creates a new {@link PojoWithGuavaOptionalOptionalConstructorBuilder}.
    */
+  @SuppressWarnings("cast")
   public PojoWithGuavaOptionalOptionalConstructorBuilder() {
     self = (PojoWithGuavaOptionalOptionalConstructorBuilder)this;
   }

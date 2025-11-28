@@ -17,6 +17,7 @@ public class AddressBuilder
   /**
    * Creates a new {@link AddressBuilder}.
    */
+  @SuppressWarnings("cast")
   public AddressBuilder() {
     self = (AddressBuilder)this;
   }

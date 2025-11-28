@@ -15,6 +15,7 @@ public class PairBuilder<L, R>
   /**
    * Creates a new {@link PairBuilder}.
    */
+  @SuppressWarnings("cast")
   public PairBuilder() {
     self = (PairBuilder<L, R>)this;
   }

@@ -15,6 +15,7 @@ public class PairBuilder<A extends Comparable<A>, B extends Number>
   /**
    * Creates a new {@link PairBuilder}.
    */
+  @SuppressWarnings("cast")
   public PairBuilder() {
     self = (PairBuilder<A, B>)this;
   }

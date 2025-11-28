@@ -15,6 +15,7 @@ public class TPairBuilder<T>
   /**
    * Creates a new {@link TPairBuilder}.
    */
+  @SuppressWarnings("cast")
   public TPairBuilder() {
     self = (TPairBuilder<T>)this;
   }

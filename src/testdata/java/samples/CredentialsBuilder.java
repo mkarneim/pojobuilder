@@ -16,6 +16,7 @@ public class CredentialsBuilder
   /**
    * Creates a new {@link CredentialsBuilder}.
    */
+  @SuppressWarnings("cast")
   public CredentialsBuilder() {
     self = (CredentialsBuilder)this;
   }

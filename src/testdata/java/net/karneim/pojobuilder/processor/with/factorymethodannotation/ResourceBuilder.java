@@ -15,6 +15,7 @@ public class ResourceBuilder
   /**
    * Creates a new {@link ResourceBuilder}.
    */
+  @SuppressWarnings("cast")
   public ResourceBuilder() {
     self = (ResourceBuilder)this;
   }

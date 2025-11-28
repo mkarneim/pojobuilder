@@ -13,6 +13,7 @@ public class Pojo3Builder extends BaseBuilderWithRawBuildMethod
   /**
    * Creates a new {@link Pojo3Builder}.
    */
+  @SuppressWarnings("cast")
   public Pojo3Builder() {
     self = (Pojo3Builder)this;
   }

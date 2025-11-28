@@ -11,6 +11,7 @@ public class SampleAnnotatedWithPackagePrivateConstructorBuilder
   /**
    * Creates a new {@link SampleAnnotatedWithPackagePrivateConstructorBuilder}.
    */
+  @SuppressWarnings("cast")
   SampleAnnotatedWithPackagePrivateConstructorBuilder() {
     self = (SampleAnnotatedWithPackagePrivateConstructorBuilder)this;
   }

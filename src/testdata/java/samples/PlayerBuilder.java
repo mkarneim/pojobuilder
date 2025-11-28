@@ -18,6 +18,7 @@ public class PlayerBuilder extends AbstractPlayerBuilder {
   /**
    * Creates a new {@link PlayerBuilder}.
    */
+  @SuppressWarnings("cast")
   public PlayerBuilder() {
   }
 }
